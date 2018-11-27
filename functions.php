@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once('PHPExcel.php');
-include_once('excel.php');
+require_once('vendor/autoload.php');
+require_once('excel.php');
 if ( ! function_exists( 'softicious' ) ) :
 	function softicious() {
 		load_theme_textdomain( 'softicious' );

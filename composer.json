@@ -1,0 +1,7 @@
+{
+    "name": "rbm/pmwoodwind",
+    "description": "pmwoodwind theme",
+    "require": {
+        "phpoffice/phpexcel": "^1.8"
+    }
+}
