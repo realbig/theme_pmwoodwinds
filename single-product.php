@@ -1,0 +1,323 @@
+<?php
+
+
+ get_header();
+
+ ?>
+
+
+   <!-- Header Revolution Slider -->
+	
+		<div id="latest-work" class="product-page container hover-section">
+		<div class="category-head">
+			<h1><?php the_title();?></h1>
+			<div class="bars-animation">
+				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+			</div>
+		</div><!-- Category Head -->
+
+		<div class="row">
+			<div class="col-sm-12">
+<?php
+		$product_images = product_images(get_the_id());
+
+		// Start the loop.
+		while ( have_posts() ) : the_post();
+						$price = main_price(get_the_id());
+							$status = $price;
+							if(is_numeric($price)){
+								$status = 'sale';
+							}
+				$variants = get_post_meta($post->ID, 'wpcf-variantname', false);
+	
+			?>
+			<div class="col-sm-7">
+				<div class="imgview <?php if($product_images):?>hasimages<?php endif;?>">
+				<?php if($price &&!is_numeric($price)):?>
+					<span class="status"><?php echo $status;?></span>
+				<?php endif;?>
+				<?php if($product_images):?>
+				<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo main_thumbnail(get_the_id());?></a>
+					<div id="product_images">
+							<a href="<?php echo main_thumbnail_url(get_the_id());?>" title="<?php the_title();?> image main image">
+							<img class="firstview" src="<?php bloginfo( 'template_url' ); ?>/tim.php?src=<?php echo main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
+							</a>
+						
+						<?php foreach($product_images as $i=>$image):?>
+				
+							<a href="<?php echo $image;?>" title="<?php the_title();?> image <?php echo $i;?>">
+							<img src="<?php bloginfo( 'template_url' ); ?>/tim.php?src=<?php echo $image;?>&w=125&h=94" alt="<?php the_title();?> image <?php echo $i;?>">
+							</a>
+					
+						<?php endforeach;?>
+						
+					</div>
+					<?php else:?>
+						<div id="product_single_image">
+							<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo main_thumbnail(get_the_id());?></a>
+		
+						
+					</div>
+					<?php endif;?>
+				</div>
+			</div>
+			<div class="col-sm-5 productdetails">
+			<ul class="meta">
+			<?php
+					
+						$types = wp_get_post_terms(get_the_id(), 'product_cat');
+			
+						$cart = true;
+					
+						if(isset($_GET['remove'])){
+								unset($_SESSION['comparelist'][$_GET['remove']][$_GET['item']]);
+								unset($compare[$_GET['remove']][$_GET['item']]);
+								
+						} 
+						if(isset($_GET['tocompare'])){
+							$_SESSION['comparelist'][$_GET['tocompare']][get_the_id()] = get_the_id();
+					
+						}
+						foreach($types as $type){
+							
+							if($type->slug == 'instruments'){
+							
+							
+								$firsttype = $type;
+							}	
+					 		if($type->slug == 'mouthpieces'){
+							
+					
+								$firsttype = $type;
+							}	
+							if($type->slug == 'accessories'){
+								
+							
+								$firsttype = $type;
+							} 
+						
+						}
+						
+						$lastcat = $types[count($types)-1]; ?>
+						
+				<?php
+				$_product_attributes = get_post_meta($post->ID,'_product_attributes', true);
+	
+				
+				
+				if(is_new(get_the_id()) && get_post_meta($post->ID, '_msrp', true) && $_product_attributes['is_variation'] === 0){
+					$msrp = get_post_meta($post->ID, '_msrp', true);
+				?>
+				<li>MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span></li>
+				<?php
+				}
+				
+				if(is_numeric($price) && $_product_attributes['is_variation'] === 0):?>
+				<li>Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span></li>
+				
+					<?php endif;?>		
+					<?php if(get_serial(get_the_id())):?>
+					
+						<?php if($firsttype->slug == 'mouthpieces'):?>
+							<li>PMW # : <span><?php echo get_serial(get_the_id());?></span></li>
+						<?php else:?>
+							<?php if(is_new(get_the_id())):?>
+							<li>Product ID : <span><?php echo get_serial(get_the_id());?></span></li>
+							
+							<?php else:?>
+							<li>Serial # : <span><?php echo get_serial(get_the_id());?></span></li>
+							<?php endif;?>
+							
+						<?php endif;?>
+						
+				
+				
+					<?php endif;?>
+				<?php
+				$brand = get_brand(get_the_id());
+				if($brand):?>
+				<li>Brand: <span><?php echo $brand[0]->name;?></span></li>
+				
+				<?php endif;?>	
+				
+						<?php
+						echo '<li><a href="/product_cat/instruments/'.$lastcat->slug.'">'.$lastcat->name.'</a></li>';
+					?>
+		
+				<?php if(get_year(get_the_id())):?>
+				<li>Year: <span><?php echo get_year(get_the_id());?></span></li>
+				
+					
+				<?php endif;?>
+				
+				
+				<?php if(get_inventory(get_the_id())):?>
+				<li>Inventory: <span><?php echo get_inventory(get_the_id());?></span></li>
+				
+					
+				<?php endif;?>	
+			</ul>
+			
+			<?php if(get_post_meta($post->ID, 'wpcf-description', true)):?>
+			<div class="description"><i class="fa fa-align-center" aria-hidden="true"></i> <?php echo get_post_meta($post->ID, 'wpcf-description', true);?></div>		
+			<?php endif;?>
+		
+				<div class="action cart">
+
+				<?php if($price):?>
+				<?php if($status == 'sold'):?>
+					Currently, our <?php the_title();?> is sold.<br/>View our latest <a href="/product_cat/instruments/<?php echo $lastcat->slug;?>"><?php echo $lastcat->name;?></a><br/> or browse all <a href="/product_cat/instruments/<?php echo $types[0]->slug;?>"><?php echo $types[0]->name;?>.</a> 
+				<?php else:?>
+						
+				<?php
+				
+					do_action( 'woocommerce_single_product_summary' );
+				?>
+						
+				<?php endif;?>
+				<?php else:?>
+					Currently, our <?php the_title();?> is unavailable.<br/>View our latest <a href="/product_cat/instruments/<?php echo $lastcat->slug;?>"><?php echo $lastcat->name;?></a><br/> or browse all <a href="/product_cat/instruments/<?php echo $types[0]->slug;?>"><?php echo $types[0]->name;?>.</a>
+				<?php endif;?>
+			</div>
+			<?php
+			$isnew = 'used';
+			if(is_new(get_the_id())){
+				$isnew = 'new';
+			}
+			?>
+			<?php if( $lastcat->name == 'Instruments'):?>
+			<h5 class="contactproduct">Please <a href="/contact" target="_blank">contact PM Woodwind</a> if you are interested in buying or selling <?php $isnew;?> <?php echo $lastcat->name;?>.</h5>
+			<?php else:?>
+			<h5 class="contactproduct">Please <a href="/contact" target="_blank">contact PM Woodwind</a> if you are interested in buying or selling <?php echo $lastcat->name;?>.</h5>
+			<?php endif;?>
+			<div class="shares">
+			<h3 class="share"><i class="fa fa-navicon" aria-hidden="true"></i> Compare <?php the_title();?></h3>
+			<ul class="compare" style="width: auto;margin: 20px 0px;">
+				
+				<?php 
+				if(isset($_SESSION['comparelist'][$firsttype->slug][get_the_id()])){ ?>
+					<li style="width: auto;"><a class="facebook social-icon" href="<?php echo get_permalink();?>?remove=<?php echo $firsttype->slug;?>&item=<?php echo get_the_id();?>" title="compare"><i class="fa fa-minus"></i> remove from compare</a></li>
+				<?php } else {?>
+				<li style="width: auto;"><a class="facebook social-icon" href="<?php the_permalink();?>?tocompare=<?php echo $firsttype->slug;?>" title="compare"><i class="fa fa-plus"></i> add to compare</a></li>
+				<?php  } ?>
+			</ul>
+			</div>	
+			<div class="shares">
+			<h3 class="share"><i class="fa fa-share-alt" aria-hidden="true"></i> Share <?php the_title();?></h3>
+			<ul class="social-icons">
+				<li><a class="facebook social-icon" href="#" onclick="javascript: window.open('https://www.facebook.com/sharer/sharer.php?u=<?php the_permalink();?>'); return false;" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+				<li><a class="twitter social-icon" href="#" title="Twitter" onclick="javascript: window.open('https://twitter.com/home?status=Vulputate justo&nbsp;<?php the_permalink();?>'); return false;" target="_blank"><i class="fa fa-twitter"></i></a></li>
+				<li><a class="pinterest social-icon" href="#" onclick="javascript: window.open('https://pinterest.com/pin/create/button/?url=<?php the_permalink();?>'); return false;" title="Pinterest" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+				<li><a class="gplus social-icon" href="#" onclick="javascript: window.open('https://plus.google.com/share?url=<?php the_permalink();?>'); return false;" title="Google +" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+				<li><a class="linkedin social-icon" href="#" onclick="javascript: window.open('https://www.linkedin.com/shareArticle?mini=true&amp;url=<?php the_permalink();?>'); return false;" title="LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+			</ul>
+			</div>				
+			</div>
+		<?php
+		endwhile;
+		?>
+			</div>
+		
+
+		</div>
+
+	<div class="row" style="margin-top: 100px;">
+		<div class="col-sm-12">
+			<?php the_content();?>
+		</div>
+	</div>
+	<div class="row">
+			<div class="col-sm-12 cd-gallery ">
+			<div class="similar">
+			<h4><span>Your <?php echo $firsttype->name;?> Compare List</span></h4>
+			
+			<?php
+	
+			
+			$compare = array();  
+			$comparelist = $_SESSION['comparelist'];
+	
+			$compare = $comparelist[$firsttype->slug];
+			
+			echo '<ul class="comparelist">';
+			if ($compare) :
+			foreach ( $compare as $comp) :
+			
+			$price = main_price($comp);
+			$status = $price;
+			if(is_numeric($price)){
+				$status = 'sale';
+			}
+				$isnew = 'used';
+			if(is_new(get_the_id())){
+				$isnew = 'new';
+			}
+			$types = wp_get_post_terms($comp, 'product_cat');
+			$filters = '';
+			foreach($types as $type){
+				$filters .= ' filter'.$type->term_id;
+			}
+				?>
+				<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?> <?php echo get_serial($comp);?> <?php get_the_title($comp);?>">
+					<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo main_thumbnail($comp);?></a>
+						<h5>
+						<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
+						<span class="price <?php echo $price;?>"><?php
+						if(is_numeric($price)){
+							echo money_format("$ %i",$price);
+						} else {
+							echo $price;
+						}
+						?></span>
+							</h5>
+				</li>
+				<?php
+			endforeach;	
+			?><li class="mix all">
+					<a href="/compare/?list=<?php echo $firsttype->slug;?>">
+					<?php echo main_thumbnail();?>
+					<span class="over">
+					<i class="fa fa-navicon" aria-hidden="true"></i>
+			 </a>
+						</span>
+						<h5>
+						<a href="/compare/?list=<?php echo $firsttype->slug;?>">
+						compare</a>
+							</h5>
+				</li><?php
+			
+			else:
+			?><li class="mix all">
+					
+					<?php echo main_thumbnail();?>
+					<span class="over">
+					<i class="fa fa-navicon" aria-hidden="true"></i>
+			
+						</span>
+						<h5>
+					
+						your list is empty
+							</h5>
+				</li><?php
+			endif;
+
+					echo '</ul>';		
+			?>
+			</div>
+			</div>
+			
+	</div>
+
+	</div>
+	
+
+
+
+	
+	<script>
+jQuery(function(){
+  jQuery('.comparelist').mixItUp();
+});
+</script>
+
+<?php get_footer();?>
