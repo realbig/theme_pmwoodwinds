@@ -12,7 +12,7 @@
 		<div class="category-head">
 			<h1><?php the_title();?></h1>
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 		</div><!-- Category Head -->
 
@@ -40,13 +40,13 @@
 				<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo main_thumbnail(get_the_id());?></a>
 					<div id="product_images">
 							<a href="<?php echo main_thumbnail_url(get_the_id());?>" title="<?php the_title();?> image main image">
-							<img class="firstview" src="<?php bloginfo( 'template_url' ); ?>/tim.php?src=<?php echo main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
+							<img class="firstview" src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
 							</a>
 						
 						<?php foreach($product_images as $i=>$image):?>
 				
 							<a href="<?php echo $image;?>" title="<?php the_title();?> image <?php echo $i;?>">
-							<img src="<?php bloginfo( 'template_url' ); ?>/tim.php?src=<?php echo $image;?>&w=125&h=94" alt="<?php the_title();?> image <?php echo $i;?>">
+							<img src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo $image;?>&w=125&h=94" alt="<?php the_title();?> image <?php echo $i;?>">
 							</a>
 					
 						<?php endforeach;?>

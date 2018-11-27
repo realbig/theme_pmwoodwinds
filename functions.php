@@ -1,4 +1,11 @@
 <?php
+
+$theme_header = wp_get_theme();
+
+define( 'THEME_VER', $theme_header->get( 'Version' ) );
+define( 'THEME_URL', get_template_directory_uri() );
+define( 'THEME_DIR', get_template_directory() );
+
 session_start();
 require_once('vendor/autoload.php');
 require_once('excel.php');
@@ -103,7 +110,7 @@ function main_thumbnail_url($postid=false){
 	$serial = get_post_meta($postid,'_sku',true);
 	$dir = wp_upload_dir();
 	$zoom = '';
-	$thumbnail = get_bloginfo( 'template_url' ).'/assets/img/noimage.png';
+	$thumbnail = get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
 	if(file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-0.jpg') && $postid && !is_mouthpiece($postid) && !is_accesory($postid)){
 		$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-0.jpg';
 		$zoom = 'zoom';
@@ -126,7 +133,7 @@ function main_thumbnail($postid=false){
 	$serial = get_post_meta($postid,'_sku',true);
 	$dir = wp_upload_dir();
 	$zoom = '';
-	$thumbnail = get_bloginfo( 'template_url' ).'/assets/img/noimage.png';
+	$thumbnail = get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
 	if(file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-0.jpg') && $postid){
 		$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-0.jpg';
 		$zoom = 'zoom';
@@ -164,7 +171,7 @@ function product_images($postid=false,$nr=false){
 		
 		if($nr){
 		if(!file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-'.$nr.'.jpg') && $postid){
-			return get_bloginfo( 'template_url' ).'/assets/img/noimage.png';
+			return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
 		} 
 		return $images[$nr];
 		}	
@@ -177,7 +184,7 @@ function product_images($postid=false,$nr=false){
 		
 		if($nr){
 		if(!file_exists($dir['basedir'].'/products/accessories/'.$serial.'-'.$nr.'.jpg') && $postid){
-			return get_bloginfo( 'template_url' ).'/assets/img/noimage.png';
+			return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
 		} 
 		return $images[$nr];
 		}	
@@ -188,7 +195,7 @@ function product_images($postid=false,$nr=false){
 	if($nr){
 		if(!file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg') && $postid){
 			$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg';
-			return get_bloginfo( 'template_url' ).'/assets/img/noimage.png';
+			return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
 		} 
 		return $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg';
 	}
@@ -280,7 +287,8 @@ function wpse57033_add_new_voucher_link(){
             </script>
         <?php
     }
-	if($_GET['display'] == 'minimal'){ ?>
+	if ( isset( $_GET['display'] ) && 
+			  $_GET['display'] == 'minimal' ) { ?>
 		<style>
 		   @media only screen and (max-width:960px){
 			.auto-fold #wpcontent{
@@ -380,46 +388,61 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_get_product_
 }
 add_action( 'after_setup_theme', 'mytheme_add_woocommerce_support' );
 
-if($_GET['updateprice']){
+add_action( 'admin_init', function() {
 	
-	$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
+	if ( ! is_admin() ) return;
 
-	$myposts = get_posts( $args );
-	foreach ( $myposts as $post ) : setup_postdata( $post );
-		$priceold =  get_post_meta($post->ID, 'wpcf-price', false)[0];
-		if(get_post_meta($post->ID, '_regular_price', false)){
-			update_post_meta($post->ID,'_regular_price',$priceold);
-		} else {
-			add_post_meta($post->ID,'_regular_price',$priceold);
-		}
-		if(get_post_meta($post->ID, '_price', false)){
-			update_post_meta($post->ID,'_price',$priceold);
-		} else {
-			add_post_meta($post->ID,'_price',$priceold);
-		}
+	if ( isset( $_GET['updateprice'] ) && 
+		$_GET['updateprice'] ) {
 
-	endforeach;
-	exit;
-}
-if($_GET['updateserial']){
+		$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
+
+		$myposts = get_posts( $args );
+		foreach ( $myposts as $post ) : setup_postdata( $post );
+			$priceold =  get_post_meta($post->ID, 'wpcf-price', false)[0];
+			if(get_post_meta($post->ID, '_regular_price', false)){
+				update_post_meta($post->ID,'_regular_price',$priceold);
+			} else {
+				add_post_meta($post->ID,'_regular_price',$priceold);
+			}
+			if(get_post_meta($post->ID, '_price', false)){
+				update_post_meta($post->ID,'_price',$priceold);
+			} else {
+				add_post_meta($post->ID,'_price',$priceold);
+			}
+
+		endforeach;
+		exit;
+	}
+
+	if ( isset( $_GET['updateserial'] ) && 
+		$_GET['updateserial'] ) {
+
+		$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
+
+		$myposts = get_posts( $args );
+		foreach ( $myposts as $post ) : setup_postdata( $post );
+			$serial =  get_post_meta($post->ID, 'wpcf-serial', false)[0];
+			if(get_post_meta($post->ID, '_sku', false)){
+				update_post_meta($post->ID,'_sku',$serial);
+			} else {
+				add_post_meta($post->ID,'_sku',$serial);
+			}
+
+
+		endforeach;
+		exit;
+	}
 	
-	$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
+	if ( isset( $_GET['cronproducts'] ) && 
+		$_GET['cronproducts'] ) {
+		
+		cronproducts();
 
-	$myposts = get_posts( $args );
-	foreach ( $myposts as $post ) : setup_postdata( $post );
-		$serial =  get_post_meta($post->ID, 'wpcf-serial', false)[0];
-		if(get_post_meta($post->ID, '_sku', false)){
-			update_post_meta($post->ID,'_sku',$serial);
-		} else {
-			add_post_meta($post->ID,'_sku',$serial);
-		}
+	}
+	
+} );
 
-
-	endforeach;
-	exit;
-}
-
-add_action( 'restrict_manage_posts', 'wpse45436_admin_posts_filter_restrict_manage_posts' );
 /**
  * First create the dropdown
  * make sure to change POST_TYPE to the name of your custom post type
@@ -603,10 +626,6 @@ function wisdom_sort_plugins_by_slug( $query ) {
 }
 add_filter( 'parse_query', 'wisdom_sort_plugins_by_slug' );
 
-if($_GET['cronproducts']){
-	    add_action('init', 'cronproducts', 99);  
-
-}
 function cronproducts(){
 	$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
 	
@@ -753,4 +772,95 @@ $return = is_object_in_term( $_post->ID, $tax, $term );
 // if error returned, then return false
 if ( is_wp_error( $return ) ) { return FALSE; }
 return $return;
+}
+
+add_action( 'init', 'pmwoodwind_register_scripts' );
+function pmwoodwind_register_scripts() {
+	
+	wp_register_script(
+		'pmwoodwind-rev-slider-tools',
+		THEME_URL . '/dist/assets/vendor/rs-plugin/js/jquery.themepunch.tools.min.js',
+		array( 'jquery' ),
+		THEME_VER,
+		false
+	);
+	
+	wp_register_script(
+		'modernizr',
+		THEME_URL . '/dist/assets/vendor/modernizr.js',
+		array( 'jquery' ),
+		THEME_VER,
+		false
+	);
+	
+	wp_register_script(
+		'pmwoodwind-rev-slider',
+		THEME_URL . '/dist/assets/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js',
+		array( 'pmwoodwind-rev-slider-tools' ),
+		THEME_VER,
+		false
+	);
+	
+	wp_register_script(
+		'pmwoodwind',
+		THEME_URL . '/dist/assets/js/app.js',
+		array( 'pmwoodwind-rev-slider', 'modernizr' ),
+		THEME_VER,
+		true
+	);
+	
+	wp_register_style(
+		'pmwoodwind',
+		THEME_URL . '/dist/assets/css/app.css',
+		array(),
+		THEME_VER,
+		'all'
+	);
+	
+	wp_register_style(
+		'pmwoodwind-print',
+		THEME_URL . '/dist/assets/css/print.css',
+		array(),
+		THEME_VER,
+		'print'
+	);
+	
+	wp_register_style(
+		'montserrat',
+		'//fonts.googleapis.com/css?family=Montserrat:400,700',
+		array(),
+		THEME_VER,
+		'all'
+	);
+	
+	wp_register_style(
+		'fontawesome',
+		'//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+		array(),
+		'4.7.0',
+		'all'
+	);
+	
+	wp_register_style(
+		'slick-silder',
+		'//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css',
+		array(),
+		'1.6.0',
+		'all'
+	);
+	
+}
+
+add_action( 'wp_enqueue_scripts', 'pmwoodwind_enqueue_scripts' );
+function pmwoodwind_enqueue_scripts() {
+	
+	wp_enqueue_script( 'pmwoodwind' );
+	
+	wp_enqueue_style( 'pmwoodwind' );
+	wp_enqueue_style( 'pmwoodwind-print' );
+	
+	wp_enqueue_style( 'montserrat' );
+	wp_enqueue_style( 'fontawesome' );
+	//wp_enqueue_style( 'slick-silder' );
+	
 }

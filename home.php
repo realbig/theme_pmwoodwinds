@@ -119,7 +119,7 @@ $p++;
 			<div class="category-head">
 				<h4><?php echo $homesection->post_title;?></h4>
 				<div class="bars-animation">
-					<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+					<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 				</div>
 				<p><?php echo $homesection->post_content;?><p>
 			</div>
@@ -143,7 +143,7 @@ $p++;
 
 			?>
 			<a href="/products/<?php echo $lastcat->slug;?>">
-				<img src="<?php bloginfo( 'template_url' ); ?>/tim.php?src=<?php echo product_images($sectionproduct, $image);?>&w=360&h=480" alt="<?php echo get_the_title($sectionproduct);?>&crop=false" class="img-responsive">
+				<img src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo product_images($sectionproduct, $image);?>&w=360&h=480" alt="<?php echo get_the_title($sectionproduct);?>&crop=false" class="img-responsive">
 				<p><?php echo $lastcat->name;?></p>
 			</a>
 			<?php endforeach;?>
@@ -155,7 +155,7 @@ $p++;
 		<div class="category-head">
 			<h4>Accessories</h4>
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 		<p><?php echo get_post_meta(2,'wpcf-accesories',true);?></p>
 		</div><!-- Category Head -->
@@ -165,12 +165,12 @@ $p++;
 				<div class="album">
 					<a class="case" href="/products/accessories/reeds/?show=new">
 						<div class="disk-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/disk.png" alt="Disk">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
 						<div class="case-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/case.png" alt="Case">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
 						</div>
-						<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/rico.jpg" alt="Cover" class="img-responsive cover">
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/rico.jpg" alt="Cover" class="img-responsive cover">
 					</a>
 					<h5>Rico Reserve Classic (<a href="/products/accessories/reeds/?show=new">reeds</a>)</h5>
 				</div>
@@ -179,12 +179,12 @@ $p++;
 				<div class="album">
 					<a class="case" href="/products/accessories/cases/?show=new">
 						<div class="disk-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/disk.png" alt="Disk">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
 						<div class="case-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/case.png" alt="Case">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
 						</div>
-						<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hiscox.jpg" alt="Cover" class="img-responsive cover">
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hiscox.jpg" alt="Cover" class="img-responsive cover">
 					</a>
 					<h5>Hiscox Case (<a href="/products/accessories/cases/?show=new">Cases</a>)</h5>
 				</div>
@@ -193,12 +193,12 @@ $p++;
 				<div class="album">
 					<a class="case" href="/products/accessories/stands/?show=new">
 						<div class="disk-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/disk.png" alt="Disk">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
 						<div class="case-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/case.png" alt="Case">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
 						</div>
-						<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/stand.jpg" alt="Cover" class="img-responsive cover">
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/stand.jpg" alt="Cover" class="img-responsive cover">
 						
 					</a>
 					<h5>Belmonte Stand (<a href="/products/accessories/stands/?show=new">Stands</a>)</h5>
@@ -208,12 +208,12 @@ $p++;
 				<div class="album">
 					<a class="case" href="/products/accessories/resonators/?show=new">
 						<div class="disk-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/disk.png" alt="Disk">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
 						<div class="case-wrapper">
-							<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/albums/case.png" alt="Case">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
 						</div>
-						<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/brass.jpg" alt="Cover" class="img-responsive cover">
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/brass.jpg" alt="Cover" class="img-responsive cover">
 					</a>
 					<h5>Screw-In Brass Domed (<a href="/products/accessories/resonators/?show=new">Resonators</a>)</h5>
 				</div>
@@ -243,7 +243,7 @@ $p++;
 		<div class="category-head">
 			<h4>Testimonials</h4>
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 			<p>Our Partners Testimonials. </p>
 		</div>
@@ -278,22 +278,22 @@ $p++;
 	
 		<div class="container">
 			<div class="item">
-				<a href="http://www.selmer.fr" target="_blank"><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/selmer.jpg" alt="selmer"></a>
+				<a href="http://www.selmer.fr" target="_blank"><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/selmer.jpg" alt="selmer"></a>
 			</div>
 			<div class="item">
-				<a href="https://www.yamaha.com/en/" target="_blank"><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/yamaha.jpg" alt="yamaha"></a>
+				<a href="https://www.yamaha.com/en/" target="_blank"><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/yamaha.jpg" alt="yamaha"></a>
 			</div>
 			<div class="item">
-				<a href="http://www.yanagisawasax.co.jp/en/ " target="_blank"><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/yanagisawa.jpg" alt="yanagisawa"></a>
+				<a href="http://www.yanagisawasax.co.jp/en/ " target="_blank"><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/yanagisawa.jpg" alt="yanagisawa"></a>
 			</div>
 			<div class="item">
-				<a href="http://www.julius-keilwerth.com/en/" target="_blank"><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/keilwerth.jpg" alt="keilwerth"></a>
+				<a href="http://www.julius-keilwerth.com/en/" target="_blank"><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/keilwerth.jpg" alt="keilwerth"></a>
 			</div>
 			<div class="item">
-				<a href="http://www.pmauriatmusic.com" target="_blank"><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/pmauriat.jpg" alt="pmauriat"></a>
+				<a href="http://www.pmauriatmusic.com" target="_blank"><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/pmauriat.jpg" alt="pmauriat"></a>
 			</div>
 			<div class="item">
-				<a href="http://www.buffet-crampon.com/en/" target="_blank"><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/buffet.jpg" alt="buffet"></a>
+				<a href="http://www.buffet-crampon.com/en/" target="_blank"><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/buffet.jpg" alt="buffet"></a>
 			</div>
 		</div>
 	</div>

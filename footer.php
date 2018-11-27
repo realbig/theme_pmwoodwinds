@@ -93,31 +93,13 @@
 					</ul>
 				</div>
 				<div class="col-sm-2 col-sm-pull-5 logo-footer">
-					<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/logo-2.png" alt="Logo">
+					<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo-2.png" alt="Logo">
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- ======== JavaScript ======== -->
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/jquery.fitvids.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/lightGallery/js/lightgallery.min.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/lg-zoom.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/instafeed.min.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/countdown.js"></script>
-	<!-- jQuery REVOLUTION Slider  -->
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
-	<!-- Jplayer -->
-	<!-- Custom JavaScript -->
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/js.js"></script>
-	<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
-	<!-- MailChimp Subscribe Form Script -->
-	<script type="text/javascript" src="<?php bloginfo( 'template_url' ); ?>/assets/js/mc.validate.js"></script>
-	<script src="<?php bloginfo( 'template_url' ); ?>/assets/js/jquery.mixitup.min.js"></script>
-	<script src="<?php bloginfo( 'template_url' ); ?>/assets/js/main.js"></script> <!-- Resource jQuery -->
-	<script src="<?php bloginfo( 'template_url' ); ?>/assets/js/jquery.zoom.min.js"></script> <!-- Resource jQuery -->
+	<script type="text/javascript" src="<?php echo THEME_URL; ?>/dist/assets/js/app.js"></script>
 	<?php wp_footer();?>
 </body></html>

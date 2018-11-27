@@ -8,7 +8,7 @@
 		<div class="category-head">
 			<h4>Compare</h4>
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 			<p>Your Compare Lists </p>
 			<p><a href="#" style="font-size:30px;" onclick="javascript:PrintElem('comparelist');"><i class="fa fa-print"></i></a></p>
@@ -131,9 +131,9 @@
 		var mywindow = window.open('', 'PRINT', 'height=800,width=1020');
 		
 		mywindow.document.write('<html><head><title>Compare Lists</title>');
-		mywindow.document.write( "<link rel=\"stylesheet\" href=\"<?php bloginfo( 'template_url' ); ?>/assets/css/print.css\" type=\"text/css\" media=\"print\"/>" );
+		mywindow.document.write( "<link rel=\"stylesheet\" href=\"<?php echo THEME_URL; ?>/assets/css/print.css\" type=\"text/css\" media=\"print\"/>" );
 		mywindow.document.write('</head><body >');
-		mywindow.document.write('<center><img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/logo.png" alt="Saxophone Repair,Used Saxophones,Selmer,Mark VI,Paul Maslin,Conn,Alto Saxophone,Tenor Saxophone,Instruments,Soprano Saxophone,Bari Saxophone"/></center>');
+		mywindow.document.write('<center><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo.png" alt="Saxophone Repair,Used Saxophones,Selmer,Mark VI,Paul Maslin,Conn,Alto Saxophone,Tenor Saxophone,Instruments,Soprano Saxophone,Bari Saxophone"/></center>');
 		mywindow.document.write('<h1 style="text-align:center">Compare Lists</h1>');
 		
 		var printhtml = document.getElementById(elem);

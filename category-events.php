@@ -16,7 +16,7 @@ get_header();
 		<div class="category-head">
 			<h4><?php echo single_cat_title();?></h4>
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 		</div><!-- Category Head -->
 	<h3>Upcoming Events</h3>

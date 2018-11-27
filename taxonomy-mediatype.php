@@ -17,7 +17,7 @@ if ($term->parent > 0){
 			<h4>Media</h4>
 			
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 		</div><!-- Category Head -->
 	<main class="cd-main-content">
@@ -64,7 +64,7 @@ if ($term->parent > 0){
 					if(count($vids)){
 						$img = 'https://img.youtube.com/vi/'.$vids[1].'/hqdefault.jpg';
 					} else {
-						$img = '/wp-content/themes/pmwoodwind/assets/img/elements/logo.png';
+						$img = '/wp-content/themes/pmwoodwind/dist/assets/img/elements/logo.png';
 					}
 				}		
 				if($parent->term_id == 529){
@@ -77,7 +77,7 @@ if ($term->parent > 0){
 						$xpath = new DOMXPath($doc);
 						$img = $xpath->evaluate("string(//img/@src)");
 					} else {
-						$img = '/wp-content/themes/pmwoodwind/assets/img/elements/logo.png';
+						$img = '/wp-content/themes/pmwoodwind/dist/assets/img/elements/logo.png';
 					}
 			
 				}
@@ -128,7 +128,7 @@ if ($term->parent > 0){
 			<h4>Media</h4>
 			
 			<div class="bars-animation">
-				<img src="<?php bloginfo( 'template_url' ); ?>/assets/img/elements/hicon.png" alt="PM">
+				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
 		</div><!-- Category Head -->
 	<main class="cd-main-content">
