@@ -32,7 +32,7 @@ class pmwoodwinds_image_import_process extends WP_Background_Process {
 
 		$featured_image = str_replace( $dir['baseurl'], $dir['basedir'], $images[0] );
 
-		$attachment_id = pmwoodwind_media_file_exists( str_replace( $dir['basedir'], '', $featured_image ) );
+		$attachment_id = pmwoodwind_media_file_exists( str_replace( trailingslashit( $dir['basedir'] ), '', $featured_image ) );
 
 		if ( ! $attachment_id ) {
 			
@@ -73,7 +73,7 @@ class pmwoodwinds_image_import_process extends WP_Background_Process {
 			
 			$image = str_replace( $dir['baseurl'], $dir['basedir'], $image );
 
-			$attachment_id = pmwoodwind_media_file_exists( str_replace( $dir['basedir'], '', $image ) );
+			$attachment_id = pmwoodwind_media_file_exists( str_replace( trailingslashit( $dir['basedir'] ), '', $image ) );
 
 			if ( ! $attachment_id ) {
 				

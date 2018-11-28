@@ -155,6 +155,8 @@ function pmwoodwind_main_thumbnail($postid=false){
 	}	
 	return '<img src="'.$thumbnail.'" class="main-image '.$zoom.'" alt="'.get_the_title($postid).'">';
 }
+
+// Legacy. Only used by the import script as a way to determine which Images belong to which Product
 function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 	$dir = wp_upload_dir();
 	$images = array();
@@ -219,12 +221,6 @@ function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 	return $images;
 }	
 
-
-add_action('init', 'pmwoodwind_do_output_buffer');
-function pmwoodwind_do_output_buffer() 
-{
-     ob_start();
-}
 add_action('admin_print_footer_scripts','pmwoodwind_add_new_voucher_link');
 function pmwoodwind_add_new_voucher_link(){
     $screen = get_current_screen();
@@ -325,21 +321,6 @@ function pmwoodwind_add_new_voucher_link(){
 		</style>
 	<?php }
 }
-
-remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_get_product_thumbnail', 10);
-add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_get_product_thumbnail', 10);
-/**
- * WooCommerce Loop Product Thumbs
- **/
-
-
- if ( ! function_exists( 'woocommerce_get_product_thumbnail' ) ) {
-	
-	function woocommerce_get_product_thumbnail( $size = 'shop_catalog', $placeholder_width = 0, $placeholder_height = 0  ) {
-		global $post, $woocommerce;
-		return '<img src="'. pmwoodwind_pmwoodwind_main_thumbnail_url($post->ID) .'" alt="Placeholder" width="' . $placeholder_width . '" height="' . $placeholder_height . '" />';
- 	}
- }
 
  function pmwoocommerce_add_woocommerce_support() {
 	add_theme_support( 'woocommerce' );
