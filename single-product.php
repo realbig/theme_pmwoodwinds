@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 <?php
-		$pmwoodwind_product_images = pmwoodwind_product_images(get_the_id());
+		$pmwoodwind_product_images = explode( ',', get_post_meta( get_the_id(), '_product_image_gallery', true ) );
 
 		// Start the loop.
 		while ( have_posts() ) : the_post();
@@ -39,14 +39,18 @@
 				<?php if($pmwoodwind_product_images):?>
 				<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
 					<div id="pmwoodwind_product_images">
-							<a href="<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url(get_the_id());?>" title="<?php the_title();?> image main image">
-							<img class="firstview" src="<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
+							<a href="<?php echo get_the_post_thumbnail_url( get_the_id(), 'full' );?>" title="<?php the_title();?> image main image">
+							<?php echo get_the_post_thumbnail( get_the_ID(), 'product_thumbnail', array( 'class' => 'firstview' ) ); ?>
 							</a>
 						
-						<?php foreach($pmwoodwind_product_images as $i=>$image):?>
+						<?php foreach($pmwoodwind_product_images as $i=>$image):
+						
+							$src = wp_get_attachment_image_src( $image, 'full' );
+						
+						?>
 				
-							<a href="<?php echo $image;?>" title="<?php the_title();?> image <?php echo $i;?>">
-							<img src="<?php echo $image;?>&w=125&h=94" alt="<?php the_title();?> image <?php echo $i;?>">
+							<a href="<?php echo $src[0];?>" title="<?php the_title();?> image <?php echo $i;?>">
+							<?php echo wp_get_attachment_image( $image, 'product_thumbnail' ); ?>
 							</a>
 					
 						<?php endforeach;?>

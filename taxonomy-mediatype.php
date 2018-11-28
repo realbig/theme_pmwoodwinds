@@ -58,6 +58,8 @@ if ($term->parent > 0){
 				foreach($products as $p=>$product):
 					$content_post = get_post($product);
 					$content = $content_post->post_content;
+					   
+					   $img = false;
 				
 				if($parent->term_id == 553){
 					preg_match('~(?:https?://)?(?:www.)?(?:youtube.com|youtu.be)/(?:watch\?v=)?([^\s]+)~',$content, $vids);
@@ -87,7 +89,17 @@ if ($term->parent > 0){
 			
 				<li id="<?php echo $product;?>" class="mix <?php echo get_the_title($product);?>" style="display: inline-block;text-align: center;background: #0000004d;padding: 10px;">
 					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<img src="<?php echo $img;?>&w=442&h=331" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
+						
+						<?php if ( $img ) : ?>
+						
+							<img src="<?php echo $img;?>" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
+						
+						<?php else : ?>
+							
+							<?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
+						
+						<?php endif; ?>
+						
 						
 					</a>
 						
@@ -164,7 +176,16 @@ if ($term->parent > 0){
 			
 				<li id="<?php echo $term->term_id;?>" class="mix" style="display: inline-block;text-align: center;background: #0000004d;padding: 10px;">
 					<a href="<?php echo $term->slug;?>" title="<?php echo $term->name;?>">
-						<img src="<?php echo $term_image;?>&w=442&h=331" class="main-image zoom" alt="<?php echo $term->name;?>">
+						
+						<?php if ( $attachment_id = pmwoodwind_media_file_exists( $term_image ) ) : ?>
+						
+							<?php echo wp_get_attachment_image( $attacment_id, 'main_image', false, array( 'class' => 'main-image zoom' ) ); ?>
+						
+						<?php else : ?>
+						
+							<img src="<?php echo $term_image;?>" class="main-image zoom" alt="<?php echo $term->name;?>">
+						
+						<?php endif; ?>
 						
 					</a>
 						

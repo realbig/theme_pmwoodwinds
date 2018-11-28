@@ -127,7 +127,9 @@ $p++;
 				<?php 
 
 			foreach($sectionproducts as $i=>$sectionproduct):
-			$image = $order[$i];
+				$image = $order[$i];
+				
+				$gallery_images = explode( ',', get_post_meta( $sectionproduct, '_product_image_gallery', true ) );
 			
 			$types = wp_get_post_terms($sectionproduct, 'product_cat');
 			foreach($types as $type){
@@ -143,7 +145,7 @@ $p++;
 
 			?>
 			<a href="/products/<?php echo $lastcat->slug;?>">
-				<img src="<?php echo pmwoodwind_product_images($sectionproduct, $image);?>&w=360&h=480" alt="<?php echo get_the_title($sectionproduct);?>&crop=false" class="img-responsive">
+				<?php echo wp_get_attachment_image( $gallery_images[ $image - 1 ], 'main_image', false, array( 'class' => 'img-responsive' ) ); ?>
 				<p><?php echo $lastcat->name;?></p>
 			</a>
 			<?php endforeach;?>

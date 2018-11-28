@@ -853,4 +853,13 @@ function pmwoodwind_admin_js() {
 	
 }
 
+add_action( 'after_setup_theme', 'pmwoodwind_image_sizes' );
+function pmwoodwind_image_sizes() {
+	
+	add_image_size( 'main_image', 442, 331 );
+	add_image_size( 'product_thumbnail', 125, 94 );
+	add_image_size( 'home_grid', 360, 480 );
+	
+}
+
 require_once __DIR__ . '/core/import-photos.php';

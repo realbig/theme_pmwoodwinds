@@ -208,7 +208,7 @@ $navid  = get_queried_object()->term_id;
 			
 				<li id="<?php echo $product;?>" class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $globalfilters[$product];?> <?php echo $globalbrands[$product];?> <?php echo $globallevels[$product];?> <?php echo pmwoodwind_product_get_serial($product);?> <?php echo get_the_title($product);?>">
 					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<img src="<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url($product);?>&w=442&h=331" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
+						<?php echo get_the_post_thumbnail( $product, 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
 						
 					</a>
 						
