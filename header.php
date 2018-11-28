@@ -42,7 +42,7 @@
 
 				<div class="col-xs-4 col-sm-2 col-md-1 cloud-container">
 				<ul class="rightnav">
-						<li><a class="" href="javascript:opensearch()"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+						<li><a class="" href="javascript:pmwoodwindsOpenSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 						<li class="hassubs"><a class="" href="/shopping-cart"><?php if($items > 0):?><span class="cartcount"><?php echo $items;?></span><?php endif;?><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
 							
 						</li>
@@ -57,5 +57,5 @@
 	<div id="search">
 		<img src="/wp-content/themes/pmwoodwind/dist/assets/img/elements/logo-2.png"/>
 		<?php echo do_shortcode("[wcas-search-form]");?>
-		<span onclick="closesearch();" class="close">x</span>
+		<span onclick="pmwoodwindsCloseSearch();" class="close">x</span>
 	</div>
