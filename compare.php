@@ -85,7 +85,7 @@
 						$lastcat = $types[count($types)-1];
 					?>
 						<tr>
-							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>"><?php echo pmwoodwind_main_thumbnail($item);?></a></td>
+							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>"><?php echo get_the_post_thumbnail( $item, 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a></td>
 							<td><a style="color: #0e0b0b;" href="<?php echo get_permalink($item);?>"><?php echo get_the_title($item);?></a></td>
 							<td style="text-transform:uppercase;"><?php
 						if(is_numeric($price)){

@@ -6,7 +6,7 @@ define( 'THEME_VER', $theme_header->get( 'Version' ) );
 define( 'THEME_URL', get_template_directory_uri() );
 define( 'THEME_DIR', get_template_directory() );
 
-//session_start();
+session_start();
 require_once('vendor/autoload.php');
 require_once('excel.php');
 if ( ! function_exists( 'softicious' ) ) :
@@ -104,56 +104,6 @@ function pmwoodwind_is_accessory($postid){
 		}
 	}	
 	return $accesory;
-}	
-function pmwoodwind_pmwoodwind_main_thumbnail_url($postid=false){
-
-	$serial = get_post_meta($postid,'_sku',true);
-	$dir = wp_upload_dir();
-	$zoom = '';
-	$thumbnail = get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
-	if(file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-0.jpg') && $postid && !pmwoodwind_is_mouthpiece($postid) && !pmwoodwind_is_accessory($postid)){
-		$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-0.jpg';
-		$zoom = 'zoom';
-	} 
-	if(file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-1.jpg') && $postid && pmwoodwind_is_mouthpiece($postid) && !pmwoodwind_is_accessory($postid)){
-		$thumbnail = $dir['baseurl'].'/products/mouthpieces/'.$serial.'-1.jpg';
-		$zoom = 'zoom';
-	}	
-	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'-1.jpg') && $postid && !pmwoodwind_is_mouthpiece($postid) && pmwoodwind_is_accessory($postid)){
-		$thumbnail = $dir['baseurl'].'/products/accessories/'.$serial.'-1.jpg';
-		$zoom = 'zoom';
-	}	
-	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'.jpg') && $postid && !pmwoodwind_is_mouthpiece($postid) && pmwoodwind_is_accessory($postid)){
-		$thumbnail = $dir['baseurl'].'/products/accessories/'.$serial.'.jpg';
-		$zoom = 'zoom';
-	}	
-	return $thumbnail;
-}	
-function pmwoodwind_main_thumbnail($postid=false){
-	$serial = get_post_meta($postid,'_sku',true);
-	$dir = wp_upload_dir();
-	$zoom = '';
-	$thumbnail = get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
-	if(file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-0.jpg') && $postid){
-		$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-0.jpg';
-		$zoom = 'zoom';
-	} 
-	if(file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-1.jpg')){
-	
-		$thumbnail = $dir['baseurl'].'/products/mouthpieces/'.$serial.'-1.jpg';
-		$zoom = 'zoom';
-	}	
-	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'.jpg')){
-	
-		$thumbnail = $dir['baseurl'].'/products/accessories/'.$serial.'.jpg';
-		$zoom = 'zoom';
-	}	
-	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'-1.jpg')){
-	
-		$thumbnail = $dir['baseurl'].'/products/accessories/'.$serial.'-1.jpg';
-		$zoom = 'zoom';
-	}	
-	return '<img src="'.$thumbnail.'" class="main-image '.$zoom.'" alt="'.get_the_title($postid).'">';
 }
 
 // Legacy. Only used by the import script as a way to determine which Images belong to which Product

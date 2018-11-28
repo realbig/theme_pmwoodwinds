@@ -37,7 +37,7 @@
 					<span class="status"><?php echo $status;?></span>
 				<?php endif;?>
 				<?php if($pmwoodwind_product_images):?>
-				<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
+				<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a>
 					<div id="pmwoodwind_product_images">
 							<a href="<?php echo get_the_post_thumbnail_url( get_the_id(), 'full' );?>" title="<?php the_title();?> image main image">
 							<?php echo get_the_post_thumbnail( get_the_ID(), 'product_thumbnail', array( 'class' => 'firstview' ) ); ?>
@@ -58,7 +58,7 @@
 					</div>
 					<?php else:?>
 						<div id="product_single_image">
-							<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
+							<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a>
 		
 						
 					</div>
@@ -263,7 +263,7 @@
 			}
 				?>
 				<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?> <?php echo pmwoodwind_product_get_serial($comp);?> <?php get_the_title($comp);?>">
-					<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo pmwoodwind_main_thumbnail($comp);?></a>
+					<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo get_the_post_thumbnail( $comp, 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a>
 						<h5>
 						<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
 						<span class="price <?php echo $price;?>"><?php
@@ -279,7 +279,7 @@
 			endforeach;	
 			?><li class="mix all">
 					<a href="/compare/?list=<?php echo $firsttype->slug;?>">
-					<?php echo pmwoodwind_main_thumbnail();?>
+					<?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
 					<span class="over">
 					<i class="fa fa-navicon" aria-hidden="true"></i>
 			 </a>
@@ -293,7 +293,7 @@
 			else:
 			?><li class="mix all">
 					
-					<?php echo pmwoodwind_main_thumbnail();?>
+					<?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
 					<span class="over">
 					<i class="fa fa-navicon" aria-hidden="true"></i>
 			
