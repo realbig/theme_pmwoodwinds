@@ -165,8 +165,7 @@ if ($term->parent > 0){
 			<?php
 			$products = get_term_children( $navid, 'mediatype');
 		
-	
-
+			  	$dir = wp_upload_dir();
 			
 				foreach($products as $p=>$product):
 					$term = get_term( $product, 'mediatype' );
@@ -177,7 +176,7 @@ if ($term->parent > 0){
 				<li id="<?php echo $term->term_id;?>" class="mix" style="display: inline-block;text-align: center;background: #0000004d;padding: 10px;">
 					<a href="<?php echo $term->slug;?>" title="<?php echo $term->name;?>">
 						
-						<?php if ( $attachment_id = pmwoodwind_media_file_exists( $term_image ) ) : ?>
+						<?php if ( $attachment_id = pmwoodwind_media_file_exists( str_replace( $dir['baseurl'], '', $term_image ) ) ) : ?>
 						
 							<?php echo wp_get_attachment_image( $attacment_id, 'main_image', false, array( 'class' => 'main-image zoom' ) ); ?>
 						

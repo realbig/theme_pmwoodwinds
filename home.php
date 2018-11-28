@@ -145,7 +145,7 @@ $p++;
 
 			?>
 			<a href="/products/<?php echo $lastcat->slug;?>">
-				<?php echo wp_get_attachment_image( $gallery_images[ $image - 1 ], 'main_image', false, array( 'class' => 'img-responsive' ) ); ?>
+				<?php echo wp_get_attachment_image( $gallery_images[ $image - 1 ], 'home_grid', false, array( 'class' => 'img-responsive' ) ); ?>
 				<p><?php echo $lastcat->name;?></p>
 			</a>
 			<?php endforeach;?>

@@ -23,16 +23,20 @@ class pmwoodwinds_image_import_process extends WP_Background_Process {
 		
 		require_once( ABSPATH . 'wp-admin/includes/image.php' );
 		
+		$dir = wp_upload_dir();
+		
 		$images = pmwoodwind_product_images( $product_id, false, true );
 			
 		// No images found
 		if ( empty( $images ) ) return false;
 
-		$featured_image = $images[0];
+		$featured_image = str_replace( $dir['baseurl'], $dir['basedir'], $images[0] );
 
-		$attachment_id = pmwoodwind_media_file_exists( $featured_image );
+		$attachment_id = pmwoodwind_media_file_exists( str_replace( $dir['basedir'], '', $featured_image ) );
 
 		if ( ! $attachment_id ) {
+			
+			error_log( "Adding $featured_image to library for $product_id" );
 
 			$filetype = wp_check_filetype( basename( $featured_image ), null );
 
@@ -66,10 +70,14 @@ class pmwoodwinds_image_import_process extends WP_Background_Process {
 		$gallery_image_ids = array();
 
 		foreach ( $gallery_images as $image ) {
+			
+			$image = str_replace( $dir['baseurl'], $dir['basedir'], $image );
 
-			$attachment_id = pmwoodwind_media_file_exists( $image );
+			$attachment_id = pmwoodwind_media_file_exists( str_replace( $dir['basedir'], '', $image ) );
 
 			if ( ! $attachment_id ) {
+				
+				error_log( "Adding $image to library for $product_id" );
 
 				$filetype = wp_check_filetype( basename( $image ), null );
 

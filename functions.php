@@ -161,12 +161,20 @@ function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 	$serial = get_post_meta($postid,'_sku',true);
 	if($serial){
 		foreach (glob($dir['basedir'].'/products/'.$serial.'/'.$serial.'*') as $filename) {
-			$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+			
+			if ( preg_match( '/\d+x\d+/', $filename ) === 0 ) {
+				$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+			}
+			
 		}
 		if(pmwoodwind_is_mouthpiece($postid)){
 
 			foreach (glob($dir['basedir'].'/products/mouthpieces/'.$serial.'*') as $filename) {
-				$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+				
+				if ( preg_match( '/\d+x\d+/', $filename ) === 0 ) {
+					$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+				}
+				
 			}
 
 			if($nr){
@@ -179,7 +187,11 @@ function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 		if(pmwoodwind_is_accessory($postid)){
 
 			foreach (glob($dir['basedir'].'/products/accessories/'.$serial.'*') as $filename) {
-				$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+				
+				if ( preg_match( '/\d+x\d+/', $filename ) === 0 ) {
+					$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+				}
+				
 			}
 
 			if($nr){
@@ -858,7 +870,7 @@ function pmwoodwind_image_sizes() {
 	
 	add_image_size( 'main_image', 442, 331 );
 	add_image_size( 'product_thumbnail', 125, 94 );
-	add_image_size( 'home_grid', 360, 480 );
+	add_image_size( 'home_grid', 360, 480, true );
 	
 }
 
