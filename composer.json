@@ -2,6 +2,7 @@
     "name": "rbm/pmwoodwind",
     "description": "pmwoodwind theme",
     "require": {
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "a5hleyrich/wp-background-processing": "^1.0"
     }
 }

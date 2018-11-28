@@ -6,7 +6,7 @@ define( 'THEME_VER', $theme_header->get( 'Version' ) );
 define( 'THEME_URL', get_template_directory_uri() );
 define( 'THEME_DIR', get_template_directory() );
 
-session_start();
+//session_start();
 require_once('vendor/autoload.php');
 require_once('excel.php');
 if ( ! function_exists( 'softicious' ) ) :
@@ -155,52 +155,56 @@ function pmwoodwind_main_thumbnail($postid=false){
 	}	
 	return '<img src="'.$thumbnail.'" class="main-image '.$zoom.'" alt="'.get_the_title($postid).'">';
 }
-function pmwoodwind_product_images($postid=false,$nr=false){
+function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 	$dir = wp_upload_dir();
 	$images = array();
 	$serial = get_post_meta($postid,'_sku',true);
 	if($serial){
-	foreach (glob($dir['basedir'].'/products/'.$serial.'/'.$serial.'*') as $filename) {
-		$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
-	}
-	if(pmwoodwind_is_mouthpiece($postid)){
-
-		foreach (glob($dir['basedir'].'/products/mouthpieces/'.$serial.'*') as $filename) {
+		foreach (glob($dir['basedir'].'/products/'.$serial.'/'.$serial.'*') as $filename) {
 			$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
 		}
-		
-		if($nr){
-		if(!file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-'.$nr.'.jpg') && $postid){
-			return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
-		} 
-		return $images[$nr];
-		}	
-	}	
-	if(pmwoodwind_is_accessory($postid)){
+		if(pmwoodwind_is_mouthpiece($postid)){
 
-		foreach (glob($dir['basedir'].'/products/accessories/'.$serial.'*') as $filename) {
-			$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+			foreach (glob($dir['basedir'].'/products/mouthpieces/'.$serial.'*') as $filename) {
+				$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+			}
+
+			if($nr){
+				if(!file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-'.$nr.'.jpg') && $postid){
+					return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
+				} 
+				return $images[$nr];
+			}	
+		}	
+		if(pmwoodwind_is_accessory($postid)){
+
+			foreach (glob($dir['basedir'].'/products/accessories/'.$serial.'*') as $filename) {
+				$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+			}
+
+			if($nr){
+				if(!file_exists($dir['basedir'].'/products/accessories/'.$serial.'-'.$nr.'.jpg') && $postid){
+					return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
+				} 
+				return $images[$nr];
+			}	
+		}	
+		
+		natsort($images);
+
+		if ( ! $all ) {
+			unset($images[0]);
 		}
-		
-		if($nr){
-		if(!file_exists($dir['basedir'].'/products/accessories/'.$serial.'-'.$nr.'.jpg') && $postid){
-			return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
-		} 
-		return $images[$nr];
-		}	
-	}	
-	natsort($images);
-	unset($images[0]);
 
-	if($nr){
-		if(!file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg') && $postid){
-			$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg';
-			return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
-		} 
-		return $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg';
+		if($nr){
+			if(!file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg') && $postid){
+				$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg';
+				return get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
+			} 
+			return $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-'.$nr.'.jpg';
+		}
 	}
 	return $images;
-	}
 }	
 
 
@@ -321,7 +325,7 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_get_product_
 	
 	function woocommerce_get_product_thumbnail( $size = 'shop_catalog', $placeholder_width = 0, $placeholder_height = 0  ) {
 		global $post, $woocommerce;
-		return $output .= '<img src="'. pmwoodwind_pmwoodwind_main_thumbnail_url($post->ID) .'" alt="Placeholder" width="' . $placeholder_width . '" height="' . $placeholder_height . '" />';
+		return '<img src="'. pmwoodwind_pmwoodwind_main_thumbnail_url($post->ID) .'" alt="Placeholder" width="' . $placeholder_width . '" height="' . $placeholder_height . '" />';
  	}
  }
 
@@ -436,6 +440,12 @@ add_action( 'admin_init', function() {
 	
 } );
 
+function pmwoodwind_media_file_exists( $filename ){
+    global $wpdb;
+    $query = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_value LIKE '%$filename'";
+    return ( $wpdb->get_var( $query ) ) ? $wpdb->get_var( $query ) : false;
+}
+
 /**
  * First create the dropdown
  * make sure to change POST_TYPE to the name of your custom post type
@@ -542,37 +552,6 @@ function pmwoodwind_levels_init() {
 }
 add_action( 'init', 'pmwoodwind_levels_init' );
 
-add_action('admin_head', 'pmwoodwind_admin_css');
-
-function pmwoodwind_admin_css() {
-  echo '<style>
-    #minor-publishing{display:none;}
-    #duplicate-action{display:none;}
-    #submitdiv .handlediv{display:none;}
-    #submitdiv h2{display:none;}
-	#major-publishing-actions {
-		padding: 10px;
-		clear: both;
-		border-top: 0px solid #ddd;
-		background: #fff;
-	}	
-    #product_typediv, #tagsdiv-product_tag, #postimagediv, #woocommerce-product-images, #slugdiv, #postcustom, #commentsdiv, #sharing_meta {display:none;} 
-	#dashboard-widgets-wrap .postbox-container{width:100%!important}
-	#adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image::before {
-    font-family: dashicons !important;
-    content: "\f174"!important;
-	}
-	select#dropdown_product_type{display:none}
-	select#product_type{display:none}	
-	.newstatus.dashicons-no{
-		color:#dc3232;
-	}
-	.newstatus.dashicons-yes{
-		color:#46b450;
-	}
-  </style>';
-}
-
 function pmwoodwind_filter_tracked_plugins() {
   global $typenow;
   global $wp_query;
@@ -590,7 +569,7 @@ function pmwoodwind_filter_tracked_plugins() {
       </select>
   <?php }
 }
-add_action( 'restrict_manage_posts', 'pmwoodwind_filter_tracked_plugins' );
+//add_action( 'restrict_manage_posts', 'pmwoodwind_filter_tracked_plugins' );
 
 function pmwoodwind_sort_plugins_by_slug( $query ) {
   global $pagenow;
@@ -630,7 +609,7 @@ function pmwoodwind_cronproducts() {
 		}
 	
 		$images = pmwoodwind_product_images($post->ID);
-		update_post_meta( $post->ID, '_pmwoodwind_product_images', count($images) );
+		update_post_meta( $post->ID, '_product_images', count($images) );
 		ksort($order);
 		$ordermeta = '';
 		foreach ( $order as $ord ) {
@@ -873,3 +852,5 @@ function pmwoodwind_admin_js() {
     wp_enqueue_script( 'pmwoodwind-admin' );
 	
 }
+
+require_once __DIR__ . '/core/import-photos.php';
