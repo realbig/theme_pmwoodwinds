@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,21 +73,20 @@
 module.exports = jQuery;
 
 /***/ }),
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+__webpack_require__(19);
+
 __webpack_require__(18);
 
 __webpack_require__(17);
 
-__webpack_require__(16);
-
-__webpack_require__(19);
-
-__webpack_require__(2);
+__webpack_require__(20);
 
 __webpack_require__(3);
 
@@ -115,8 +114,10 @@ __webpack_require__(14);
 
 __webpack_require__(15);
 
+__webpack_require__(16);
+
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -529,7 +530,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -555,7 +556,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -642,7 +643,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(undefined);
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -726,7 +727,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery || window.Zepto);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1126,7 +1127,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }(jQuery);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1529,7 +1530,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1599,7 +1600,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1609,20 +1610,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // This is the custom javascript file 
 var z = 0;
-function zoomcount() {
+function pmwoodwindsZoomCount() {
     z++;
     if (z > 0) {
         jQuery("span#lg-zoom-in").hide(0);
     }
 }
-function zoomcountmin() {
+function pmwoodwindsZoomCountMin() {
     z--;
     if (z < 1) {
         jQuery("span#lg-zoom-in").show(0);
     }
 }
 
-function firstview() {
+function pmwoodwindsFirstview() {
     jQuery("#pmwoodwind_product_images img.firstview").click();
 }
 
@@ -1818,7 +1819,7 @@ jQuery(document).ready(function ($) {
 }); // END READY
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3621,7 +3622,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3672,7 +3673,7 @@ Jssor Slider (MIT license)
     Zoom.prototype.init = function () {
 
         var _this = this;
-        var zoomIcons = '<span id="lg-zoom-in" onclick="zoomcount();" class="lg-icon"></span><span onclick="zoomcountmin();" id="lg-zoom-out" class="lg-icon"></span>';
+        var zoomIcons = '<span id="lg-zoom-in" onclick="pmwoodwindsZoomCount();" class="lg-icon"></span><span onclick="pmwoodwindsZoomCountMin();" id="lg-zoom-out" class="lg-icon"></span>';
 
         if (_this.core.s.actualSize) {
             // zoomIcons += '<span id="lg-actual-size" class="lg-icon"></span>';
@@ -4126,7 +4127,7 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4134,10 +4135,10 @@ Jssor Slider (MIT license)
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function closesearch() {
+function pmwoodwindsCloseSearch() {
 	jQuery('#search').slideUp(200);
 }
-function opensearch() {
+function pmwoodwindsOpenSearch() {
 	jQuery('#search').slideDown(400);
 }
 jQuery(document).ready(function ($) {
@@ -4285,7 +4286,7 @@ jQuery(document).ready(function ($) {
 		}
 
 		if (catfilters.length > 0 && brandsfilters.length > 0) {
-			combinations = allPossibleCases([catfilters, brandsfilters]);
+			combinations = pmwoodwindsAllPossibleCases([catfilters, brandsfilters]);
 			filters = [];
 		}
 		if (catfilters.length > 0 && brandsfilters.length === 0) {
@@ -4396,12 +4397,12 @@ jQuery(document).ready(function ($) {
 		}, 200);
 	});
 });
-function allPossibleCases(arr) {
+function pmwoodwindsAllPossibleCases(arr) {
 	if (arr.length == 1) {
 		return arr[0];
 	} else {
 		var result = [];
-		var allCasesOfRest = allPossibleCases(arr.slice(1)); // recur with the rest of array
+		var allCasesOfRest = pmwoodwindsAllPossibleCases(arr.slice(1)); // recur with the rest of array
 		for (var i = 0; i < allCasesOfRest.length; i++) {
 			for (var j = 0; j < arr[0].length; j++) {
 				result.push(arr[0][j] + ' ' + allCasesOfRest[i]);
@@ -4412,7 +4413,7 @@ function allPossibleCases(arr) {
 }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5385,7 +5386,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5524,7 +5525,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5715,7 +5716,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /*
@@ -6217,7 +6218,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9732,7 +9733,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -10974,7 +10975,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -11449,10 +11450,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 20 */
+/* 21 */,
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(1);
+module.exports = __webpack_require__(2);
 
 
 /***/ })

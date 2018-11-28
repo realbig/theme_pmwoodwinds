@@ -1,8 +1,8 @@
 
-	function closesearch(){
+	function pmwoodwindsCloseSearch(){
 		 jQuery('#search').slideUp(200);
 	}	
-	function opensearch(){
+	function pmwoodwindsOpenSearch(){
 		 jQuery('#search').slideDown(400);
 	}
 jQuery(document).ready(function($){
@@ -167,7 +167,7 @@ jQuery(document).ready(function($){
 			}
 		
 			if((catfilters.length) > 0 && (brandsfilters.length) > 0){
-				combinations = allPossibleCases([catfilters,brandsfilters]);
+				combinations = pmwoodwindsAllPossibleCases([catfilters,brandsfilters]);
 				filters = [];
 			} 		
 			if((catfilters.length) > 0 && (brandsfilters.length) === 0){
@@ -297,12 +297,12 @@ jQuery(document).ready(function($){
 	  	}, 200 );
 	});
 });
-function allPossibleCases(arr) {
+function pmwoodwindsAllPossibleCases(arr) {
   if (arr.length == 1) {
     return arr[0];
   } else {
     var result = [];
-    var allCasesOfRest = allPossibleCases(arr.slice(1));  // recur with the rest of array
+    var allCasesOfRest = pmwoodwindsAllPossibleCases(arr.slice(1));  // recur with the rest of array
     for (var i = 0; i < allCasesOfRest.length; i++) {
       for (var j = 0; j < arr[0].length; j++) {
         result.push(arr[0][j] +' '+ allCasesOfRest[i]);

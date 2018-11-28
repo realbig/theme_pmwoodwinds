@@ -29,6 +29,7 @@ PATHS:
       - "src/assets/scss/print.scss"
     js: 
       - "src/assets/js/app.js"
+      - "src/assets/js/admin.js"
 
 # Set to true if you want static asset revisioning, helpful for cache busting
 REVISIONING: false    

@@ -1,4 +1,4 @@
-function importproducts(){
+function pmwoodwindImportProducts(){
 	jQuery("#fileimport").click();
 }
 jQuery('#fileimport').change(function() {

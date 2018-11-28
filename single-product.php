@@ -37,7 +37,7 @@
 					<span class="status"><?php echo $status;?></span>
 				<?php endif;?>
 				<?php if($pmwoodwind_product_images):?>
-				<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
+				<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
 					<div id="pmwoodwind_product_images">
 							<a href="<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url(get_the_id());?>" title="<?php the_title();?> image main image">
 							<img class="firstview" src="<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
@@ -54,7 +54,7 @@
 					</div>
 					<?php else:?>
 						<div id="product_single_image">
-							<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
+							<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
 		
 						
 					</div>

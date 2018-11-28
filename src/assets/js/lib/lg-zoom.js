@@ -43,7 +43,7 @@
     Zoom.prototype.init = function() {
 
         var _this = this;
-        var zoomIcons = '<span id="lg-zoom-in" onclick="zoomcount();" class="lg-icon"></span><span onclick="zoomcountmin();" id="lg-zoom-out" class="lg-icon"></span>';
+        var zoomIcons = '<span id="lg-zoom-in" onclick="pmwoodwindsZoomCount();" class="lg-icon"></span><span onclick="pmwoodwindsZoomCountMin();" id="lg-zoom-out" class="lg-icon"></span>';
 
         if (_this.core.s.actualSize) {
            // zoomIcons += '<span id="lg-actual-size" class="lg-icon"></span>';
