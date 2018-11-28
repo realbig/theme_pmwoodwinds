@@ -19,28 +19,21 @@
 
 				<div class="col-sm-3 ">
 					<h4>Services</h4>
-						<ul class="clearfix menubottom">
-						<li>
-							<a href="/repair">Repair</a>
-						</li>
-						<li>
-							<a href="/events">Events</a>
-						</li>
-
-					</ul>			
+					
+						<?php wp_nav_menu( array(
+							'container' => false,
+							'menu_class' => 'clearfix menubottom',
+							'theme_location' => 'footer_services',
+						) ); ?>
+					
 					<h4>Products</h4>
-						<ul class="clearfix menubottom">
-						<li>
-							<a href="/products/instruments">Instruments</a>
-						</li>	
-						<li>
-							<a href="/products/mouthpieces/">Mouthpieces</a>
-						</li>
-						<li>
-							<a href="/products/accessories/?show=new">Accessories</a>
-						</li>
-		
-					</ul>
+					
+						<?php wp_nav_menu( array(
+							'container' => false,
+							'menu_class' => 'clearfix menubottom',
+							'theme_location' => 'footer_products',
+						) ); ?>
+					
 				</div>
 				
 				<div class="col-sm-3 instagram">
@@ -76,21 +69,13 @@
 					<p>© <?php echo date('Y');?> by <a href="http://pmwoodwind.com">pmwoodwind.com</a>. Designed by <a title="web development" href="http://www.softicious.com">Softicious</a></p>
 				</div>
 				<div class="col-sm-5 col-sm-push-2 menu-footer">
-					<ul class="clearfix">
-						<li>
-							<a href="/">Home</a>
-						</li>
-						<li>
-							<a href="/terms-and-conditions">TERMS & CONDITIONS</a>
-						</li>
-						<li>
-							<a href="/privacy-policy">Privacy Policy</a>
-						</li>
-						<li>
-							<a href="/contact">Contact</a>
-						</li>
-
-					</ul>
+					
+					<?php wp_nav_menu( array(
+						'container' => false,
+						'menu_class' => 'clearfix',
+						'theme_location' => 'footer_bottom',
+					) ); ?>
+					
 				</div>
 				<div class="col-sm-2 col-sm-pull-5 logo-footer">
 					<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo-2.png" alt="Logo">

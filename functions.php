@@ -40,8 +40,9 @@ function pmwoodwind_add_menuclass($ulclass) {
 add_filter('wp_nav_menu','pmwoodwind_add_menuclass');
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu',      'pmWoodwind' ),
-		'services'  => __( 'Footer Services', 'pmWoodwind' ),
-		'about'  => __( 'Footer About', 'pmWoodwind' ),
+		'footer_services'  => __( 'Footer Services', 'pmWoodwind' ),
+		'footer_products' => __( 'Footer Products', 'pmWoodwind' ),
+		'footer_bottom'  => __( 'Footer Bottom', 'pmWoodwind' ),
 	) );
 	
 function pmwoodwind_product_main_price($postid){
