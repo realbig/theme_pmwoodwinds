@@ -143,7 +143,7 @@ $p++;
 
 			?>
 			<a href="/products/<?php echo $lastcat->slug;?>">
-				<img src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo pmwoodwind_product_images($sectionproduct, $image);?>&w=360&h=480" alt="<?php echo get_the_title($sectionproduct);?>&crop=false" class="img-responsive">
+				<img src="<?php echo pmwoodwind_product_images($sectionproduct, $image);?>&w=360&h=480" alt="<?php echo get_the_title($sectionproduct);?>&crop=false" class="img-responsive">
 				<p><?php echo $lastcat->name;?></p>
 			</a>
 			<?php endforeach;?>

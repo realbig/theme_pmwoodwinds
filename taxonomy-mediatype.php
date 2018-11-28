@@ -87,7 +87,7 @@ if ($term->parent > 0){
 			
 				<li id="<?php echo $product;?>" class="mix <?php echo get_the_title($product);?>" style="display: inline-block;text-align: center;background: #0000004d;padding: 10px;">
 					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<img src="<?php echo get_bloginfo('template_url');?>/tim.php?src=<?php echo $img;?>&w=442&h=331" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
+						<img src="<?php echo $img;?>&w=442&h=331" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
 						
 					</a>
 						
@@ -164,7 +164,7 @@ if ($term->parent > 0){
 			
 				<li id="<?php echo $term->term_id;?>" class="mix" style="display: inline-block;text-align: center;background: #0000004d;padding: 10px;">
 					<a href="<?php echo $term->slug;?>" title="<?php echo $term->name;?>">
-						<img src="<?php echo get_bloginfo('template_url');?>/tim.php?src=<?php echo $term_image;?>&w=442&h=331" class="main-image zoom" alt="<?php echo $term->name;?>">
+						<img src="<?php echo $term_image;?>&w=442&h=331" class="main-image zoom" alt="<?php echo $term->name;?>">
 						
 					</a>
 						
