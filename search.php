@@ -59,9 +59,9 @@ $navid  = get_queried_object()->term_id;
 			$cats = array();
 			while ( $the_query->have_posts() ) :
 			$the_query->the_post();
-			$sorttypes = list_hierarchical_terms(get_the_id(), 'product_cat');
-			$sorttypesb = list_hierarchical_terms(get_the_id(), 'pwb-brand');
-			$isnew = is_new(get_the_id());
+			$sorttypes = pmwoodwind_list_hierarchical_terms(get_the_id(), 'product_cat');
+			$sorttypesb = pmwoodwind_list_hierarchical_terms(get_the_id(), 'pwb-brand');
+			$isnew = pmwoodwind_is_new_product(get_the_id());
 			if($isnew && ($isnew == 'yes')){
 				$products['new'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
 
@@ -196,8 +196,8 @@ $navid  = get_queried_object()->term_id;
 				
 				foreach($sortedproductsbyside as $p=>$product):
 
-					$isnew = is_new($product);
-					$price = main_price($product);
+					$isnew = pmwoodwind_is_new_product($product);
+					$price = pmwoodwind_product_main_price($product);
 					$status = $price;
 					if(is_numeric($price)){
 						$status = 'sale';
@@ -206,9 +206,9 @@ $navid  = get_queried_object()->term_id;
 				
 				?>
 			
-				<li id="<?php echo $product;?>" class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $globalfilters[$product];?> <?php echo $globalbrands[$product];?> <?php echo $globallevels[$product];?> <?php echo get_serial($product);?> <?php echo get_the_title($product);?>">
+				<li id="<?php echo $product;?>" class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $globalfilters[$product];?> <?php echo $globalbrands[$product];?> <?php echo $globallevels[$product];?> <?php echo pmwoodwind_product_get_serial($product);?> <?php echo get_the_title($product);?>">
 					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<img src="<?php echo get_bloginfo('template_url');?>/tim.php?src=<?php echo main_thumbnail_url($product);?>&w=442&h=331" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
+						<img src="<?php echo get_bloginfo('template_url');?>/tim.php?src=<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url($product);?>&w=442&h=331" class="main-image zoom" alt="<?php echo get_the_title($product);?>">
 						
 					</a>
 						

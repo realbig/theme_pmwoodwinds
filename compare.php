@@ -72,20 +72,20 @@
 				</thead>
 				<tbody>
 					<? foreach($list as $item):
-						$price = main_price($item);
+						$price = pmwoodwind_product_main_price($item);
 						$status = $price;
 						if(is_numeric($price)){
 							$status = 'sale';
 						}
 							$isnew = 'used';
-						if(is_new($item)){
+						if(pmwoodwind_is_new_product($item)){
 							$isnew = 'new';
 						}
 						$types = wp_get_post_terms($item, 'product_type');
 						$lastcat = $types[count($types)-1];
 					?>
 						<tr>
-							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>"><?php echo main_thumbnail($item);?></a></td>
+							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>"><?php echo pmwoodwind_main_thumbnail($item);?></a></td>
 							<td><a style="color: #0e0b0b;" href="<?php echo get_permalink($item);?>"><?php echo get_the_title($item);?></a></td>
 							<td style="text-transform:uppercase;"><?php
 						if(is_numeric($price)){
@@ -94,13 +94,13 @@
 							echo $price;
 						}
 						?></td>
-							<td><?php echo get_inventory($item);?></td>
+							<td><?php echo pmwoodwind_get_inventory($item);?></td>
 							<td><?php
-								$brand = get_brand($item);
+								$brand = pmwoodwind_product_get_brand($item);
 								echo $brand[0]->name;
 							?></td>
-							<td><?php echo get_serial($item);?></td>
-							<td><?php echo get_year($item);?></td>
+							<td><?php echo pmwoodwind_product_get_serial($item);?></td>
+							<td><?php echo pmwoodwind_product_get_year($item);?></td>
 							<td><?php echo $lastcat->name;?></td>
 							<td class="remove"><a style="color: #ed492e; "href="<?php echo get_permalink();?>?remove=<?php echo $l;?>&item=<?php echo $item;?>"><i class="fa fa-times"></i> remove</a></td>
 				

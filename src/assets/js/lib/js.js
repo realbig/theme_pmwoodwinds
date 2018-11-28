@@ -14,7 +14,7 @@ if(z < 1){
 }
 	 
 function firstview(){
-	jQuery("#product_images img.firstview").click();
+	jQuery("#pmwoodwind_product_images img.firstview").click();
 }
 
 jQuery( document ).on( "click", ".lg-actions .lg-icon", function() {
@@ -72,8 +72,8 @@ jQuery(document).ready(function($) {
     if ($('#gallery').length>0) {
        // $("#gallery").lightGallery();
     }   
-	if ($('#product_images').length>0) {
-        $("#product_images").lightGallery();
+	if ($('#pmwoodwind_product_images').length>0) {
+        $("#pmwoodwind_product_images").lightGallery();
     }
 
 

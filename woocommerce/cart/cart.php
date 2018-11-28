@@ -54,7 +54,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 						
 
-						<td class="product-thumbnail"><a href="<?php echo get_permalink($product_id);?>" title="<?php echo get_the_title($product_id);?>"><?php echo main_thumbnail($product_id);?></td>
+						<td class="product-thumbnail"><a href="<?php echo get_permalink($product_id);?>" title="<?php echo get_the_title($product_id);?>"><?php echo pmwoodwind_main_thumbnail($product_id);?></td>
 
 						<td class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>"><?php
 						if ( ! $product_permalink ) {

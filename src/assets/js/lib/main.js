@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
 	$('form.dgwt-wcas-search-form').submit(function( event ) {
 	  event.preventDefault();
 	});
-        $('#product_images').not('.slick-initialized').slick({
+        $('#pmwoodwind_product_images').not('.slick-initialized').slick({
             infinite: true,
             speed: 300,
             autoplay: true,

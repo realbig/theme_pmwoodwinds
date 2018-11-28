@@ -28,27 +28,27 @@ add_theme_support( 'post-thumbnails' );
 function softicious_customizer_cleanup($wp_customize){
 	$wp_customize->remove_section( 'static_front_page' );
 }
-add_filter ( 'nav_menu_css_class', 'so_37823371_menu_item_class', 10, 4 );
+add_filter ( 'nav_menu_css_class', 'pmwoodwind_menu_item_class', 10, 4 );
 
-function so_37823371_menu_item_class ( $classes, $item, $args, $depth ){
+function pmwoodwind_menu_item_class ( $classes, $item, $args, $depth ){
   $classes[] = 'nav-item';
   return $classes;
 }
-function add_menuclass($ulclass) {
+function pmwoodwind_add_menuclass($ulclass) {
    return preg_replace('/<a /', '<a class="nav-link" ', $ulclass);
 }
-add_filter('wp_nav_menu','add_menuclass');
+add_filter('wp_nav_menu','pmwoodwind_add_menuclass');
 	register_nav_menus( array(
-		'primary' => __( 'Primary Menu',      'softicious' ),
-		'services'  => __( 'Footer Services', 'softicious' ),
-		'about'  => __( 'Footer About', 'softicious' ),
+		'primary' => __( 'Primary Menu',      'pmWoodwind' ),
+		'services'  => __( 'Footer Services', 'pmWoodwind' ),
+		'about'  => __( 'Footer About', 'pmWoodwind' ),
 	) );
 	
-function main_price($postid){
+function pmwoodwind_product_main_price($postid){
 	return get_post_meta($postid,'_price',true);
 	
 }
-function is_new($postid){
+function pmwoodwind_is_new_product($postid){
 	$new = get_post_meta($postid,'_product_new',true);
 	if($new === 'yes'){
 		return true;
@@ -57,31 +57,31 @@ function is_new($postid){
 	}
 	
 }
-function get_serial($postid){
+function pmwoodwind_product_get_serial($postid){
 	$serial = get_post_meta($postid,'_sku',true);
 	if($serial){
 		return $serial;
 	}
 }	
-function get_year($postid){
+function pmwoodwind_product_get_year($postid){
 	$year = get_post_meta($postid,'_product_year',true);
 	if($year){
 		return $year;
 	}
 }
-function get_brand($postid){
+function pmwoodwind_product_get_brand($postid){
 	$brand = wp_get_post_terms($postid, 'pwb-brand');
 	if($brand){
 		return $brand;
 	}
 }
-function get_inventory($postid){
+function pmwoodwind_get_inventory($postid){
 	$inventory = get_post_meta($postid,'_inhouse_inventory',true);
 	if($inventory){
 		return $inventory;
 	}
 }	
-function is_mouthpiece($postid){
+function pmwoodwind_is_mouthpiece($postid){
 	$types = wp_get_post_terms($postid, 'product_cat');
 	$mouthpiece = false;
 	foreach($types as $type){
@@ -93,7 +93,7 @@ function is_mouthpiece($postid){
 	}	
 	return $mouthpiece;
 }
-function is_accesory($postid){
+function pmwoodwind_is_accessory($postid){
 	$types = wp_get_post_terms($postid, 'product_cat');
 	$accesory = false;
 	foreach($types as $type){
@@ -105,31 +105,31 @@ function is_accesory($postid){
 	}	
 	return $accesory;
 }	
-function main_thumbnail_url($postid=false){
+function pmwoodwind_pmwoodwind_main_thumbnail_url($postid=false){
 
 	$serial = get_post_meta($postid,'_sku',true);
 	$dir = wp_upload_dir();
 	$zoom = '';
 	$thumbnail = get_bloginfo( 'template_url' ).'/dist/assets/img/noimage.png';
-	if(file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-0.jpg') && $postid && !is_mouthpiece($postid) && !is_accesory($postid)){
+	if(file_exists($dir['basedir'].'/products/'.$serial.'/'.$serial.'-0.jpg') && $postid && !pmwoodwind_is_mouthpiece($postid) && !pmwoodwind_is_accessory($postid)){
 		$thumbnail = $dir['baseurl'].'/products/'.$serial.'/'.$serial.'-0.jpg';
 		$zoom = 'zoom';
 	} 
-	if(file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-1.jpg') && $postid && is_mouthpiece($postid) && !is_accesory($postid)){
+	if(file_exists($dir['basedir'].'/products/mouthpieces/'.$serial.'-1.jpg') && $postid && pmwoodwind_is_mouthpiece($postid) && !pmwoodwind_is_accessory($postid)){
 		$thumbnail = $dir['baseurl'].'/products/mouthpieces/'.$serial.'-1.jpg';
 		$zoom = 'zoom';
 	}	
-	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'-1.jpg') && $postid && !is_mouthpiece($postid) && is_accesory($postid)){
+	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'-1.jpg') && $postid && !pmwoodwind_is_mouthpiece($postid) && pmwoodwind_is_accessory($postid)){
 		$thumbnail = $dir['baseurl'].'/products/accessories/'.$serial.'-1.jpg';
 		$zoom = 'zoom';
 	}	
-	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'.jpg') && $postid && !is_mouthpiece($postid) && is_accesory($postid)){
+	if(file_exists($dir['basedir'].'/products/accessories/'.$serial.'.jpg') && $postid && !pmwoodwind_is_mouthpiece($postid) && pmwoodwind_is_accessory($postid)){
 		$thumbnail = $dir['baseurl'].'/products/accessories/'.$serial.'.jpg';
 		$zoom = 'zoom';
 	}	
 	return $thumbnail;
 }	
-function main_thumbnail($postid=false){
+function pmwoodwind_main_thumbnail($postid=false){
 	$serial = get_post_meta($postid,'_sku',true);
 	$dir = wp_upload_dir();
 	$zoom = '';
@@ -155,7 +155,7 @@ function main_thumbnail($postid=false){
 	}	
 	return '<img src="'.$thumbnail.'" class="main-image '.$zoom.'" alt="'.get_the_title($postid).'">';
 }
-function product_images($postid=false,$nr=false){
+function pmwoodwind_product_images($postid=false,$nr=false){
 	$dir = wp_upload_dir();
 	$images = array();
 	$serial = get_post_meta($postid,'_sku',true);
@@ -163,7 +163,7 @@ function product_images($postid=false,$nr=false){
 	foreach (glob($dir['basedir'].'/products/'.$serial.'/'.$serial.'*') as $filename) {
 		$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
 	}
-	if(is_mouthpiece($postid)){
+	if(pmwoodwind_is_mouthpiece($postid)){
 
 		foreach (glob($dir['basedir'].'/products/mouthpieces/'.$serial.'*') as $filename) {
 			$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
@@ -176,7 +176,7 @@ function product_images($postid=false,$nr=false){
 		return $images[$nr];
 		}	
 	}	
-	if(is_accesory($postid)){
+	if(pmwoodwind_is_accessory($postid)){
 
 		foreach (glob($dir['basedir'].'/products/accessories/'.$serial.'*') as $filename) {
 			$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
@@ -204,13 +204,13 @@ function product_images($postid=false,$nr=false){
 }	
 
 
-add_action('init', 'do_output_buffer');
-function do_output_buffer() 
+add_action('init', 'pmwoodwind_do_output_buffer');
+function pmwoodwind_do_output_buffer() 
 {
      ob_start();
 }
-add_action('admin_print_footer_scripts','wpse57033_add_new_voucher_link');
-function wpse57033_add_new_voucher_link(){
+add_action('admin_print_footer_scripts','pmwoodwind_add_new_voucher_link');
+function pmwoodwind_add_new_voucher_link(){
     $screen = get_current_screen();
 
 
@@ -229,15 +229,15 @@ function wpse57033_add_new_voucher_link(){
 	if($screen->id == 'product_page_to-interface-product'){
 		?>
 		  <script>
-		   jQuery('#order-terms').prepend('<a href="javascript:void(0);" onclick="sortalphabetically()" class="button button-primary" >Alphabetically Sort</a>');
+		   jQuery('#order-terms').prepend('<a href="javascript:void(0);" onclick="pmwoodwindSortalphabetically()" class="button button-primary" >Alphabetically Sort</a>');
 			var desc = false;
-		   function sortalphabetically(){
-			    sortUnorderedList("tto_sortable", desc);
+		   function pmwoodwindSortalphabetically(){
+			    pmwoodwindSortUnorderedList("tto_sortable", desc);
 				desc = !desc;
 				
 				return false;
 		   }
-		    function sortUnorderedList(ul, sortDescending) {
+		    function pmwoodwindSortUnorderedList(ul, sortDescending) {
 			
 			  if(typeof ul == "string")
 				ul = document.getElementById(ul);
@@ -309,64 +309,12 @@ function wpse57033_add_new_voucher_link(){
 		</style>
 	<?php }
 }
-function pmjs($hook) {
+function pmwoodwind_admin_js($hook) {
 
-    wp_enqueue_script('pm', get_template_directory_uri(__FILE__) . '/pm.js');
+    wp_enqueue_script('pm', THEME_URL . '/pm.js');
 }
 
-add_action('admin_enqueue_scripts', 'pmjs');
-if(isset($_GET['import'])){
-
-
-
-	$dir = wp_upload_dir();
-	$path = $dir['basedir'].'/products/mouthpieces.xlsx';
-	$mouthpieces = excelToArray($path);
-	
-
-	foreach($mouthpieces as $mouthpiece){
-		
-		$new = array(
-		  'post_title'    => wp_strip_all_tags( $mouthpiece['Description'] ),
-		  'post_content'  => $mouthpiece['Description'],
-		  'post_status'   => 'publish',
-		  'post_author'   => 1,
-		  'post_type'   => 'product'
-		);
-		
-			
-
-
-
-		$newid = wp_insert_post( $new );
-		if($newid):
-			$wpdb->insert('pm_term_relationships', array(
-			'object_id' => $newid,
-			'term_taxonomy_id' => 19
-			));
-			$term = term_exists($mouthpiece['CategoryID'], 'product_type', 19 );
-			if($term){
-				$wpdb->insert('pm_term_relationships', array(
-				'object_id' => $newid,
-				'term_taxonomy_id' => $term['term_id']
-				));
-			}	
-		if ( ! add_post_meta( $newid, 'wpcf-serial', $mouthpiece['Serial'], true ) ) { 
-		   update_post_meta( $newid, 'wpcf-serial', $mouthpiece['Serial'] );
-		}	
-		if ( ! add_post_meta( $newid, 'wpcf-brand', $mouthpiece['Brand'], true ) ) { 
-		   update_post_meta( $newid, 'wpcf-brand', $mouthpiece['Brand'] );
-		}	
-		if ( ! add_post_meta( $newid, 'wpcf-price', $mouthpiece['Price'], true ) ) { 
-		   update_post_meta( $newid, 'wpcf-price', $mouthpiece['Price'] );
-		}	
-		if ( ! add_post_meta( $newid, 'wpcf-inventory', $mouthpiece['Inventory'], true ) ) { 
-		   update_post_meta( $newid, 'wpcf-inventory', $mouthpiece['Inventory'] );
-		}
-		endif;
-	}
-	exit;
-}
+add_action('admin_enqueue_scripts', 'pmwoodwind_admin_js');
 
 
 remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_get_product_thumbnail', 10);
@@ -380,13 +328,14 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_get_product_
 	
 	function woocommerce_get_product_thumbnail( $size = 'shop_catalog', $placeholder_width = 0, $placeholder_height = 0  ) {
 		global $post, $woocommerce;
-		return $output .= '<img src="'. main_thumbnail_url($post->ID) .'" alt="Placeholder" width="' . $placeholder_width . '" height="' . $placeholder_height . '" />';
+		return $output .= '<img src="'. pmwoodwind_pmwoodwind_main_thumbnail_url($post->ID) .'" alt="Placeholder" width="' . $placeholder_width . '" height="' . $placeholder_height . '" />';
+ 	}
  }
- }
- function mytheme_add_woocommerce_support() {
+
+ function pmwoocommerce_add_woocommerce_support() {
 	add_theme_support( 'woocommerce' );
 }
-add_action( 'after_setup_theme', 'mytheme_add_woocommerce_support' );
+add_action( 'after_setup_theme', 'pmwoocommerce_add_woocommerce_support' );
 
 add_action( 'admin_init', function() {
 	
@@ -437,8 +386,59 @@ add_action( 'admin_init', function() {
 	if ( isset( $_GET['cronproducts'] ) && 
 		$_GET['cronproducts'] ) {
 		
-		cronproducts();
+		pmwoodwind_cronproducts();
 
+	}
+	
+	if ( isset( $_GET['import'] ) ) {
+
+		$dir = wp_upload_dir();
+		$path = $dir['basedir'].'/products/mouthpieces.xlsx';
+		$mouthpieces = excelToArray($path);
+
+
+		foreach($mouthpieces as $mouthpiece){
+
+			$new = array(
+			  'post_title'    => wp_strip_all_tags( $mouthpiece['Description'] ),
+			  'post_content'  => $mouthpiece['Description'],
+			  'post_status'   => 'publish',
+			  'post_author'   => 1,
+			  'post_type'   => 'product'
+			);
+
+
+
+
+
+			$newid = wp_insert_post( $new );
+			if($newid):
+				$wpdb->insert('pm_term_relationships', array(
+				'object_id' => $newid,
+				'term_taxonomy_id' => 19
+				));
+				$term = term_exists($mouthpiece['CategoryID'], 'product_type', 19 );
+				if($term){
+					$wpdb->insert('pm_term_relationships', array(
+					'object_id' => $newid,
+					'term_taxonomy_id' => $term['term_id']
+					));
+				}	
+			if ( ! add_post_meta( $newid, 'wpcf-serial', $mouthpiece['Serial'], true ) ) { 
+			   update_post_meta( $newid, 'wpcf-serial', $mouthpiece['Serial'] );
+			}	
+			if ( ! add_post_meta( $newid, 'wpcf-brand', $mouthpiece['Brand'], true ) ) { 
+			   update_post_meta( $newid, 'wpcf-brand', $mouthpiece['Brand'] );
+			}	
+			if ( ! add_post_meta( $newid, 'wpcf-price', $mouthpiece['Price'], true ) ) { 
+			   update_post_meta( $newid, 'wpcf-price', $mouthpiece['Price'] );
+			}	
+			if ( ! add_post_meta( $newid, 'wpcf-inventory', $mouthpiece['Inventory'], true ) ) { 
+			   update_post_meta( $newid, 'wpcf-inventory', $mouthpiece['Inventory'] );
+			}
+			endif;
+		}
+		exit;
 	}
 	
 } );
@@ -452,12 +452,12 @@ add_action( 'admin_init', function() {
  * @return void
  */
 
-add_action( 'woocommerce_product_options_general_product_data', 'woo_add_custom_general_fields' );
+add_action( 'woocommerce_product_options_general_product_data', 'pmwoodwind_add_custom_general_fields' );
 
 // Save Fields
-add_action( 'woocommerce_process_product_meta', 'woo_add_custom_general_fields_save' );
+add_action( 'woocommerce_process_product_meta', 'pmwoodwind_add_custom_general_fields_save' );
 
-function woo_add_custom_general_fields() {
+function pmwoodwind_add_custom_general_fields() {
 
   global $woocommerce, $post;
   
@@ -500,7 +500,7 @@ woocommerce_wp_select(
   echo '</div>';
 	
 }
-function woo_add_custom_general_fields_save( $post_id ){
+function pmwoodwind_add_custom_general_fields_save( $post_id ){
 	
 	// Text Field
 	$woocommerce_text_field = $_POST['_product_year'];
@@ -519,7 +519,7 @@ function woo_add_custom_general_fields_save( $post_id ){
 	
 	
 }
-function ra_change_translate_text_multiple( $translated ) {
+function pmwoodwind_change_translate_text_multiple( $translated ) {
 	$text = array(
 		'In stock' => 'Sale',
 		'Out of stock' => 'Sold',
@@ -532,8 +532,9 @@ function ra_change_translate_text_multiple( $translated ) {
 	$translated = str_ireplace(  array_keys($text),  $text,  $translated );
 	return $translated;
 }
-add_filter( 'gettext', 'ra_change_translate_text_multiple', 20 );
-function levels_init() {
+add_filter( 'gettext', 'pmwoodwind_change_translate_text_multiple', 20 );
+
+function pmwoodwind_levels_init() {
 	// create a new taxonomy
 	register_taxonomy(
 		'level',
@@ -546,15 +547,11 @@ function levels_init() {
 		)
 	);
 }
-add_action( 'init', 'levels_init' );
+add_action( 'init', 'pmwoodwind_levels_init' );
 
-function remove_my_post_metaboxes() {
+add_action('admin_head', 'pmwoodwind_admin_css');
 
-}
-add_action('admin_menu','remove_my_post_metaboxes');
-add_action('admin_head', 'admin_css');
-
-function admin_css() {
+function pmwoodwind_admin_css() {
   echo '<style>
     #minor-publishing{display:none;}
     #duplicate-action{display:none;}
@@ -582,7 +579,8 @@ function admin_css() {
 	}
   </style>';
 }
-function wisdom_filter_tracked_plugins() {
+
+function pmwoodwind_filter_tracked_plugins() {
   global $typenow;
   global $wp_query;
     if ( $typenow == 'product' ) { // Your custom post type slug
@@ -599,9 +597,9 @@ function wisdom_filter_tracked_plugins() {
       </select>
   <?php }
 }
-add_action( 'restrict_manage_posts', 'wisdom_filter_tracked_plugins' );
+add_action( 'restrict_manage_posts', 'pmwoodwind_filter_tracked_plugins' );
 
-function wisdom_sort_plugins_by_slug( $query ) {
+function pmwoodwind_sort_plugins_by_slug( $query ) {
   global $pagenow;
   // Get the post type
   $post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
@@ -624,22 +622,22 @@ function wisdom_sort_plugins_by_slug( $query ) {
     $query->query_vars['order'] = 'ASC';
   }
 }
-add_filter( 'parse_query', 'wisdom_sort_plugins_by_slug' );
+add_filter( 'parse_query', 'pmwoodwind_sort_plugins_by_slug' );
 
-function cronproducts(){
+function pmwoodwind_cronproducts() {
 	$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
 	
 	$myposts = get_posts( $args );
 	foreach ( $myposts as $post ) : setup_postdata( $post );
 		$cats = wp_get_post_terms( $post->ID, 'product_cat',array( 'orderby' => 'term_id' ) );
-		$brand = get_brand($post->ID);
+		$brand = pmwoodwind_product_get_brand($post->ID);
 		$order = array();
 	    foreach ( $cats as $cat ) {
 		$order[$cat->parent] = $cat->name;
 		}
 	
-		$images = product_images($post->ID);
-		update_post_meta( $post->ID, '_product_images', count($images) );
+		$images = pmwoodwind_product_images($post->ID);
+		update_post_meta( $post->ID, '_pmwoodwind_product_images', count($images) );
 		ksort($order);
 		$ordermeta = '';
 		foreach ( $order as $ord ) {
@@ -650,7 +648,8 @@ function cronproducts(){
 	endforeach;
 	exit;
 }
-function list_hierarchical_terms($pid, $taxonomy) {
+
+function pmwoodwind_list_hierarchical_terms($pid, $taxonomy) {
 $rd_terms = wp_get_post_terms( $pid, $taxonomy, array( "fields" => "ids" ) ); // getting the term IDs
 $terms = array();
 if( $rd_terms ) {
@@ -670,7 +669,8 @@ ksort($terms);
 	
 return $list;
 }
-function cw_woo_attribute(){
+
+function pmwoodwind_woo_attribute(){
     global $product;
     $attributes = $product->get_attributes();
     if ( ! $attributes ) {
@@ -718,11 +718,11 @@ function cw_woo_attribute(){
     echo $display_result;
 }
 
-add_action('woocommerce_single_product_summary', 'cw_woo_attribute', 25);
+add_action('woocommerce_single_product_summary', 'pmwoodwind_woo_attribute', 25);
 
-add_action( 'woocommerce_variation_options_pricing', 'bbloomer_add_custom_field_to_variations', 10, 3 ); 
+add_action( 'woocommerce_variation_options_pricing', 'pmwoodwind_add_custom_field_to_variations', 10, 3 ); 
  
-function bbloomer_add_custom_field_to_variations( $loop, $variation_data, $variation ) {
+function pmwoodwind_add_custom_field_to_variations( $loop, $variation_data, $variation ) {
 woocommerce_wp_text_input( array( 
 'id' => 'msrp[' . $loop . ']', 
 'class' => 'short', 
@@ -735,9 +735,9 @@ woocommerce_wp_text_input( array(
 // -----------------------------------------
 // 2. Save custom field on product variation save
  
-add_action( 'woocommerce_save_product_variation', 'bbloomer_save_custom_field_variations', 10, 2 );
+add_action( 'woocommerce_save_product_variation', 'pmwoodwind_save_custom_field_variations', 10, 2 );
   
-function bbloomer_save_custom_field_variations( $variation_id, $i ) {
+function pmwoodwind_save_custom_field_variations( $variation_id, $i ) {
     $msrp = $_POST['msrp'][$i];
     if ( ! empty( $msrp ) ) {
         update_post_meta( $variation_id, 'msrp', esc_attr( $msrp ) );
@@ -756,7 +756,8 @@ function bbloomer_add_custom_field_variation_data( $variations ) {
     $variations['price_html'] = '<div class="woocommerce_custom_field">Our Price: ' . money_format("$ %i",get_post_meta( $variations[ 'variation_id' ], '_price', true )). '</span></div>';
     return $variations;
 }
-function product_in_term($tax, $term, $_post = NULL) {
+
+function pmwoodwind_product_in_term($tax, $term, $_post = NULL) {
 // if neither tax nor term are specified, return false
 if ( !$tax || !$term ) { return FALSE; }
 // if post parameter is given, get it, otherwise use $GLOBALS to get post

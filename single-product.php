@@ -19,11 +19,11 @@
 		<div class="row">
 			<div class="col-sm-12">
 <?php
-		$product_images = product_images(get_the_id());
+		$pmwoodwind_product_images = pmwoodwind_product_images(get_the_id());
 
 		// Start the loop.
 		while ( have_posts() ) : the_post();
-						$price = main_price(get_the_id());
+						$price = pmwoodwind_product_main_price(get_the_id());
 							$status = $price;
 							if(is_numeric($price)){
 								$status = 'sale';
@@ -32,18 +32,18 @@
 	
 			?>
 			<div class="col-sm-7">
-				<div class="imgview <?php if($product_images):?>hasimages<?php endif;?>">
+				<div class="imgview <?php if($pmwoodwind_product_images):?>hasimages<?php endif;?>">
 				<?php if($price &&!is_numeric($price)):?>
 					<span class="status"><?php echo $status;?></span>
 				<?php endif;?>
-				<?php if($product_images):?>
-				<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo main_thumbnail(get_the_id());?></a>
-					<div id="product_images">
-							<a href="<?php echo main_thumbnail_url(get_the_id());?>" title="<?php the_title();?> image main image">
-							<img class="firstview" src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
+				<?php if($pmwoodwind_product_images):?>
+				<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
+					<div id="pmwoodwind_product_images">
+							<a href="<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url(get_the_id());?>" title="<?php the_title();?> image main image">
+							<img class="firstview" src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo pmwoodwind_pmwoodwind_main_thumbnail_url(get_the_id());?>&w=125&h=94" alt="<?php the_title();?> image main image">
 							</a>
 						
-						<?php foreach($product_images as $i=>$image):?>
+						<?php foreach($pmwoodwind_product_images as $i=>$image):?>
 				
 							<a href="<?php echo $image;?>" title="<?php the_title();?> image <?php echo $i;?>">
 							<img src="<?php echo THEME_URL; ?>/tim.php?src=<?php echo $image;?>&w=125&h=94" alt="<?php the_title();?> image <?php echo $i;?>">
@@ -54,7 +54,7 @@
 					</div>
 					<?php else:?>
 						<div id="product_single_image">
-							<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo main_thumbnail(get_the_id());?></a>
+							<a href="javascript:firstview();" title="<?php the_title();?>"><?php echo pmwoodwind_main_thumbnail(get_the_id());?></a>
 		
 						
 					</div>
@@ -105,7 +105,7 @@
 	
 				
 				
-				if(is_new(get_the_id()) && get_post_meta($post->ID, '_msrp', true) && $_product_attributes['is_variation'] === 0){
+				if(pmwoodwind_is_new_product(get_the_id()) && get_post_meta($post->ID, '_msrp', true) && $_product_attributes['is_variation'] === 0){
 					$msrp = get_post_meta($post->ID, '_msrp', true);
 				?>
 				<li>MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span></li>
@@ -116,16 +116,16 @@
 				<li>Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span></li>
 				
 					<?php endif;?>		
-					<?php if(get_serial(get_the_id())):?>
+					<?php if(pmwoodwind_product_get_serial(get_the_id())):?>
 					
 						<?php if($firsttype->slug == 'mouthpieces'):?>
-							<li>PMW # : <span><?php echo get_serial(get_the_id());?></span></li>
+							<li>PMW # : <span><?php echo pmwoodwind_product_get_serial(get_the_id());?></span></li>
 						<?php else:?>
-							<?php if(is_new(get_the_id())):?>
-							<li>Product ID : <span><?php echo get_serial(get_the_id());?></span></li>
+							<?php if(pmwoodwind_is_new_product(get_the_id())):?>
+							<li>Product ID : <span><?php echo pmwoodwind_product_get_serial(get_the_id());?></span></li>
 							
 							<?php else:?>
-							<li>Serial # : <span><?php echo get_serial(get_the_id());?></span></li>
+							<li>Serial # : <span><?php echo pmwoodwind_product_get_serial(get_the_id());?></span></li>
 							<?php endif;?>
 							
 						<?php endif;?>
@@ -134,7 +134,7 @@
 				
 					<?php endif;?>
 				<?php
-				$brand = get_brand(get_the_id());
+				$brand = pmwoodwind_product_get_brand(get_the_id());
 				if($brand):?>
 				<li>Brand: <span><?php echo $brand[0]->name;?></span></li>
 				
@@ -144,15 +144,15 @@
 						echo '<li><a href="/product_cat/instruments/'.$lastcat->slug.'">'.$lastcat->name.'</a></li>';
 					?>
 		
-				<?php if(get_year(get_the_id())):?>
-				<li>Year: <span><?php echo get_year(get_the_id());?></span></li>
+				<?php if(pmwoodwind_product_get_year(get_the_id())):?>
+				<li>Year: <span><?php echo pmwoodwind_product_get_year(get_the_id());?></span></li>
 				
 					
 				<?php endif;?>
 				
 				
-				<?php if(get_inventory(get_the_id())):?>
-				<li>Inventory: <span><?php echo get_inventory(get_the_id());?></span></li>
+				<?php if(pmwoodwind_get_inventory(get_the_id())):?>
+				<li>Inventory: <span><?php echo pmwoodwind_get_inventory(get_the_id());?></span></li>
 				
 					
 				<?php endif;?>	
@@ -181,7 +181,7 @@
 			</div>
 			<?php
 			$isnew = 'used';
-			if(is_new(get_the_id())){
+			if(pmwoodwind_is_new_product(get_the_id())){
 				$isnew = 'new';
 			}
 			?>
@@ -243,13 +243,13 @@
 			if ($compare) :
 			foreach ( $compare as $comp) :
 			
-			$price = main_price($comp);
+			$price = pmwoodwind_product_main_price($comp);
 			$status = $price;
 			if(is_numeric($price)){
 				$status = 'sale';
 			}
 				$isnew = 'used';
-			if(is_new(get_the_id())){
+			if(pmwoodwind_is_new_product(get_the_id())){
 				$isnew = 'new';
 			}
 			$types = wp_get_post_terms($comp, 'product_cat');
@@ -258,8 +258,8 @@
 				$filters .= ' filter'.$type->term_id;
 			}
 				?>
-				<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?> <?php echo get_serial($comp);?> <?php get_the_title($comp);?>">
-					<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo main_thumbnail($comp);?></a>
+				<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?> <?php echo pmwoodwind_product_get_serial($comp);?> <?php get_the_title($comp);?>">
+					<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo pmwoodwind_main_thumbnail($comp);?></a>
 						<h5>
 						<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
 						<span class="price <?php echo $price;?>"><?php
@@ -275,7 +275,7 @@
 			endforeach;	
 			?><li class="mix all">
 					<a href="/compare/?list=<?php echo $firsttype->slug;?>">
-					<?php echo main_thumbnail();?>
+					<?php echo pmwoodwind_main_thumbnail();?>
 					<span class="over">
 					<i class="fa fa-navicon" aria-hidden="true"></i>
 			 </a>
@@ -289,7 +289,7 @@
 			else:
 			?><li class="mix all">
 					
-					<?php echo main_thumbnail();?>
+					<?php echo pmwoodwind_main_thumbnail();?>
 					<span class="over">
 					<i class="fa fa-navicon" aria-hidden="true"></i>
 			
