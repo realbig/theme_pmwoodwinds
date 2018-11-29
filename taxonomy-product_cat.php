@@ -18,6 +18,12 @@ if ( ! isset( $_GET['brand'] ) ) {
 
 $_GET['brand'] = explode( ',', $_GET['brand'] );
 
+if ( ! isset( $_GET['level'] ) ) {
+	$_GET['level'] = '';
+}
+
+$_GET['level'] = explode( ',', $_GET['level'] );
+
 $term = get_queried_object();
 $currentlink = get_category_link($term->term_id);
 
