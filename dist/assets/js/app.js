@@ -1624,7 +1624,7 @@ window.pmwoodwindsZoomCountMin = function () {
 };
 
 window.pmwoodwindsFirstview = function () {
-    jQuery("#pmwoodwind_product_images img.zoomImg").click();
+    //jQuery("#pmwoodwind_product_images img.zoomImg").click();
 };
 
 jQuery(document).on("click", ".lg-actions .lg-icon", function () {
@@ -1635,6 +1635,15 @@ jQuery(document).ready(function ($) {
     "use strict";
 
     var _$$not$slick;
+
+    $(document).on('click', '.single-product .zoomImg', function () {
+
+        var href = $(this).attr('src').replace(/-\d+x\d+/, '');
+
+        console.log(href);
+
+        $('.slick-track a[href="' + href + '"]').click();
+    });
 
     $('.lg-actions .lg-icon').hide();
     $('#trd-testimonial').not('.slick-initialized').slick((_$$not$slick = {
