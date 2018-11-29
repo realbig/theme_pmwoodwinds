@@ -570,7 +570,7 @@ $rd_terms = wp_get_post_terms( $pid, $taxonomy, array( "fields" => "ids" ) ); //
 $terms = array();
 if( $rd_terms ) {
 	$term_array = trim( implode( ',', (array) $rd_terms ), ' ,' );
-	$neworderterms = get_terms($rd_taxonomy, 'orderby=none&include=' . $term_array );
+	$neworderterms = get_terms($taxonomy, 'orderby=none&include=' . $term_array );
 	foreach( $neworderterms as $orderterm ) {
 		$terms[$orderterm->term_id] = $orderterm->name;
 	}
@@ -802,6 +802,7 @@ function pmwoodwind_image_sizes() {
 	
 	add_image_size( 'main_image', 442, 331 );
 	add_image_size( 'product_thumbnail', 125, 94 );
+	add_image_size( 'product_grid', 252, 188 );
 	add_image_size( 'home_grid', 360, 480, true );
 	
 }

@@ -4,6 +4,20 @@ $show = 'used';
 if(isset($_GET['show'])){
 	$show = $_GET['show'];
 }
+
+// ...How was this expected to work before?
+if ( ! isset( $_GET['category'] ) ) {
+	$_GET['category'] = '';
+}
+
+$_GET['category'] = explode( ',', $_GET['category'] );
+
+if ( ! isset( $_GET['brand'] ) ) {
+	$_GET['brand'] = '';
+}
+
+$_GET['brand'] = explode( ',', $_GET['brand'] );
+
 $term = get_queried_object();
 $currentlink = get_category_link($term->term_id);
 
@@ -234,7 +248,7 @@ $navid  = get_queried_object()->term_id;
 			
 				<li id="<?php echo $product;?>" class="mix <?php echo $isnew;?> <?php echo $status;?><?php echo $globalfilters[$product];?><?php echo $globalbrands[$product];?> <?php echo $globallevels[$product];?> <?php echo pmwoodwind_product_get_serial($product);?> <?php echo get_the_title($product);?>">
 					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<?php echo get_the_post_thumbnail( $product, 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
+						<?php echo get_the_post_thumbnail( $product, 'product_grid', array( 'class' => 'main-image zoom' ) ); ?>
 					</a>
 						
 							<h5>
