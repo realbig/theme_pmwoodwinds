@@ -44,10 +44,6 @@
 								<?php echo woocommerce_get_product_thumbnail( 'product_thumbnail' ); ?>
 							</a>
 						
-							<a href="<?php echo pmwoodwind_get_product_thumbnail_src( 'full' ); ?>" title="<?php the_title();?> image main image">
-								<?php echo woocommerce_get_product_thumbnail( 'product_thumbnail' ); ?>
-							</a>
-						
 						<?php foreach($pmwoodwind_product_images as $i=>$image):
 						
 							$src = wp_get_attachment_image_src( $image, 'full' );
