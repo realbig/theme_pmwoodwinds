@@ -178,7 +178,7 @@ if ($term->parent > 0){
 						
 						<?php if ( $attachment_id = pmwoodwind_media_file_exists( str_replace( trailingslashit( $dir['baseurl'] ), '', $term_image ) ) ) : ?>
 						
-							<?php echo wp_get_attachment_image( $attacment_id, 'main_image', false, array( 'class' => 'main-image zoom' ) ); ?>
+							<?php echo wp_get_attachment_image( $attachment_id, 'main_image', false, array( 'class' => 'main-image zoom' ) ); ?>
 						
 						<?php else : ?>
 						
