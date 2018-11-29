@@ -87,9 +87,9 @@ jQuery(document).ready(function($){
 	});
 	
 	//close filter dropdown inside lateral .cd-filter 
-	$('.cd-filter-block h4').on('click', function(){
+	$('.cd-filter-block h4').on('click touch', function( event ){
 		$(this).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
-	})
+	});
 
 
 
@@ -246,9 +246,9 @@ jQuery(document).ready(function($){
 							var ids = $(this).attr('class').split(' ');
 							var exists = $(matchingIds).filter(ids);
 							 if(exists.length > 0){
-									$(this).show(0);
+									$(this).show();
 								} else {
-									$(this).hide(0);
+									$(this).hide();
 								}
 							});
 		
@@ -264,10 +264,10 @@ jQuery(document).ready(function($){
 				
 				$('.cd-gallery ul').mixItUp('filter', 'all');
 				$(filterstohide).each(function(i,filtertohide) {
-					$('.cd-filters.'+filtertohide+' li').show(0);
+					$('.cd-filters.'+filtertohide+' li').show();
 				});	
 				$(".cd-filter form").removeClass("active");
-				$('.cd-gallery li').show(0);
+				$('.cd-gallery li').show();
 			}
 				
 	});	

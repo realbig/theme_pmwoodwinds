@@ -347,7 +347,8 @@ padding: 50px;
 }
 .category-layout .event{
 	text-align: center;
-background: #00004d; /* originally #0000004d */
+background: #000000; /* originally #0000004d */
+opacity: 0.3;
 padding: 10px;
 }
 .embed-youtube .youtube-player{

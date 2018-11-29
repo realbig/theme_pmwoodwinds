@@ -1213,13 +1213,13 @@ var z = 0;
 window.pmwoodwindsZoomCount = function () {
     z++;
     if (z > 0) {
-        jQuery("span#lg-zoom-in").hide(0);
+        jQuery("span#lg-zoom-in").hide();
     }
 };
 window.pmwoodwindsZoomCountMin = function () {
     z--;
     if (z < 1) {
-        jQuery("span#lg-zoom-in").show(0);
+        jQuery("span#lg-zoom-in").show();
     }
 };
 
@@ -1229,7 +1229,7 @@ window.pmwoodwindsFirstview = function () {
 
 jQuery(document).on("click", ".lg-actions .lg-icon", function () {
     z = 0;
-    jQuery("span#lg-zoom-in").show(0);
+    jQuery("span#lg-zoom-in").show();
 });
 jQuery(document).ready(function ($) {
     "use strict";
@@ -3822,7 +3822,7 @@ jQuery(document).ready(function ($) {
 	});
 
 	//close filter dropdown inside lateral .cd-filter 
-	$('.cd-filter-block h4').on('click', function () {
+	$('.cd-filter-block h4').on('click touch', function (event) {
 		$(this).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
 	});
 
@@ -3960,9 +3960,9 @@ jQuery(document).ready(function ($) {
 							var ids = $(this).attr('class').split(' ');
 							var exists = $(matchingIds).filter(ids);
 							if (exists.length > 0) {
-								$(this).show(0);
+								$(this).show();
 							} else {
-								$(this).hide(0);
+								$(this).hide();
 							}
 						});
 					});
@@ -3972,10 +3972,10 @@ jQuery(document).ready(function ($) {
 
 			$('.cd-gallery ul').mixItUp('filter', 'all');
 			$(filterstohide).each(function (i, filtertohide) {
-				$('.cd-filters.' + filtertohide + ' li').show(0);
+				$('.cd-filters.' + filtertohide + ' li').show();
 			});
 			$(".cd-filter form").removeClass("active");
-			$('.cd-gallery li').show(0);
+			$('.cd-gallery li').show();
 		}
 	});
 

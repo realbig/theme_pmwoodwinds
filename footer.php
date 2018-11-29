@@ -85,6 +85,5 @@
 	</div>
 
 	<!-- ======== JavaScript ======== -->
-	<script type="text/javascript" src="<?php echo THEME_URL; ?>/dist/assets/js/app.js"></script>
 	<?php wp_footer();?>
 </body></html>

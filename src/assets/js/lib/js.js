@@ -3,13 +3,13 @@ var z = 0;
 window.pmwoodwindsZoomCount = function(){
 z++;
 if(z > 0){
-	jQuery("span#lg-zoom-in").hide(0);
+	jQuery("span#lg-zoom-in").hide();
 }
 }
 window.pmwoodwindsZoomCountMin = function(){
 z--;
 if(z < 1){
-	jQuery("span#lg-zoom-in").show(0);
+	jQuery("span#lg-zoom-in").show();
 }
 }
 	 
@@ -19,7 +19,7 @@ window.pmwoodwindsFirstview = function(){
 
 jQuery( document ).on( "click", ".lg-actions .lg-icon", function() {
 z = 0;
-jQuery("span#lg-zoom-in").show(0);
+jQuery("span#lg-zoom-in").show();
 });
 jQuery(document).ready(function($) {
     "use strict";

@@ -4085,7 +4085,8 @@ border: 2px solid #000;
 }	
 .productdetails .action{
 margin: 20px 0px;
-background: #090966; /* originally 0e090966 */
+background: #0e0909; /* originally 0e090966 */
+opacity: 0.4;
 padding: 10px;	
 }	
 .productdetails {
@@ -4267,7 +4268,8 @@ padding: 5px 10px;
 }
 #searchsubmit{
 border: 1px solid #fff;
-background: #00c; /* originally #000c; */
+background: #000; /* originally #000c; */
+opacity: 0.05;
 padding: 5px 10px;
 
 color: #e6e3e3;
@@ -4631,7 +4633,8 @@ margin-bottom: 5px;
 .cd-filter form.active::after {
 content: "";
 position: absolute;
-background: #003; /* originally #0003 */
+background: #000; /* originally #0003 */
+opacity: 0.2;
 width: 100%;
 height: 100%;
 top: 0;
