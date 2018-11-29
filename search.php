@@ -2,12 +2,19 @@
 get_header(); 
 $show = 'used';
 if(isset($_GET['show'])){
-	$show = $_GET['show'];
+	$show = esc_attr( $_GET['show'] );
 }
 $term = get_queried_object();
-$currentlink = get_category_link($term->term_id);
 
-$navid  = get_queried_object()->term_id;
+if ( $term ) {
+
+	$currentlink = get_category_link($term->term_id);
+	
+}
+
+$navid  = ( $term ) ? $term->term_id : 0;
+
+$apply = false;
 
 ?>
 		<div class="category-head">
@@ -43,7 +50,7 @@ $navid  = get_queried_object()->term_id;
 				'post_type' => 'product',
 				'numberposts' => '-1',
 				'posts_per_page' => '-1',
-				's' => $_GET['s'],
+				's' => esc_attr( $_GET['s'] ),
 			) );
 			
 			$brands = array();
@@ -70,36 +77,37 @@ $navid  = get_queried_object()->term_id;
 			}
 			$products['all'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
 			endwhile;
+				wp_reset_postdata();
 			
 			ksort($products[$show]);
 			$sortedp = $products[$show];
 			$sortedproductsbyside = array();
 			
 			
-			foreach($sortedp as $p=>$product):
+			foreach($sortedp as $p=>$product_id):
 
 
-			$types = wp_get_post_terms($product, 'product_cat',array( 'orderby' => 'term_order' ));
-			$pbrands = wp_get_post_terms($product, 'pwb-brand',array( 'orderby' => 'term_order' ));
-			$plevels = wp_get_post_terms($product, 'level',array( 'orderby' => 'term_order' ));
+			$types = wp_get_post_terms($product_id, 'product_cat',array( 'orderby' => 'term_order' ));
+			$pbrands = wp_get_post_terms($product_id, 'pwb-brand',array( 'orderby' => 'term_order' ));
+			$plevels = wp_get_post_terms($product_id, 'level',array( 'orderby' => 'term_order' ));
 			$filters = '';
 			$filtersbrands = '';
 			$filterslevels = '';
-			$productcats[$product] = $types;
-			$productpbrands[$product] = $pbrands[0];
+			$productcats[$product_id] = $types;
+			$productpbrands[$product_id] = $pbrands[0];
 			foreach($types as $type){
 				$filters .= ' filter'.$type->term_id;
 				$unsortedcats[$type->term_id] = $type;
 				
 			
-				$productcategories[$type->term_id][] = $product;
+				$productcategories[$type->term_id][] = $product_id;
 			}	
 				
 			if($plevels):
 			foreach($plevels as $plevel){
 				$filterslevels .= ' filter'.$plevel->term_id;
 				$levels[$plevel->term_id] = $plevel;
-				$productslevels[$plevel->term_id][] = $product;
+				$productslevels[$plevel->term_id][] = $product_id;
 			}	
 			endif;			
 			foreach($pbrands as $brand){
@@ -107,11 +115,11 @@ $navid  = get_queried_object()->term_id;
 				$filtersbrands .= ' filter'.$brand->term_id;
 				$brands[$brand->term_id] = $brand;
 				$brandname = $brand->name;
-				$productsbrands[$brand->term_id][] = $product;
+				$productsbrands[$brand->term_id][] = $product_id;
 			}		
-			$globalfilters[$product] = $filters;
-			$globalbrands[$product] = $filtersbrands;
-			$globallevels[$product] = $filterslevels;
+			$globalfilters[$product_id] = $filters;
+			$globalbrands[$product_id] = $filtersbrands;
+			$globallevels[$product_id] = $filterslevels;
 			
 			$sortedbrands = array();
 			$sortedlevels = array();
@@ -164,7 +172,7 @@ $navid  = get_queried_object()->term_id;
 									array(
 										'posts_per_page' => -1,
 										'post_type' => 'product',
-										's' => $_GET['s'],
+										's' => esc_attr( $_GET['s'] ),
 									)
 								);
 							foreach($posts_array as $post_array){
@@ -182,7 +190,7 @@ $navid  = get_queried_object()->term_id;
 							array(
 										'posts_per_page' => -1,
 										'post_type' => 'product',
-										's' => $_GET['s'],
+										's' => esc_attr( $_GET['s'] ),
 									)
 								);
 					
@@ -194,10 +202,10 @@ $navid  = get_queried_object()->term_id;
 				}
 				ksort($sortedproductsbyside, SORT_NATURAL | SORT_FLAG_CASE);
 				
-				foreach($sortedproductsbyside as $p=>$product):
+				foreach($sortedproductsbyside as $p=>$product_id):
 
-					$isnew = pmwoodwind_is_new_product($product);
-					$price = pmwoodwind_product_main_price($product);
+					$isnew = pmwoodwind_is_new_product($product_id);
+					$price = pmwoodwind_product_main_price($product_id);
 					$status = $price;
 					if(is_numeric($price)){
 						$status = 'sale';
@@ -206,15 +214,23 @@ $navid  = get_queried_object()->term_id;
 				
 				?>
 			
-				<li id="<?php echo $product;?>" class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $globalfilters[$product];?> <?php echo $globalbrands[$product];?> <?php echo $globallevels[$product];?> <?php echo pmwoodwind_product_get_serial($product);?> <?php echo get_the_title($product);?>">
-					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<?php echo get_the_post_thumbnail( $product, 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
+				<li id="<?php echo $product_id;?>" class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo ( isset( $globalfilters[$product_id] ) ? esc_attr( $globalfilters[$product_id] ) : '');?> <?php echo ( isset( $globalbrands[$product_id] ) ? esc_attr( $globalbrands[$product_id] ) : '' );?> <?php echo ( isset( $globallevels[$product_id] ) ? esc_attr( $globallevels[$product_id] ) : '' );?> <?php echo pmwoodwind_product_get_serial($product_id);?> <?php echo get_the_title($product_id);?>">
+					<a href="<?php echo get_permalink($product_id);?>" title="<?php echo get_the_title($product_id);?>">
+						<?php 
+						
+							global $product;
+						
+							$product = new WC_Product( $product_id );
+						
+							echo woocommerce_get_product_thumbnail( 'main_image' ); 
+						
+						?>
 						
 					</a>
 						
 							<h5>
 							
-						<a href="<?php echo get_permalink($product);?>"><?php echo get_the_title($product);?></a>
+						<a href="<?php echo get_permalink($product_id);?>"><?php echo get_the_title($product_id);?></a>
 						
 						<br/>
 						<?php if($price):?><span class="price <?php echo $price;?>"><?php
@@ -238,7 +254,9 @@ $navid  = get_queried_object()->term_id;
 <li class="gap"></li>
 <li class="gap"></li>
 			</ul>
-			<div class="cd-fail-message" <?php if($sortedproductsbyside < 1):?> style="display:block;" <?php endif;?>>No <?php echo $term->name;?> found</div>
+			<?php if ( $term ) : ?>
+				<div class="cd-fail-message" <?php if($sortedproductsbyside < 1):?> style="display:block;" <?php endif;?>>No <?php echo $term->name;?> found</div>
+			<?php endif; ?>
 		</section> <!-- cd-gallery -->
 
 		<div class="cd-filter filter-is-visible">
@@ -247,7 +265,7 @@ $navid  = get_queried_object()->term_id;
 					<h4>Search</h4>
 					
 					<div class="cd-filter-content">
-						<input type="search" id="searchs" value="<?php echo $_GET['s'];?>" name="s" placeholder="Serial or Name...">
+						<input type="search" id="searchs" value="<?php echo esc_attr( $_GET['s'] );?>" name="s" placeholder="Serial or Name...">
 					</div> <!-- cd-filter-content -->
 				</div> <!-- cd-filter-block -->
 				<?php if($levels):?>
@@ -264,7 +282,7 @@ $navid  = get_queried_object()->term_id;
 					</ul> <!-- cd-filter-content -->
 				</div> <!-- cd-filter-block -->
 				<?php endif;?>
-				<?php if($cats):?>
+				<?php if($cats && $term):?>
 				<div class="cd-filter-block categories">
 					<h4><?php echo $term->name;?></h4>
 

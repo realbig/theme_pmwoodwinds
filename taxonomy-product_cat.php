@@ -10,19 +10,19 @@ if ( ! isset( $_GET['category'] ) ) {
 	$_GET['category'] = '';
 }
 
-$_GET['category'] = explode( ',', $_GET['category'] );
+$_GET['category'] = explode( ',', esc_attr( $_GET['category'] ) );
 
 if ( ! isset( $_GET['brand'] ) ) {
 	$_GET['brand'] = '';
 }
 
-$_GET['brand'] = explode( ',', $_GET['brand'] );
+$_GET['brand'] = explode( ',', esc_attr( $_GET['brand'] ) );
 
 if ( ! isset( $_GET['level'] ) ) {
 	$_GET['level'] = '';
 }
 
-$_GET['level'] = explode( ',', $_GET['level'] );
+$_GET['level'] = explode( ',', esc_attr( $_GET['level'] ) );
 
 $term = get_queried_object();
 $currentlink = get_category_link($term->term_id);
@@ -30,6 +30,8 @@ $currentlink = get_category_link($term->term_id);
 $navid  = get_queried_object()->term_id;
 
 $apply = false;
+$sortedbrands = false;
+$childs = false;
 
 ?>
 		<div class="category-head">
@@ -83,6 +85,7 @@ $apply = false;
 			$globalfilters = array();
 			$globalbrands = array();
 			$globallevels = array();
+			$sortedp = array();
 			
 			$cats = array();
 				$showprods = array();
@@ -104,10 +107,15 @@ $apply = false;
 			$showprods['all'][get_the_id()] = get_the_id();
 			endwhile;
 			
-			
-			ksort($product_ids[$show]);
-	
-			$sortedp = $product_ids[$show];
+			if ( isset( $product_ids[$show] ) && 
+				is_array( $product_ids[$show] ) ) {
+				
+				ksort($product_ids[$show]);
+
+				$sortedp = $product_ids[$show];
+				
+			}
+				
 			$sortedproductsbyside = array();
 		
 			foreach($sortedp as $p=>$product_id):

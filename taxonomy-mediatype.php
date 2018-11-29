@@ -2,7 +2,7 @@
 get_header(); 
 $show = 'used';
 if(isset($_GET['show'])){
-	$show = $_GET['show'];
+	$show = esc_attr( $_GET['show'] );
 }
 $term = get_queried_object();
 $currentlink = get_category_link($term->term_id);

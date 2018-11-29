@@ -37,13 +37,13 @@
 	<?php 
 		$comparelist = $_SESSION['comparelist'];
 		if(isset($_GET['list'])){
-			$compare[$_GET['list']] = $comparelist[$_GET['list']];
+			$compare[ esc_attr( $_GET['list'] )] = $comparelist[ esc_attr( $_GET['list'] )];
 		} else {
 			$compare = $comparelist;
 		}
 		if(isset($_GET['remove'])){
-			unset($_SESSION['comparelist'][$_GET['remove']][$_GET['item']]);
-			unset($compare[$_GET['remove']][$_GET['item']]);
+			unset($_SESSION['comparelist'][ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
+			unset($compare[ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
 		} 
 	
 		foreach($compare as $l=>$list):

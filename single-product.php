@@ -75,12 +75,12 @@
 						$cart = true;
 					
 						if(isset($_GET['remove'])){
-								unset($_SESSION['comparelist'][$_GET['remove']][$_GET['item']]);
-								unset($compare[$_GET['remove']][$_GET['item']]);
+								unset($_SESSION['comparelist'][esc_attr($_GET['remove'])][esc_attr($_GET['item'])]);
+								unset($compare[esc_attr($_GET['remove'])][esc_attr($_GET['item'])]);
 								
 						} 
 						if(isset($_GET['tocompare'])){
-							$_SESSION['comparelist'][$_GET['tocompare']][get_the_id()] = get_the_id();
+							$_SESSION['comparelist'][esc_attr($_GET['tocompare'])][get_the_id()] = get_the_id();
 					
 						}
 						foreach($types as $type){

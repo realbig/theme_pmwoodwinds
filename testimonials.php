@@ -30,31 +30,43 @@
 		</div>
      <div id="testimonials" class="testimonial">
 	 <?php
-	 $posts = get_posts(array(
-		'numberposts'	=> -1,
+	 $posts = new WP_Query(array(
+		'posts_per_page'	=> -1,
 		'post_type'		=> 'clients',
 		'meta_key'		=> 'wpcf-testimonial'
 	));
-	foreach($posts as $post):
-		$show = get_post_meta($post->ID, 'wpcf-is-testimonial', true);
-		if($show):
-	?>
-	<div class="testimonial-item">
-			<div class="info">
-			<div class="trd-user-img-wrapper">
-				<img src="<?php echo get_post_meta($post->ID, 'wpcf-image', true);?>" alt="<?php echo $post->post_title;?>">
-			</div>           
-			
-		</div>
-		<div class="text">
-			<h3><?php echo $post->post_title;?></h3>
-			<p><?php echo get_post_meta($post->ID, 'wpcf-testimonial', true);?></p>
-		</div>
+		 
+	global $post;
+		 
+	if ( $posts->have_posts() ) : 
+		 
+		 while ( $posts->have_posts() ) : $posts->the_post();
+		 
+		 
+			$show = get_post_meta( get_the_ID(), 'wpcf-is-testimonial', true);
+			if($show):
+				?>
+				<div class="testimonial-item">
+						<div class="info">
+						<div class="trd-user-img-wrapper">
+							<img src="<?php echo esc_attr( get_post_meta( get_the_ID(), 'wpcf-image', true) );?>" alt="<?php the_title();?>">
+						</div>           
 
-	</div>
-     <?php 
-	 endif;
-	 endforeach;?>      
+					</div>
+					<div class="text">
+						<h3><?php the_title()?></h3>
+						<p><?php echo esc_html( get_post_meta($post->ID, 'wpcf-testimonial', true) );?></p>
+					</div>
+
+				</div>
+				 <?php 
+		 	endif;
+		 endwhile;
+		 
+		 wp_reset_postdata();
+		 
+	endif;
+		 ?>      
  
 	</div>
 	</div>

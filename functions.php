@@ -61,13 +61,13 @@ function pmwoodwind_is_new_product($postid){
 function pmwoodwind_product_get_serial($postid){
 	$serial = get_post_meta($postid,'_sku',true);
 	if($serial){
-		return $serial;
+		return esc_html( $serial );
 	}
 }	
 function pmwoodwind_product_get_year($postid){
 	$year = get_post_meta($postid,'_product_year',true);
 	if($year){
-		return $year;
+		return esc_html( $year );
 	}
 }
 function pmwoodwind_product_get_brand($postid){
@@ -79,7 +79,7 @@ function pmwoodwind_product_get_brand($postid){
 function pmwoodwind_get_inventory($postid){
 	$inventory = get_post_meta($postid,'_inhouse_inventory',true);
 	if($inventory){
-		return $inventory;
+		return esc_html( $inventory );
 	}
 }	
 function pmwoodwind_is_mouthpiece($postid){
@@ -506,10 +506,10 @@ function pmwoodwind_filter_tracked_plugins() {
         $_product_new = $_GET['_product_new']; // Check if option has been selected
       } ?>
       <select name="_product_new" id="_product_new">
-         <option value="" <?php selected( 'all', $_GET['_product_new'] ); ?>><?php _e( 'Product Type', 'wisdom-plugin' ); ?></option>
-         <option value="yes" <?php selected( 'yes', $_GET['_product_new'] ); ?>>New</option>
-         <option value="no" <?php selected( 'no', $_GET['_product_new'] ); ?>>Used</option>
-         <option value="x" <?php selected( 'x', $_GET['_product_new'] ); ?>>Not Specified</option>
+         <option value="" <?php selected( 'all', esc_attr( $_GET['_product_new'] ) ); ?>><?php _e( 'Product Type', 'wisdom-plugin' ); ?></option>
+         <option value="yes" <?php selected( 'yes', esc_attr( $_GET['_product_new'] ) ); ?>>New</option>
+         <option value="no" <?php selected( 'no', esc_attr( $_GET['_product_new'] ) ); ?>>Used</option>
+         <option value="x" <?php selected( 'x', esc_attr( $_GET['_product_new'] ) ); ?>>Not Specified</option>
       </select>
   <?php }
 }
@@ -518,15 +518,15 @@ function pmwoodwind_filter_tracked_plugins() {
 function pmwoodwind_sort_plugins_by_slug( $query ) {
   global $pagenow;
   // Get the post type
-  $post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
-  if ( is_admin() && $pagenow=='edit.php' && $post_type == 'product' && isset( $_GET['_product_new'] ) && $_GET['_product_new'] !='all' && $_GET['_product_new'] !='' ) {
-	if($_GET['_product_new'] =='x'){
+  $post_type = isset( $_GET['post_type'] ) ? esc_attr( $_GET['post_type'] ) : '';
+  if ( is_admin() && $pagenow=='edit.php' && $post_type == 'product' && isset( $_GET['_product_new'] ) && esc_attr( $_GET['_product_new'] ) !='all' && esc_attr( $_GET['_product_new'] ) !='' ) {
+	if( esc_attr( $_GET['_product_new'] ) =='x'){
 		$query->query_vars['meta_key'] = '_product_new';
 		$query->query_vars['meta_compare'] = 'NOT EXISTS';
 	 } else {
 	 
 		$query->query_vars['meta_key'] = '_product_new';
-		$query->query_vars['meta_value'] = $_GET['_product_new'];
+		$query->query_vars['meta_value'] = esc_attr( $_GET['_product_new'] );
 		$query->query_vars['meta_compare'] = '=';	 
 	 }
 
@@ -654,9 +654,9 @@ woocommerce_wp_text_input( array(
 add_action( 'woocommerce_save_product_variation', 'pmwoodwind_save_custom_field_variations', 10, 2 );
   
 function pmwoodwind_save_custom_field_variations( $variation_id, $i ) {
-    $msrp = $_POST['msrp'][$i];
+    $msrp = esc_attr( $_POST['msrp'][$i] );
     if ( ! empty( $msrp ) ) {
-        update_post_meta( $variation_id, 'msrp', esc_attr( $msrp ) );
+        update_post_meta( $variation_id, 'msrp', $msrp );
     } else delete_post_meta( $variation_id, 'msrp' );
 }
   
