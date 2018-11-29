@@ -118,7 +118,11 @@ $navid  = get_queried_object()->term_id;
 			$filtersbrands = '';
 			$filterslevels = '';
 			$productcats[$product] = $types;
-			$productpbrands[$product] = $pbrands[0];
+				
+				if ( isset( $pbrands[0] ) ) {
+					$productpbrands[$product] = $pbrands[0];
+				}
+				
 			foreach($types as $type){
 				$filters .= ' filter'.$type->term_id;
 				$unsortedcats[$type->term_id] = $type;
