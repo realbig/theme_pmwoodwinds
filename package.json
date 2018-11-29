@@ -13,6 +13,7 @@
   "dependencies": {
     "jplayer": "^2.9.2",
     "lightgallery": "^1.2.0",
+    "mixitup": "git+https://github.com/patrickkunka/mixitup.git#v2.1.7",
     "twitter-fetcher": "^18.0.2"
   },
   "devDependencies": {

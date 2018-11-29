@@ -80,13 +80,15 @@ module.exports = jQuery;
 "use strict";
 
 
-__webpack_require__(19);
-
 __webpack_require__(18);
 
 __webpack_require__(17);
 
+__webpack_require__(16);
+
 __webpack_require__(20);
+
+__webpack_require__(19);
 
 __webpack_require__(3);
 
@@ -113,8 +115,6 @@ __webpack_require__(13);
 __webpack_require__(14);
 
 __webpack_require__(15);
-
-__webpack_require__(16);
 
 /***/ }),
 /* 3 */
@@ -735,406 +735,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-/**!
- * MixItUp v2.1.7
- *
- * @copyright Copyright 2014 KunkaLabs Limited.
- * @author    KunkaLabs Limited.
- * @link      https://mixitup.kunkalabs.com
- *
- * @license   Commercial use requires a commercial license.
- *            https://mixitup.kunkalabs.com/licenses/
- *
- *            Non-commercial use permitted under terms of CC-BY-NC license.
- *            http://creativecommons.org/licenses/by-nc/3.0/
- */
-!function (a, b) {
-  a.MixItUp = function () {
-    var b = this;b._execAction("_constructor", 0), a.extend(b, { selectors: { target: ".mix", filter: ".filter", sort: ".sort" }, animation: { enable: !0, effects: "fade scale", duration: 600, easing: "ease", perspectiveDistance: "3000", perspectiveOrigin: "50% 50%", queue: !0, queueLimit: 1, animateChangeLayout: !1, animateResizeContainer: !0, animateResizeTargets: !1, staggerSequence: !1, reverseOut: !1 }, callbacks: { onMixLoad: !1, onMixStart: !1, onMixBusy: !1, onMixEnd: !1, onMixFail: !1, _user: !1 }, controls: { enable: !0, live: !1, toggleFilterButtons: !1, toggleLogic: "or", activeClass: "active" }, layout: { display: "inline-block", containerClass: "", containerClassFail: "fail" }, load: { filter: "all", sort: !1 }, _$body: null, _$container: null, _$targets: null, _$parent: null, _$sortButtons: null, _$filterButtons: null, _suckMode: !1, _mixing: !1, _sorting: !1, _clicking: !1, _loading: !0, _changingLayout: !1, _changingClass: !1, _changingDisplay: !1, _origOrder: [], _startOrder: [], _newOrder: [], _activeFilter: null, _toggleArray: [], _toggleString: "", _activeSort: "default:asc", _newSort: null, _startHeight: null, _newHeight: null, _incPadding: !0, _newDisplay: null, _newClass: null, _targetsBound: 0, _targetsDone: 0, _queue: [], _$show: a(), _$hide: a() }), b._execAction("_constructor", 1);
-  }, a.MixItUp.prototype = { constructor: a.MixItUp, _instances: {}, _handled: { _filter: {}, _sort: {} }, _bound: { _filter: {}, _sort: {} }, _actions: {}, _filters: {}, extend: function extend(b) {
-      for (var c in b) {
-        a.MixItUp.prototype[c] = b[c];
-      }
-    }, addAction: function addAction(b, c, d, e) {
-      a.MixItUp.prototype._addHook("_actions", b, c, d, e);
-    }, addFilter: function addFilter(b, c, d, e) {
-      a.MixItUp.prototype._addHook("_filters", b, c, d, e);
-    }, _addHook: function _addHook(b, c, d, e, f) {
-      var g = a.MixItUp.prototype[b],
-          h = {};f = 1 === f || "post" === f ? "post" : "pre", h[c] = {}, h[c][f] = {}, h[c][f][d] = e, a.extend(!0, g, h);
-    }, _init: function _init(b, c) {
-      var d = this;if (d._execAction("_init", 0, arguments), c && a.extend(!0, d, c), d._$body = a("body"), d._domNode = b, d._$container = a(b), d._$container.addClass(d.layout.containerClass), d._id = b.id, d._platformDetect(), d._brake = d._getPrefixedCSS("transition", "none"), d._refresh(!0), d._$parent = d._$targets.parent().length ? d._$targets.parent() : d._$container, d.load.sort && (d._newSort = d._parseSort(d.load.sort), d._newSortString = d.load.sort, d._activeSort = d.load.sort, d._sort(), d._printSort()), d._activeFilter = "all" === d.load.filter ? d.selectors.target : "none" === d.load.filter ? "" : d.load.filter, d.controls.enable && d._bindHandlers(), d.controls.toggleFilterButtons) {
-        d._buildToggleArray();for (var e = 0; e < d._toggleArray.length; e++) {
-          d._updateControls({ filter: d._toggleArray[e], sort: d._activeSort }, !0);
-        }
-      } else d.controls.enable && d._updateControls({ filter: d._activeFilter, sort: d._activeSort });d._filter(), d._init = !0, d._$container.data("mixItUp", d), d._execAction("_init", 1, arguments), d._buildState(), d._$targets.css(d._brake), d._goMix(d.animation.enable);
-    }, _platformDetect: function _platformDetect() {
-      var a = this,
-          c = ["Webkit", "Moz", "O", "ms"],
-          d = ["webkit", "moz"],
-          e = window.navigator.appVersion.match(/Chrome\/(\d+)\./) || !1,
-          f = "undefined" != typeof InstallTrigger,
-          g = function g(a) {
-        for (var b = 0; b < c.length; b++) {
-          if (c[b] + "Transition" in a.style) return { prefix: "-" + c[b].toLowerCase() + "-", vendor: c[b] };
-        }return "transition" in a.style ? "" : !1;
-      },
-          h = g(a._domNode);a._execAction("_platformDetect", 0), a._chrome = e ? parseInt(e[1], 10) : !1, a._ff = f ? parseInt(window.navigator.userAgent.match(/rv:([^)]+)\)/)[1]) : !1, a._prefix = h.prefix, a._vendor = h.vendor, a._suckMode = window.atob && a._prefix ? !1 : !0, a._suckMode && (a.animation.enable = !1), a._ff && a._ff <= 4 && (a.animation.enable = !1);for (var i = 0; i < d.length && !window.requestAnimationFrame; i++) {
-        window.requestAnimationFrame = window[d[i] + "RequestAnimationFrame"];
-      }"function" != typeof Object.getPrototypeOf && (Object.getPrototypeOf = "object" == _typeof("test".__proto__) ? function (a) {
-        return a.__proto__;
-      } : function (a) {
-        return a.constructor.prototype;
-      }), a._domNode.nextElementSibling === b && Object.defineProperty(Element.prototype, "nextElementSibling", { get: function get() {
-          for (var a = this.nextSibling; a;) {
-            if (1 === a.nodeType) return a;a = a.nextSibling;
-          }return null;
-        } }), a._execAction("_platformDetect", 1);
-    }, _refresh: function _refresh(a, c) {
-      var d = this;d._execAction("_refresh", 0, arguments), d._$targets = d._$container.find(d.selectors.target);for (var e = 0; e < d._$targets.length; e++) {
-        var f = d._$targets[e];if (f.dataset === b || c) {
-          f.dataset = {};for (var g = 0; g < f.attributes.length; g++) {
-            var h = f.attributes[g],
-                i = h.name,
-                j = h.value;if (i.indexOf("data-") > -1) {
-              var k = d._helpers._camelCase(i.substring(5, i.length));f.dataset[k] = j;
-            }
-          }
-        }f.mixParent === b && (f.mixParent = d._id);
-      }if (d._$targets.length && a || !d._origOrder.length && d._$targets.length) {
-        d._origOrder = [];for (var e = 0; e < d._$targets.length; e++) {
-          var f = d._$targets[e];d._origOrder.push(f);
-        }
-      }d._execAction("_refresh", 1, arguments);
-    }, _bindHandlers: function _bindHandlers() {
-      var c = this,
-          d = a.MixItUp.prototype._bound._filter,
-          e = a.MixItUp.prototype._bound._sort;c._execAction("_bindHandlers", 0), c.controls.live ? c._$body.on("click.mixItUp." + c._id, c.selectors.sort, function () {
-        c._processClick(a(this), "sort");
-      }).on("click.mixItUp." + c._id, c.selectors.filter, function () {
-        c._processClick(a(this), "filter");
-      }) : (c._$sortButtons = a(c.selectors.sort), c._$filterButtons = a(c.selectors.filter), c._$sortButtons.on("click.mixItUp." + c._id, function () {
-        c._processClick(a(this), "sort");
-      }), c._$filterButtons.on("click.mixItUp." + c._id, function () {
-        c._processClick(a(this), "filter");
-      })), d[c.selectors.filter] = d[c.selectors.filter] === b ? 1 : d[c.selectors.filter] + 1, e[c.selectors.sort] = e[c.selectors.sort] === b ? 1 : e[c.selectors.sort] + 1, c._execAction("_bindHandlers", 1);
-    }, _processClick: function _processClick(c, d) {
-      var e = this,
-          f = function f(c, d, _f) {
-        var g = a.MixItUp.prototype;g._handled["_" + d][e.selectors[d]] = g._handled["_" + d][e.selectors[d]] === b ? 1 : g._handled["_" + d][e.selectors[d]] + 1, g._handled["_" + d][e.selectors[d]] === g._bound["_" + d][e.selectors[d]] && (c[(_f ? "remove" : "add") + "Class"](e.controls.activeClass), delete g._handled["_" + d][e.selectors[d]]);
-      };if (e._execAction("_processClick", 0, arguments), !e._mixing || e.animation.queue && e._queue.length < e.animation.queueLimit) {
-        if (e._clicking = !0, "sort" === d) {
-          var g = c.attr("data-sort");(!c.hasClass(e.controls.activeClass) || g.indexOf("random") > -1) && (a(e.selectors.sort).removeClass(e.controls.activeClass), f(c, d), e.sort(g));
-        }if ("filter" === d) {
-          var h,
-              i = c.attr("data-filter"),
-              j = "or" === e.controls.toggleLogic ? "," : "";e.controls.toggleFilterButtons ? (e._buildToggleArray(), c.hasClass(e.controls.activeClass) ? (f(c, d, !0), h = e._toggleArray.indexOf(i), e._toggleArray.splice(h, 1)) : (f(c, d), e._toggleArray.push(i)), e._toggleArray = a.grep(e._toggleArray, function (a) {
-            return a;
-          }), e._toggleString = e._toggleArray.join(j), e.filter(e._toggleString)) : c.hasClass(e.controls.activeClass) || (a(e.selectors.filter).removeClass(e.controls.activeClass), f(c, d), e.filter(i));
-        }e._execAction("_processClick", 1, arguments);
-      } else "function" == typeof e.callbacks.onMixBusy && e.callbacks.onMixBusy.call(e._domNode, e._state, e), e._execAction("_processClickBusy", 1, arguments);
-    }, _buildToggleArray: function _buildToggleArray() {
-      var a = this,
-          b = a._activeFilter.replace(/\s/g, "");if (a._execAction("_buildToggleArray", 0, arguments), "or" === a.controls.toggleLogic) a._toggleArray = b.split(",");else {
-        a._toggleArray = b.split("."), !a._toggleArray[0] && a._toggleArray.shift();for (var c, d = 0; c = a._toggleArray[d]; d++) {
-          a._toggleArray[d] = "." + c;
-        }
-      }a._execAction("_buildToggleArray", 1, arguments);
-    }, _updateControls: function _updateControls(c, d) {
-      var e = this,
-          f = { filter: c.filter, sort: c.sort },
-          g = function g(a, b) {
-        d && "filter" === h && "none" !== f.filter && "" !== f.filter ? a.filter(b).addClass(e.controls.activeClass) : a.removeClass(e.controls.activeClass).filter(b).addClass(e.controls.activeClass);
-      },
-          h = "filter",
-          i = null;e._execAction("_updateControls", 0, arguments), c.filter === b && (f.filter = e._activeFilter), c.sort === b && (f.sort = e._activeSort), f.filter === e.selectors.target && (f.filter = "all");for (var j = 0; 2 > j; j++) {
-        i = e.controls.live ? a(e.selectors[h]) : e["_$" + h + "Buttons"], i && g(i, "[data-" + h + '="' + f[h] + '"]'), h = "sort";
-      }e._execAction("_updateControls", 1, arguments);
-    }, _filter: function _filter() {
-      var b = this;b._execAction("_filter", 0);for (var c = 0; c < b._$targets.length; c++) {
-        var d = a(b._$targets[c]);d.is(b._activeFilter) ? b._$show = b._$show.add(d) : b._$hide = b._$hide.add(d);
-      }b._execAction("_filter", 1);
-    }, _sort: function _sort() {
-      var a = this,
-          b = function b(a) {
-        for (var b = a.slice(), c = b.length, d = c; d--;) {
-          var e = parseInt(Math.random() * c),
-              f = b[d];b[d] = b[e], b[e] = f;
-        }return b;
-      };a._execAction("_sort", 0), a._startOrder = [];for (var c = 0; c < a._$targets.length; c++) {
-        var d = a._$targets[c];a._startOrder.push(d);
-      }switch (a._newSort[0].sortBy) {case "default":
-          a._newOrder = a._origOrder;break;case "random":
-          a._newOrder = b(a._startOrder);break;case "custom":
-          a._newOrder = a._newSort[0].order;break;default:
-          a._newOrder = a._startOrder.concat().sort(function (b, c) {
-            return a._compare(b, c);
-          });}a._execAction("_sort", 1);
-    }, _compare: function _compare(a, b, c) {
-      c = c ? c : 0;var d = this,
-          e = d._newSort[c].order,
-          f = function f(a) {
-        return a.dataset[d._newSort[c].sortBy] || 0;
-      },
-          g = isNaN(1 * f(a)) ? f(a).toLowerCase() : 1 * f(a),
-          h = isNaN(1 * f(b)) ? f(b).toLowerCase() : 1 * f(b);return h > g ? "asc" === e ? -1 : 1 : g > h ? "asc" === e ? 1 : -1 : g === h && d._newSort.length > c + 1 ? d._compare(a, b, c + 1) : 0;
-    }, _printSort: function _printSort(a) {
-      var b = this,
-          c = a ? b._startOrder : b._newOrder,
-          d = b._$parent[0].querySelectorAll(b.selectors.target),
-          e = d.length ? d[d.length - 1].nextElementSibling : null,
-          f = document.createDocumentFragment();b._execAction("_printSort", 0, arguments);for (var g = 0; g < d.length; g++) {
-        var h = d[g],
-            i = h.nextSibling;"absolute" !== h.style.position && (i && "#text" === i.nodeName && b._$parent[0].removeChild(i), b._$parent[0].removeChild(h));
-      }for (var g = 0; g < c.length; g++) {
-        var j = c[g];if ("default" !== b._newSort[0].sortBy || "desc" !== b._newSort[0].order || a) f.appendChild(j), f.appendChild(document.createTextNode(" "));else {
-          var k = f.firstChild;f.insertBefore(j, k), f.insertBefore(document.createTextNode(" "), j);
-        }
-      }e ? b._$parent[0].insertBefore(f, e) : b._$parent[0].appendChild(f), b._execAction("_printSort", 1, arguments);
-    }, _parseSort: function _parseSort(a) {
-      for (var b = this, c = "string" == typeof a ? a.split(" ") : [a], d = [], e = 0; e < c.length; e++) {
-        var f = "string" == typeof a ? c[e].split(":") : ["custom", c[e]],
-            g = { sortBy: b._helpers._camelCase(f[0]), order: f[1] || "asc" };if (d.push(g), "default" === g.sortBy || "random" === g.sortBy) break;
-      }return b._execFilter("_parseSort", d, arguments);
-    }, _parseEffects: function _parseEffects() {
-      var a = this,
-          b = { opacity: "", transformIn: "", transformOut: "", filter: "" },
-          c = function c(b, _c) {
-        if (a.animation.effects.indexOf(b) > -1) {
-          if (_c) {
-            var d = a.animation.effects.indexOf(b + "(");if (d > -1) {
-              var e = a.animation.effects.substring(d),
-                  f = /\(([^)]+)\)/.exec(e),
-                  g = f[1];return { val: g };
-            }
-          }return !0;
-        }return !1;
-      },
-          d = function d(a, b) {
-        return b ? "-" === a.charAt(0) ? a.substr(1, a.length) : "-" + a : a;
-      },
-          e = function e(a, _e) {
-        for (var f = [["scale", ".01"], ["translateX", "20px"], ["translateY", "20px"], ["translateZ", "20px"], ["rotateX", "90deg"], ["rotateY", "90deg"], ["rotateZ", "180deg"]], g = 0; g < f.length; g++) {
-          var h = f[g][0],
-              i = f[g][1],
-              j = _e && "scale" !== h;b[a] += c(h) ? h + "(" + d(c(h, !0).val || i, j) + ") " : "";
-        }
-      };return b.opacity = c("fade") ? c("fade", !0).val || "0" : "1", e("transformIn"), a.animation.reverseOut ? e("transformOut", !0) : b.transformOut = b.transformIn, b.transition = {}, b.transition = a._getPrefixedCSS("transition", "all " + a.animation.duration + "ms " + a.animation.easing + ", opacity " + a.animation.duration + "ms linear"), a.animation.stagger = c("stagger") ? !0 : !1, a.animation.staggerDuration = parseInt(c("stagger") ? c("stagger", !0).val ? c("stagger", !0).val : 100 : 100), a._execFilter("_parseEffects", b);
-    }, _buildState: function _buildState(a) {
-      var b = this,
-          c = {};return b._execAction("_buildState", 0), c = { activeFilter: "" === b._activeFilter ? "none" : b._activeFilter, activeSort: a && b._newSortString ? b._newSortString : b._activeSort, fail: !b._$show.length && "" !== b._activeFilter, $targets: b._$targets, $show: b._$show, $hide: b._$hide, totalTargets: b._$targets.length, totalShow: b._$show.length, totalHide: b._$hide.length, display: a && b._newDisplay ? b._newDisplay : b.layout.display }, a ? b._execFilter("_buildState", c) : (b._state = c, b._execAction("_buildState", 1), void 0);
-    }, _goMix: function _goMix(a) {
-      var b = this,
-          c = function c() {
-        b._chrome && 31 === b._chrome && f(b._$parent[0]), b._setInter(), d();
-      },
-          d = function d() {
-        var a = window.pageYOffset,
-            c = window.pageXOffset;document.documentElement.scrollHeight, b._getInterMixData(), b._setFinal(), b._getFinalMixData(), window.pageYOffset !== a && window.scrollTo(c, a), b._prepTargets(), window.requestAnimationFrame ? requestAnimationFrame(e) : setTimeout(function () {
-          e();
-        }, 20);
-      },
-          e = function e() {
-        b._animateTargets(), 0 === b._targetsBound && b._cleanUp();
-      },
-          f = function f(a) {
-        var b = a.parentElement,
-            c = document.createElement("div"),
-            d = document.createDocumentFragment();b.insertBefore(c, a), d.appendChild(a), b.replaceChild(a, c);
-      },
-          g = b._buildState(!0);b._execAction("_goMix", 0, arguments), !b.animation.duration && (a = !1), b._mixing = !0, b._$container.removeClass(b.layout.containerClassFail), "function" == typeof b.callbacks.onMixStart && b.callbacks.onMixStart.call(b._domNode, b._state, g, b), b._$container.trigger("mixStart", [b._state, g, b]), b._getOrigMixData(), a && !b._suckMode ? window.requestAnimationFrame ? requestAnimationFrame(c) : c() : b._cleanUp(), b._execAction("_goMix", 1, arguments);
-    }, _getTargetData: function _getTargetData(a, b) {
-      var c,
-          d = this;a.dataset[b + "PosX"] = a.offsetLeft, a.dataset[b + "PosY"] = a.offsetTop, d.animation.animateResizeTargets && (c = window.getComputedStyle(a), a.dataset[b + "MarginBottom"] = parseInt(c.marginBottom), a.dataset[b + "MarginRight"] = parseInt(c.marginRight), a.dataset[b + "Width"] = a.offsetWidth, a.dataset[b + "Height"] = a.offsetHeight);
-    }, _getOrigMixData: function _getOrigMixData() {
-      var a = this,
-          b = a._suckMode ? { boxSizing: "" } : window.getComputedStyle(a._$parent[0]),
-          c = b.boxSizing || b[a._vendor + "BoxSizing"];a._incPadding = "border-box" === c, a._execAction("_getOrigMixData", 0), !a._suckMode && (a.effects = a._parseEffects()), a._$toHide = a._$hide.filter(":visible"), a._$toShow = a._$show.filter(":hidden"), a._$pre = a._$targets.filter(":visible"), a._startHeight = a._incPadding ? a._$parent.outerHeight() : a._$parent.height();for (var d = 0; d < a._$pre.length; d++) {
-        var e = a._$pre[d];a._getTargetData(e, "orig");
-      }a._execAction("_getOrigMixData", 1);
-    }, _setInter: function _setInter() {
-      var a = this;a._execAction("_setInter", 0), a._changingLayout && a.animation.animateChangeLayout ? (a._$toShow.css("display", a._newDisplay), a._changingClass && a._$container.removeClass(a.layout.containerClass).addClass(a._newClass)) : a._$toShow.css("display", a.layout.display), a._execAction("_setInter", 1);
-    }, _getInterMixData: function _getInterMixData() {
-      var a = this;a._execAction("_getInterMixData", 0);for (var b = 0; b < a._$toShow.length; b++) {
-        var c = a._$toShow[b];a._getTargetData(c, "inter");
-      }for (var b = 0; b < a._$pre.length; b++) {
-        var c = a._$pre[b];a._getTargetData(c, "inter");
-      }a._execAction("_getInterMixData", 1);
-    }, _setFinal: function _setFinal() {
-      var a = this;a._execAction("_setFinal", 0), a._sorting && a._printSort(), a._$toHide.removeStyle("display"), a._changingLayout && a.animation.animateChangeLayout && a._$pre.css("display", a._newDisplay), a._execAction("_setFinal", 1);
-    }, _getFinalMixData: function _getFinalMixData() {
-      var a = this;a._execAction("_getFinalMixData", 0);for (var b = 0; b < a._$toShow.length; b++) {
-        var c = a._$toShow[b];a._getTargetData(c, "final");
-      }for (var b = 0; b < a._$pre.length; b++) {
-        var c = a._$pre[b];a._getTargetData(c, "final");
-      }a._newHeight = a._incPadding ? a._$parent.outerHeight() : a._$parent.height(), a._sorting && a._printSort(!0), a._$toShow.removeStyle("display"), a._$pre.css("display", a.layout.display), a._changingClass && a.animation.animateChangeLayout && a._$container.removeClass(a._newClass).addClass(a.layout.containerClass), a._execAction("_getFinalMixData", 1);
-    }, _prepTargets: function _prepTargets() {
-      var b = this,
-          c = { _in: b._getPrefixedCSS("transform", b.effects.transformIn), _out: b._getPrefixedCSS("transform", b.effects.transformOut) };b._execAction("_prepTargets", 0), b.animation.animateResizeContainer && b._$parent.css("height", b._startHeight + "px");for (var d = 0; d < b._$toShow.length; d++) {
-        var e = b._$toShow[d],
-            f = a(e);e.style.opacity = b.effects.opacity, e.style.display = b._changingLayout && b.animation.animateChangeLayout ? b._newDisplay : b.layout.display, f.css(c._in), b.animation.animateResizeTargets && (e.style.width = e.dataset.finalWidth + "px", e.style.height = e.dataset.finalHeight + "px", e.style.marginRight = -(e.dataset.finalWidth - e.dataset.interWidth) + 1 * e.dataset.finalMarginRight + "px", e.style.marginBottom = -(e.dataset.finalHeight - e.dataset.interHeight) + 1 * e.dataset.finalMarginBottom + "px");
-      }for (var d = 0; d < b._$pre.length; d++) {
-        var e = b._$pre[d],
-            f = a(e),
-            g = { x: e.dataset.origPosX - e.dataset.interPosX, y: e.dataset.origPosY - e.dataset.interPosY },
-            c = b._getPrefixedCSS("transform", "translate(" + g.x + "px," + g.y + "px)");f.css(c), b.animation.animateResizeTargets && (e.style.width = e.dataset.origWidth + "px", e.style.height = e.dataset.origHeight + "px", e.dataset.origWidth - e.dataset.finalWidth && (e.style.marginRight = -(e.dataset.origWidth - e.dataset.interWidth) + 1 * e.dataset.origMarginRight + "px"), e.dataset.origHeight - e.dataset.finalHeight && (e.style.marginBottom = -(e.dataset.origHeight - e.dataset.interHeight) + 1 * e.dataset.origMarginBottom + "px"));
-      }b._execAction("_prepTargets", 1);
-    }, _animateTargets: function _animateTargets() {
-      var b = this;b._execAction("_animateTargets", 0), b._targetsDone = 0, b._targetsBound = 0, b._$parent.css(b._getPrefixedCSS("perspective", b.animation.perspectiveDistance + "px")).css(b._getPrefixedCSS("perspective-origin", b.animation.perspectiveOrigin)), b.animation.animateResizeContainer && b._$parent.css(b._getPrefixedCSS("transition", "height " + b.animation.duration + "ms ease")).css("height", b._newHeight + "px");for (var c = 0; c < b._$toShow.length; c++) {
-        var d = b._$toShow[c],
-            e = a(d),
-            f = { x: d.dataset.finalPosX - d.dataset.interPosX, y: d.dataset.finalPosY - d.dataset.interPosY },
-            g = b._getDelay(c),
-            h = {};d.style.opacity = "";for (var i = 0; 2 > i; i++) {
-          var j = 0 === i ? j = b._prefix : "";b._ff && b._ff <= 20 && (h[j + "transition-property"] = "all", h[j + "transition-timing-function"] = b.animation.easing + "ms", h[j + "transition-duration"] = b.animation.duration + "ms"), h[j + "transition-delay"] = g + "ms", h[j + "transform"] = "translate(" + f.x + "px," + f.y + "px)";
-        }(b.effects.transform || b.effects.opacity) && b._bindTargetDone(e), b._ff && b._ff <= 20 ? e.css(h) : e.css(b.effects.transition).css(h);
-      }for (var c = 0; c < b._$pre.length; c++) {
-        var d = b._$pre[c],
-            e = a(d),
-            f = { x: d.dataset.finalPosX - d.dataset.interPosX, y: d.dataset.finalPosY - d.dataset.interPosY },
-            g = b._getDelay(c);(d.dataset.finalPosX !== d.dataset.origPosX || d.dataset.finalPosY !== d.dataset.origPosY) && b._bindTargetDone(e), e.css(b._getPrefixedCSS("transition", "all " + b.animation.duration + "ms " + b.animation.easing + " " + g + "ms")), e.css(b._getPrefixedCSS("transform", "translate(" + f.x + "px," + f.y + "px)")), b.animation.animateResizeTargets && (d.dataset.origWidth - d.dataset.finalWidth && 1 * d.dataset.finalWidth && (d.style.width = d.dataset.finalWidth + "px", d.style.marginRight = -(d.dataset.finalWidth - d.dataset.interWidth) + 1 * d.dataset.finalMarginRight + "px"), d.dataset.origHeight - d.dataset.finalHeight && 1 * d.dataset.finalHeight && (d.style.height = d.dataset.finalHeight + "px", d.style.marginBottom = -(d.dataset.finalHeight - d.dataset.interHeight) + 1 * d.dataset.finalMarginBottom + "px"));
-      }b._changingClass && b._$container.removeClass(b.layout.containerClass).addClass(b._newClass);for (var c = 0; c < b._$toHide.length; c++) {
-        for (var d = b._$toHide[c], e = a(d), g = b._getDelay(c), k = {}, i = 0; 2 > i; i++) {
-          var j = 0 === i ? j = b._prefix : "";k[j + "transition-delay"] = g + "ms", k[j + "transform"] = b.effects.transformOut, k.opacity = b.effects.opacity;
-        }e.css(b.effects.transition).css(k), (b.effects.transform || b.effects.opacity) && b._bindTargetDone(e);
-      }b._execAction("_animateTargets", 1);
-    }, _bindTargetDone: function _bindTargetDone(b) {
-      var c = this,
-          d = b[0];c._execAction("_bindTargetDone", 0, arguments), d.dataset.bound || (d.dataset.bound = !0, c._targetsBound++, b.on("webkitTransitionEnd.mixItUp transitionend.mixItUp", function (e) {
-        (e.originalEvent.propertyName.indexOf("transform") > -1 || e.originalEvent.propertyName.indexOf("opacity") > -1) && a(e.originalEvent.target).is(c.selectors.target) && (b.off(".mixItUp"), delete d.dataset.bound, c._targetDone());
-      })), c._execAction("_bindTargetDone", 1, arguments);
-    }, _targetDone: function _targetDone() {
-      var a = this;a._execAction("_targetDone", 0), a._targetsDone++, a._targetsDone === a._targetsBound && a._cleanUp(), a._execAction("_targetDone", 1);
-    }, _cleanUp: function _cleanUp() {
-      var b = this,
-          c = b.animation.animateResizeTargets ? "transform opacity width height margin-bottom margin-right" : "transform opacity";unBrake = function unBrake() {
-        b._$targets.removeStyle("transition", b._prefix);
-      }, b._execAction("_cleanUp", 0), b._changingLayout ? b._$show.css("display", b._newDisplay) : b._$show.css("display", b.layout.display), b._$targets.css(b._brake), b._$targets.removeStyle(c, b._prefix).removeAttr("data-inter-pos-x data-inter-pos-y data-final-pos-x data-final-pos-y data-orig-pos-x data-orig-pos-y data-orig-height data-orig-width data-final-height data-final-width data-inter-width data-inter-height data-orig-margin-right data-orig-margin-bottom data-inter-margin-right data-inter-margin-bottom data-final-margin-right data-final-margin-bottom"), b._$hide.removeStyle("display"), b._$parent.removeStyle("height transition perspective-distance perspective perspective-origin-x perspective-origin-y perspective-origin perspectiveOrigin", b._prefix), b._sorting && (b._printSort(), b._activeSort = b._newSortString, b._sorting = !1), b._changingLayout && (b._changingDisplay && (b.layout.display = b._newDisplay, b._changingDisplay = !1), b._changingClass && (b._$parent.removeClass(b.layout.containerClass).addClass(b._newClass), b.layout.containerClass = b._newClass, b._changingClass = !1), b._changingLayout = !1), b._refresh(), b._buildState(), b._state.fail && b._$container.addClass(b.layout.containerClassFail), b._$show = a(), b._$hide = a(), window.requestAnimationFrame && requestAnimationFrame(unBrake), b._mixing = !1, "function" == typeof b.callbacks._user && b.callbacks._user.call(b._domNode, b._state, b), "function" == typeof b.callbacks.onMixEnd && b.callbacks.onMixEnd.call(b._domNode, b._state, b), b._$container.trigger("mixEnd", [b._state, b]), b._state.fail && ("function" == typeof b.callbacks.onMixFail && b.callbacks.onMixFail.call(b._domNode, b._state, b), b._$container.trigger("mixFail", [b._state, b])), b._loading && ("function" == typeof b.callbacks.onMixLoad && b.callbacks.onMixLoad.call(b._domNode, b._state, b), b._$container.trigger("mixLoad", [b._state, b])), b._queue.length && (b._execAction("_queue", 0), b.multiMix(b._queue[0][0], b._queue[0][1], b._queue[0][2]), b._queue.splice(0, 1)), b._execAction("_cleanUp", 1), b._loading = !1;
-    }, _getPrefixedCSS: function _getPrefixedCSS(a, b, c) {
-      var d = this,
-          e = {};for (i = 0; 2 > i; i++) {
-        var f = 0 === i ? d._prefix : "";e[f + a] = c ? f + b : b;
-      }return d._execFilter("_getPrefixedCSS", e, arguments);
-    }, _getDelay: function _getDelay(a) {
-      var b = this,
-          c = "function" == typeof b.animation.staggerSequence ? b.animation.staggerSequence.call(b._domNode, a, b._state) : a,
-          d = b.animation.stagger ? c * b.animation.staggerDuration : 0;return b._execFilter("_getDelay", d, arguments);
-    }, _parseMultiMixArgs: function _parseMultiMixArgs(a) {
-      for (var b = this, c = { command: null, animate: b.animation.enable, callback: null }, d = 0; d < a.length; d++) {
-        var e = a[d];null !== e && ("object" == (typeof e === "undefined" ? "undefined" : _typeof(e)) || "string" == typeof e ? c.command = e : "boolean" == typeof e ? c.animate = e : "function" == typeof e && (c.callback = e));
-      }return b._execFilter("_parseMultiMixArgs", c, arguments);
-    }, _parseInsertArgs: function _parseInsertArgs(b) {
-      for (var c = this, d = { index: 0, $object: a(), multiMix: { filter: c._state.activeFilter }, callback: null }, e = 0; e < b.length; e++) {
-        var f = b[e];"number" == typeof f ? d.index = f : "object" == (typeof f === "undefined" ? "undefined" : _typeof(f)) && f instanceof a ? d.$object = f : "object" == (typeof f === "undefined" ? "undefined" : _typeof(f)) && c._helpers._isElement(f) ? d.$object = a(f) : "object" == (typeof f === "undefined" ? "undefined" : _typeof(f)) && null !== f ? d.multiMix = f : "boolean" != typeof f || f ? "function" == typeof f && (d.callback = f) : d.multiMix = !1;
-      }return c._execFilter("_parseInsertArgs", d, arguments);
-    }, _execAction: function _execAction(a, b, c) {
-      var d = this,
-          e = b ? "post" : "pre";if (!d._actions.isEmptyObject && d._actions.hasOwnProperty(a)) for (var f in d._actions[a][e]) {
-        d._actions[a][e][f].call(d, c);
-      }
-    }, _execFilter: function _execFilter(a, b, c) {
-      var d = this;if (d._filters.isEmptyObject || !d._filters.hasOwnProperty(a)) return b;for (var e in d._filters[a]) {
-        return d._filters[a][e].call(d, c);
-      }
-    }, _helpers: { _camelCase: function _camelCase(a) {
-        return a.replace(/-([a-z])/g, function (a) {
-          return a[1].toUpperCase();
-        });
-      }, _isElement: function _isElement(a) {
-        return window.HTMLElement ? a instanceof HTMLElement : null !== a && 1 === a.nodeType && "string" === a.nodeName;
-      } }, isMixing: function isMixing() {
-      var a = this;return a._execFilter("isMixing", a._mixing);
-    }, filter: function filter() {
-      var a = this,
-          b = a._parseMultiMixArgs(arguments);a._clicking && (a._toggleString = ""), a.multiMix({ filter: b.command }, b.animate, b.callback);
-    }, sort: function sort() {
-      var a = this,
-          b = a._parseMultiMixArgs(arguments);a.multiMix({ sort: b.command }, b.animate, b.callback);
-    }, changeLayout: function changeLayout() {
-      var a = this,
-          b = a._parseMultiMixArgs(arguments);a.multiMix({ changeLayout: b.command }, b.animate, b.callback);
-    }, multiMix: function multiMix() {
-      var a = this,
-          c = a._parseMultiMixArgs(arguments);if (a._execAction("multiMix", 0, arguments), a._mixing) a.animation.queue && a._queue.length < a.animation.queueLimit ? (a._queue.push(arguments), a.controls.enable && !a._clicking && a._updateControls(c.command), a._execAction("multiMixQueue", 1, arguments)) : ("function" == typeof a.callbacks.onMixBusy && a.callbacks.onMixBusy.call(a._domNode, a._state, a), a._$container.trigger("mixBusy", [a._state, a]), a._execAction("multiMixBusy", 1, arguments));else {
-        a.controls.enable && !a._clicking && (a.controls.toggleFilterButtons && a._buildToggleArray(), a._updateControls(c.command, a.controls.toggleFilterButtons)), a._queue.length < 2 && (a._clicking = !1), delete a.callbacks._user, c.callback && (a.callbacks._user = c.callback);var d = c.command.sort,
-            e = c.command.filter,
-            f = c.command.changeLayout;a._refresh(), d && (a._newSort = a._parseSort(d), a._newSortString = d, a._sorting = !0, a._sort()), e !== b && (e = "all" === e ? a.selectors.target : e, a._activeFilter = e), a._filter(), f && (a._newDisplay = "string" == typeof f ? f : f.display || a.layout.display, a._newClass = f.containerClass || "", (a._newDisplay !== a.layout.display || a._newClass !== a.layout.containerClass) && (a._changingLayout = !0, a._changingClass = a._newClass !== a.layout.containerClass, a._changingDisplay = a._newDisplay !== a.layout.display)), a._$targets.css(a._brake), a._goMix(c.animate ^ a.animation.enable ? c.animate : a.animation.enable), a._execAction("multiMix", 1, arguments);
-      }
-    }, insert: function insert() {
-      var a = this,
-          b = a._parseInsertArgs(arguments),
-          c = "function" == typeof b.callback ? b.callback : null,
-          d = document.createDocumentFragment(),
-          e = function () {
-        return a._refresh(), a._$targets.length ? b.index < a._$targets.length || !a._$targets.length ? a._$targets[b.index] : a._$targets[a._$targets.length - 1].nextElementSibling : a._$parent[0].children[0];
-      }();if (a._execAction("insert", 0, arguments), b.$object) {
-        for (var f = 0; f < b.$object.length; f++) {
-          var g = b.$object[f];d.appendChild(g), d.appendChild(document.createTextNode(" "));
-        }a._$parent[0].insertBefore(d, e);
-      }a._execAction("insert", 1, arguments), "object" == _typeof(b.multiMix) && a.multiMix(b.multiMix, c);
-    }, prepend: function prepend() {
-      var a = this,
-          b = a._parseInsertArgs(arguments);a.insert(0, b.$object, b.multiMix, b.callback);
-    }, append: function append() {
-      var a = this,
-          b = a._parseInsertArgs(arguments);a.insert(a._state.totalTargets, b.$object, b.multiMix, b.callback);
-    }, getOption: function getOption(a) {
-      var c = this,
-          d = function d(a, c) {
-        for (var d = c.split("."), e = d.pop(), f = d.length, g = 1, h = d[0] || c; (a = a[h]) && f > g;) {
-          h = d[g], g++;
-        }return a !== b ? a[e] !== b ? a[e] : a : void 0;
-      };return a ? c._execFilter("getOption", d(c, a), arguments) : c;
-    }, setOptions: function setOptions(b) {
-      var c = this;c._execAction("setOptions", 0, arguments), "object" == (typeof b === "undefined" ? "undefined" : _typeof(b)) && a.extend(!0, c, b), c._execAction("setOptions", 1, arguments);
-    }, getState: function getState() {
-      var a = this;return a._execFilter("getState", a._state, a);
-    }, forceRefresh: function forceRefresh() {
-      var a = this;a._refresh(!1, !0);
-    }, destroy: function destroy(b) {
-      var c = this;c._execAction("destroy", 0, arguments), c._$body.add(a(c.selectors.sort)).add(a(c.selectors.filter)).off(".mixItUp");for (var d = 0; d < c._$targets.length; d++) {
-        var e = c._$targets[d];b && (e.style.display = ""), delete e.mixParent;
-      }c._execAction("destroy", 1, arguments), delete a.MixItUp.prototype._instances[c._id];
-    } }, a.fn.mixItUp = function () {
-    var c,
-        d = arguments,
-        e = [],
-        f = function f(b, c) {
-      var d = new a.MixItUp(),
-          e = function e() {
-        return ("00000" + (16777216 * Math.random() << 0).toString(16)).substr(-6).toUpperCase();
-      };d._execAction("_instantiate", 0, arguments), b.id = b.id ? b.id : "MixItUp" + e(), d._instances[b.id] || (d._instances[b.id] = d, d._init(b, c)), d._execAction("_instantiate", 1, arguments);
-    };return c = this.each(function () {
-      if (d && "string" == typeof d[0]) {
-        var c = a.MixItUp.prototype._instances[this.id];if ("isLoaded" === d[0]) e.push(c ? !0 : !1);else {
-          var g = c[d[0]](d[1], d[2], d[3]);g !== b && e.push(g);
-        }
-      } else f(this, d[0]);
-    }), e.length ? e.length > 1 ? e : e[0] : c;
-  }, a.fn.removeStyle = function (c, d) {
-    return d = d ? d : "", this.each(function () {
-      for (var e = this, f = c.split(" "), g = 0; g < f.length; g++) {
-        for (var h = 0; 4 > h; h++) {
-          switch (h) {case 0:
-              var i = f[g];break;case 1:
-              var i = a.MixItUp.prototype._helpers._camelCase(i);break;case 2:
-              var i = d + f[g];break;case 3:
-              var i = a.MixItUp.prototype._helpers._camelCase(d + f[g]);}if (e.style[i] !== b && "unknown" != typeof e.style[i] && e.style[i].length > 0 && (e.style[i] = ""), !d && 1 === h) break;
-        }
-      }e.attributes && e.attributes.style && e.attributes.style !== b && "" === e.attributes.style.value && e.attributes.removeNamedItem("style");
-    });
-  };
-}(jQuery);
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 /**
  * jQuery Validation Plugin 1.8.1
  *
@@ -1530,7 +1130,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1600,7 +1200,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1639,8 +1239,6 @@ jQuery(document).ready(function ($) {
     $(document).on('click', '.single-product .zoomImg', function () {
 
         var href = $(this).attr('src').replace(/-\d+x\d+/, '');
-
-        console.log(href);
 
         $('.slick-track a[href="' + href + '"]').click();
     });
@@ -1828,7 +1426,7 @@ jQuery(document).ready(function ($) {
 }); // END READY
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3631,7 +3229,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4136,7 +3734,7 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4422,7 +4020,7 @@ window.pmwoodwindsAllPossibleCases = function (arr) {
 };
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5377,7 +4975,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         mc.closePopup();
     });
     $(document).keydown(function (e) {
-        keycode = e == null ? event.keyCode : e.which;
+        var keycode = e == null ? event.keyCode : e.which;
         if (keycode == 27 && typeof mc.showPopup != 'undefined') mc.closePopup();
     });
 })(jQuery);
@@ -5395,7 +4993,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5534,7 +5132,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5725,7 +5323,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 /*
@@ -6227,7 +5825,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9742,7 +9340,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -10982,6 +10580,2083 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 })(jQuery, window, document);
 
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+/**!
+ * MixItUp v2.1.7
+ *
+ * @copyright Copyright 2014 KunkaLabs Limited.
+ * @author    KunkaLabs Limited.
+ * @link      https://mixitup.kunkalabs.com
+ *
+ * @license   Commercial use requires a commercial license.
+ *            https://mixitup.kunkalabs.com/licenses/
+ *
+ *            Non-commercial use permitted under terms of CC-BY-NC license.
+ *            http://creativecommons.org/licenses/by-nc/3.0/
+ */
+
+(function($, undf){
+	
+	/**
+	 * MixItUp Constructor Function
+	 * @constructor
+	 * @extends jQuery
+	 */
+	
+	$.MixItUp = function(){
+		var self = this;
+		
+		self._execAction('_constructor', 0);
+		
+		$.extend(self, {
+			
+			/* Public Properties
+			---------------------------------------------------------------------- */
+			
+			selectors: {
+				target: '.mix',
+				filter: '.filter',
+				sort: '.sort'
+			},
+				
+			animation: {
+				enable: true,
+				effects: 'fade scale',
+				duration: 600,
+				easing: 'ease',
+				perspectiveDistance: '3000',
+				perspectiveOrigin: '50% 50%',
+				queue: true,
+				queueLimit: 1,
+				animateChangeLayout: false,
+				animateResizeContainer: true,
+				animateResizeTargets: false,
+				staggerSequence: false,
+				reverseOut: false
+			},
+				
+			callbacks: {
+				onMixLoad: false,
+				onMixStart: false,
+				onMixBusy: false,
+				onMixEnd: false,
+				onMixFail: false,
+				_user: false
+			},
+				
+			controls: {
+				enable: true,
+				live: false,
+				toggleFilterButtons: false,
+				toggleLogic: 'or',
+				activeClass: 'active'
+			},
+
+			layout: {
+				display: 'inline-block',
+				containerClass: '',
+				containerClassFail: 'fail'
+			},
+			
+			load: {
+				filter: 'all',
+				sort: false
+			},
+			
+			/* Private Properties
+			---------------------------------------------------------------------- */
+				
+			_$body: null,
+			_$container: null,
+			_$targets: null,
+			_$parent: null,
+			_$sortButtons: null,
+			_$filterButtons: null,
+		
+			_suckMode: false,
+			_mixing: false,
+			_sorting: false,
+			_clicking: false,
+			_loading: true,
+			_changingLayout: false,
+			_changingClass: false,
+			_changingDisplay: false,
+			
+			_origOrder: [],
+			_startOrder: [],
+			_newOrder: [],
+			_activeFilter: null,
+			_toggleArray: [],
+			_toggleString: '',
+			_activeSort: 'default:asc',
+			_newSort: null,
+			_startHeight: null,
+			_newHeight: null,
+			_incPadding: true,
+			_newDisplay: null,
+			_newClass: null,
+			_targetsBound: 0,
+			_targetsDone: 0,
+			_queue: [],
+				
+			_$show: $(),
+			_$hide: $()
+		});
+	
+		self._execAction('_constructor', 1);
+	};
+	
+	/**
+	 * MixItUp Prototype
+	 * @override
+	 */
+	
+	$.MixItUp.prototype = {
+		constructor: $.MixItUp,
+		
+		/* Static Properties
+		---------------------------------------------------------------------- */
+		
+		_instances: {},
+		_handled: {
+			_filter: {},
+			_sort: {}
+		},
+		_bound: {
+			_filter: {},
+			_sort: {}
+		},
+		_actions: {},
+		_filters: {},
+		
+		/* Static Methods
+		---------------------------------------------------------------------- */
+		
+		/**
+		 * Extend
+		 * @since 2.1.0
+		 * @param {object} new properties/methods
+		 * @extends {object} prototype
+		 */
+		
+		extend: function(extension){
+			for(var key in extension){
+				$.MixItUp.prototype[key] = extension[key];
+			}
+		},
+		
+		/**
+		 * Add Action
+		 * @since 2.1.0
+		 * @param {string} hook name
+		 * @param {string} namespace
+		 * @param {function} function to execute
+		 * @param {number} priority
+		 * @extends {object} $.MixItUp.prototype._actions
+		 */
+		
+		addAction: function(hook, name, func, priority){
+			$.MixItUp.prototype._addHook('_actions', hook, name, func, priority);
+		},
+		
+		/**
+		 * Add Filter
+		 * @since 2.1.0
+		 * @param {string} hook name
+		 * @param {string} namespace
+		 * @param {function} function to execute
+		 * @param {number} priority
+		 * @extends {object} $.MixItUp.prototype._filters
+		 */
+		
+		addFilter: function(hook, name, func, priority){
+			$.MixItUp.prototype._addHook('_filters', hook, name, func, priority);
+		},
+		
+		/**
+		 * Add Hook
+		 * @since 2.1.0
+		 * @param {string} type of hook
+		 * @param {string} hook name
+		 * @param {function} function to execute
+		 * @param {number} priority
+		 * @extends {object} $.MixItUp.prototype._filters
+		 */
+		
+		_addHook: function(type, hook, name, func, priority){
+			var collection = $.MixItUp.prototype[type],
+				obj = {};
+				
+			priority = (priority === 1 || priority === 'post') ? 'post' : 'pre';
+				
+			obj[hook] = {};
+			obj[hook][priority] = {};
+			obj[hook][priority][name] = func;
+
+			$.extend(true, collection, obj);
+		},
+		
+		
+		/* Private Methods
+		---------------------------------------------------------------------- */
+		
+		/**
+		 * Initialise
+		 * @since 2.0.0
+		 * @param {object} domNode
+		 * @param {object} config
+		 */
+		
+		_init: function(domNode, config){
+			var self = this;
+			
+			self._execAction('_init', 0, arguments);
+			
+			config && $.extend(true, self, config);
+			
+			self._$body = $('body');
+			self._domNode = domNode;
+			self._$container = $(domNode);
+			self._$container.addClass(self.layout.containerClass);
+			self._id = domNode.id;
+			
+			self._platformDetect();
+			
+			self._brake = self._getPrefixedCSS('transition', 'none');
+			
+			self._refresh(true);
+			
+			self._$parent = self._$targets.parent().length ? self._$targets.parent() : self._$container;
+			
+			if(self.load.sort){
+				self._newSort = self._parseSort(self.load.sort);
+				self._newSortString = self.load.sort;
+				self._activeSort = self.load.sort;
+				self._sort();
+				self._printSort();
+			}
+			
+			self._activeFilter = self.load.filter === 'all' ? 
+				self.selectors.target : 
+				self.load.filter === 'none' ?
+					'' :
+					self.load.filter;
+			
+			self.controls.enable && self._bindHandlers();
+			
+			if(self.controls.toggleFilterButtons){
+				self._buildToggleArray();
+				
+				for(var i = 0; i < self._toggleArray.length; i++){
+					self._updateControls({filter: self._toggleArray[i], sort: self._activeSort}, true);
+				};
+			} else if(self.controls.enable){
+				self._updateControls({filter: self._activeFilter, sort: self._activeSort});
+			}
+			
+			self._filter();
+			
+			self._init = true;
+			
+			self._$container.data('mixItUp',self);
+			
+			self._execAction('_init', 1, arguments);
+			
+			self._buildState();
+			
+			self._$targets.css(self._brake);
+		
+			self._goMix(self.animation.enable);
+		},
+		
+		/**
+		 * Platform Detect
+		 * @since 2.0.0
+		 */
+		
+		_platformDetect: function(){
+			var self = this,
+				vendorsTrans = ['Webkit', 'Moz', 'O', 'ms'],
+				vendorsRAF = ['webkit', 'moz'],
+				chrome = window.navigator.appVersion.match(/Chrome\/(\d+)\./) || false,
+				ff = typeof InstallTrigger !== 'undefined',
+				prefix = function(el){
+					for (var i = 0; i < vendorsTrans.length; i++){
+						if (vendorsTrans[i] + 'Transition' in el.style){
+							return {
+								prefix: '-'+vendorsTrans[i].toLowerCase()+'-',
+								vendor: vendorsTrans[i]
+							};
+						};
+					}; 
+					return 'transition' in el.style ? '' : false;
+				},
+				transPrefix = prefix(self._domNode);
+				
+			self._execAction('_platformDetect', 0);
+			
+			self._chrome = chrome ? parseInt(chrome[1], 10) : false;
+			self._ff = ff ? parseInt(window.navigator.userAgent.match(/rv:([^)]+)\)/)[1]) : false;
+			self._prefix = transPrefix.prefix;
+			self._vendor = transPrefix.vendor;
+			self._suckMode = window.atob && self._prefix ? false : true;
+
+			self._suckMode && (self.animation.enable = false);
+			(self._ff && self._ff <= 4) && (self.animation.enable = false);
+			
+			/* Polyfills
+			---------------------------------------------------------------------- */
+			
+			/**
+			 * window.requestAnimationFrame
+			 */
+			
+			for(var x = 0; x < vendorsRAF.length && !window.requestAnimationFrame; x++){
+				window.requestAnimationFrame = window[vendorsRAF[x]+'RequestAnimationFrame'];
+			}
+
+			/**
+			 * Object.getPrototypeOf
+			 */
+
+			if(typeof Object.getPrototypeOf !== 'function'){
+				if(typeof 'test'.__proto__ === 'object'){
+					Object.getPrototypeOf = function(object){
+						return object.__proto__;
+					};
+				} else {
+					Object.getPrototypeOf = function(object){
+						return object.constructor.prototype;
+					};
+				}
+			}
+
+			/**
+			 * Element.nextElementSibling
+			 */
+			
+			if(self._domNode.nextElementSibling === undf){
+				Object.defineProperty(Element.prototype, 'nextElementSibling',{
+					get: function(){
+						var el = this.nextSibling;
+						
+						while(el){
+							if(el.nodeType ===1){
+								return el;
+							}
+							el = el.nextSibling;
+						}
+						return null;
+					}
+				});
+			}
+			
+			self._execAction('_platformDetect', 1);
+		},
+		
+		/**
+		 * Refresh
+		 * @since 2.0.0
+		 * @param {boolean} init
+		 * @param {boolean} force
+		 */
+		
+		_refresh: function(init, force){
+			var self = this;
+				
+			self._execAction('_refresh', 0, arguments);
+
+			self._$targets = self._$container.find(self.selectors.target);
+			
+			for(var i = 0; i < self._$targets.length; i++){
+				var target = self._$targets[i];
+					
+				if(target.dataset === undf || force){
+						
+					target.dataset = {};
+					
+					for(var j = 0; j < target.attributes.length; j++){
+						
+						var attr = target.attributes[j],
+							name = attr.name,
+							val = attr.value;
+							
+						if(name.indexOf('data-') > -1){
+							var dataName = self._helpers._camelCase(name.substring(5,name.length));
+							target.dataset[dataName] = val;
+						}
+					}
+				}
+				
+				if(target.mixParent === undf){
+					target.mixParent = self._id;
+				}
+			}
+			
+			if(
+				(self._$targets.length && init) ||
+				(!self._origOrder.length && self._$targets.length)
+			){
+				self._origOrder = [];
+				
+				for(var i = 0; i < self._$targets.length; i++){
+					var target = self._$targets[i];
+					
+					self._origOrder.push(target);
+				}
+			}
+			
+			self._execAction('_refresh', 1, arguments);
+		},
+		
+		/**
+		 * Bind Handlers
+		 * @since 2.0.0
+		 */
+		
+		_bindHandlers: function(){
+			var self = this,
+				filters = $.MixItUp.prototype._bound._filter,
+				sorts = $.MixItUp.prototype._bound._sort;
+			
+			self._execAction('_bindHandlers', 0);
+			
+			if(self.controls.live){
+				self._$body
+					.on('click.mixItUp.'+self._id, self.selectors.sort, function(){
+						self._processClick($(this), 'sort');
+					})
+					.on('click.mixItUp.'+self._id, self.selectors.filter, function(){
+						self._processClick($(this), 'filter');
+					});
+			} else {
+				self._$sortButtons = $(self.selectors.sort);
+				self._$filterButtons = $(self.selectors.filter);
+				
+				self._$sortButtons.on('click.mixItUp.'+self._id, function(){
+					self._processClick($(this), 'sort');
+				});
+				
+				self._$filterButtons.on('click.mixItUp.'+self._id, function(){
+					self._processClick($(this), 'filter');
+				});
+			}
+
+			filters[self.selectors.filter] = (filters[self.selectors.filter] === undf) ? 1 : filters[self.selectors.filter] + 1;
+			sorts[self.selectors.sort] = (sorts[self.selectors.sort] === undf) ? 1 : sorts[self.selectors.sort] + 1;
+			
+			self._execAction('_bindHandlers', 1);
+		},
+		
+		/**
+		 * Process Click
+		 * @since 2.0.0
+		 * @param {object} $button
+		 * @param {string} type
+		 */
+		
+		_processClick: function($button, type){
+			var self = this,
+				trackClick = function($button, type, off){
+					var proto = $.MixItUp.prototype;
+						
+					proto._handled['_'+type][self.selectors[type]] = (proto._handled['_'+type][self.selectors[type]] === undf) ? 
+						1 : 
+						proto._handled['_'+type][self.selectors[type]] + 1;
+
+					if(proto._handled['_'+type][self.selectors[type]] === proto._bound['_'+type][self.selectors[type]]){
+						$button[(off ? 'remove' : 'add')+'Class'](self.controls.activeClass);
+						delete proto._handled['_'+type][self.selectors[type]];
+					}
+				};
+			
+			self._execAction('_processClick', 0, arguments);
+			
+			if(!self._mixing || (self.animation.queue && self._queue.length < self.animation.queueLimit)){
+				self._clicking = true;
+				
+				if(type === 'sort'){
+					var sort = $button.attr('data-sort');
+					
+					if(!$button.hasClass(self.controls.activeClass) || sort.indexOf('random') > -1){
+						$(self.selectors.sort).removeClass(self.controls.activeClass);
+						trackClick($button, type);
+						self.sort(sort);
+					}
+				}
+				
+				if(type === 'filter') {
+					var filter = $button.attr('data-filter'),
+						ndx,
+						seperator = self.controls.toggleLogic === 'or' ? ',' : '';
+					
+					if(!self.controls.toggleFilterButtons){
+						if(!$button.hasClass(self.controls.activeClass)){
+							$(self.selectors.filter).removeClass(self.controls.activeClass);
+							trackClick($button, type);
+							self.filter(filter);
+						}
+					} else {
+						self._buildToggleArray();
+						
+						if(!$button.hasClass(self.controls.activeClass)){
+							trackClick($button, type);
+							
+							self._toggleArray.push(filter);
+						} else {
+							trackClick($button, type, true);
+							ndx = self._toggleArray.indexOf(filter);
+							self._toggleArray.splice(ndx, 1);
+						}
+						
+						self._toggleArray = $.grep(self._toggleArray,function(n){return(n);});
+						
+						self._toggleString = self._toggleArray.join(seperator);
+
+						self.filter(self._toggleString);
+					}
+				}
+				
+				self._execAction('_processClick', 1, arguments);
+			} else {
+				if(typeof self.callbacks.onMixBusy === 'function'){
+					self.callbacks.onMixBusy.call(self._domNode, self._state, self);
+				}
+				self._execAction('_processClickBusy', 1, arguments);
+			}
+		},
+		
+		/**
+		 * Build Toggle Array
+		 * @since 2.0.0
+		 */
+		
+		_buildToggleArray: function(){
+			var self = this,
+				activeFilter = self._activeFilter.replace(/\s/g, '');
+			
+			self._execAction('_buildToggleArray', 0, arguments);
+			
+			if(self.controls.toggleLogic === 'or'){
+				self._toggleArray = activeFilter.split(',');
+			} else {
+				self._toggleArray = activeFilter.split('.');
+				
+				!self._toggleArray[0] && self._toggleArray.shift();
+				
+				for(var i = 0, filter; filter = self._toggleArray[i]; i++){
+					self._toggleArray[i] = '.'+filter;
+				}
+			}
+			
+			self._execAction('_buildToggleArray', 1, arguments);
+		},
+		
+		/**
+		 * Update Controls
+		 * @since 2.0.0
+		 * @param {object} command
+		 * @param {boolean} multi
+		 */
+		
+		_updateControls: function(command, multi){
+			var self = this,
+				output = {
+					filter: command.filter,
+					sort: command.sort
+				},
+				update = function($el, filter){
+					(multi && type === 'filter' && !(output.filter === 'none' || output.filter === '')) ?
+						$el.filter(filter).addClass(self.controls.activeClass) :
+						$el.removeClass(self.controls.activeClass).filter(filter).addClass(self.controls.activeClass);
+				},
+				type = 'filter',
+				$el = null;
+				
+			self._execAction('_updateControls', 0, arguments);
+				
+			(command.filter === undf) && (output.filter = self._activeFilter);
+			(command.sort === undf) && (output.sort = self._activeSort);
+			(output.filter === self.selectors.target) && (output.filter = 'all');
+			
+			for(var i = 0; i < 2; i++){
+				$el = self.controls.live ? $(self.selectors[type]) : self['_$'+type+'Buttons'];
+				$el && update($el, '[data-'+type+'="'+output[type]+'"]');
+				type = 'sort';
+			}
+			
+			self._execAction('_updateControls', 1, arguments);
+		},
+		
+		/**
+		 * Filter (private)
+		 * @since 2.0.0
+		 */
+		
+		_filter: function(){
+			var self = this;
+			
+			self._execAction('_filter', 0);
+			
+			for(var i = 0; i < self._$targets.length; i++){
+				var $target = $(self._$targets[i]);
+				
+				if($target.is(self._activeFilter)){
+					self._$show = self._$show.add($target);
+				} else {
+					self._$hide = self._$hide.add($target);
+				}
+			}
+			
+			self._execAction('_filter', 1);
+		},
+		
+		/**
+		 * Sort (private)
+		 * @since 2.0.0
+		 */
+		
+		_sort: function(){
+			var self = this,
+				arrayShuffle = function(oldArray){
+					var newArray = oldArray.slice(),
+						len = newArray.length,
+						i = len;
+
+					while(i--){
+						var p = parseInt(Math.random()*len);
+						var t = newArray[i];
+						newArray[i] = newArray[p];
+						newArray[p] = t;
+					};
+					return newArray; 
+				};
+				
+			self._execAction('_sort', 0);
+			
+			self._startOrder = [];
+			
+			for(var i = 0; i < self._$targets.length; i++){
+				var target = self._$targets[i];
+				
+				self._startOrder.push(target);
+			}
+			
+			switch(self._newSort[0].sortBy){
+				case 'default':
+					self._newOrder = self._origOrder;
+					break;
+				case 'random':
+					self._newOrder = arrayShuffle(self._startOrder);
+					break;
+				case 'custom':
+					self._newOrder = self._newSort[0].order;
+					break;
+				default:
+					self._newOrder = self._startOrder.concat().sort(function(a, b){
+						return self._compare(a, b);
+					});
+			}
+			
+			self._execAction('_sort', 1);
+		},
+		
+		/**
+		 * Compare Algorithm
+		 * @since 2.0.0
+		 * @param {string|number} a
+		 * @param {string|number} b
+		 * @param {number} depth (recursion)
+		 * @return {number}
+		 */
+		
+		_compare: function(a, b, depth){
+			depth = depth ? depth : 0;
+		
+			var self = this,
+				order = self._newSort[depth].order,
+				getData = function(el){
+					return el.dataset[self._newSort[depth].sortBy] || 0;
+				},
+				attrA = isNaN(getData(a) * 1) ? getData(a).toLowerCase() : getData(a) * 1,
+				attrB = isNaN(getData(b) * 1) ? getData(b).toLowerCase() : getData(b) * 1;
+				
+			if(attrA < attrB)
+				return order === 'asc' ? -1 : 1;
+			if(attrA > attrB)
+				return order === 'asc' ? 1 : -1;
+			if(attrA === attrB && self._newSort.length > depth+1)
+				return self._compare(a, b, depth+1);
+
+			return 0;
+		},
+		
+		/**
+		 * Print Sort
+		 * @since 2.0.0
+		 * @param {boolean} reset
+		 */
+		
+		_printSort: function(reset){
+			var self = this,
+				order = reset ? self._startOrder : self._newOrder,
+				targets = self._$parent[0].querySelectorAll(self.selectors.target),
+				nextSibling = targets.length ? targets[targets.length -1].nextElementSibling : null,
+				frag = document.createDocumentFragment();
+				
+			self._execAction('_printSort', 0, arguments);
+			
+			for(var i = 0; i < targets.length; i++){
+				var target = targets[i],
+					whiteSpace = target.nextSibling;
+
+				if(target.style.position === 'absolute') continue;
+			
+				if(whiteSpace && whiteSpace.nodeName === '#text'){
+					self._$parent[0].removeChild(whiteSpace);
+				}
+				
+				self._$parent[0].removeChild(target);
+			}
+			
+			for(var i = 0; i < order.length; i++){
+				var el = order[i];
+
+				if(self._newSort[0].sortBy === 'default' && self._newSort[0].order === 'desc' && !reset){
+					var firstChild = frag.firstChild;
+					frag.insertBefore(el, firstChild);
+					frag.insertBefore(document.createTextNode(' '), el);
+				} else {
+					frag.appendChild(el);
+					frag.appendChild(document.createTextNode(' '));
+				}
+			}
+			
+			nextSibling ? 
+				self._$parent[0].insertBefore(frag, nextSibling) :
+				self._$parent[0].appendChild(frag);
+				
+			self._execAction('_printSort', 1, arguments);
+		},
+		
+		/**
+		 * Parse Sort
+		 * @since 2.0.0
+		 * @param {string} sortString
+		 * @return {array} newSort
+		 */
+		
+		_parseSort: function(sortString){
+			var self = this,
+				rules = typeof sortString === 'string' ? sortString.split(' ') : [sortString],
+				newSort = [];
+				
+			for(var i = 0; i < rules.length; i++){
+				var rule = typeof sortString === 'string' ? rules[i].split(':') : ['custom', rules[i]],
+					ruleObj = {
+						sortBy: self._helpers._camelCase(rule[0]),
+						order: rule[1] || 'asc'
+					};
+					
+				newSort.push(ruleObj);
+				
+				if(ruleObj.sortBy === 'default' || ruleObj.sortBy === 'random') break;
+			}
+			
+			return self._execFilter('_parseSort', newSort, arguments);
+		},
+		
+		/**
+		 * Parse Effects
+		 * @since 2.0.0
+		 * @return {object} effects
+		 */
+		
+		_parseEffects: function(){
+			var self = this,
+				effects = {
+					opacity: '',
+					transformIn: '',
+					transformOut: '',
+					filter: ''
+				},
+				parse = function(effect, extract, reverse){
+					if(self.animation.effects.indexOf(effect) > -1){
+						if(extract){
+							var propIndex = self.animation.effects.indexOf(effect+'(');
+							if(propIndex > -1){
+								var str = self.animation.effects.substring(propIndex),
+									match = /\(([^)]+)\)/.exec(str),
+									val = match[1];
+
+									return {val: val};
+							}
+						}
+						return true;
+					} else {
+						return false;
+					}
+				},
+				negate = function(value, invert){
+					if(invert){
+						return value.charAt(0) === '-' ? value.substr(1, value.length) : '-'+value;
+					} else {
+						return value;
+					}
+				},
+				buildTransform = function(key, invert){
+					var transforms = [
+						['scale', '.01'],
+						['translateX', '20px'],
+						['translateY', '20px'],
+						['translateZ', '20px'],
+						['rotateX', '90deg'],
+						['rotateY', '90deg'],
+						['rotateZ', '180deg'],
+					];
+					
+					for(var i = 0; i < transforms.length; i++){
+						var prop = transforms[i][0],
+							def = transforms[i][1],
+							inverted = invert && prop !== 'scale';
+							
+						effects[key] += parse(prop) ? prop+'('+negate(parse(prop, true).val || def, inverted)+') ' : '';
+					}
+				};
+			
+			effects.opacity = parse('fade') ? parse('fade',true).val || '0' : '1';
+			
+			buildTransform('transformIn');
+			
+			self.animation.reverseOut ? buildTransform('transformOut', true) : (effects.transformOut = effects.transformIn);
+
+			effects.transition = {};
+			
+			effects.transition = self._getPrefixedCSS('transition','all '+self.animation.duration+'ms '+self.animation.easing+', opacity '+self.animation.duration+'ms linear');
+		
+			self.animation.stagger = parse('stagger') ? true : false;
+			self.animation.staggerDuration = parseInt(parse('stagger') ? (parse('stagger',true).val ? parse('stagger',true).val : 100) : 100);
+
+			return self._execFilter('_parseEffects', effects);
+		},
+		
+		/**
+		 * Build State
+		 * @since 2.0.0
+		 * @param {boolean} future
+		 * @return {object} futureState
+		 */
+		
+		_buildState: function(future){
+			var self = this,
+				state = {};
+			
+			self._execAction('_buildState', 0);
+			
+			state = {
+				activeFilter: self._activeFilter === '' ? 'none' : self._activeFilter,
+				activeSort: future && self._newSortString ? self._newSortString : self._activeSort,
+				fail: !self._$show.length && self._activeFilter !== '',
+				$targets: self._$targets,
+				$show: self._$show,
+				$hide: self._$hide,
+				totalTargets: self._$targets.length,
+				totalShow: self._$show.length,
+				totalHide: self._$hide.length,
+				display: future && self._newDisplay ? self._newDisplay : self.layout.display
+			};
+			
+			if(future){
+				return self._execFilter('_buildState', state);
+			} else {
+				self._state = state;
+				
+				self._execAction('_buildState', 1);
+			}
+		},
+		
+		/**
+		 * Go Mix
+		 * @since 2.0.0
+		 * @param {boolean} animate
+		 */
+		
+		_goMix: function(animate){
+			var self = this,
+				phase1 = function(){
+					if(self._chrome && (self._chrome === 31)){
+						chromeFix(self._$parent[0]);
+					}
+					
+					self._setInter();
+					
+					phase2();
+				},
+				phase2 = function(){
+					var scrollTop = window.pageYOffset,
+						scrollLeft = window.pageXOffset,
+						docHeight = document.documentElement.scrollHeight;
+
+					self._getInterMixData();
+					
+					self._setFinal();
+
+					self._getFinalMixData();
+
+					(window.pageYOffset !== scrollTop) && window.scrollTo(scrollLeft, scrollTop);
+
+					self._prepTargets();
+					
+					if(window.requestAnimationFrame){
+						requestAnimationFrame(phase3);
+					} else {
+						setTimeout(function(){
+							phase3();
+						},20);
+					}
+				},
+				phase3 = function(){
+					self._animateTargets();
+
+					if(self._targetsBound === 0){
+						self._cleanUp();
+					}
+				},
+				chromeFix = function(grid){
+					var parent = grid.parentElement,
+						placeholder = document.createElement('div'),
+						frag = document.createDocumentFragment();
+
+					parent.insertBefore(placeholder, grid);
+					frag.appendChild(grid);
+					parent.replaceChild(grid, placeholder);
+				},
+				futureState = self._buildState(true);
+				
+			self._execAction('_goMix', 0, arguments);
+				
+			!self.animation.duration && (animate = false);
+
+			self._mixing = true;
+			
+			self._$container.removeClass(self.layout.containerClassFail);
+			
+			if(typeof self.callbacks.onMixStart === 'function'){
+				self.callbacks.onMixStart.call(self._domNode, self._state, futureState, self);
+			}
+			
+			self._$container.trigger('mixStart', [self._state, futureState, self]);
+			
+			self._getOrigMixData();
+			
+			if(animate && !self._suckMode){
+			
+				window.requestAnimationFrame ?
+					requestAnimationFrame(phase1) :
+					phase1();
+			
+			} else {
+				self._cleanUp();
+			}
+			
+			self._execAction('_goMix', 1, arguments);
+		},
+		
+		/**
+		 * Get Target Data
+		 * @since 2.0.0
+		 */
+		
+		_getTargetData: function(el, stage){
+			var self = this,
+				elStyle;
+			
+			el.dataset[stage+'PosX'] = el.offsetLeft;
+			el.dataset[stage+'PosY'] = el.offsetTop;
+
+			if(self.animation.animateResizeTargets){
+				elStyle = window.getComputedStyle(el);
+			
+				el.dataset[stage+'MarginBottom'] = parseInt(elStyle.marginBottom);
+				el.dataset[stage+'MarginRight'] = parseInt(elStyle.marginRight);
+				el.dataset[stage+'Width'] = el.offsetWidth;
+				el.dataset[stage+'Height'] = el.offsetHeight;
+			}
+		},
+		
+		/**
+		 * Get Original Mix Data
+		 * @since 2.0.0
+		 */
+		
+		_getOrigMixData: function(){
+			var self = this,
+				parentStyle = !self._suckMode ? window.getComputedStyle(self._$parent[0]) : {boxSizing: ''},
+				parentBS = parentStyle.boxSizing || parentStyle[self._vendor+'BoxSizing'];
+	
+			self._incPadding = (parentBS === 'border-box');
+			
+			self._execAction('_getOrigMixData', 0);
+			
+			!self._suckMode && (self.effects = self._parseEffects());
+		
+			self._$toHide = self._$hide.filter(':visible');
+			self._$toShow = self._$show.filter(':hidden');
+			self._$pre = self._$targets.filter(':visible');
+
+			self._startHeight = self._incPadding ? 
+				self._$parent.outerHeight() : 
+				self._$parent.height();
+				
+			for(var i = 0; i < self._$pre.length; i++){
+				var el = self._$pre[i];
+				
+				self._getTargetData(el, 'orig');
+			}
+			
+			self._execAction('_getOrigMixData', 1);
+		},
+		
+		/**
+		 * Set Intermediate Positions
+		 * @since 2.0.0
+		 */
+		
+		_setInter: function(){
+			var self = this;
+			
+			self._execAction('_setInter', 0);
+			
+			if(self._changingLayout && self.animation.animateChangeLayout){
+				self._$toShow.css('display',self._newDisplay);
+
+				if(self._changingClass){
+					self._$container
+						.removeClass(self.layout.containerClass)
+						.addClass(self._newClass);
+				}
+			} else {
+				self._$toShow.css('display', self.layout.display);
+			}
+			
+			self._execAction('_setInter', 1);
+		},
+		
+		/**
+		 * Get Intermediate Mix Data
+		 * @since 2.0.0
+		 */
+		
+		_getInterMixData: function(){
+			var self = this;
+			
+			self._execAction('_getInterMixData', 0);
+			
+			for(var i = 0; i < self._$toShow.length; i++){
+				var el = self._$toShow[i];
+					
+				self._getTargetData(el, 'inter');
+			}
+			
+			for(var i = 0; i < self._$pre.length; i++){
+				var el = self._$pre[i];
+					
+				self._getTargetData(el, 'inter');
+			}
+			
+			self._execAction('_getInterMixData', 1);
+		},
+		
+		/**
+		 * Set Final Positions
+		 * @since 2.0.0
+		 */
+		
+		_setFinal: function(){
+			var self = this;
+			
+			self._execAction('_setFinal', 0);
+			
+			self._sorting && self._printSort();
+
+			self._$toHide.removeStyle('display');
+			
+			if(self._changingLayout && self.animation.animateChangeLayout){
+				self._$pre.css('display',self._newDisplay);
+			}
+			
+			self._execAction('_setFinal', 1);
+		},
+		
+		/**
+		 * Get Final Mix Data
+		 * @since 2.0.0
+		 */
+		
+		_getFinalMixData: function(){
+			var self = this;
+			
+			self._execAction('_getFinalMixData', 0);
+	
+			for(var i = 0; i < self._$toShow.length; i++){
+				var el = self._$toShow[i];
+					
+				self._getTargetData(el, 'final');
+			}
+			
+			for(var i = 0; i < self._$pre.length; i++){
+				var el = self._$pre[i];
+					
+				self._getTargetData(el, 'final');
+			}
+			
+			self._newHeight = self._incPadding ? 
+				self._$parent.outerHeight() : 
+				self._$parent.height();
+
+			self._sorting && self._printSort(true);
+	
+			self._$toShow.removeStyle('display');
+			
+			self._$pre.css('display',self.layout.display);
+			
+			if(self._changingClass && self.animation.animateChangeLayout){
+				self._$container
+					.removeClass(self._newClass)
+					.addClass(self.layout.containerClass);
+			}
+			
+			self._execAction('_getFinalMixData', 1);
+		},
+		
+		/**
+		 * Prepare Targets
+		 * @since 2.0.0
+		 */
+		
+		_prepTargets: function(){
+			var self = this,
+				transformCSS = {
+					_in: self._getPrefixedCSS('transform', self.effects.transformIn),
+					_out: self._getPrefixedCSS('transform', self.effects.transformOut)
+				};
+
+			self._execAction('_prepTargets', 0);
+			
+			if(self.animation.animateResizeContainer){
+				self._$parent.css('height',self._startHeight+'px');
+			}
+			
+			for(var i = 0; i < self._$toShow.length; i++){
+				var el = self._$toShow[i],
+					$el = $(el);
+				
+				el.style.opacity = self.effects.opacity;
+				el.style.display = (self._changingLayout && self.animation.animateChangeLayout) ?
+					self._newDisplay :
+					self.layout.display;
+					
+				$el.css(transformCSS._in);
+				
+				if(self.animation.animateResizeTargets){
+					el.style.width = el.dataset.finalWidth+'px';
+					el.style.height = el.dataset.finalHeight+'px';
+					el.style.marginRight = -(el.dataset.finalWidth - el.dataset.interWidth) + (el.dataset.finalMarginRight * 1)+'px';
+					el.style.marginBottom = -(el.dataset.finalHeight - el.dataset.interHeight) + (el.dataset.finalMarginBottom * 1)+'px';
+				}
+			}
+
+			for(var i = 0; i < self._$pre.length; i++){
+				var el = self._$pre[i],
+					$el = $(el),
+					translate = {
+						x: el.dataset.origPosX - el.dataset.interPosX,
+						y: el.dataset.origPosY - el.dataset.interPosY
+					},
+					transformCSS = self._getPrefixedCSS('transform','translate('+translate.x+'px,'+translate.y+'px)');
+
+				$el.css(transformCSS);
+				
+				if(self.animation.animateResizeTargets){
+					el.style.width = el.dataset.origWidth+'px';
+					el.style.height = el.dataset.origHeight+'px';
+					
+					if(el.dataset.origWidth - el.dataset.finalWidth){
+						el.style.marginRight = -(el.dataset.origWidth - el.dataset.interWidth) + (el.dataset.origMarginRight * 1)+'px';
+					}
+					
+					if(el.dataset.origHeight - el.dataset.finalHeight){
+						el.style.marginBottom = -(el.dataset.origHeight - el.dataset.interHeight) + (el.dataset.origMarginBottom * 1) +'px';
+					}
+				}
+			}
+			
+			self._execAction('_prepTargets', 1);
+		},
+		
+		/**
+		 * Animate Targets
+		 * @since 2.0.0
+		 */
+		
+		_animateTargets: function(){
+			var self = this;
+
+			self._execAction('_animateTargets', 0);
+			
+			self._targetsDone = 0;
+			self._targetsBound = 0;
+			
+			self._$parent
+				.css(self._getPrefixedCSS('perspective', self.animation.perspectiveDistance+'px'))
+				.css(self._getPrefixedCSS('perspective-origin', self.animation.perspectiveOrigin));
+			
+			if(self.animation.animateResizeContainer){
+				self._$parent
+					.css(self._getPrefixedCSS('transition','height '+self.animation.duration+'ms ease'))
+					.css('height',self._newHeight+'px');
+			}
+			
+			for(var i = 0; i < self._$toShow.length; i++){
+				var el = self._$toShow[i],
+					$el = $(el),
+					translate = {
+						x: el.dataset.finalPosX - el.dataset.interPosX,
+						y: el.dataset.finalPosY - el.dataset.interPosY
+					},
+					delay = self._getDelay(i),
+					toShowCSS = {};
+				
+				el.style.opacity = '';
+				
+				for(var j = 0; j < 2; j++){
+					var a = j === 0 ? a = self._prefix : '';
+					
+					if(self._ff && self._ff <= 20){
+						toShowCSS[a+'transition-property'] = 'all';
+						toShowCSS[a+'transition-timing-function'] = self.animation.easing+'ms';
+						toShowCSS[a+'transition-duration'] = self.animation.duration+'ms';
+					}
+					
+					toShowCSS[a+'transition-delay'] = delay+'ms';
+					toShowCSS[a+'transform'] = 'translate('+translate.x+'px,'+translate.y+'px)';
+				}
+				
+				if(self.effects.transform || self.effects.opacity){
+					self._bindTargetDone($el);
+				}
+				
+				(self._ff && self._ff <= 20) ? 
+					$el.css(toShowCSS) : 
+					$el.css(self.effects.transition).css(toShowCSS);
+			}
+			
+			for(var i = 0; i < self._$pre.length; i++){
+				var el = self._$pre[i],
+					$el = $(el),
+					translate = {
+						x: el.dataset.finalPosX - el.dataset.interPosX,
+						y: el.dataset.finalPosY - el.dataset.interPosY
+					},
+					delay = self._getDelay(i);
+					
+				if(!(
+					el.dataset.finalPosX === el.dataset.origPosX &&
+					el.dataset.finalPosY === el.dataset.origPosY
+				)){
+					self._bindTargetDone($el);
+				}
+				
+				$el.css(self._getPrefixedCSS('transition', 'all '+self.animation.duration+'ms '+self.animation.easing+' '+delay+'ms'));
+				$el.css(self._getPrefixedCSS('transform', 'translate('+translate.x+'px,'+translate.y+'px)'));
+				
+				if(self.animation.animateResizeTargets){
+					if(el.dataset.origWidth - el.dataset.finalWidth && el.dataset.finalWidth * 1){
+						el.style.width = el.dataset.finalWidth+'px';
+						el.style.marginRight = -(el.dataset.finalWidth - el.dataset.interWidth)+(el.dataset.finalMarginRight * 1)+'px';
+					}
+					
+					if(el.dataset.origHeight - el.dataset.finalHeight && el.dataset.finalHeight * 1){
+						el.style.height = el.dataset.finalHeight+'px';
+						el.style.marginBottom = -(el.dataset.finalHeight - el.dataset.interHeight)+(el.dataset.finalMarginBottom * 1) +'px';
+					}
+				}
+			}
+			
+			if(self._changingClass){
+				self._$container
+					.removeClass(self.layout.containerClass)
+					.addClass(self._newClass);
+			}
+			
+			for(var i = 0; i < self._$toHide.length; i++){
+				var el = self._$toHide[i],
+					$el = $(el),
+					delay = self._getDelay(i),
+					toHideCSS = {};
+
+				for(var j = 0; j<2; j++){
+					var a = j === 0 ? a = self._prefix : '';
+
+					toHideCSS[a+'transition-delay'] = delay+'ms';
+					toHideCSS[a+'transform'] = self.effects.transformOut;
+					toHideCSS.opacity = self.effects.opacity;
+				}
+				
+				$el.css(self.effects.transition).css(toHideCSS);
+			
+				if(self.effects.transform || self.effects.opacity){
+					self._bindTargetDone($el);
+				};
+			}
+			
+			self._execAction('_animateTargets', 1);
+
+		},
+		
+		/**
+		 * Bind Targets TransitionEnd
+		 * @since 2.0.0
+		 * @param {object} $el
+		 */
+		
+		_bindTargetDone: function($el){
+			var self = this,
+				el = $el[0];
+				
+			self._execAction('_bindTargetDone', 0, arguments);
+			
+			if(!el.dataset.bound){
+				
+				el.dataset.bound = true;
+				self._targetsBound++;
+			
+				$el.on('webkitTransitionEnd.mixItUp transitionend.mixItUp',function(e){
+					if(
+						(e.originalEvent.propertyName.indexOf('transform') > -1 || 
+						e.originalEvent.propertyName.indexOf('opacity') > -1) &&
+						$(e.originalEvent.target).is(self.selectors.target)
+					){
+						$el.off('.mixItUp');
+						delete el.dataset.bound;
+						self._targetDone();
+					}
+				});
+			}
+			
+			self._execAction('_bindTargetDone', 1, arguments);
+		},
+		
+		/**
+		 * Target Done
+		 * @since 2.0.0
+		 */
+		
+		_targetDone: function(){
+			var self = this;
+			
+			self._execAction('_targetDone', 0);
+			
+			self._targetsDone++;
+			
+			(self._targetsDone === self._targetsBound) && self._cleanUp();
+			
+			self._execAction('_targetDone', 1);
+		},
+		
+		/**
+		 * Clean Up
+		 * @since 2.0.0
+		 */
+		
+		_cleanUp: function(){
+			var self = this,
+				targetStyles = self.animation.animateResizeTargets ? 'transform opacity width height margin-bottom margin-right' : 'transform opacity';
+				unBrake = function(){
+					self._$targets.removeStyle('transition', self._prefix);
+				};
+				
+			self._execAction('_cleanUp', 0);
+			
+			!self._changingLayout ?
+				self._$show.css('display',self.layout.display) :
+				self._$show.css('display',self._newDisplay);
+			
+			self._$targets.css(self._brake);
+			
+			self._$targets
+				.removeStyle(targetStyles, self._prefix)
+				.removeAttr('data-inter-pos-x data-inter-pos-y data-final-pos-x data-final-pos-y data-orig-pos-x data-orig-pos-y data-orig-height data-orig-width data-final-height data-final-width data-inter-width data-inter-height data-orig-margin-right data-orig-margin-bottom data-inter-margin-right data-inter-margin-bottom data-final-margin-right data-final-margin-bottom');
+				
+			self._$hide.removeStyle('display');
+			
+			self._$parent.removeStyle('height transition perspective-distance perspective perspective-origin-x perspective-origin-y perspective-origin perspectiveOrigin', self._prefix);
+			
+			if(self._sorting){
+				self._printSort();
+				self._activeSort = self._newSortString;
+				self._sorting = false;
+			}
+			
+			if(self._changingLayout){
+				if(self._changingDisplay){
+					self.layout.display = self._newDisplay;
+					self._changingDisplay = false;
+				}
+				
+				if(self._changingClass){
+					self._$parent.removeClass(self.layout.containerClass).addClass(self._newClass);
+					self.layout.containerClass = self._newClass;
+					self._changingClass = false;
+				}
+				
+				self._changingLayout = false;
+			}
+			
+			self._refresh();
+			
+			self._buildState();
+			
+			if(self._state.fail){
+				self._$container.addClass(self.layout.containerClassFail);
+			}
+			
+			self._$show = $();
+			self._$hide = $();
+			
+			if(window.requestAnimationFrame){
+				requestAnimationFrame(unBrake);
+			}
+			
+			self._mixing = false;
+			
+			if(typeof self.callbacks._user === 'function'){
+				self.callbacks._user.call(self._domNode, self._state, self);
+			}
+			
+			if(typeof self.callbacks.onMixEnd === 'function'){
+				self.callbacks.onMixEnd.call(self._domNode, self._state, self);
+			}
+			
+			self._$container.trigger('mixEnd', [self._state, self]);
+			
+			if(self._state.fail){
+				(typeof self.callbacks.onMixFail === 'function') && self.callbacks.onMixFail.call(self._domNode, self._state, self);
+				self._$container.trigger('mixFail', [self._state, self]);
+			}
+			
+			if(self._loading){
+				(typeof self.callbacks.onMixLoad === 'function') && self.callbacks.onMixLoad.call(self._domNode, self._state, self);
+				self._$container.trigger('mixLoad', [self._state, self]);
+			}
+			
+			if(self._queue.length){
+				self._execAction('_queue', 0);
+				
+				self.multiMix(self._queue[0][0],self._queue[0][1],self._queue[0][2]);
+				self._queue.splice(0, 1);
+			}
+			
+			self._execAction('_cleanUp', 1);
+			
+			self._loading = false;
+		},
+		
+		/**
+		 * Get Prefixed CSS
+		 * @since 2.0.0
+		 * @param {string} property
+		 * @param {string} value
+		 * @param {boolean} prefixValue
+		 * @return {object} styles
+		 */
+		
+		_getPrefixedCSS: function(property, value, prefixValue){
+			var self = this,
+				styles = {};
+		
+			for(i = 0; i < 2; i++){
+				var prefix = i === 0 ? self._prefix : '';
+				prefixValue ? styles[prefix+property] = prefix+value : styles[prefix+property] = value;
+			}
+			
+			return self._execFilter('_getPrefixedCSS', styles, arguments);
+		},
+		
+		/**
+		 * Get Delay
+		 * @since 2.0.0
+		 * @param {number} i
+		 * @return {number} delay
+		 */
+		
+		_getDelay: function(i){
+			var self = this,
+				n = typeof self.animation.staggerSequence === 'function' ? self.animation.staggerSequence.call(self._domNode, i, self._state) : i,
+				delay = self.animation.stagger ? n * self.animation.staggerDuration : 0;
+				
+			return self._execFilter('_getDelay', delay, arguments);
+		},
+		
+		/**
+		 * Parse MultiMix Arguments
+		 * @since 2.0.0
+		 * @param {array} args
+		 * @return {object} output
+		 */
+		
+		_parseMultiMixArgs: function(args){
+			var self = this,
+				output = {
+					command: null,
+					animate: self.animation.enable,
+					callback: null
+				};
+				
+			for(var i = 0; i < args.length; i++){
+				var arg = args[i];
+
+				if(arg !== null){
+					if(typeof arg === 'object' || typeof arg === 'string'){
+						output.command = arg;
+					} else if(typeof arg === 'boolean'){
+						output.animate = arg;
+					} else if(typeof arg === 'function'){
+						output.callback = arg;
+					}
+				}
+			}
+			
+			return self._execFilter('_parseMultiMixArgs', output, arguments);
+		},
+		
+		/**
+		 * Parse Insert Arguments
+		 * @since 2.0.0
+		 * @param {array} args
+		 * @return {object} output
+		 */
+		
+		_parseInsertArgs: function(args){
+			var self = this,
+				output = {
+					index: 0,
+					$object: $(),
+					multiMix: {filter: self._state.activeFilter},
+					callback: null
+				};
+			
+			for(var i = 0; i < args.length; i++){
+				var arg = args[i];
+				
+				if(typeof arg === 'number'){
+					output.index = arg;
+				} else if(typeof arg === 'object' && arg instanceof $){
+					output.$object = arg;
+				} else if(typeof arg === 'object' && self._helpers._isElement(arg)){
+					output.$object = $(arg);
+				} else if(typeof arg === 'object' && arg !== null){
+					output.multiMix = arg;
+				} else if(typeof arg === 'boolean' && !arg){
+					output.multiMix = false;
+				} else if(typeof arg === 'function'){
+					output.callback = arg;
+				}
+			}
+			
+			return self._execFilter('_parseInsertArgs', output, arguments);
+		},
+		
+		/**
+		 * Execute Action
+		 * @since 2.0.0
+		 * @param {string} methodName
+		 * @param {boolean} isPost
+		 * @param {array} args
+		 */
+		
+		_execAction: function(methodName, isPost, args){
+			var self = this,
+				context = isPost ? 'post' : 'pre';
+
+			if(!self._actions.isEmptyObject && self._actions.hasOwnProperty(methodName)){
+				for(var key in self._actions[methodName][context]){
+					self._actions[methodName][context][key].call(self, args);
+				}
+			}
+		},
+		
+		/**
+		 * Execute Filter
+		 * @since 2.0.0
+		 * @param {string} methodName
+		 * @param {mixed} value
+		 * @return {mixed} value
+		 */
+		
+		_execFilter: function(methodName, value, args){
+			var self = this;
+			
+			if(!self._filters.isEmptyObject && self._filters.hasOwnProperty(methodName)){
+				for(var key in self._filters[methodName]){
+					return self._filters[methodName][key].call(self, args);
+				}
+			} else {
+				return value;
+			}
+		},
+		
+		/* Helpers
+		---------------------------------------------------------------------- */
+
+		_helpers: {
+			
+			/**
+			 * CamelCase
+			 * @since 2.0.0
+			 * @param {string}
+			 * @return {string}
+			 */
+
+			_camelCase: function(string){
+				return string.replace(/-([a-z])/g, function(g){
+						return g[1].toUpperCase();
+				});
+			},
+			
+			/**
+			 * Is Element
+			 * @since 2.1.3
+			 * @param {object} element to test
+			 * @return {boolean}
+			 */
+			
+			_isElement: function(el){
+				if(window.HTMLElement){
+					return el instanceof HTMLElement;
+				} else {
+					return (
+						el !== null && 
+						el.nodeType === 1 &&
+						el.nodeName === 'string'
+					);
+				}
+			}
+		},
+		
+		/* Public Methods
+		---------------------------------------------------------------------- */
+		
+		/**
+		 * Is Mixing
+		 * @since 2.0.0
+		 * @return {boolean}
+		 */
+		
+		isMixing: function(){
+			var self = this;
+			
+			return self._execFilter('isMixing', self._mixing);
+		},
+		
+		/**
+		 * Filter (public)
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		filter: function(){
+			var self = this,
+				args = self._parseMultiMixArgs(arguments);
+
+			self._clicking && (self._toggleString = '');
+			
+			self.multiMix({filter: args.command}, args.animate, args.callback);
+		},
+		
+		/**
+		 * Sort (public)
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		sort: function(){
+			var self = this,
+				args = self._parseMultiMixArgs(arguments);
+
+			self.multiMix({sort: args.command}, args.animate, args.callback);
+		},
+
+		/**
+		 * Change Layout (public)
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		changeLayout: function(){
+			var self = this,
+				args = self._parseMultiMixArgs(arguments);
+				
+			self.multiMix({changeLayout: args.command}, args.animate, args.callback);
+		},
+		
+		/**
+		 * MultiMix
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		multiMix: function(){
+			var self = this,
+				args = self._parseMultiMixArgs(arguments);
+
+			self._execAction('multiMix', 0, arguments);
+
+			if(!self._mixing){
+				if(self.controls.enable && !self._clicking){
+					self.controls.toggleFilterButtons && self._buildToggleArray();
+					self._updateControls(args.command, self.controls.toggleFilterButtons);
+				}
+				
+				(self._queue.length < 2) && (self._clicking = false);
+			
+				delete self.callbacks._user;
+				if(args.callback) self.callbacks._user = args.callback;
+			
+				var sort = args.command.sort,
+					filter = args.command.filter,
+					changeLayout = args.command.changeLayout;
+
+				self._refresh();
+
+				if(sort){
+					self._newSort = self._parseSort(sort);
+					self._newSortString = sort;
+					
+					self._sorting = true;
+					self._sort();
+				}
+				
+				if(filter !== undf){
+					filter = (filter === 'all') ? self.selectors.target : filter;
+	
+					self._activeFilter = filter;
+				}
+				
+				self._filter();
+				
+				if(changeLayout){
+					self._newDisplay = (typeof changeLayout === 'string') ? changeLayout : changeLayout.display || self.layout.display;
+					self._newClass = changeLayout.containerClass || '';
+
+					if(
+						self._newDisplay !== self.layout.display ||
+						self._newClass !== self.layout.containerClass
+					){
+						self._changingLayout = true;
+						
+						self._changingClass = (self._newClass !== self.layout.containerClass);
+						self._changingDisplay = (self._newDisplay !== self.layout.display);
+					}
+				}
+				
+				self._$targets.css(self._brake);
+				
+				self._goMix(args.animate ^ self.animation.enable ? args.animate : self.animation.enable);
+				
+				self._execAction('multiMix', 1, arguments);
+				
+			} else {
+				if(self.animation.queue && self._queue.length < self.animation.queueLimit){
+					self._queue.push(arguments);
+					
+					(self.controls.enable && !self._clicking) && self._updateControls(args.command);
+					
+					self._execAction('multiMixQueue', 1, arguments);
+					
+				} else {
+					if(typeof self.callbacks.onMixBusy === 'function'){
+						self.callbacks.onMixBusy.call(self._domNode, self._state, self);
+					}
+					self._$container.trigger('mixBusy', [self._state, self]);
+					
+					self._execAction('multiMixBusy', 1, arguments);
+				}
+			}
+		},
+		
+		/**
+		 * Insert
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		insert: function(){
+			var self = this,
+				args = self._parseInsertArgs(arguments),
+				callback = (typeof args.callback === 'function') ? args.callback : null,
+				frag = document.createDocumentFragment(),
+				target = (function(){
+					self._refresh();
+					
+					if(self._$targets.length){
+						return (args.index < self._$targets.length || !self._$targets.length) ? 
+							self._$targets[args.index] :
+							self._$targets[self._$targets.length-1].nextElementSibling;
+					} else {
+						return self._$parent[0].children[0];
+					}
+				})();
+						
+			self._execAction('insert', 0, arguments);
+				
+			if(args.$object){
+				for(var i = 0; i < args.$object.length; i++){
+					var el = args.$object[i];
+					
+					frag.appendChild(el);
+					frag.appendChild(document.createTextNode(' '));
+				}
+
+				self._$parent[0].insertBefore(frag, target);
+			}
+			
+			self._execAction('insert', 1, arguments);
+			
+			if(typeof args.multiMix === 'object'){
+				self.multiMix(args.multiMix, callback);
+			}
+		},
+
+		/**
+		 * Prepend
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		prepend: function(){
+			var self = this,
+				args = self._parseInsertArgs(arguments);
+				
+			self.insert(0, args.$object, args.multiMix, args.callback);
+		},
+		
+		/**
+		 * Append
+		 * @since 2.0.0
+		 * @param {array} arguments
+		 */
+		
+		append: function(){
+			var self = this,
+				args = self._parseInsertArgs(arguments);
+		
+			self.insert(self._state.totalTargets, args.$object, args.multiMix, args.callback);
+		},
+		
+		/**
+		 * Get Option
+		 * @since 2.0.0
+		 * @param {string} string
+		 * @return {mixed} value
+		 */
+		
+		getOption: function(string){
+			var self = this,
+				getProperty = function(obj, prop){
+					var parts = prop.split('.'),
+						last = parts.pop(),
+						l = parts.length,
+						i = 1,
+						current = parts[0] || prop;
+
+					while((obj = obj[current]) && i < l){
+						current = parts[i];
+						i++;
+					}
+
+					if(obj !== undf){
+						return obj[last] !== undf ? obj[last] : obj;
+					}
+				};
+
+			return string ? self._execFilter('getOption', getProperty(self, string), arguments) : self;
+		},
+		
+		/**
+		 * Set Options
+		 * @since 2.0.0
+		 * @param {object} config
+		 */
+		
+		setOptions: function(config){
+			var self = this;
+			
+			self._execAction('setOptions', 0, arguments);
+			
+			typeof config === 'object' && $.extend(true, self, config);
+			
+			self._execAction('setOptions', 1, arguments);
+		},
+		
+		/**
+		 * Get State
+		 * @since 2.0.0
+		 * @return {object} state
+		 */
+		
+		getState: function(){
+			var self = this;
+			
+			return self._execFilter('getState', self._state, self);
+		},
+		
+		/**
+		 * Force Refresh
+		 * @since 2.1.2
+		 */
+		
+		forceRefresh: function(){
+			var self = this;
+			
+			self._refresh(false, true);
+		},
+		
+		/**
+		 * Destroy
+		 * @since 2.0.0
+		 * @param {boolean} hideAll
+		 */
+		
+		destroy: function(hideAll){
+			var self = this;
+			
+			self._execAction('destroy', 0, arguments);
+		
+			self._$body
+				.add($(self.selectors.sort))
+				.add($(self.selectors.filter))
+				.off('.mixItUp');
+			
+			for(var i = 0; i < self._$targets.length; i++){
+				var target = self._$targets[i];
+
+				hideAll && (target.style.display = '');
+
+				delete target.mixParent;
+			}
+			
+			self._execAction('destroy', 1, arguments);
+			
+			delete $.MixItUp.prototype._instances[self._id];
+		}
+		
+	};
+	
+	/* jQuery Methods
+	---------------------------------------------------------------------- */
+	
+	/**
+	 * jQuery .mixItUp() method
+	 * @since 2.0.0
+	 * @extends $.fn
+	 */
+	
+	$.fn.mixItUp = function(){
+		var args = arguments,
+			dataReturn = [],
+			eachReturn,
+			_instantiate = function(domNode, settings){
+				var instance = new $.MixItUp(),
+					rand = function(){
+						return ('00000'+(Math.random()*16777216<<0).toString(16)).substr(-6).toUpperCase();
+					};
+					
+				instance._execAction('_instantiate', 0, arguments);
+
+				domNode.id = !domNode.id ? 'MixItUp'+rand() : domNode.id;
+				
+				if(!instance._instances[domNode.id]){
+					instance._instances[domNode.id] = instance;
+					instance._init(domNode, settings);
+				}
+				
+				instance._execAction('_instantiate', 1, arguments);
+			};
+			
+		eachReturn = this.each(function(){
+			if(args && typeof args[0] === 'string'){
+				var instance = $.MixItUp.prototype._instances[this.id];
+				if(args[0] === 'isLoaded'){
+					dataReturn.push(instance ? true : false);
+				} else {
+					var data = instance[args[0]](args[1], args[2], args[3]);
+					if(data !== undf)dataReturn.push(data);
+				}
+			} else {
+				_instantiate(this, args[0]);
+			}
+		});
+		
+		if(dataReturn.length){
+			return dataReturn.length > 1 ? dataReturn : dataReturn[0];
+		} else {
+			return eachReturn;
+		}
+	};
+	
+	/**
+	 * jQuery .removeStyle() method
+	 * @since 2.0.0
+	 * @extends $.fn
+	 */
+	
+	$.fn.removeStyle = function(style, prefix){
+		prefix = prefix ? prefix : '';
+	
+		return this.each(function(){
+			var el = this,
+				styles = style.split(' ');
+				
+			for(var i = 0; i < styles.length; i++){
+				for(var j = 0; j < 4; j++){
+					switch (j) {
+						case 0:
+							var prop = styles[i];
+							break;
+						case 1:
+							var prop = $.MixItUp.prototype._helpers._camelCase(prop);
+							break;
+						case 2:
+							var prop = prefix+styles[i];
+							break;
+						case 3:
+							var prop = $.MixItUp.prototype._helpers._camelCase(prefix+styles[i]);
+					}
+					
+					if(
+						el.style[prop] !== undf && 
+						typeof el.style[prop] !== 'unknown' &&
+						el.style[prop].length > 0
+					){
+						el.style[prop] = '';
+					}
+					
+					if(!prefix && j === 1)break;
+				}
+			}
+			
+			if(el.attributes && el.attributes.style && el.attributes.style !== undf && el.attributes.style.value === ''){
+				el.attributes.removeNamedItem('style');
+			}
+		});
+	};
+	
+})(jQuery);
 
 /***/ }),
 /* 20 */

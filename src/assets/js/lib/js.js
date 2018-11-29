@@ -28,8 +28,6 @@ jQuery(document).ready(function($) {
 		
 		let href = $( this ).attr( 'src' ).replace( /-\d+x\d+/, '' );
 		
-		console.log( href );
-		
 		$( '.slick-track a[href="' + href + '"]' ).click();
 		
 	} );
