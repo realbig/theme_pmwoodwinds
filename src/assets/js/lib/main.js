@@ -297,7 +297,7 @@ jQuery(document).ready(function($){
 	  	}, 200 );
 	});
 });
-function pmwoodwindsAllPossibleCases(arr) {
+window.pmwoodwindsAllPossibleCases = function(arr) {
   if (arr.length == 1) {
     return arr[0];
   } else {

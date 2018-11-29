@@ -1610,22 +1610,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // This is the custom javascript file 
 var z = 0;
-function pmwoodwindsZoomCount() {
+window.pmwoodwindsZoomCount = function () {
     z++;
     if (z > 0) {
         jQuery("span#lg-zoom-in").hide(0);
     }
-}
-function pmwoodwindsZoomCountMin() {
+};
+window.pmwoodwindsZoomCountMin = function () {
     z--;
     if (z < 1) {
         jQuery("span#lg-zoom-in").show(0);
     }
-}
+};
 
-function pmwoodwindsFirstview() {
+window.pmwoodwindsFirstview = function () {
     jQuery("#pmwoodwind_product_images img.firstview").click();
-}
+};
 
 jQuery(document).on("click", ".lg-actions .lg-icon", function () {
     z = 0;
@@ -4397,7 +4397,7 @@ jQuery(document).ready(function ($) {
 		}, 200);
 	});
 });
-function pmwoodwindsAllPossibleCases(arr) {
+window.pmwoodwindsAllPossibleCases = function (arr) {
 	if (arr.length == 1) {
 		return arr[0];
 	} else {
@@ -4410,7 +4410,7 @@ function pmwoodwindsAllPossibleCases(arr) {
 		}
 		return result;
 	}
-}
+};
 
 /***/ }),
 /* 14 */

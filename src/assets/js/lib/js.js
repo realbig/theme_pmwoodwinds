@@ -1,19 +1,19 @@
 // This is the custom javascript file 
 var z = 0;
-function pmwoodwindsZoomCount(){
+window.pmwoodwindsZoomCount = function(){
 z++;
 if(z > 0){
 	jQuery("span#lg-zoom-in").hide(0);
 }
 }
-function pmwoodwindsZoomCountMin(){
+window.pmwoodwindsZoomCountMin = function(){
 z--;
 if(z < 1){
 	jQuery("span#lg-zoom-in").show(0);
 }
 }
 	 
-function pmwoodwindsFirstview(){
+window.pmwoodwindsFirstview = function(){
 	jQuery("#pmwoodwind_product_images img.firstview").click();
 }
 
