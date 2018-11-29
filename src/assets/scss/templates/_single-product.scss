@@ -1,0 +1,26 @@
+.single-product {
+	
+	.imgview.hasimages {
+		
+		& > a {
+			
+			width: 100%;
+			display: block;
+			
+			span {
+				width: 100%;
+			}
+			
+		}
+		
+	}
+	
+	#product_single_image {
+		
+		span {
+			width: 100%;
+		}
+		
+	}
+	
+}

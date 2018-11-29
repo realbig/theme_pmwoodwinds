@@ -14,7 +14,7 @@
     <![endif]-->
 	<?php wp_head();?>
 </head>
-<body data-spy="scroll" data-target=".nav-container" data-offset="80" class="<?php echo get_the_id();?>">
+<body data-spy="scroll" data-target=".nav-container" data-offset="80" <?php body_class( array( get_the_id() ) );?>>
 	
 	<!-- Header Bar -->
 	<div id="home" class="navigation-bar scroll-BG">

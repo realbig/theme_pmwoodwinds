@@ -1624,7 +1624,7 @@ window.pmwoodwindsZoomCountMin = function () {
 };
 
 window.pmwoodwindsFirstview = function () {
-    jQuery("#pmwoodwind_product_images img.firstview").click();
+    jQuery("#pmwoodwind_product_images img.zoomImg").click();
 };
 
 jQuery(document).on("click", ".lg-actions .lg-icon", function () {

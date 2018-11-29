@@ -29,6 +29,8 @@ $currentlink = get_category_link($term->term_id);
 
 $navid  = get_queried_object()->term_id;
 
+$apply = false;
+
 ?>
 		<div class="category-head">
 			<h4><?php echo single_cat_title();?></h4>
@@ -56,9 +58,9 @@ $navid  = get_queried_object()->term_id;
 		<section class="cd-gallery filter-is-visible">
 			<ul class="productsfilter" id="filteredproducts">
 			<?php
-			$productsbrands = array();
-			$productslevels = array();
-			$productcategories = array();
+			$product_idsbrands = array();
+			$product_idslevels = array();
+			$product_idcategories = array();
 			$the_query = new WP_Query( array(
 				'post_type' => 'product',
 				'numberposts' => '-1',
@@ -74,10 +76,10 @@ $navid  = get_queried_object()->term_id;
 			) );
 			$brands = array();
 			$levels = array();
-			$products = array();
+			$product_ids = array();
 			$unsortedcats = array();
-			$productcats = array();
-			$productpbrands = array();
+			$product_idcats = array();
+			$product_idpbrands = array();
 			$globalfilters = array();
 			$globalbrands = array();
 			$globallevels = array();
@@ -91,36 +93,36 @@ $navid  = get_queried_object()->term_id;
 			$isnew = pmwoodwind_is_new_product(get_the_id());
 		
 			if($isnew && ($isnew == 'yes')){
-				$products['new'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
+				$product_ids['new'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
 				$showprods['new'][get_the_id()] = get_the_id();
 
 			} else {
-				$products['used'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
+				$product_ids['used'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
 				$showprods['used'][get_the_id()] = get_the_id();
 			}
-			$products['all'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
+			$product_ids['all'][$sorttypes.$sorttypesb.get_the_id()] = get_the_id();
 			$showprods['all'][get_the_id()] = get_the_id();
 			endwhile;
 			
 			
-			ksort($products[$show]);
+			ksort($product_ids[$show]);
 	
-			$sortedp = $products[$show];
+			$sortedp = $product_ids[$show];
 			$sortedproductsbyside = array();
 		
-			foreach($sortedp as $p=>$product):
+			foreach($sortedp as $p=>$product_id):
 
 
-			$types = wp_get_post_terms($product, 'product_cat',array( 'orderby' => 'term_order' ));
-			$pbrands = wp_get_post_terms($product, 'pwb-brand',array( 'orderby' => 'term_order' ));
-			$plevels = wp_get_post_terms($product, 'level',array( 'orderby' => 'term_order' ));
+			$types = wp_get_post_terms($product_id, 'product_cat',array( 'orderby' => 'term_order' ));
+			$pbrands = wp_get_post_terms($product_id, 'pwb-brand',array( 'orderby' => 'term_order' ));
+			$plevels = wp_get_post_terms($product_id, 'level',array( 'orderby' => 'term_order' ));
 			$filters = '';
 			$filtersbrands = '';
 			$filterslevels = '';
-			$productcats[$product] = $types;
+			$product_idcats[$product_id] = $types;
 				
 				if ( isset( $pbrands[0] ) ) {
-					$productpbrands[$product] = $pbrands[0];
+					$product_idpbrands[$product_id] = $pbrands[0];
 				}
 				
 			foreach($types as $type){
@@ -128,14 +130,14 @@ $navid  = get_queried_object()->term_id;
 				$unsortedcats[$type->term_id] = $type;
 				
 			
-				$productcategories[$type->term_id][] = $product;
+				$product_idcategories[$type->term_id][] = $product_id;
 			}	
 				
 			if($plevels):
 			foreach($plevels as $plevel){
 				$filterslevels .= ' filter'.$plevel->term_id;
 				$levels[$plevel->term_id] = $plevel;
-				$productslevels[$plevel->term_id][] = $product;
+				$product_idslevels[$plevel->term_id][] = $product_id;
 			}	
 			endif;			
 			foreach($pbrands as $brand){
@@ -143,11 +145,11 @@ $navid  = get_queried_object()->term_id;
 				$filtersbrands .= ' filter'.$brand->term_id;
 				$brands[$brand->term_id] = $brand;
 				$brandname = $brand->name;
-				$productsbrands[$brand->term_id][] = $product;
+				$product_idsbrands[$brand->term_id][] = $product_id;
 			}		
-			$globalfilters[$product] = $filters;
-			$globalbrands[$product] = $filtersbrands;
-			$globallevels[$product] = $filterslevels;
+			$globalfilters[$product_id] = $filters;
+			$globalbrands[$product_id] = $filtersbrands;
+			$globallevels[$product_id] = $filterslevels;
 			
 			$sortedbrands = array();
 			$sortedlevels = array();
@@ -242,28 +244,34 @@ $navid  = get_queried_object()->term_id;
 				}
 				ksort($sortedproductsbyside, SORT_NATURAL | SORT_FLAG_CASE);
 				$todisplay = array_unique($sortedproductsbyside);
-				foreach($todisplay as $p=>$product):
+				foreach($todisplay as $p=>$product_id):
+				
+					global $product;
+				
+					$product = new WC_Product( $product_id );
 
-					$isnew = pmwoodwind_is_new_product($product);
-					$price = pmwoodwind_product_main_price($product);
+					$isnew = pmwoodwind_is_new_product($product_id);
+					$price = pmwoodwind_product_main_price($product_id);
 					$status = $price;
 					if(is_numeric($price)){
 						$status = 'sale';
 					}
 			
 				
-				if(in_array($product, $showprods[$show])):
+				if(in_array($product_id, $showprods[$show])):
 				
 				?>
 			
-				<li id="<?php echo $product;?>" class="mix <?php echo $isnew;?> <?php echo $status;?><?php echo $globalfilters[$product];?><?php echo $globalbrands[$product];?> <?php echo $globallevels[$product];?> <?php echo pmwoodwind_product_get_serial($product);?> <?php echo get_the_title($product);?>">
-					<a href="<?php echo get_permalink($product);?>" title="<?php echo get_the_title($product);?>">
-						<?php echo get_the_post_thumbnail( $product, 'product_grid', array( 'class' => 'main-image zoom' ) ); ?>
+				<li id="<?php echo $product_id;?>" class="mix <?php echo $isnew;?> <?php echo $status;?><?php echo $globalfilters[$product_id];?><?php echo $globalbrands[$product_id];?> <?php echo $globallevels[$product_id];?> <?php echo pmwoodwind_product_get_serial($product_id);?> <?php echo get_the_title($product_id);?>">
+					<a href="<?php echo get_permalink($product_id);?>" title="<?php echo get_the_title($product_id);?>">
+						
+						<?php echo woocommerce_get_product_thumbnail( 'product_grid' ); ?>
+						
 					</a>
 						
 							<h5>
 							
-						<a href="<?php echo get_permalink($product);?>"><?php echo get_the_title($product);?></a>
+						<a href="<?php echo get_permalink($product_id);?>"><?php echo get_the_title($product_id);?></a>
 						
 						<br/>
 						<?php if($price):?><span class="price <?php echo $price;?>"><?php
@@ -307,7 +315,7 @@ $navid  = get_queried_object()->term_id;
 					
 					<ul class="cd-filter-content cd-filters list levels">
 						<?php foreach($sortedlevels as $level):?>
-						<li class="<?php echo implode(' ', $productslevels[$level->term_id]);?>">
+						<li class="<?php echo implode(' ', $product_idslevels[$level->term_id]);?>">
 							<input  class="filter"  type="checkbox" <?php if(in_array($brand->term_id,$_GET['level'])):?>checked="checked"<?php endif;?> value="<?php echo $level->term_id;?>" name="level[]" id="filter<?php echo $level->term_id;?>">
 							<label class="checkbox-label" for="filter<?php echo $level->term_id;?>"><?php echo $level->name;?></label>
 						</li>		
@@ -331,7 +339,7 @@ $navid  = get_queried_object()->term_id;
 					) );
 					?>
 					<?php if($childs): ?>
-					<li class="parentcat <?php echo implode(' ', $productcategories[$term->term_id]);?>">
+					<li class="parentcat <?php echo implode(' ', $product_idcategories[$term->term_id]);?>">
 					<!--<input class="filter" <?php if($apply == $term->term_id):?>checked="checked"<?php endif;?> data-filter=".filter<?php echo $term->term_id;?>" type="checkbox" id="filter<?php echo $term->term_id;?>">
 					<label class="parent checkbox-label" for="filter<?php echo $term->term_id;?>"><?php echo $term->name;?></label>-->
 					<?php
@@ -352,8 +360,8 @@ $navid  = get_queried_object()->term_id;
 						
 						<ul class="cd-filter-content cd-filters list child" style="display:<?php echo $display;?>">
 						<?php foreach($childs as $child):?>
-							<?php if(isset($productcategories[$child->term_id])):?>
-							<li class="childcat <?php echo implode(' ', $productcategories[$child->term_id]);?>">
+							<?php if(isset($product_idcategories[$child->term_id])):?>
+							<li class="childcat <?php echo implode(' ', $product_idcategories[$child->term_id]);?>">
 							<input  class="filter"  name="category[]" <?php if(in_array($child->term_id,$_GET['category'])):?>checked="checked"<?php endif;?> type="checkbox" id="filter<?php echo $child->term_id;?>" value="<?php echo $child->term_id;?>">
 							<label class="checkbox-label" for="filter<?php echo $child->term_id;?>"><?php echo $child->name;?></label>
 							</li>
@@ -363,7 +371,7 @@ $navid  = get_queried_object()->term_id;
 					
 					</li>
 						<?php else:?>
-					<li class="parentcat nochilds <?php echo implode(' ', $productcategories[$term->term_id]);?>">
+					<li class="parentcat nochilds <?php echo implode(' ', $product_idcategories[$term->term_id]);?>">
 					<input class="filter" name="category[]" <?php if(in_array($term->term_id,$_GET['category'])):?>checked="checked"<?php endif;?> data-filter=".filter<?php echo $term->term_id;?>" type="checkbox" id="filter<?php echo $term->term_id;?>" value="<?php echo $term->term_id;?>">
 					<label class="parent checkbox-label" for="filter<?php echo $term->term_id;?>"><?php echo $term->name;?></label>
 		
@@ -387,7 +395,7 @@ $navid  = get_queried_object()->term_id;
 						<?php
 						
 						foreach($sortedbrands as $brand):?>
-						<li class="<?php echo implode(' ', $productsbrands[$brand->term_id]);?>">
+						<li class="<?php echo implode(' ', $product_idsbrands[$brand->term_id]);?>">
 						
 							<input class="filter" <?php if(in_array($brand->term_id,$_GET['brand'])):?>checked="checked"<?php endif;?> type="checkbox" name="brand[]" value="<?php echo $brand->term_id;?>" id="filter<?php echo $brand->term_id;?>">
 							<label class="checkbox-label" for="filter<?php echo $brand->term_id;?>"><?php echo $brand->name;?></label>

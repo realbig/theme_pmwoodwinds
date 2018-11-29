@@ -807,4 +807,31 @@ function pmwoodwind_image_sizes() {
 	
 }
 
+add_filter( 'woocommerce_product_get_image', 'pmwoodwind_add_classes_to_woocommerce_product_image', 99, 5 );
+function pmwoodwind_add_classes_to_woocommerce_product_image( $html, $product, $size, $attr, $placeholder ) {
+	
+	if ( is_tax( 'product_cat' ) || $size == 'main_image' ) {
+		
+		$html = str_replace( 'class="', 'class="main-image zoom ', $html );
+		
+	}
+	
+	return $html;
+	
+}
+
+function pmwoodwind_get_product_thumbnail_src( $size ) {
+	
+	global $product;
+	
+	$html = woocommerce_get_product_thumbnail( $size );
+	
+	$bool = preg_match( '/src="(.*?)"/', $html, $matches );
+	
+	if ( ! $bool || ! isset( $matches[1] ) ) return '';
+	
+	return $matches[1];
+	
+}
+
 require_once __DIR__ . '/core/import-photos.php';

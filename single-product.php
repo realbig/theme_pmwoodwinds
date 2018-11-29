@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 <?php
-		$pmwoodwind_product_images = explode( ',', get_post_meta( get_the_id(), '_product_image_gallery', true ) );
+		$pmwoodwind_product_images = array_filter( explode( ',', get_post_meta( get_the_id(), '_product_image_gallery', true ) ) );
 
 		// Start the loop.
 		while ( have_posts() ) : the_post();
@@ -39,8 +39,9 @@
 				<?php if($pmwoodwind_product_images):?>
 				<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a>
 					<div id="pmwoodwind_product_images">
-							<a href="<?php echo get_the_post_thumbnail_url( get_the_id(), 'full' );?>" title="<?php the_title();?> image main image">
-							<?php echo get_the_post_thumbnail( get_the_ID(), 'product_thumbnail', array( 'class' => 'firstview' ) ); ?>
+						
+							<a href="<?php echo pmwoodwind_get_product_thumbnail_src( 'full' ); ?>" title="<?php the_title();?> image main image">
+								<?php echo woocommerce_get_product_thumbnail( 'product_thumbnail' ); ?>
 							</a>
 						
 						<?php foreach($pmwoodwind_product_images as $i=>$image):
@@ -58,7 +59,7 @@
 					</div>
 					<?php else:?>
 						<div id="product_single_image">
-							<a href="javascript:pmwoodwindsFirstview();" title="<?php the_title();?>"><?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a>
+							<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
 		
 						
 					</div>
@@ -109,14 +110,14 @@
 	
 				
 				
-				if(pmwoodwind_is_new_product(get_the_id()) && get_post_meta($post->ID, '_msrp', true) && $_product_attributes['is_variation'] === 0){
+				if(pmwoodwind_is_new_product(get_the_id()) && get_post_meta($post->ID, '_msrp', true) && ( isset( $_product_attributes['is_variation'] ) && $_product_attributes['is_variation'] === 0 ) ) {
 					$msrp = get_post_meta($post->ID, '_msrp', true);
 				?>
 				<li>MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span></li>
 				<?php
 				}
 				
-				if(is_numeric($price) && $_product_attributes['is_variation'] === 0):?>
+				if(is_numeric($price) && ( isset( $_product_attributes['is_variation'] ) && $_product_attributes['is_variation'] === 0 ) ) :?>
 				<li>Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span></li>
 				
 					<?php endif;?>		
@@ -238,10 +239,13 @@
 			<?php
 	
 			
-			$compare = array();  
-			$comparelist = $_SESSION['comparelist'];
-	
-			$compare = $comparelist[$firsttype->slug];
+			$compare = array();
+				
+				if ( isset( $_SESSION['comparelist'] ) ) {
+					$comparelist = $_SESSION['comparelist'];
+
+					$compare = $comparelist[$firsttype->slug];
+				}
 			
 			echo '<ul class="comparelist">';
 			if ($compare) :
