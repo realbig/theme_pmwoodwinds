@@ -177,13 +177,7 @@ jQuery(document).ready(function($){
 			if((catfilters.length) === 0 && (brandsfilters.length) > 0){
 				filters = brandsfilters;
 		
-			} 
-	    	
-
-
-			console.log(filters);
-			console.log(combinations);
-				//here
+			}
 	
 			if ((filters.length) > 0 || (combinations.length) > 0) { 
 				
@@ -214,8 +208,6 @@ jQuery(document).ready(function($){
 						$('.mix').each(function() {
 							var match = $(this).attr('class');
 							var m = match.indexOf(comb);
-							console.log(comb);
-							console.log(match);
 							if(m >= 0){
 								$combatching = $combatching.add(this);
 							}
@@ -231,22 +223,35 @@ jQuery(document).ready(function($){
 			
 	
 				
-					var matchingIds = [];
 				$('.cd-gallery ul').on('mixEnd', function() {
 					setTimeout(function(){ 
-					$("ul.productsfilter li:visible").each(function() {
-						if($(this).attr('id')){
-							matchingIds.push($(this).attr('id'));
-						}
+						
+						var checkedCategories = [];
+						
+						// If there are no Instruments/Accessories/Mouthpieces checked, show all Levels and Brands again
+						if ( filterstohide.length > 0 ) {
+						
+							$( '.cd-filters' ).not( $( '.cd-filters' ).filter( '.' + filterstohide.join( ', .' ) ) ).each( function( index, filter ) {
+
+								$( filter ).find( 'input[type="checkbox"]' ).each( function( checkboxIndex, checkbox ) {
+									
+									if ( $( checkbox ).prop( 'checked' ) ) {
+										checkedCategories = checkedCategories.concat( $( checkbox ).closest( 'li' ).attr( 'class' ).replace( 'childcat', '' ).trim().split( ' ' ) );
+									}
+									
+								} );
+
+							} );
 							
-						});
+						}
+						
 						$(filterstohide).each(function(i,filtertohide) {
 							$('.cd-filter-block.'+filtertohide).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
 							$('.cd-filters.'+filtertohide+' li').each(function() {
 							var ids = $(this).attr('class').split(' ');
-							var exists = $(matchingIds).filter(ids);
-							 if(exists.length > 0){
-									$(this).show();
+							var exists = $(checkedCategories).filter(ids);
+							 if( exists.length > 0 || checkedCategories.length == 0 ){
+									$(this).show(); // Hide or show Levels or Brands
 								} else {
 									$(this).hide();
 								}
