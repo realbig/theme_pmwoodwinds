@@ -1,8 +1,8 @@
 
-	function pmwoodwindsCloseSearch(){
+	window.pmwoodwindsCloseSearch = function(){
 		 jQuery('#search').slideUp(200);
 	}	
-	function pmwoodwindsOpenSearch(){
+	window.pmwoodwindsOpenSearch = function(){
 		 jQuery('#search').slideDown(400);
 	}
 jQuery(document).ready(function($){

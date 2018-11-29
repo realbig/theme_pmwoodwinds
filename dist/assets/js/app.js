@@ -4135,12 +4135,12 @@ Jssor Slider (MIT license)
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function pmwoodwindsCloseSearch() {
+window.pmwoodwindsCloseSearch = function () {
 	jQuery('#search').slideUp(200);
-}
-function pmwoodwindsOpenSearch() {
+};
+window.pmwoodwindsOpenSearch = function () {
 	jQuery('#search').slideDown(400);
-}
+};
 jQuery(document).ready(function ($) {
 	var _$$not$slick;
 
