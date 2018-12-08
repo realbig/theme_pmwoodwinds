@@ -718,10 +718,26 @@ function pmwoodwind_register_scripts() {
 		false
 	);
 	
+	wp_register_style(
+		'slick-silder',
+		'//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css',
+		array(),
+		'1.6.0',
+		'all'
+	);
+	
+	wp_register_script(
+		'slick-silder',
+		'//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js',
+		array(),
+		'1.6.0',
+		'all'
+	);
+	
 	wp_register_script(
 		'pmwoodwind',
 		THEME_URL . '/dist/assets/js/app.js',
-		array( 'pmwoodwind-rev-slider', 'modernizr' ),
+		array( 'pmwoodwind-rev-slider', 'modernizr', 'slick-silder' ),
 		THEME_VER,
 		true
 	);
@@ -766,14 +782,6 @@ function pmwoodwind_register_scripts() {
 		'all'
 	);
 	
-	wp_register_style(
-		'slick-silder',
-		'//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css',
-		array(),
-		'1.6.0',
-		'all'
-	);
-	
 }
 
 add_action( 'wp_enqueue_scripts', 'pmwoodwind_enqueue_scripts' );
@@ -786,7 +794,6 @@ function pmwoodwind_enqueue_scripts() {
 	
 	wp_enqueue_style( 'montserrat' );
 	wp_enqueue_style( 'fontawesome' );
-	//wp_enqueue_style( 'slick-silder' );
 	
 }
 
