@@ -283,7 +283,7 @@
 			endforeach;	
 			?><li class="mix all">
 					<a href="/compare/?list=<?php echo $firsttype->slug;?>">
-					<?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
+					<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
 					<span class="over">
 					<i class="fa fa-navicon" aria-hidden="true"></i>
 			 </a>
@@ -297,7 +297,7 @@
 			else:
 			?><li class="mix all">
 					
-					<?php echo get_the_post_thumbnail( get_the_ID(), 'main_image', array( 'class' => 'main-image zoom' ) ); ?>
+					<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
 					<span class="over">
 					<i class="fa fa-navicon" aria-hidden="true"></i>
 			
@@ -323,9 +323,11 @@
 
 	
 	<script>
-jQuery(function(){
-  jQuery('.comparelist').mixItUp();
-});
+( function( $ ){
+	$( document ).ready( function() {
+		$( '.comparelist' ).mixItUp();
+	} )
+} )( jQuery );
 </script>
 
 <?php get_footer();?>
