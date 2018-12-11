@@ -107,10 +107,10 @@
 						
 				<?php
 				$_product_attributes = get_post_meta($post->ID,'_product_attributes', true);
-	
 				
-				
-				if(pmwoodwind_is_new_product(get_the_id()) && get_post_meta($post->ID, '_msrp', true) && ( isset( $_product_attributes['is_variation'] ) && $_product_attributes['is_variation'] === 0 ) ) {
+				if ( pmwoodwind_is_new_product( $post->ID ) && 
+					get_post_meta( $post->ID, '_msrp', true ) && 
+					( ! isset( $_product_attributes['is_variation'] ) || $_product_attributes['is_variation'] === 0 ) ) {
 					$msrp = get_post_meta($post->ID, '_msrp', true);
 				?>
 				<li>MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span></li>
