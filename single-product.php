@@ -117,7 +117,7 @@
 				<?php
 				}
 				
-				if(is_numeric($price) && ( isset( $_product_attributes['is_variation'] ) && $_product_attributes['is_variation'] === 0 ) ) :?>
+				if(is_numeric($price) && ( ! isset( $_product_attributes['is_variation'] ) || $_product_attributes['is_variation'] === 0 ) ) :?>
 				<li>Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span></li>
 				
 					<?php endif;?>		
