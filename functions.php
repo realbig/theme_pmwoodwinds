@@ -120,6 +120,16 @@ function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 			}
 			
 		}
+		
+		// Add new instruments directory
+		foreach (glob($dir['basedir'].'/products/new-instruments/'.$serial.'*') as $filename) {
+			
+			if ( preg_match( '/\d+x\d+/', $filename ) === 0 ) {
+				$images[] = $dir['baseurl'].str_replace($dir['basedir'],'',$filename);
+			}
+			
+		}
+		
 		if(pmwoodwind_is_mouthpiece($postid)){
 
 			foreach (glob($dir['basedir'].'/products/mouthpieces/'.$serial.'*') as $filename) {
