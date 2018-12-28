@@ -3844,6 +3844,9 @@ jQuery(document).ready(function ($) {
 
 	$(".cd-filters.list li input.filter").on('click', function () {
 		$(".cd-filter form").addClass("active");
+
+		var checkedCategories = [];
+
 		var $combatching = $();
 
 		if ($(this).parent().parent().hasClass('levels')) {
@@ -3865,23 +3868,61 @@ jQuery(document).ready(function ($) {
 			}
 		}
 		if ($(this).parent().parent().parent().parent().hasClass('categories')) {
+
 			var filterstohide = ["levels", "brands"];
 
-			if ($(this).prop('checked')) {
-				catfilters.push($(this).attr('id').toLowerCase());
+			var $category = $(this);
+
+			// If there are no Instruments/Accessories/Mouthpieces checked, show all Levels and Brands again
+			// This is also fired un-checking, so it will re-apply the hiding code
+			$('.cd-filters').not($('.cd-filters').filter('.' + filterstohide.join(', .'))).each(function (index, filter) {
+
+				$(filter).find('input[type="checkbox"]').each(function (checkboxIndex, checkbox) {
+
+					if ($(checkbox).prop('checked')) {
+						checkedCategories = checkedCategories.concat($(checkbox).closest('li').attr('class').replace('childcat', '').trim().split(' '));
+					}
+				});
+			});
+
+			$(filterstohide).each(function (i, filtertohide) {
+				$('.cd-filter-block.' + filtertohide).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
+				$('.cd-filters.' + filtertohide + ' li').each(function (filterIndex, filter) {
+					var ids = $(filter).attr('class').split(' ');
+					var exists = $(checkedCategories).filter(ids);
+					if (exists.length > 0 || checkedCategories.length == 0) {
+						$(filter).show(); // Hide or show Levels or Brands
+					} else {
+						$(filter).find('input[type="checkbox"]').prop('checked', false).attr('checked', false); // Alter mixitup state, and uncheck
+
+						// Remove the Brand from the global variable
+						var findBrand = brandsfilters.indexOf($(filter).find('input[type="checkbox"]').attr('id'));
+						if (findBrand > -1) {
+							brandsfilters.splice(findBrand, 1);
+						}
+
+						$(filter).hide();
+					}
+				});
+			});
+
+			if ($category.prop('checked')) {
+				catfilters.push($category.attr('id').toLowerCase());
 			} else {
 
-				var index = catfilters.indexOf($(this).attr('id').toLowerCase());
+				var index = catfilters.indexOf($category.attr('id').toLowerCase());
 				if (index > -1) {
 					catfilters.splice(index, 1);
 				}
 			}
 		}
+
 		if ($(this).parent().parent().hasClass('brands')) {
 			//var filterstohide = ["levels", "categories"];
 			var filterstohide = [];
 
 			if ($(this).prop('checked')) {
+				console.log('checked');
 				brandsfilters.push($(this).attr('id').toLowerCase());
 			} else {
 
@@ -3939,40 +3980,6 @@ jQuery(document).ready(function ($) {
 					$(".cd-filter form").removeClass("active");
 				}, 300);
 			}
-
-			$('.cd-gallery ul').on('mixEnd', function () {
-				setTimeout(function () {
-
-					var checkedCategories = [];
-
-					// If there are no Instruments/Accessories/Mouthpieces checked, show all Levels and Brands again
-					if (filterstohide.length > 0) {
-
-						$('.cd-filters').not($('.cd-filters').filter('.' + filterstohide.join(', .'))).each(function (index, filter) {
-
-							$(filter).find('input[type="checkbox"]').each(function (checkboxIndex, checkbox) {
-
-								if ($(checkbox).prop('checked')) {
-									checkedCategories = checkedCategories.concat($(checkbox).closest('li').attr('class').replace('childcat', '').trim().split(' '));
-								}
-							});
-						});
-					}
-
-					$(filterstohide).each(function (i, filtertohide) {
-						$('.cd-filter-block.' + filtertohide).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
-						$('.cd-filters.' + filtertohide + ' li').each(function () {
-							var ids = $(this).attr('class').split(' ');
-							var exists = $(checkedCategories).filter(ids);
-							if (exists.length > 0 || checkedCategories.length == 0) {
-								$(this).show(); // Hide or show Levels or Brands
-							} else {
-								$(this).hide();
-							}
-						});
-					});
-				}, 300);
-			});
 		} else {
 
 			$('.cd-gallery ul').mixItUp('filter', 'all');
