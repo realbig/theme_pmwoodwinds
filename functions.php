@@ -283,11 +283,6 @@ function pmwoodwind_add_new_voucher_link(){
 	<?php }
 }
 
- function pmwoocommerce_add_woocommerce_support() {
-	add_theme_support( 'woocommerce' );
-}
-add_action( 'after_setup_theme', 'pmwoocommerce_add_woocommerce_support' );
-
 add_action( 'admin_init', function() {
 	
 	if ( ! is_admin() ) return;
@@ -747,7 +742,7 @@ function pmwoodwind_register_scripts() {
 	wp_register_script(
 		'pmwoodwind',
 		THEME_URL . '/dist/assets/js/app.js',
-		array( 'pmwoodwind-rev-slider', 'modernizr', 'slick-silder' ),
+		array( 'modernizr', 'slick-silder' ),
 		THEME_VER,
 		true
 	);
@@ -852,3 +847,5 @@ function pmwoodwind_get_product_thumbnail_src( $size ) {
 }
 
 require_once __DIR__ . '/core/import-photos.php';
+
+require_once __DIR__ . '/core/woocommerce-support.php';

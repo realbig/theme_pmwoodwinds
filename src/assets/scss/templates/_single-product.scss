@@ -1,24 +1,154 @@
-.single-product {
+.woocommerce.single-product {
 	
-	.imgview.hasimages {
+	.product {
 		
-		& > a {
+		background: transparent;
+		border: 0;
+		
+		.single_add_to_cart_button, .add_to_cart_button, .compare.button {
 			
-			width: 100%;
-			display: block;
-			
-			span {
-				width: 100%;
-			}
+			display: inline-block;
+			font-family: 'Montserrat';
+			font-style: normal;
+			font-weight: 400;
+			font-size: 18px;
+			line-height: 12px;
+			color: #fff;
+			padding: 14px 25px;
+			text-decoration: none;
+			text-align: center;
+			-moz-border-radius: 21px;
+			-webkit-border-radius: 21px;
+			border-radius: 21px;
+			background: #6195e0;
+			border: 2px solid #000;
 			
 		}
 		
 	}
 	
-	#product_single_image {
+	div.product {
 		
-		span {
+		padding-top: 160px;
+		
+		div.summary {
 			width: 100%;
+		}
+		
+		.images {
+			
+			width: 100%;
+			
+			.thumbnails {
+				
+				background: transparent;
+				margin-top: 0;
+				margin-bottom: 0;
+				height: auto;
+				
+				li {
+					
+					margin-right: 0.5rem;
+					
+					&:last-of-type {
+						margin-right: 0;
+					}
+					
+				}
+				
+			}
+			
+			.yith_magnifier_zoom_magnifier {
+				border: none;
+			}
+			
+		}
+		
+		.woocommerce-tabs {
+			
+			ul.tabs {
+
+				border: none;
+				background: transparent;
+				margin-bottom: 0;
+
+				&:before {
+					content: none;
+				}
+
+				li {
+
+					&:before {
+						box-shadow: 2px 2px 0 #325483;
+					}
+
+					background: #325483;
+					border-bottom-color: #325483;
+					color: #fff;
+
+					&:after {
+						box-shadow: -2px 2px 0 #325483;
+					}
+
+				}
+
+				li.active {
+
+					&:before {
+						box-shadow: 2px 2px 0 #6195e0;
+					}
+
+					background: #6195e0;
+					border-bottom-color: #6195e0;
+					color: #fff;
+
+					&:after {
+						box-shadow: -2px 2px 0 #6195e0;
+					}
+
+				}
+
+			}
+
+			.woocommerce-Tabs-panel {
+
+				background: lighten( #c7c7c7, 15% );
+				padding: 30px;
+				
+				& > h2 {
+					color: inherit;
+					margin-bottom: 1rem;
+				}
+
+				table {
+
+					tbody {
+
+						background-color: lighten( #c7c7c7, 15% );
+
+						tr:nth-child(even) {
+
+							background-color: smart-scale( lighten( #c7c7c7, 15% ), 5% );
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+		
+	}
+	
+	li.product {
+		
+		.woocommerce-placeholder {
+			
+			min-height: 251.359px;
+			width: auto;
+			
 		}
 		
 	}
