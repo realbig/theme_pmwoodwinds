@@ -137,8 +137,8 @@ jQuery(document).ready(function($) {
     }
     //
     // === Revolution Slider config ===
-    if ($('.home .slider').length>0) {
-        jQuery('.home .slider').revolution({
+    if ($('.slider').length>0) {
+        jQuery('.slider').revolution({
             delay:9000,
             startwidth:1920,
             startheight:780,

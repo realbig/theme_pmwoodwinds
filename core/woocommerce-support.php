@@ -37,6 +37,8 @@ add_action( 'after_setup_theme', 'pmwoodwind_add_woocommerce_support' );
  */
 function pmwoodwind_add_woocommerce_support() {
 	add_theme_support( 'woocommerce' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
 }
 
 add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_single_image_column_start', 1 ); 
@@ -100,5 +102,42 @@ function pmwoodwind_product_single_summary_column_end() { ?>
 		</div>
 			
 	<?php
+	
+}
+
+add_filter( 'woocommerce_single_product_carousel_options', 'pmwoodwind_flexslider_options' );
+
+/**
+ * Modify Options for Flexslider (The Slider that is used for the the Product Gallery)
+ * 
+ * @param		array $options Photoswipe Options
+ *                                   
+ * @sincee		{{VERSION}}
+ * @return		array Photoswipe Options
+ */
+function pmwoodwind_flexslider_options( $options ) {
+
+    $options['directionNav'] = true; // Arrows
+	$options['controlNav'] = false; // Thumbnails below Slider
+	$options['slideshow'] = true; // Auto-progress slides, since we're hiding thumbnails	
+	
+    return $options;
+}
+
+add_filter( 'woocommerce_single_product_photoswipe_options', 'pmwoodwind_photoswipe_options' );
+
+/**
+ * Modify Options for Photoswipe (The Lightbox that is shown when clicking on the Product Gallery)
+ * 
+ * @param		array $options Photoswipe Options
+ *                                   
+ * @sincee		{{VERSION}}
+ * @return		array Photoswipe Options
+ */
+function pmwoodwind_photoswipe_options( $options ) {
+	
+	$options['captionEl'] = false;
+	
+	return $options;
 	
 }
