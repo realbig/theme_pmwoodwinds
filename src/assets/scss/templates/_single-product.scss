@@ -5,7 +5,7 @@
 		background: transparent;
 		border: 0;
 		
-		.single_add_to_cart_button, .add_to_cart_button, .compare.button {
+		.single_add_to_cart_button, .add_to_cart_button, .compare.button, .button {
 			
 			display: inline-block;
 			font-family: 'Montserrat';
@@ -28,8 +28,6 @@
 	}
 	
 	div.product {
-		
-		padding-top: 160px;
 		
 		div.summary {
 			width: 100%;
@@ -140,6 +138,31 @@
 
 		}
 		
+		p.price {
+			
+			margin-bottom: 0;
+			font-size: inherit;
+			
+			&, span {
+				color: #fff;
+			}
+			
+		}
+		
+		div.product_meta {
+			
+			margin-bottom: 1em;
+			
+			& > span {
+				
+				display: block;
+				
+				color: #fff;
+				
+			}
+			
+		}
+		
 	}
 	
 	li.product {
@@ -225,6 +248,14 @@
 				
 			}
 			
+		}
+		
+	}
+	
+	.related.products {
+		
+		& > h2 {
+			margin-bottom: 1em;
 		}
 		
 	}
