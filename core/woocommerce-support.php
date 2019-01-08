@@ -50,17 +50,49 @@ add_action( 'pmwoodwind_product_single_image_column_before', function() {
 	
 	?>
 	
-	<div id="latest-work" class="product-page container hover-section">
-		<div class="category-head">
-			<h1><?php the_title();?></h1>
-			<div class="bars-animation">
-				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
-			</div>
-		</div><!-- Category Head -->
+	<div class="category-head">
+		<h1><?php the_title();?></h1>
+		<div class="bars-animation">
+			<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
+		</div>
+	</div><!-- Category Head -->
 
 <?php 
 	
 } );
+
+add_action( 'pmwoodwind_product_cat_header', function() {
+	
+	?>
+	
+	<div class="category-head">
+		<h4><?php echo single_cat_title();?></h4>
+		<div class="bars-animation">
+			<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
+		</div>
+	</div><!-- Category Head -->
+
+<?php 
+	
+} );
+
+add_action( 'pmwoodwind_product_cat_header', 'pmwoodwind_hide_product_cat_title' );
+
+function pmwoodwind_hide_product_cat_title() {
+	
+	// Hide WooCommerce's included Page Title on Product Category Archives
+	add_filter( 'woocommerce_show_page_title', '__return_false' );
+	
+}
+
+add_action( 'pmwoodwind_product_cat_header', 'pmwoodwind_hide_product_cat_add_to_cart' );
+
+function pmwoodwind_hide_product_cat_add_to_cart() {
+	
+	// Remove Add To Cart Button on Product Category Archives
+	remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+	
+}
 
 add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_single_image_column_start', 1 ); 
 
