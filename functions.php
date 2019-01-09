@@ -851,4 +851,24 @@ function pmwoodwind_get_product_thumbnail_src( $size ) {
 	
 }
 
+/**
+ * Remove auto-added Featured Image from Single Events
+ * 
+ * @param		string  $featured_image HTML
+ * @param		integer $post_id        Post ID
+ * @param		string  $size           Image Size Name
+ *                                            
+ * @since		1.0.0
+ * @return		string  HTML
+ */
+add_filter( 'tribe_event_featured_image', function( $featured_image, $post_id, $size ) {
+	
+	if ( is_single( $post_id ) ) {
+		return '';
+	}
+	
+	return $featured_image;
+	
+}, 10, 3 );
+
 require_once __DIR__ . '/core/import-photos.php';
