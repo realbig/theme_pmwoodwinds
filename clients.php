@@ -28,7 +28,7 @@
 		
 
 		</div>
-     <div id="testimonials" class="testimonial">
+     <div id="trd-testimonial" class="trd-testimonial">
 	 <?php
 	 $posts = get_posts(array(
 		'numberposts'	=> -1,
@@ -42,13 +42,41 @@
 		$link = get_post_meta($post->ID, 'wpcf-link', true);
 		if($show):
 	?>
-	<div class="client-item">
-		<div class="text">
-			<?php if(!$link):?>
-			<h3><?php echo $post->post_title;?></h3>
-			<?php else:?>
-			<h3><a href="<?php echo $link;?>" target="_blank"><?php echo $post->post_title;?></a></h3>
-			<?php endif;?>
+	<div class="trd-testimonial-slides">
+		
+		<div class="trd-testimonial-text">
+			<p><?php echo get_post_meta($post->ID, 'wpcf-testimonial', true);?></p>
+		</div>
+		<div class="trd-satisfied-user-info">
+			
+			<?php if ( $image_url = get_post_meta($post->ID, 'wpcf-image', true) ) : ?>
+				<div class="trd-user-img-wrapper">
+					<img src="<?php echo $image_url;?>" alt="<?php echo $post->post_title;?>">
+				</div>
+			<?php endif; ?>
+			
+			<h3>
+			
+				<?php 
+
+				$website_url = get_post_meta($post->ID, 'wpcf-link', true);
+
+				if ( $website_url ) : ?>
+			
+					<a href="<?php echo get_post_meta($post->ID, 'wpcf-link', true);?>" target="_blank">
+						
+				<?php endif; ?>
+						
+						<?php echo $post->post_title;?>
+				
+				<?php if ( $website_url ) : ?>
+				
+					</a>
+			
+				<?php endif; ?>
+			
+			</h3>
+			
 		</div>
 
 	</div>

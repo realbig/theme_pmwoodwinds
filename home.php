@@ -294,10 +294,35 @@ $p++;
 			<p><?php echo get_post_meta($post->ID, 'wpcf-testimonial', true);?></p>
 		</div>
 		<div class="trd-satisfied-user-info">
-			<div class="trd-user-img-wrapper">
-				<img src="<?php echo get_post_meta($post->ID, 'wpcf-image', true);?>" alt="<?php echo $post->post_title;?>">
-			</div>           
-			<h3><a href="<?php echo get_post_meta($post->ID, 'wpcf-link', true);?>" target="_blank"><?php echo $post->post_title;?></a></h3>
+			
+			<?php if ( $image_url = get_post_meta($post->ID, 'wpcf-image', true) ) : ?>
+				<div class="trd-user-img-wrapper">
+					<img src="<?php echo $image_url;?>" alt="<?php echo $post->post_title;?>">
+				</div>
+			<?php endif; ?>
+			
+			<h3>
+			
+				<?php 
+
+				$website_url = get_post_meta($post->ID, 'wpcf-link', true);
+
+				if ( $website_url ) : ?>
+			
+					<a href="<?php echo get_post_meta($post->ID, 'wpcf-link', true);?>" target="_blank">
+						
+				<?php endif; ?>
+						
+						<?php echo $post->post_title;?>
+				
+				<?php if ( $website_url ) : ?>
+				
+					</a>
+			
+				<?php endif; ?>
+			
+			</h3>
+			
 		</div>
 	</div>
      <?php endforeach;?>      
