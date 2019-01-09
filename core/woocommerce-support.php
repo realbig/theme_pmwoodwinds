@@ -370,3 +370,23 @@ function pmwoodwind_use_product_grid_image_size( $size ) {
 	return $size;
 	
 }
+
+remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cart_totals', 10 );
+
+remove_action( 'woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20 );
+
+add_action( 'woocommerce_cart_contents', function() {
+	
+	?>
+
+	</table>
+
+	<?php woocommerce_cart_totals(); ?>
+
+	<table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
+	
+	<?php 
+
+} );
+
+add_action( 'woocommerce_cart_collaterals', 'woocommerce_button_proceed_to_checkout' );

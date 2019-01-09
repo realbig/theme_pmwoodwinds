@@ -1,0 +1,42 @@
+.woocommerce-cart {
+	
+	// Remove space for old position of Checkout Button
+	.wc-proceed-to-checkout {
+		padding: 0;
+		display: none;
+	}
+	
+	.cart-collaterals {
+		
+		// New location of Checkout Button
+		a {
+			width: 100%;
+			margin: 1em 0;
+			text-align: center;
+		}
+		
+	}
+	
+	.cart_totals {
+		
+		h2 {
+			display: none;
+		}
+		
+		table.shop_table { 
+			
+			th {
+				color: inherit;
+				width: auto;
+				text-align: right;
+			}
+			
+			p {
+				color: inherit;
+			}
+			
+		}
+		
+	}
+	
+}
