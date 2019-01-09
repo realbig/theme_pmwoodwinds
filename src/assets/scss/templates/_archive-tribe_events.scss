@@ -2,7 +2,7 @@ body.post-type-archive-tribe_events {
 	
 	#tribe-events-content {
 		
-		.tribe_events, .tribe-events-tooltip, .tribe-events-list-separator-month {
+		.tribe_events, .tribe-events-tooltip, .tribe-events-list-separator-month, .tribe-events-day-time-slot-heading {
 			
 			&, *:not(.tribe-events-event-meta) {
 				color: inherit;
@@ -19,6 +19,22 @@ body.post-type-archive-tribe_events {
 			margin: 0;
 			max-width: none;
 			
+		}
+		
+	}
+	
+	#tribe-events-day {
+		
+		.type-tribe_events {
+			margin-left: 0;
+		}
+		
+	}
+	
+	.datepicker {
+		
+		table {
+			width: auto;
 		}
 		
 	}
