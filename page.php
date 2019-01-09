@@ -11,7 +11,6 @@
 			<div class="bars-animation">
 				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
-			<p><?php the_excerpt();?></p>
 		</div><!-- Category Head -->
 
 		<div class="row">
