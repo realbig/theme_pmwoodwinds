@@ -1,0 +1,76 @@
+.archive.woocommerce, .tax-product_cat {
+	
+	.cd-filter {
+		
+		float: left;
+		
+	}
+	
+	.cd-gallery { 
+		
+		ul.products {
+		
+			li.product {
+			
+				display: list-item;
+				
+				a {
+
+					img {
+						margin-bottom: 0;
+					}
+					
+				}
+
+				h2 {
+
+					padding: 10px;
+					background: #000;
+					position: relative;
+					line-height: initial;
+					text-align: left;
+					font-size: 12px;
+					height: 52px;
+					font-weight: normal;
+					
+					margin-top: -2px;
+
+				}
+
+				span.price {
+
+					text-transform:uppercase;
+					position: absolute;
+					right: 0;
+					padding: 10px;
+					top: 50%;
+					background: #6195e0;
+					color: #000;
+					opacity: 0.8;
+					font-size: 12px;
+					
+					&, * {
+						font-weight: bold;
+					}
+
+				}
+
+			}
+			
+		}
+		
+	}
+	
+	nav.woocommerce-pagination { 
+		
+		ul {
+			
+			li {
+				width: auto;
+			}
+			
+		}
+		
+	}
+	
+}

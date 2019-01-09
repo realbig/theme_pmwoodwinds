@@ -340,3 +340,33 @@ function pmwoodwind_hide_product_single_stock_html( $html, $product ) {
 	return '';
 	
 }
+
+add_action( 'widgets_init', 'pmwoodwind_add_woocommerce_sidebar' );
+
+/**
+ * I could have sworn this was the default, but I suppose it is not?
+ * 
+ * @since		{{VERSION}}
+ * @return		void
+ */
+function pmwoodwind_add_woocommerce_sidebar() {
+
+	register_sidebar( array(
+			'id' => 'shop',
+			'name' => __( 'WooCommerce Sidebar', 'vibrant-life-theme' ),
+			'description' => __( 'Shown on Product Archive Pages.', 'vibrant-life-theme' ),
+	) );
+	
+}
+
+add_filter( 'single_product_archive_thumbnail_size', 'pmwoodwind_use_product_grid_image_size' );
+
+function pmwoodwind_use_product_grid_image_size( $size ) {
+	
+	if ( is_tax( 'product_cat' ) ) {
+		return 'product_grid';
+	}
+	
+	return $size;
+	
+}
