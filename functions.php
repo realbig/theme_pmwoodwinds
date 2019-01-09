@@ -481,7 +481,6 @@ function pmwoodwind_change_translate_text_multiple( $translated ) {
 		'In stock' => 'Sale',
 		'Out of stock' => 'Sold',
 		'On backorder' => 'TBD',
-		'WooCommerce' => 'Shop',
 		'SKU' => 'Serial',
 		'Stock status' => 'Sale Status',
 		'Move to Trash' => 'Delete'
