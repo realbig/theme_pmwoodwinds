@@ -2,11 +2,22 @@ body.post-type-archive-tribe_events {
 	
 	#tribe-events-content {
 		
-		.tribe_events, .tribe-events-tooltip {
+		.tribe_events, .tribe-events-tooltip, .tribe-events-list-separator-month {
 			
-			&, * {
+			&, *:not(.tribe-events-event-meta) {
 				color: inherit;
 			}
+			
+		}
+		
+		.tribe-events-event-meta {
+			color: #fff;
+		}
+		
+		.tribe-events-loop {
+			
+			margin: 0;
+			max-width: none;
 			
 		}
 		
