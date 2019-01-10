@@ -25,6 +25,36 @@
 			
 		}
 		
+		.wcpf-heading-label {
+			
+			position: relative;
+			margin-bottom: .2em;
+			padding: 10px 0 10px 20px;
+			color: #bbb;
+			text-transform: uppercase;
+			font-weight: 700;
+			font-size: 0.8rem;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			cursor: pointer;
+			
+			font-family: 'Montserrat';
+			line-height: 18px;
+			padding-left: 0;
+			padding-right: 0;
+			
+			span, a {
+				font-weight: inherit;
+			}
+			
+			span:before {
+				color: #bbb;
+			}
+			
+		}
+		
 	}
 	
 	.cd-gallery { 

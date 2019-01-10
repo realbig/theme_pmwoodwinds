@@ -34,10 +34,17 @@ get_header(); ?>
 							<a data-type="used" hr="" ef="#used">Used</a> <!-- selected option on mobile -->
 						</li> 
 
+						<?php 
+						
+						if ( ! isset( $_GET['show'] ) ) $_GET['show'] = 'All';
+	
+							$show = esc_attr( $_GET['show'] );
+						
+						?>
 
-						<li class="filtertype"><a class="selected" href="/products/instruments/?show=used">Used</a></li>
-						<li class="filtertype"><a href="/products/instruments/?show=new">New</a></li>
-						<li class="filtertype"><a href="/products/instruments/?show=all">All</a></li>
+						<li class="filtertype"><a <?php echo ( $show == 'Used' ) ? 'class="selected" ' : ''; ?>href="<?php echo add_query_arg( 'show', 'Used' ); ?>">Used</a></li>
+						<li class="filtertype"><a <?php echo ( $show == 'New' ) ? 'class="selected" ' : ''; ?>href="<?php echo add_query_arg( 'show', 'New' ); ?>">New</a></li>
+						<li class="filtertype"><a <?php echo ( $show == 'All' ) ? 'class="selected" ' : ''; ?>href="<?php echo add_query_arg( 'show', 'All' ); ?>">All</a></li>
 
 					</ul> <!-- cd-filters -->
 				</div> <!-- cd-tab-filter -->
