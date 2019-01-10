@@ -4,6 +4,27 @@
 		
 		float: left;
 		
+		&.disabled {
+			
+			* {
+				pointer-events: none;
+			}
+			
+			&:after {
+				
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				
+				background: rgba( 0, 0, 0, 0.3 );
+				
+			}
+			
+		}
+		
 	}
 	
 	.cd-gallery { 
@@ -12,7 +33,7 @@
 		
 			li.product {
 			
-				display: list-item;
+				display: none;
 				
 				a {
 
@@ -72,5 +93,16 @@
 		}
 		
 	}
+	
+	.wcpf_widget_filters {
+		
+		padding: 70px 10%;
+	}
+	
+}
+
+.blockUI.blockOverlay {
+	
+	display: none !important; // Override inline style
 	
 }

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 22);
+/******/ 	return __webpack_require__(__webpack_require__.s = 28);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,30 +73,91 @@
 module.exports = jQuery;
 
 /***/ }),
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(18);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.transitionend = exports.GetYoDigits = exports.rtl = undefined;
 
-__webpack_require__(17);
+var _jquery = __webpack_require__(0);
 
-__webpack_require__(16);
+var _jquery2 = _interopRequireDefault(_jquery);
 
-__webpack_require__(20);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(19);
+// Core Foundation Utilities, utilized in a number of places.
 
-__webpack_require__(3);
+/**
+ * Returns a boolean for RTL support
+ */
+function rtl() {
+  return (0, _jquery2.default)('html').attr('dir') === 'rtl';
+}
 
-__webpack_require__(4);
+/**
+ * returns a random base-36 uid with namespacing
+ * @function
+ * @param {Number} length - number of random base-36 digits desired. Increase for more random strings.
+ * @param {String} namespace - name of plugin to be incorporated in uid, optional.
+ * @default {String} '' - if no plugin name is provided, nothing is appended to the uid.
+ * @returns {String} - unique id
+ */
+function GetYoDigits(length, namespace) {
+  length = length || 6;
+  return Math.round(Math.pow(36, length + 1) - Math.random() * Math.pow(36, length)).toString(36).slice(1) + (namespace ? '-' + namespace : '');
+}
 
-__webpack_require__(5);
+function transitionend($elem) {
+  var transitions = {
+    'transition': 'transitionend',
+    'WebkitTransition': 'webkitTransitionEnd',
+    'MozTransition': 'transitionend',
+    'OTransition': 'otransitionend'
+  };
+  var elem = document.createElement('div'),
+      end;
 
-__webpack_require__(6);
+  for (var t in transitions) {
+    if (typeof elem.style[t] !== 'undefined') {
+      end = transitions[t];
+    }
+  }
+  if (end) {
+    return end;
+  } else {
+    end = setTimeout(function () {
+      $elem.triggerHandler('transitionend', [$elem]);
+    }, 1);
+    return 'transitionend';
+  }
+}
+
+exports.rtl = rtl;
+exports.GetYoDigits = GetYoDigits;
+exports.transitionend = transitionend;
+
+/***/ }),
+/* 2 */,
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(23);
+
+__webpack_require__(22);
+
+__webpack_require__(21);
+
+__webpack_require__(25);
+
+__webpack_require__(24);
 
 __webpack_require__(7);
 
@@ -116,8 +177,776 @@ __webpack_require__(14);
 
 __webpack_require__(15);
 
+__webpack_require__(16);
+
+__webpack_require__(17);
+
+__webpack_require__(18);
+
+__webpack_require__(20);
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _whatInput = __webpack_require__(26);
+
+var _whatInput2 = _interopRequireDefault(_whatInput);
+
+var _foundation = __webpack_require__(4);
+
+var _foundationUtil = __webpack_require__(6);
+
+__webpack_require__(19);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+window.$ = _jquery2.default;
+
+_foundation.Foundation.addToJquery(_jquery2.default);
+
+_foundation.Foundation.Motion = _foundationUtil.Motion;
+
+module.exports = _foundation.Foundation;
+
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Foundation = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _foundationUtil = __webpack_require__(1);
+
+var _foundationUtil2 = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FOUNDATION_VERSION = '6.4.1';
+
+// Global Foundation object
+// This is attached to the window, or used as a module for AMD/Browserify
+var Foundation = {
+  version: FOUNDATION_VERSION,
+
+  /**
+   * Stores initialized plugins.
+   */
+  _plugins: {},
+
+  /**
+   * Stores generated unique ids for plugin instances
+   */
+  _uuids: [],
+
+  /**
+   * Defines a Foundation plugin, adding it to the `Foundation` namespace and the list of plugins to initialize when reflowing.
+   * @param {Object} plugin - The constructor of the plugin.
+   */
+  plugin: function plugin(_plugin, name) {
+    // Object key to use when adding to global Foundation object
+    // Examples: Foundation.Reveal, Foundation.OffCanvas
+    var className = name || functionName(_plugin);
+    // Object key to use when storing the plugin, also used to create the identifying data attribute for the plugin
+    // Examples: data-reveal, data-off-canvas
+    var attrName = hyphenate(className);
+
+    // Add to the Foundation object and the plugins list (for reflowing)
+    this._plugins[attrName] = this[className] = _plugin;
+  },
+  /**
+   * @function
+   * Populates the _uuids array with pointers to each individual plugin instance.
+   * Adds the `zfPlugin` data-attribute to programmatically created plugins to allow use of $(selector).foundation(method) calls.
+   * Also fires the initialization event for each plugin, consolidating repetitive code.
+   * @param {Object} plugin - an instance of a plugin, usually `this` in context.
+   * @param {String} name - the name of the plugin, passed as a camelCased string.
+   * @fires Plugin#init
+   */
+  registerPlugin: function registerPlugin(plugin, name) {
+    var pluginName = name ? hyphenate(name) : functionName(plugin.constructor).toLowerCase();
+    plugin.uuid = (0, _foundationUtil.GetYoDigits)(6, pluginName);
+
+    if (!plugin.$element.attr('data-' + pluginName)) {
+      plugin.$element.attr('data-' + pluginName, plugin.uuid);
+    }
+    if (!plugin.$element.data('zfPlugin')) {
+      plugin.$element.data('zfPlugin', plugin);
+    }
+    /**
+     * Fires when the plugin has initialized.
+     * @event Plugin#init
+     */
+    plugin.$element.trigger('init.zf.' + pluginName);
+
+    this._uuids.push(plugin.uuid);
+
+    return;
+  },
+  /**
+   * @function
+   * Removes the plugins uuid from the _uuids array.
+   * Removes the zfPlugin data attribute, as well as the data-plugin-name attribute.
+   * Also fires the destroyed event for the plugin, consolidating repetitive code.
+   * @param {Object} plugin - an instance of a plugin, usually `this` in context.
+   * @fires Plugin#destroyed
+   */
+  unregisterPlugin: function unregisterPlugin(plugin) {
+    var pluginName = hyphenate(functionName(plugin.$element.data('zfPlugin').constructor));
+
+    this._uuids.splice(this._uuids.indexOf(plugin.uuid), 1);
+    plugin.$element.removeAttr('data-' + pluginName).removeData('zfPlugin')
+    /**
+     * Fires when the plugin has been destroyed.
+     * @event Plugin#destroyed
+     */
+    .trigger('destroyed.zf.' + pluginName);
+    for (var prop in plugin) {
+      plugin[prop] = null; //clean up script to prep for garbage collection.
+    }
+    return;
+  },
+
+  /**
+   * @function
+   * Causes one or more active plugins to re-initialize, resetting event listeners, recalculating positions, etc.
+   * @param {String} plugins - optional string of an individual plugin key, attained by calling `$(element).data('pluginName')`, or string of a plugin class i.e. `'dropdown'`
+   * @default If no argument is passed, reflow all currently active plugins.
+   */
+  reInit: function reInit(plugins) {
+    var isJQ = plugins instanceof _jquery2.default;
+    try {
+      if (isJQ) {
+        plugins.each(function () {
+          (0, _jquery2.default)(this).data('zfPlugin')._init();
+        });
+      } else {
+        var type = typeof plugins === 'undefined' ? 'undefined' : _typeof(plugins),
+            _this = this,
+            fns = {
+          'object': function object(plgs) {
+            plgs.forEach(function (p) {
+              p = hyphenate(p);
+              (0, _jquery2.default)('[data-' + p + ']').foundation('_init');
+            });
+          },
+          'string': function string() {
+            plugins = hyphenate(plugins);
+            (0, _jquery2.default)('[data-' + plugins + ']').foundation('_init');
+          },
+          'undefined': function undefined() {
+            this['object'](Object.keys(_this._plugins));
+          }
+        };
+        fns[type](plugins);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      return plugins;
+    }
+  },
+
+  /**
+   * Initialize plugins on any elements within `elem` (and `elem` itself) that aren't already initialized.
+   * @param {Object} elem - jQuery object containing the element to check inside. Also checks the element itself, unless it's the `document` object.
+   * @param {String|Array} plugins - A list of plugins to initialize. Leave this out to initialize everything.
+   */
+  reflow: function reflow(elem, plugins) {
+
+    // If plugins is undefined, just grab everything
+    if (typeof plugins === 'undefined') {
+      plugins = Object.keys(this._plugins);
+    }
+    // If plugins is a string, convert it to an array with one item
+    else if (typeof plugins === 'string') {
+        plugins = [plugins];
+      }
+
+    var _this = this;
+
+    // Iterate through each plugin
+    _jquery2.default.each(plugins, function (i, name) {
+      // Get the current plugin
+      var plugin = _this._plugins[name];
+
+      // Localize the search to all elements inside elem, as well as elem itself, unless elem === document
+      var $elem = (0, _jquery2.default)(elem).find('[data-' + name + ']').addBack('[data-' + name + ']');
+
+      // For each plugin found, initialize it
+      $elem.each(function () {
+        var $el = (0, _jquery2.default)(this),
+            opts = {};
+        // Don't double-dip on plugins
+        if ($el.data('zfPlugin')) {
+          console.warn("Tried to initialize " + name + " on an element that already has a Foundation plugin.");
+          return;
+        }
+
+        if ($el.attr('data-options')) {
+          var thing = $el.attr('data-options').split(';').forEach(function (e, i) {
+            var opt = e.split(':').map(function (el) {
+              return el.trim();
+            });
+            if (opt[0]) opts[opt[0]] = parseValue(opt[1]);
+          });
+        }
+        try {
+          $el.data('zfPlugin', new plugin((0, _jquery2.default)(this), opts));
+        } catch (er) {
+          console.error(er);
+        } finally {
+          return;
+        }
+      });
+    });
+  },
+  getFnName: functionName,
+
+  addToJquery: function addToJquery($) {
+    // TODO: consider not making this a jQuery function
+    // TODO: need way to reflow vs. re-initialize
+    /**
+     * The Foundation jQuery method.
+     * @param {String|Array} method - An action to perform on the current jQuery object.
+     */
+    var foundation = function foundation(method) {
+      var type = typeof method === 'undefined' ? 'undefined' : _typeof(method),
+          $noJS = $('.no-js');
+
+      if ($noJS.length) {
+        $noJS.removeClass('no-js');
+      }
+
+      if (type === 'undefined') {
+        //needs to initialize the Foundation object, or an individual plugin.
+        _foundationUtil2.MediaQuery._init();
+        Foundation.reflow(this);
+      } else if (type === 'string') {
+        //an individual method to invoke on a plugin or group of plugins
+        var args = Array.prototype.slice.call(arguments, 1); //collect all the arguments, if necessary
+        var plugClass = this.data('zfPlugin'); //determine the class of plugin
+
+        if (plugClass !== undefined && plugClass[method] !== undefined) {
+          //make sure both the class and method exist
+          if (this.length === 1) {
+            //if there's only one, call it directly.
+            plugClass[method].apply(plugClass, args);
+          } else {
+            this.each(function (i, el) {
+              //otherwise loop through the jQuery collection and invoke the method on each
+              plugClass[method].apply($(el).data('zfPlugin'), args);
+            });
+          }
+        } else {
+          //error for no class or no method
+          throw new ReferenceError("We're sorry, '" + method + "' is not an available method for " + (plugClass ? functionName(plugClass) : 'this element') + '.');
+        }
+      } else {
+        //error for invalid argument type
+        throw new TypeError('We\'re sorry, ' + type + ' is not a valid parameter. You must use a string representing the method you wish to invoke.');
+      }
+      return this;
+    };
+    $.fn.foundation = foundation;
+    return $;
+  }
+};
+
+Foundation.util = {
+  /**
+   * Function for applying a debounce effect to a function call.
+   * @function
+   * @param {Function} func - Function to be called at end of timeout.
+   * @param {Number} delay - Time in ms to delay the call of `func`.
+   * @returns function
+   */
+  throttle: function throttle(func, delay) {
+    var timer = null;
+
+    return function () {
+      var context = this,
+          args = arguments;
+
+      if (timer === null) {
+        timer = setTimeout(function () {
+          func.apply(context, args);
+          timer = null;
+        }, delay);
+      }
+    };
+  }
+};
+
+window.Foundation = Foundation;
+
+// Polyfill for requestAnimationFrame
+(function () {
+  if (!Date.now || !window.Date.now) window.Date.now = Date.now = function () {
+    return new Date().getTime();
+  };
+
+  var vendors = ['webkit', 'moz'];
+  for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
+    var vp = vendors[i];
+    window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vp + 'CancelAnimationFrame'] || window[vp + 'CancelRequestAnimationFrame'];
+  }
+  if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
+    var lastTime = 0;
+    window.requestAnimationFrame = function (callback) {
+      var now = Date.now();
+      var nextTime = Math.max(lastTime + 16, now);
+      return setTimeout(function () {
+        callback(lastTime = nextTime);
+      }, nextTime - now);
+    };
+    window.cancelAnimationFrame = clearTimeout;
+  }
+  /**
+   * Polyfill for performance.now, required by rAF
+   */
+  if (!window.performance || !window.performance.now) {
+    window.performance = {
+      start: Date.now(),
+      now: function now() {
+        return Date.now() - this.start;
+      }
+    };
+  }
+})();
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function (oThis) {
+    if (typeof this !== 'function') {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    }
+
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        fNOP = function fNOP() {},
+        fBound = function fBound() {
+      return fToBind.apply(this instanceof fNOP ? this : oThis, aArgs.concat(Array.prototype.slice.call(arguments)));
+    };
+
+    if (this.prototype) {
+      // native functions don't have a prototype
+      fNOP.prototype = this.prototype;
+    }
+    fBound.prototype = new fNOP();
+
+    return fBound;
+  };
+}
+// Polyfill to get the name of a function in IE9
+function functionName(fn) {
+  if (Function.prototype.name === undefined) {
+    var funcNameRegex = /function\s([^(]{1,})\(/;
+    var results = funcNameRegex.exec(fn.toString());
+    return results && results.length > 1 ? results[1].trim() : "";
+  } else if (fn.prototype === undefined) {
+    return fn.constructor.name;
+  } else {
+    return fn.prototype.constructor.name;
+  }
+}
+function parseValue(str) {
+  if ('true' === str) return true;else if ('false' === str) return false;else if (!isNaN(str * 1)) return parseFloat(str);
+  return str;
+}
+// Convert PascalCase to kebab-case
+// Thank you: http://stackoverflow.com/a/8955580
+function hyphenate(str) {
+  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+exports.Foundation = Foundation;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MediaQuery = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Default set of media queries
+var defaultQueries = {
+  'default': 'only screen',
+  landscape: 'only screen and (orientation: landscape)',
+  portrait: 'only screen and (orientation: portrait)',
+  retina: 'only screen and (-webkit-min-device-pixel-ratio: 2),' + 'only screen and (min--moz-device-pixel-ratio: 2),' + 'only screen and (-o-min-device-pixel-ratio: 2/1),' + 'only screen and (min-device-pixel-ratio: 2),' + 'only screen and (min-resolution: 192dpi),' + 'only screen and (min-resolution: 2dppx)'
+};
+
+// matchMedia() polyfill - Test a CSS media type/query in JS.
+// Authors & copyright (c) 2012: Scott Jehl, Paul Irish, Nicholas Zakas, David Knight. Dual MIT/BSD license
+var matchMedia = window.matchMedia || function () {
+  'use strict';
+
+  // For browsers that support matchMedium api such as IE 9 and webkit
+
+  var styleMedia = window.styleMedia || window.media;
+
+  // For those that don't support matchMedium
+  if (!styleMedia) {
+    var style = document.createElement('style'),
+        script = document.getElementsByTagName('script')[0],
+        info = null;
+
+    style.type = 'text/css';
+    style.id = 'matchmediajs-test';
+
+    script && script.parentNode && script.parentNode.insertBefore(style, script);
+
+    // 'style.currentStyle' is used by IE <= 8 and 'window.getComputedStyle' for all other browsers
+    info = 'getComputedStyle' in window && window.getComputedStyle(style, null) || style.currentStyle;
+
+    styleMedia = {
+      matchMedium: function matchMedium(media) {
+        var text = '@media ' + media + '{ #matchmediajs-test { width: 1px; } }';
+
+        // 'style.styleSheet' is used by IE <= 8 and 'style.textContent' for all other browsers
+        if (style.styleSheet) {
+          style.styleSheet.cssText = text;
+        } else {
+          style.textContent = text;
+        }
+
+        // Test if media query is true or false
+        return info.width === '1px';
+      }
+    };
+  }
+
+  return function (media) {
+    return {
+      matches: styleMedia.matchMedium(media || 'all'),
+      media: media || 'all'
+    };
+  };
+}();
+
+var MediaQuery = {
+  queries: [],
+
+  current: '',
+
+  /**
+   * Initializes the media query helper, by extracting the breakpoint list from the CSS and activating the breakpoint watcher.
+   * @function
+   * @private
+   */
+  _init: function _init() {
+    var self = this;
+    var $meta = (0, _jquery2.default)('meta.foundation-mq');
+    if (!$meta.length) {
+      (0, _jquery2.default)('<meta class="foundation-mq">').appendTo(document.head);
+    }
+
+    var extractedStyles = (0, _jquery2.default)('.foundation-mq').css('font-family');
+    var namedQueries;
+
+    namedQueries = parseStyleToObject(extractedStyles);
+
+    for (var key in namedQueries) {
+      if (namedQueries.hasOwnProperty(key)) {
+        self.queries.push({
+          name: key,
+          value: 'only screen and (min-width: ' + namedQueries[key] + ')'
+        });
+      }
+    }
+
+    this.current = this._getCurrentSize();
+
+    this._watcher();
+  },
+
+
+  /**
+   * Checks if the screen is at least as wide as a breakpoint.
+   * @function
+   * @param {String} size - Name of the breakpoint to check.
+   * @returns {Boolean} `true` if the breakpoint matches, `false` if it's smaller.
+   */
+  atLeast: function atLeast(size) {
+    var query = this.get(size);
+
+    if (query) {
+      return matchMedia(query).matches;
+    }
+
+    return false;
+  },
+
+
+  /**
+   * Checks if the screen matches to a breakpoint.
+   * @function
+   * @param {String} size - Name of the breakpoint to check, either 'small only' or 'small'. Omitting 'only' falls back to using atLeast() method.
+   * @returns {Boolean} `true` if the breakpoint matches, `false` if it does not.
+   */
+  is: function is(size) {
+    size = size.trim().split(' ');
+    if (size.length > 1 && size[1] === 'only') {
+      if (size[0] === this._getCurrentSize()) return true;
+    } else {
+      return this.atLeast(size[0]);
+    }
+    return false;
+  },
+
+
+  /**
+   * Gets the media query of a breakpoint.
+   * @function
+   * @param {String} size - Name of the breakpoint to get.
+   * @returns {String|null} - The media query of the breakpoint, or `null` if the breakpoint doesn't exist.
+   */
+  get: function get(size) {
+    for (var i in this.queries) {
+      if (this.queries.hasOwnProperty(i)) {
+        var query = this.queries[i];
+        if (size === query.name) return query.value;
+      }
+    }
+
+    return null;
+  },
+
+
+  /**
+   * Gets the current breakpoint name by testing every breakpoint and returning the last one to match (the biggest one).
+   * @function
+   * @private
+   * @returns {String} Name of the current breakpoint.
+   */
+  _getCurrentSize: function _getCurrentSize() {
+    var matched;
+
+    for (var i = 0; i < this.queries.length; i++) {
+      var query = this.queries[i];
+
+      if (matchMedia(query.value).matches) {
+        matched = query;
+      }
+    }
+
+    if ((typeof matched === 'undefined' ? 'undefined' : _typeof(matched)) === 'object') {
+      return matched.name;
+    } else {
+      return matched;
+    }
+  },
+
+
+  /**
+   * Activates the breakpoint watcher, which fires an event on the window whenever the breakpoint changes.
+   * @function
+   * @private
+   */
+  _watcher: function _watcher() {
+    var _this = this;
+
+    (0, _jquery2.default)(window).off('resize.zf.mediaquery').on('resize.zf.mediaquery', function () {
+      var newSize = _this._getCurrentSize(),
+          currentSize = _this.current;
+
+      if (newSize !== currentSize) {
+        // Change the current media query
+        _this.current = newSize;
+
+        // Broadcast the media query change on the window
+        (0, _jquery2.default)(window).trigger('changed.zf.mediaquery', [newSize, currentSize]);
+      }
+    });
+  }
+};
+
+// Thank you: https://github.com/sindresorhus/query-string
+function parseStyleToObject(str) {
+  var styleObject = {};
+
+  if (typeof str !== 'string') {
+    return styleObject;
+  }
+
+  str = str.trim().slice(1, -1); // browsers re-quote string style values
+
+  if (!str) {
+    return styleObject;
+  }
+
+  styleObject = str.split('&').reduce(function (ret, param) {
+    var parts = param.replace(/\+/g, ' ').split('=');
+    var key = parts[0];
+    var val = parts[1];
+    key = decodeURIComponent(key);
+
+    // missing `=` should be `null`:
+    // http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+    val = val === undefined ? null : decodeURIComponent(val);
+
+    if (!ret.hasOwnProperty(key)) {
+      ret[key] = val;
+    } else if (Array.isArray(ret[key])) {
+      ret[key].push(val);
+    } else {
+      ret[key] = [ret[key], val];
+    }
+    return ret;
+  }, {});
+
+  return styleObject;
+}
+
+exports.MediaQuery = MediaQuery;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Motion = exports.Move = undefined;
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _foundationUtil = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Motion module.
+ * @module foundation.motion
+ */
+
+var initClasses = ['mui-enter', 'mui-leave'];
+var activeClasses = ['mui-enter-active', 'mui-leave-active'];
+
+var Motion = {
+  animateIn: function animateIn(element, animation, cb) {
+    animate(true, element, animation, cb);
+  },
+
+  animateOut: function animateOut(element, animation, cb) {
+    animate(false, element, animation, cb);
+  }
+};
+
+function Move(duration, elem, fn) {
+  var anim,
+      prog,
+      start = null;
+  // console.log('called');
+
+  if (duration === 0) {
+    fn.apply(elem);
+    elem.trigger('finished.zf.animate', [elem]).triggerHandler('finished.zf.animate', [elem]);
+    return;
+  }
+
+  function move(ts) {
+    if (!start) start = ts;
+    // console.log(start, ts);
+    prog = ts - start;
+    fn.apply(elem);
+
+    if (prog < duration) {
+      anim = window.requestAnimationFrame(move, elem);
+    } else {
+      window.cancelAnimationFrame(anim);
+      elem.trigger('finished.zf.animate', [elem]).triggerHandler('finished.zf.animate', [elem]);
+    }
+  }
+  anim = window.requestAnimationFrame(move);
+}
+
+/**
+ * Animates an element in or out using a CSS transition class.
+ * @function
+ * @private
+ * @param {Boolean} isIn - Defines if the animation is in or out.
+ * @param {Object} element - jQuery or HTML object to animate.
+ * @param {String} animation - CSS class to use.
+ * @param {Function} cb - Callback to run when animation is finished.
+ */
+function animate(isIn, element, animation, cb) {
+  element = (0, _jquery2.default)(element).eq(0);
+
+  if (!element.length) return;
+
+  var initClass = isIn ? initClasses[0] : initClasses[1];
+  var activeClass = isIn ? activeClasses[0] : activeClasses[1];
+
+  // Set up the animation
+  reset();
+
+  element.addClass(animation).css('transition', 'none');
+
+  requestAnimationFrame(function () {
+    element.addClass(initClass);
+    if (isIn) element.show();
+  });
+
+  // Start the animation
+  requestAnimationFrame(function () {
+    element[0].offsetWidth;
+    element.css('transition', '').addClass(activeClass);
+  });
+
+  // Clean up the animation when it finishes
+  element.one((0, _foundationUtil.transitionend)(element), finish);
+
+  // Hides the element (for out animations), resets the element, and runs a callback
+  function finish() {
+    if (!isIn) element.hide();
+    reset();
+    if (cb) cb.apply(element);
+  }
+
+  // Resets transitions and removes motion-specific classes
+  function reset() {
+    element[0].style.transitionDuration = 0;
+    element.removeClass(initClass + ' ' + activeClass + ' ' + animation);
+  }
+}
+
+exports.Move = Move;
+exports.Motion = Motion;
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -530,7 +1359,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /***/ }),
-/* 4 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -556,7 +1385,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 5 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -643,7 +1472,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(undefined);
 
 /***/ }),
-/* 6 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -727,7 +1556,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery || window.Zepto);
 
 /***/ }),
-/* 7 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1130,7 +1959,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 8 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1200,7 +2029,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 9 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1426,7 +2255,7 @@ jQuery(document).ready(function ($) {
 }); // END READY
 
 /***/ }),
-/* 10 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3229,7 +4058,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 11 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3734,7 +4563,7 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 12 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3844,7 +4673,7 @@ jQuery(document).ready(function ($) {
 });
 
 /***/ }),
-/* 13 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4817,7 +5646,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 14 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4956,7 +5785,51 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 15 */
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
+	var $products = $('.woocommerce ul.products li.product');
+
+	var disableFilters = function disableFilters() {
+
+		$('.cd-filter').addClass('disabled');
+
+		Foundation.Motion.animateOut($products, 'scale-out-down');
+	};
+
+	var enableFilters = function enableFilters() {
+
+		$('.cd-filter').removeClass('disabled');
+	};
+
+	$(document).on('ready', function () {
+
+		Foundation.Motion.animateIn($products, 'scale-in-up');
+	});
+
+	$(document).on('click touch', '.wcpf-checkbox-label, .wcpf-button', function () {
+		disableFilters();
+	});
+
+	$(window).on('wcpf_update_products', function () {
+
+		$products = $('.woocommerce ul.products li.product');
+
+		if (!$products.length) return;
+
+		enableFilters();
+
+		Foundation.Motion.animateIn($products, 'scale-in-up');
+	});
+})(jQuery);
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5147,7 +6020,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 16 */
+/* 21 */
 /***/ (function(module, exports) {
 
 /*
@@ -5649,7 +6522,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 17 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9164,7 +10037,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 18 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -10406,7 +11279,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 19 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /**!
@@ -12483,7 +13356,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 20 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -12958,11 +13831,396 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 21 */,
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(2);
+/**
+ * what-input - A global utility for tracking the current input method (mouse, keyboard or touch).
+ * @version v4.3.1
+ * @link https://github.com/ten1seven/what-input
+ * @license MIT
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("whatInput", [], factory);
+	else if(typeof exports === 'object')
+		exports["whatInput"] = factory();
+	else
+		root["whatInput"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function () {
+	  /*
+	   * variables
+	   */
+
+	  // last used input type
+	  var currentInput = 'initial';
+
+	  // last used input intent
+	  var currentIntent = null;
+
+	  // cache document.documentElement
+	  var doc = document.documentElement;
+
+	  // form input types
+	  var formInputs = ['input', 'select', 'textarea'];
+
+	  var functionList = [];
+
+	  // list of modifier keys commonly used with the mouse and
+	  // can be safely ignored to prevent false keyboard detection
+	  var ignoreMap = [16, // shift
+	  17, // control
+	  18, // alt
+	  91, // Windows key / left Apple cmd
+	  93 // Windows menu / right Apple cmd
+	  ];
+
+	  // list of keys for which we change intent even for form inputs
+	  var changeIntentMap = [9 // tab
+	  ];
+
+	  // mapping of events to input types
+	  var inputMap = {
+	    keydown: 'keyboard',
+	    keyup: 'keyboard',
+	    mousedown: 'mouse',
+	    mousemove: 'mouse',
+	    MSPointerDown: 'pointer',
+	    MSPointerMove: 'pointer',
+	    pointerdown: 'pointer',
+	    pointermove: 'pointer',
+	    touchstart: 'touch'
+	  };
+
+	  // array of all used input types
+	  var inputTypes = [];
+
+	  // boolean: true if touch buffer is active
+	  var isBuffering = false;
+
+	  // boolean: true if the page is being scrolled
+	  var isScrolling = false;
+
+	  // store current mouse position
+	  var mousePos = {
+	    x: null,
+	    y: null
+	  };
+
+	  // map of IE 10 pointer events
+	  var pointerMap = {
+	    2: 'touch',
+	    3: 'touch', // treat pen like touch
+	    4: 'mouse'
+	  };
+
+	  var supportsPassive = false;
+
+	  try {
+	    var opts = Object.defineProperty({}, 'passive', {
+	      get: function get() {
+	        supportsPassive = true;
+	      }
+	    });
+
+	    window.addEventListener('test', null, opts);
+	  } catch (e) {}
+
+	  /*
+	   * set up
+	   */
+
+	  var setUp = function setUp() {
+	    // add correct mouse wheel event mapping to `inputMap`
+	    inputMap[detectWheel()] = 'mouse';
+
+	    addListeners();
+	    setInput();
+	  };
+
+	  /*
+	   * events
+	   */
+
+	  var addListeners = function addListeners() {
+	    // `pointermove`, `MSPointerMove`, `mousemove` and mouse wheel event binding
+	    // can only demonstrate potential, but not actual, interaction
+	    // and are treated separately
+	    var options = supportsPassive ? { passive: true } : false;
+
+	    // pointer events (mouse, pen, touch)
+	    if (window.PointerEvent) {
+	      doc.addEventListener('pointerdown', updateInput);
+	      doc.addEventListener('pointermove', setIntent);
+	    } else if (window.MSPointerEvent) {
+	      doc.addEventListener('MSPointerDown', updateInput);
+	      doc.addEventListener('MSPointerMove', setIntent);
+	    } else {
+	      // mouse events
+	      doc.addEventListener('mousedown', updateInput);
+	      doc.addEventListener('mousemove', setIntent);
+
+	      // touch events
+	      if ('ontouchstart' in window) {
+	        doc.addEventListener('touchstart', touchBuffer, options);
+	        doc.addEventListener('touchend', touchBuffer);
+	      }
+	    }
+
+	    // mouse wheel
+	    doc.addEventListener(detectWheel(), setIntent, options);
+
+	    // keyboard events
+	    doc.addEventListener('keydown', updateInput);
+	    doc.addEventListener('keyup', updateInput);
+	  };
+
+	  // checks conditions before updating new input
+	  var updateInput = function updateInput(event) {
+	    // only execute if the touch buffer timer isn't running
+	    if (!isBuffering) {
+	      var eventKey = event.which;
+	      var value = inputMap[event.type];
+	      if (value === 'pointer') value = pointerType(event);
+
+	      if (currentInput !== value || currentIntent !== value) {
+	        var activeElem = document.activeElement;
+	        var activeInput = false;
+	        var notFormInput = activeElem && activeElem.nodeName && formInputs.indexOf(activeElem.nodeName.toLowerCase()) === -1;
+
+	        if (notFormInput || changeIntentMap.indexOf(eventKey) !== -1) {
+	          activeInput = true;
+	        }
+
+	        if (value === 'touch' ||
+	        // ignore mouse modifier keys
+	        value === 'mouse' ||
+	        // don't switch if the current element is a form input
+	        value === 'keyboard' && eventKey && activeInput && ignoreMap.indexOf(eventKey) === -1) {
+	          // set the current and catch-all variable
+	          currentInput = currentIntent = value;
+
+	          setInput();
+	        }
+	      }
+	    }
+	  };
+
+	  // updates the doc and `inputTypes` array with new input
+	  var setInput = function setInput() {
+	    doc.setAttribute('data-whatinput', currentInput);
+	    doc.setAttribute('data-whatintent', currentInput);
+
+	    if (inputTypes.indexOf(currentInput) === -1) {
+	      inputTypes.push(currentInput);
+	      doc.className += ' whatinput-types-' + currentInput;
+	    }
+
+	    fireFunctions('input');
+	  };
+
+	  // updates input intent for `mousemove` and `pointermove`
+	  var setIntent = function setIntent(event) {
+	    // test to see if `mousemove` happened relative to the screen
+	    // to detect scrolling versus mousemove
+	    if (mousePos['x'] !== event.screenX || mousePos['y'] !== event.screenY) {
+	      isScrolling = false;
+
+	      mousePos['x'] = event.screenX;
+	      mousePos['y'] = event.screenY;
+	    } else {
+	      isScrolling = true;
+	    }
+
+	    // only execute if the touch buffer timer isn't running
+	    // or scrolling isn't happening
+	    if (!isBuffering && !isScrolling) {
+	      var value = inputMap[event.type];
+	      if (value === 'pointer') value = pointerType(event);
+
+	      if (currentIntent !== value) {
+	        currentIntent = value;
+
+	        doc.setAttribute('data-whatintent', currentIntent);
+
+	        fireFunctions('intent');
+	      }
+	    }
+	  };
+
+	  // buffers touch events because they frequently also fire mouse events
+	  var touchBuffer = function touchBuffer(event) {
+	    if (event.type === 'touchstart') {
+	      isBuffering = false;
+
+	      // set the current input
+	      updateInput(event);
+	    } else {
+	      isBuffering = true;
+	    }
+	  };
+
+	  var fireFunctions = function fireFunctions(type) {
+	    for (var i = 0, len = functionList.length; i < len; i++) {
+	      if (functionList[i].type === type) {
+	        functionList[i].fn.call(undefined, currentIntent);
+	      }
+	    }
+	  };
+
+	  /*
+	   * utilities
+	   */
+
+	  var pointerType = function pointerType(event) {
+	    if (typeof event.pointerType === 'number') {
+	      return pointerMap[event.pointerType];
+	    } else {
+	      // treat pen like touch
+	      return event.pointerType === 'pen' ? 'touch' : event.pointerType;
+	    }
+	  };
+
+	  // detect version of mouse wheel event to use
+	  // via https://developer.mozilla.org/en-US/docs/Web/Events/wheel
+	  var detectWheel = function detectWheel() {
+	    var wheelType = void 0;
+
+	    // Modern browsers support "wheel"
+	    if ('onwheel' in document.createElement('div')) {
+	      wheelType = 'wheel';
+	    } else {
+	      // Webkit and IE support at least "mousewheel"
+	      // or assume that remaining browsers are older Firefox
+	      wheelType = document.onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
+	    }
+
+	    return wheelType;
+	  };
+
+	  var objPos = function objPos(match) {
+	    for (var i = 0, len = functionList.length; i < len; i++) {
+	      if (functionList[i].fn === match) {
+	        return i;
+	      }
+	    }
+	  };
+
+	  /*
+	   * init
+	   */
+
+	  // don't start script unless browser cuts the mustard
+	  // (also passes if polyfills are used)
+	  if ('addEventListener' in window && Array.prototype.indexOf) {
+	    setUp();
+	  }
+
+	  /*
+	   * api
+	   */
+
+	  return {
+	    // returns string: the current input type
+	    // opt: 'loose'|'strict'
+	    // 'strict' (default): returns the same value as the `data-whatinput` attribute
+	    // 'loose': includes `data-whatintent` value if it's more current than `data-whatinput`
+	    ask: function ask(opt) {
+	      return opt === 'loose' ? currentIntent : currentInput;
+	    },
+
+	    // returns array: all the detected input types
+	    types: function types() {
+	      return inputTypes;
+	    },
+
+	    // overwrites ignored keys with provided array
+	    ignoreKeys: function ignoreKeys(arr) {
+	      ignoreMap = arr;
+	    },
+
+	    // attach functions to input and intent "events"
+	    // funct: function to fire on change
+	    // eventType: 'input'|'intent'
+	    registerOnChange: function registerOnChange(fn, eventType) {
+	      functionList.push({
+	        fn: fn,
+	        type: eventType || 'input'
+	      });
+	    },
+
+	    unRegisterOnChange: function unRegisterOnChange(fn) {
+	      var position = objPos(fn);
+
+	      if (position) {
+	        functionList.splice(position, 1);
+	      }
+	    }
+	  };
+	}();
+
+/***/ }
+/******/ ])
+});
+;
+
+/***/ }),
+/* 27 */,
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(3);
 
 
 /***/ })

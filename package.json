@@ -11,9 +11,11 @@
   },
   "keywords": [],
   "dependencies": {
+    "foundation-sites": "^6.4.1",
     "jplayer": "^2.9.2",
     "lightgallery": "^1.2.0",
     "mixitup": "git+https://github.com/patrickkunka/mixitup.git#v2.1.7",
+    "motion-ui": "^2.0.3",
     "twitter-fetcher": "^18.0.2"
   },
   "devDependencies": {

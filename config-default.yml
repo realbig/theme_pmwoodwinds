@@ -19,7 +19,6 @@ PATHS:
     - "!src/assets/{img,js,scss}/**/*"
   # Paths to Sass libraries, which can then be loaded with @import
   sass:
-    - "node_modules/foundation-sites/scss"
     - "node_modules/motion-ui/src"
     - "node_modules/lightgallery/dist/css"
   # Paths to JavaScript entry points for webpack to bundle modules

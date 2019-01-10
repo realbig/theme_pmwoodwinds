@@ -6,6 +6,10 @@
 @import "./flaticon";
 @import './style';
 
+@import 'motion-ui';
+@include motion-ui-transitions;
+@include motion-ui-animations;
+
 @import 'global/admin-bar';
 
 @import 'templates/taxonomy-product_cat';

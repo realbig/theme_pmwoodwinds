@@ -20,3 +20,19 @@ import './lib/main';
 import './lib/mc.validate';
 import './lib/playlist';
 import './lib/twitter.config';
+
+import $ from 'jquery';
+import whatInput from 'what-input';
+
+window.$ = $;
+
+import { Foundation } from 'foundation-sites/js/foundation.core';
+import { Motion, Move } from 'foundation-sites/js/foundation.util.motion';
+
+Foundation.addToJquery($);
+
+Foundation.Motion = Motion;
+
+module.exports = Foundation;
+
+import './lib/product-archive-animations';
