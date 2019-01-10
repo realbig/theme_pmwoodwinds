@@ -353,8 +353,8 @@ function pmwoodwind_add_woocommerce_sidebar() {
 
 	register_sidebar( array(
 			'id' => 'shop',
-			'name' => __( 'WooCommerce Sidebar', 'vibrant-life-theme' ),
-			'description' => __( 'Shown on Product Archive Pages.', 'vibrant-life-theme' ),
+			'name' => 'WooCommerce Sidebar',
+			'description' => 'Shown on Product Archive Pages.',
 	) );
 	
 }
