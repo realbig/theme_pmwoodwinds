@@ -5799,7 +5799,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		$('.cd-filter').addClass('disabled');
 
-		Foundation.Motion.animateOut($products, 'scale-out-down');
+		$products.each(function (index, element) {
+			Foundation.Motion.animateOut(element, 'scale-out-down');
+		});
 	};
 
 	var enableFilters = function enableFilters() {
@@ -5809,7 +5811,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	$(document).on('ready', function () {
 
-		Foundation.Motion.animateIn($products, 'scale-in-up');
+		$products.each(function (index, element) {
+			Foundation.Motion.animateIn(element, 'scale-in-up');
+		});
 	});
 
 	$(document).on('click touch', '.wcpf-checkbox-label, .wcpf-button', function () {
@@ -5824,7 +5828,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		enableFilters();
 
-		Foundation.Motion.animateIn($products, 'scale-in-up');
+		$products.each(function (index, element) {
+			Foundation.Motion.animateIn(element, 'scale-in-up');
+		});
 	});
 })(jQuery);
 

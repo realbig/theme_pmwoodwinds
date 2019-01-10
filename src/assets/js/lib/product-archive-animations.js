@@ -6,7 +6,9 @@
 		
 		$( '.cd-filter' ).addClass( 'disabled' );
 		
-		Foundation.Motion.animateOut( $products, 'scale-out-down' );
+		$products.each( function( index, element ) {
+			Foundation.Motion.animateOut( element, 'scale-out-down' );
+		} );
 		
 	};
 	
@@ -18,7 +20,9 @@
 	
 	$( document ).on( 'ready', function() {
 		
-		Foundation.Motion.animateIn( $products, 'scale-in-up' );
+		$products.each( function( index, element ) {
+			Foundation.Motion.animateIn( element, 'scale-in-up' );
+		} );
 		
 	} );
 	
@@ -34,7 +38,9 @@
 		
 		enableFilters();
 		
-		Foundation.Motion.animateIn( $products, 'scale-in-up' );
+		$products.each( function( index, element ) {
+			Foundation.Motion.animateIn( element, 'scale-in-up' );
+		} );
 		
 	} );
 	
