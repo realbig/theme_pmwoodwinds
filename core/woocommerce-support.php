@@ -419,3 +419,26 @@ function pmwoodwind_woocommerce_used_new_filter( $query ) {
 	) );
 	
 }
+
+add_filter( 'woocommerce_payment_complete_order_status', 'pmwoodwind_handle_payment_complete_order_status', -1, 2 );
+
+/**
+ * Change the Order Status on Order Completion for Bank Transfers
+ * 
+ * @param		string  $order_status Order Status
+ * @param		integer $order_id     Order ID
+ *
+ * @since		{{VERSION}}
+ * @return		string  Order Status
+ */
+function pmwoodwind_handle_payment_complete_order_status( $order_status, $order_id ) {
+	
+	$order = new WC_Order( $order_id );
+	
+	$payment_method = $order->get_payment_method();
+	
+	if ( $payment_method == 'bacs' ) return 'pending';
+	
+	return $order_status;
+	
+}
