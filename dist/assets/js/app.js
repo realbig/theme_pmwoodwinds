@@ -5831,6 +5831,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		$products.each(function (index, element) {
 			Foundation.Motion.animateIn(element, 'scale-in-up');
 		});
+
+		$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
 	});
 })(jQuery);
 

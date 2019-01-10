@@ -42,6 +42,12 @@
 			Foundation.Motion.animateIn( element, 'scale-in-up' );
 		} );
 		
+		$('img.zoom')
+		.wrap('<span style="display:inline-block;top: 5px;"></span>')
+		.css('display', 'block')
+		.parent()
+		.zoom();
+		
 	} );
 	
 } )( jQuery );
