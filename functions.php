@@ -855,3 +855,21 @@ add_filter( 'tribe_event_featured_image', function( $featured_image, $post_id, $
 	return $featured_image;
 	
 }, 10, 3 );
+
+add_action( 'widgets_init', 'pmwoodwind_add_sidebars' );
+
+/**
+ * Add some additional sidebars
+ * 
+ * @since		{{VERSION}}
+ * @return		void
+ */
+function pmwoodwind_add_sidebars() {
+
+	register_sidebar( array(
+			'id' => 'media',
+			'name' => 'Media Sidebar',
+			'description' => 'Shown on Media Archive Pages.',
+	) );
+	
+}

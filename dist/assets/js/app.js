@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 28);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -149,21 +149,19 @@ exports.transitionend = transitionend;
 "use strict";
 
 
-__webpack_require__(23);
-
-__webpack_require__(22);
-
-__webpack_require__(21);
-
 __webpack_require__(25);
 
 __webpack_require__(24);
 
+__webpack_require__(23);
+
+__webpack_require__(27);
+
+__webpack_require__(26);
+
 __webpack_require__(7);
 
 __webpack_require__(8);
-
-__webpack_require__(9);
 
 __webpack_require__(10);
 
@@ -185,11 +183,13 @@ __webpack_require__(18);
 
 __webpack_require__(20);
 
+__webpack_require__(22);
+
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(26);
+var _whatInput = __webpack_require__(28);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -197,7 +197,11 @@ var _foundation = __webpack_require__(4);
 
 var _foundationUtil = __webpack_require__(6);
 
+__webpack_require__(21);
+
 __webpack_require__(19);
+
+__webpack_require__(9);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1389,6 +1393,68 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+/**
+ * Resizes an iFrame to fit the width of its Parent and adjusts the height to match the original Aspect Ratio
+ * 
+ * @param		{object} iFrame DOM Object of the iFrame
+ * @since		{{VERSION}}
+ * @return		void
+ */
+function resizeIframe(iFrame) {
+
+	var $el = jQuery(iFrame),
+	    newWidth = $el.parent().width();
+
+	if (!$el.data('aspectRatio')) {
+
+		$el.data('aspectRatio', iFrame.height / iFrame.width)
+
+		// and remove the hard coded width/height
+		.removeAttr('height').removeAttr('width');
+	}
+
+	$el.width(newWidth).height(newWidth * $el.data('aspectRatio'));
+}
+
+(function ($) {
+
+	function resizeAll() {
+
+		// Find all YouTube videos
+		var $allVideos = $('iframe:not(.ignore-responsive)');
+
+		// Resize all videos according to their own aspect ratio
+		$allVideos.each(function () {
+
+			resizeIframe(this);
+		});
+	}
+
+	$(document).ready(function () {
+
+		// When the window is resized
+		// (You'll probably want to debounce this)
+		$(window).resize(function () {
+
+			resizeAll();
+
+			// Kick off one resize to fix all videos on page load
+		}).resize();
+
+		$(document).on('open.zf.reveal media-animations-done', function () {
+			console.log('triggered');
+			resizeAll();
+		});
+	});
+})(jQuery);
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1472,7 +1538,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(undefined);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1622,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery || window.Zepto);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1959,7 +2025,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2029,7 +2095,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2255,7 +2321,7 @@ jQuery(document).ready(function ($) {
 }); // END READY
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4058,7 +4124,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4563,7 +4629,7 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4673,7 +4739,7 @@ jQuery(document).ready(function ($) {
 });
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5646,7 +5712,47 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 18 */
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
+	var loaded = false,
+	    $media = false;
+
+	// Ensure this does not fire on page load
+	$(document).on('facetwp-refresh', function () {
+
+		if (loaded) {
+
+			$media.each(function (index, element) {
+				Foundation.Motion.animateOut(element, 'scale-out-down');
+			});
+		} else {
+			loaded = true;
+		}
+	});
+
+	$(document).on('facetwp-loaded', function () {
+
+		$media = $('.post-type-archive-media .content .media');
+
+		$media.each(function (index, element) {
+			Foundation.Motion.animateIn(element, 'scale-in-up');
+		});
+
+		setTimeout(function () {
+
+			$(document).trigger('media-animations-done');
+		}, 500); // Wait until animation finishes, 500ms is Motion-UI default
+	});
+})(jQuery);
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5785,7 +5891,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5837,7 +5943,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6028,7 +6134,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /*
@@ -6530,7 +6636,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10045,7 +10151,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11287,7 +11393,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports) {
 
 /**!
@@ -13364,7 +13470,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -13839,7 +13945,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14224,8 +14330,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 27 */,
-/* 28 */
+/* 29 */,
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(3);

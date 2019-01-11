@@ -12,7 +12,7 @@
 
 get_header(); 
 ?>
-<div id="blog" class="blog-home container hover-section category-layout">
+<div id="blog" class="blog-home hover-section category-layout">
 		<div class="category-head">
 			<h4><?php echo single_cat_title();?></h4>
 			<div class="bars-animation">
@@ -20,13 +20,38 @@ get_header();
 			</div>
 		</div><!-- Category Head -->
 	
-	<div class="row">
+	<div class="row cd-main-content">
 		
-		<div class="col-sm-12 col-md-3">
-			<?php dynamic_sidebar( 'media' ); ?>
+		<div class="cd-tab-filter-wrapper">
+				<div class="cd-tab-filter">
+					<ul class="cd-filters">
+					</ul>
+			</div>
 		</div>
 		
-		<div class="col-sm-12 col-md-9">
+		<div class="sidebar">
+				
+				<div class="cd-filter filter-is-visible">
+					
+					<?php if ( is_active_sidebar( 'media' ) ) : ?>
+				
+						<?php dynamic_sidebar( 'media' ); ?>
+					
+					<?php else : ?>
+					
+						Please add Widgets to the "Media" Sidebar under Appearance -> Widgets
+					
+					<?php endif; ?>
+
+					<a href="#0" class="cd-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+					
+				</div>
+				
+				<a href="#0" class="cd-filter-trigger"><i class="fa fa-filter" aria-hidden="true"></i> Filters</a>
+				
+			</div>
+		
+		<div class="row content cd-gallery filter-is-visible">
 
 			<?php
 				if ( have_posts() ) : ?>
@@ -35,19 +60,25 @@ get_header();
 					while ( have_posts() ) : the_post();
 
 						?>
-				<div class="row article">
-					<div class="col-sm-6 col-md-5">
-					<?php the_post_thumbnail();?>
+						<div <?php post_class( array( 'col-sm-12', 'col-md-4' ) ); ?>>
 
-					</div>
-					<div class="col-sm-6 col-md-7 info left">
-						<h5><?php the_title();?></h5>
+							<div class="background">
 
-						<?php the_content();?>
+								<div class="image">
+									<?php the_post_thumbnail();?>
+								</div>
+								<div class="text">
+									<h5><?php the_title();?></h5>
 
-						<a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
-					</div>
-				</div>
+									<?php the_content();?>
+
+									<a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
+								</div>
+
+							</div>
+
+						</div>
+			
 						<?php
 
 					endwhile;

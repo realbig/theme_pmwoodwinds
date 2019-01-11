@@ -1,0 +1,36 @@
+.post-type-archive-media {
+	
+	.cd-filter {
+		float: left;
+	}
+	
+	.sidebar {
+		
+		.widget {
+		
+			padding: 70px 10%;
+			
+		}
+		
+	}
+	
+	.content {
+		
+		.media {
+			
+			margin-bottom: 1rem;
+			display: none;
+			
+			.background { // Columns in Bootstrap 3 don't have proper gutters
+			
+				text-align: center;
+				background: rgba( 0, 0, 0, 0.3 );
+				padding: 10px;
+				
+			}
+			
+		}
+		
+	}
+	
+}
