@@ -4,6 +4,8 @@
 	
 	var disableFilters = function() {
 		
+		$( '#product-search' ).attr( 'disabled', true );
+		
 		$( '.cd-filter' ).addClass( 'disabled' );
 		
 		$products.each( function( index, element ) {
@@ -13,6 +15,8 @@
 	};
 	
 	var enableFilters = function() {
+		
+		$( '#product-search' ).attr( 'disabled', false );
 		
 		$( '.cd-filter' ).removeClass( 'disabled' );
 		

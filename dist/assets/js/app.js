@@ -5903,6 +5903,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var disableFilters = function disableFilters() {
 
+		$('#product-search').attr('disabled', true);
+
 		$('.cd-filter').addClass('disabled');
 
 		$products.each(function (index, element) {
@@ -5911,6 +5913,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	var enableFilters = function enableFilters() {
+
+		$('#product-search').attr('disabled', false);
 
 		$('.cd-filter').removeClass('disabled');
 	};
