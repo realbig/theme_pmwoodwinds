@@ -1444,7 +1444,7 @@ function resizeIframe(iFrame) {
 		}).resize();
 
 		$(document).on('open.zf.reveal media-animations-done', function () {
-			console.log('triggered');
+
 			resizeAll();
 		});
 	});
@@ -5917,6 +5917,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	$(document).on('ready', function () {
 
+		var search = getURLParam('s');
+
+		if (search) {
+
+			$('#product-search').val(search);
+		}
+
 		$products.each(function (index, element) {
 			Foundation.Motion.animateIn(element, 'scale-in-up');
 		});
@@ -5940,6 +5947,109 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
 	});
+
+	var typingTimer,
+	    doneTypingInterval = 1000; // Wait 1s after they stop typing
+
+	function doneTyping() {
+
+		var url = location.href.replace(/\?.*/g, '');
+
+		window.history.pushState('', '', url + setURLParam('s', $('#product-search').val()));
+
+		$('.filter-submit.hidden button').click();
+	}
+
+	$('#product-search').on('keyup', function () {
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(doneTyping, doneTypingInterval);
+	});
+
+	$('#product-search').on('keydown', function () {
+		if (typingTimer) {
+			clearTimeout(typingTimer);
+		}
+	});
+
+	/**
+  * Returns a Query String for the current Page with your changes
+  * 
+  * @param		{string} key   Key
+  * @param 		{string} value Value
+  *                         
+  * @since		{{VERSION}}
+  * @returns 	{string} Query String
+  */
+	function setURLParam(key, value) {
+
+		key = encodeURIComponent(key);
+		value = encodeURIComponent(value);
+
+		var urlParams = location.search.substr(1).split('&');
+
+		if (urlParams == '') {
+			return '?' + key + '=' + value;
+		} else {
+
+			var paramCount = urlParams.length,
+			    param;
+
+			while (paramCount--) {
+				param = urlParams[paramCount].split('=');
+
+				if (param[0] == key) {
+
+					param[1] = value;
+					urlParams[paramCount] = param.join('=');
+					break;
+				}
+			}
+
+			if (paramCount < 0) {
+
+				urlParams[urlParams.length] = [key, value].join('=');
+			}
+
+			return '?' + urlParams.join('&');
+		}
+	}
+
+	/**
+  * Grabs GET Parameter from the URL
+  * 
+  * @param		{string} variable Variable Name
+  * @param 		{string} url      URL. Defaults to the current URL
+  *                            
+  * @since		{{VERSION}}
+  * @return 		{string} Parameter Value
+  */
+	function getURLParam(variable) {
+		var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+
+
+		if (url === undefined) {
+			url = location.href;
+		}
+
+		// Remove Hash from URL
+		url = url.replace(/#.*$/, '');
+
+		// Remove URL before your params
+		url = url.replace(/^.*\?/, '');
+
+		var vars = url.split('&');
+
+		for (var i = 0; i < vars.length; i++) {
+
+			var pair = vars[i].split('=');
+
+			if (pair[0] == variable) {
+				return pair[1];
+			}
+		}
+
+		return false;
+	}
 })(jQuery);
 
 /***/ }),

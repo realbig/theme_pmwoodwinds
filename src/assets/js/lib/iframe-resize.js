@@ -55,7 +55,7 @@ function resizeIframe( iFrame ) {
 		} ).resize();
 		
 		$( document ).on( 'open.zf.reveal media-animations-done', function() {
-			console.log( 'triggered' );
+			
 			resizeAll();
 			
 		} );

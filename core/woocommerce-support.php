@@ -166,6 +166,105 @@ function pmwoodwind_product_single_summary_column_end() { ?>
 	
 }
 
+add_action( 'woocommerce_after_single_product_summary', function() {
+	
+	$categories = wp_get_object_terms( get_the_ID(), 'product_cat' );
+	
+	$categories = array_filter( $categories, function( $category ) {
+		return $category->parent == 0;
+	} );
+	
+	$firsttype = $categories[0];
+	
+	?>
+
+<div class="row">
+			<div class="col-sm-12 cd-gallery ">
+			<div class="similar">
+			<h4><span>Your <?php echo $firsttype->name;?> Compare List</span></h4>
+			
+			<?php
+	
+			
+			$compare = array();  
+			
+			echo '<ul class="comparelist">';
+	
+			if ( isset( $_SESSION['comparelist'] ) ) :
+	
+				$comparelist = $_SESSION['comparelist'];
+				$compare = $comparelist[$firsttype->slug];
+
+				foreach ( $compare as $comp) :
+
+					$price = pmwoodwind_product_main_price($comp);
+					$status = $price;
+					if(is_numeric($price)){
+						$status = 'sale';
+					}
+						$isnew = 'used';
+					if(is_new(get_the_id())){
+						$isnew = 'new';
+					}
+					$types = wp_get_post_terms($comp, 'product_cat');
+					$filters = '';
+					foreach($types as $type){
+						$filters .= ' filter'.$type->term_id;
+					}
+						?>
+						<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?> <?php echo get_serial($comp);?> <?php get_the_title($comp);?>">
+							<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo pmwoodwind_main_thumbnail($comp);?></a>
+								<h5>
+								<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
+								<span class="price <?php echo $price;?>"><?php
+								if(is_numeric($price)){
+									echo money_format("$ %i",$price);
+								} else {
+									echo $price;
+								}
+								?></span>
+									</h5>
+						</li>
+						<?php
+				endforeach;	
+				?><li class="mix all">
+						<a href="/compare/?list=<?php echo $firsttype->slug;?>">
+						<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
+						<span class="over">
+						<i class="fa fa-navicon" aria-hidden="true"></i>
+				 </a>
+							</span>
+							<h5>
+							<a href="/compare/?list=<?php echo $firsttype->slug;?>">
+							compare</a>
+								</h5>
+					</li><?php
+
+			else:
+			?><li class="mix all">
+
+					<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
+					<span class="over">
+					<i class="fa fa-navicon" aria-hidden="true"></i>
+
+						</span>
+						<h5>
+
+						your list is empty
+							</h5>
+				</li><?php
+			endif;
+					echo '</ul>';		
+			?>
+				</div>
+			</div>
+			
+	</div>
+
+<?php
+	
+} );
+
 add_filter( 'woocommerce_single_product_carousel_options', 'pmwoodwind_flexslider_options' );
 
 /**

@@ -25,6 +25,12 @@
 			
 		}
 		
+		#product-search {
+			
+			color: #111;
+			
+		}
+		
 		.wcpf-heading-label {
 			
 			position: relative;
@@ -52,6 +58,12 @@
 			span:before {
 				color: #bbb;
 			}
+			
+		}
+		
+		.filter-submit.hidden {
+			
+			display: none;
 			
 		}
 		
@@ -124,9 +136,18 @@
 		
 	}
 	
-	.wcpf_widget_filters {
+	.widget {
 		
 		padding: 70px 10%;
+		
+		&:first-of-type {
+			padding-bottom: 0;
+		}
+		
+		&:nth-of-type(1n + 2) {
+			padding-top: 0;
+		}
+		
 	}
 	
 }
