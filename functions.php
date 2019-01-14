@@ -411,64 +411,27 @@ add_action( 'woocommerce_process_product_meta', 'pmwoodwind_add_custom_general_f
 
 function pmwoodwind_add_custom_general_fields() {
 
-  global $woocommerce, $post;
-  
-  echo '<div class="options_group">';
+	global $woocommerce, $post;
   
 	woocommerce_wp_text_input( 
 		array( 
-			'id'          => '_product_year', 
-			'label'       => __( 'Year', 'woocommerce' ), 
-			'placeholder' => 'Year',
+			'id'          => '_msrp', 
+			'label'       => 'MSRP',
+			'placeholder' => 'MSRP',
 			'desc_tip'    => 'true',
-			'description' => __( 'Enter the year here.', 'woocommerce' ) 
+			'description' => "The manufacturer's suggested retail price.",
 		)
 	);
-  woocommerce_wp_checkbox( 
-	array( 
-		'id'            => '_product_new', 
-		'label'         => __('Is New?', 'woocommerce' )
-		)
-	);
-woocommerce_wp_select( 
-	array( 
-		'id'      => '_inhouse_inventory', 
-		'label'   => __( 'Inhouse Inventory', 'woocommerce' ), 
-		'description' => __( 'Not visible on shop.', 'woocommerce' ),
-		'options' => array(
-			'New'   => "New",
-			'Used'   => "Used",
-			'OutOnTrial'   => "Out On Trial",
-			'SalePending' => "Sale Pending",
-			'Sold' => "Sold",
-			'TBD' => "TBD",
-			'IS' => "In Stock",
-			'OOS' => "Out Of Stock",
-			'TOOT' => "Temporarily Out Of Stock",
-			'Discontinued' => "Discontinued"
-			)	
-		)
-	);	
-  echo '</div>';
 	
 }
 function pmwoodwind_add_custom_general_fields_save( $post_id ){
 	
 	// Text Field
-	$woocommerce_text_field = $_POST['_product_year'];
-	if( !empty( $woocommerce_text_field ) )
-		update_post_meta( $post_id, '_product_year', esc_attr( $woocommerce_text_field ) );
-		
-	// Select
-	$woocommerce_select = $_POST['_inhouse_inventory'];
-	if( !empty( $woocommerce_select ) )
-		update_post_meta( $post_id, '_inhouse_inventory', esc_attr( $woocommerce_select ) );
-		
-	// Checkbox
-	$woocommerce_checkbox = isset( $_POST['_product_new'] ) ? 'yes' : 'no';
-	update_post_meta( $post_id, '_product_new', $woocommerce_checkbox );
+	$woocommerce_text_field = $_POST['_msrp'];
 	
-	
+	if ( ! empty( $woocommerce_text_field ) ) {
+		update_post_meta( $post_id, '_msrp', esc_attr( $woocommerce_text_field ) );
+	}
 	
 }
 function pmwoodwind_change_translate_text_multiple( $translated ) {
@@ -834,9 +797,20 @@ function pmwoodwind_get_product_thumbnail_src( $size ) {
 
 add_action( 'admin_init', function() {
 	
-	if ( ! taxonomy_exists( wc_attribute_taxonomy_name( 'In-House Inventory' ) ) ) {
+	if ( ! taxonomy_exists( wc_attribute_taxonomy_name( 'Is New?' ) ) ) {
 			
 		// This creates a Taxonomy that WooCommerce recognizes
+		wc_create_attribute( array(
+			'name' => 'Is New?',
+			'type' => 'select',
+			'order_by' => 'menu_order',
+			'has_archives' => false,
+		) );
+
+	}
+	
+	if ( ! taxonomy_exists( wc_attribute_taxonomy_name( 'In-House Inventory' ) ) ) {
+			
 		wc_create_attribute( array(
 			'name' => 'In-House Inventory',
 			'type' => 'select',

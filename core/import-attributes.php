@@ -36,6 +36,22 @@ if ( ! class_exists( 'pmwoodwinds_import_attributes' ) ) {
 		 */
 		protected function handle_all() {
 			
+			$used_new_options = array(
+				'used' => 'Used',
+				'new' => 'New',
+			);
+			
+			foreach ( $used_new_options as $slug => $label ) {
+				
+				if ( term_exists( $label, wc_attribute_taxonomy_name( 'Is New?' ) ) ) continue;
+				
+				// Create a Term for each, since we only have these two options
+				$term = wp_insert_term( $label, wc_attribute_taxonomy_name( 'Is New?' ), array(
+					'slug' => $slug,
+				) );
+				
+			}
+			
 			$inventory_options = array(
 				'New' => "New",
 				'Used' => "Used",
