@@ -61,6 +61,51 @@
 			
 		}
 		
+		.wcpf-input-container {
+			
+			border-color: #000;
+			border-width: 2px;
+			border-radius: 0;
+			
+		}
+		
+		.wcpf-title-container {
+			
+			font-size: 0.8rem;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			top: 0px;
+			position: relative;
+			
+			margin-bottom: 5px;
+			
+			span {
+				font-family: inherit;
+			}
+			
+		}
+		
+		.wcpf-checkbox-item.checked {
+			
+			.wcpf-input-container {
+				
+				background: #000;
+			
+				&:after {
+					
+					top: 3px !important;
+					left: 2px !important;
+					
+					border-color: #fff !important;
+					
+				}
+				
+			}
+			
+		}
+		
 		.filter-submit.hidden {
 			
 			display: none;
