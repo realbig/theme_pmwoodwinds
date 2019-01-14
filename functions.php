@@ -833,6 +833,7 @@ function pmwoodwind_get_product_thumbnail_src( $size ) {
 }
 
 require_once __DIR__ . '/core/import-photos.php';
+require_once __DIR__ . '/core/apply-instruments-shipping-class.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
