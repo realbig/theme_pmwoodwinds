@@ -25,7 +25,7 @@ class pmwoodwinds_import_attributes_process extends WP_Background_Process {
 		
 		$attributes = array();
 		
-		if ( get_post_meta( $product_id, '_product_new', true ) !== 'no' ) {
+		if ( get_post_meta( $product_id, '_product_new', true ) == 'yes' ) {
 			
 			// Set to New
 			$term = term_exists( 'new', wc_attribute_taxonomy_name( 'Is New?' ) );
