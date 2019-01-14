@@ -36,15 +36,15 @@ get_header(); ?>
 
 						<?php 
 						
-						if ( ! isset( $_GET['show'] ) ) $_GET['show'] = 'All';
+						if ( ! isset( $_GET['show'] ) ) $_GET['show'] = 'all';
 	
 							$show = esc_attr( $_GET['show'] );
 						
 						?>
 
-						<li class="filtertype"><a <?php echo ( $show == 'Used' ) ? 'class="selected" ' : ''; ?>href="<?php echo add_query_arg( 'show', 'Used' ); ?>">Used</a></li>
-						<li class="filtertype"><a <?php echo ( $show == 'New' ) ? 'class="selected" ' : ''; ?>href="<?php echo add_query_arg( 'show', 'New' ); ?>">New</a></li>
-						<li class="filtertype"><a <?php echo ( $show == 'All' ) ? 'class="selected" ' : ''; ?>href="<?php echo add_query_arg( 'show', 'All' ); ?>">All</a></li>
+						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'used' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( 'show', 'used' ); ?>">Used</a></li>
+						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'new' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( 'show', 'new' ); ?>">New</a></li>
+						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'all' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( 'show', 'all' ); ?>">All</a></li>
 
 					</ul> <!-- cd-filters -->
 				</div> <!-- cd-tab-filter -->

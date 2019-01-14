@@ -5975,6 +5975,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	});
 
+	$('.new-used-filter').on('click touch', function (event) {
+
+		event.preventDefault();
+
+		var url = location.href.replace(/\?.*/g, ''),
+		    show = getURLParam('show', $(this).attr('href'));
+
+		if (show == 'all') {
+			url = url + setURLParam('show', false);
+		} else {
+			url = url + setURLParam('show', show);
+		}
+
+		window.history.pushState('', '', url);
+
+		$('.new-used-filter').removeClass('selected');
+		$(this).addClass('selected');
+
+		$('.filter-submit.hidden button').click();
+	});
+
 	/**
   * Returns a Query String for the current Page with your changes
   * 
@@ -5991,7 +6012,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		var urlParams = location.search.substr(1).split('&');
 
-		if (urlParams == '') {
+		if (urlParams == '' && value !== 'false') {
 			return '?' + key + '=' + value;
 		} else {
 
@@ -6003,8 +6024,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				if (param[0] == key) {
 
-					param[1] = value;
-					urlParams[paramCount] = param.join('=');
+					if (value !== 'false') {
+
+						param[1] = value;
+						urlParams[paramCount] = param.join('=');
+					} else {
+
+						urlParams.splice(paramCount, 1);
+					}
+
 					break;
 				}
 			}
@@ -6016,6 +6044,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			return '?' + urlParams.join('&');
 		}
+
+		return '';
 	}
 
 	/**
