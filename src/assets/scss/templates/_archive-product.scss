@@ -93,17 +93,25 @@
 		
 		.wcpf-checkbox-item.checked {
 			
-			.wcpf-input-container {
-				
-				background: #000;
+			& > .wcpf-checkbox-item-inner {
 			
-				&:after {
+				& > .wcpf-checkbox-label {
 					
-					top: 3px !important;
-					left: 2px !important;
-					
-					border-color: #fff !important;
-					
+					& > .wcpf-input-container {
+
+						background: #000;
+
+						&:after {
+
+							top: 3px !important;
+							left: 2px !important;
+
+							border-color: #fff !important;
+
+						}
+						
+					}
+
 				}
 				
 			}
