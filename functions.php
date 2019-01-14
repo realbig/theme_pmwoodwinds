@@ -832,8 +832,36 @@ function pmwoodwind_get_product_thumbnail_src( $size ) {
 	
 }
 
+add_action( 'admin_init', function() {
+	
+	if ( ! taxonomy_exists( wc_attribute_taxonomy_name( 'In-House Inventory' ) ) ) {
+			
+		// This creates a Taxonomy that WooCommerce recognizes
+		wc_create_attribute( array(
+			'name' => 'In-House Inventory',
+			'type' => 'select',
+			'order_by' => 'menu_order',
+			'has_archives' => false,
+		) );
+
+	}
+	
+	if ( ! taxonomy_exists( wc_attribute_taxonomy_name( 'Product Year' ) ) ) {
+			
+		wc_create_attribute( array(
+			'name' => 'Product Year',
+			'type' => 'select',
+			'order_by' => 'menu_order',
+			'has_archives' => false,
+		) );
+
+	}
+	
+} );
+
 require_once __DIR__ . '/core/import-photos.php';
 require_once __DIR__ . '/core/apply-instruments-shipping-class.php';
+require_once __DIR__ . '/core/import-attributes.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
