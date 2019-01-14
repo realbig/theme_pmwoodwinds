@@ -490,35 +490,6 @@ add_action( 'woocommerce_cart_contents', function() {
 
 add_action( 'woocommerce_cart_collaterals', 'woocommerce_button_proceed_to_checkout' );
 
-add_action( 'woocommerce_product_query', 'pmwoodwind_woocommerce_used_new_filter' );
-
-/**
- * Make Used/New work properly
- * 
- * @param object $query WP_Query Object
- *                               
- * @since		{{VERSION}}
- * @return		void
- */
-function pmwoodwind_woocommerce_used_new_filter( $query ) {
-	
-	if ( ! isset( $_GET['show'] ) ) return;
-	
-	$show = esc_attr( $_GET['show'] );
-	
-	if ( ! in_array( $show, array( 'Used', 'New' ) ) ) return;
-	
-	$query->set( 'meta_query', array(
-		'relationship' => 'AND',
-		array(
-			'key' => '_inhouse_inventory',
-			'value' => $show,
-			'compare' => '=',
-		),
-	) );
-	
-}
-
 add_filter( 'woocommerce_payment_complete_order_status', 'pmwoodwind_handle_payment_complete_order_status', -1, 2 );
 
 /**
