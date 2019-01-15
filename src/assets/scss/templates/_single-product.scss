@@ -77,15 +77,19 @@
 				li {
 
 					&:before {
-						box-shadow: 2px 2px 0 #325483;
+						box-shadow: 2px 2px 0 #22395c;
 					}
 
-					background: #325483;
-					border-bottom-color: #325483;
+					background: #22395c;
+					border-bottom-color: #22395c;
 					color: #fff;
+					
+					a {
+						color: #fff;
+					}
 
 					&:after {
-						box-shadow: -2px 2px 0 #325483;
+						box-shadow: -2px 2px 0 #22395c;
 					}
 
 				}
@@ -116,6 +120,10 @@
 				& > h2 {
 					color: inherit;
 					margin-bottom: 1rem;
+				}
+				
+				* {
+					color: inherit;
 				}
 
 				table {
