@@ -266,12 +266,30 @@
 			margin-bottom: 1em;
 		}
 		
+		.price {
+			margin-bottom: 0;
+			font-size: inherit;
+			
+			&, span {
+				color: #fff;
+			}
+		}
+		
 	}
 	
 	.comparelist {
 		
 		img {
 			width: auto;
+		}
+		
+		.price {
+			margin-bottom: 0;
+			font-size: inherit;
+			
+			&, span {
+				color: #fff;
+			}
 		}
 		
 	}
