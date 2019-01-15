@@ -397,7 +397,10 @@ add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_bran
  */
 function pmwoodwind_show_product_single_brand() {
 	
-	if ( $brand = pmwoodwind_product_get_brand( get_the_id() ) ) : ?>
+	$brand = pmwoodwind_product_get_brand( get_the_id() );
+	
+	if ( $brand && 
+	   ! is_wp_error( $brand ) ) : ?>
 
 		<span>Brand: <?php echo $brand[0]->name;?></span>
 
@@ -512,3 +515,17 @@ function pmwoodwind_handle_payment_complete_order_status( $order_status, $order_
 	return $order_status;
 	
 }
+
+// Prevent unwanted listing of Attributes which were told to _not_ show on the Product page
+// Like, seriously? This should be default based on the Attribute Option
+add_action( 'woocommerce_product_meta_end', function() {
+
+	add_filter( 'woocommerce_product_get_attributes', function( $attributes ) {
+
+		return array_filter( $attributes, function( $attribute ) {
+			return $attribute->get_visible() === true;
+		} );
+
+	} );
+	
+}, 99 );

@@ -647,11 +647,12 @@ function pmwoodwind_save_custom_field_variations( $variation_id, $i ) {
 add_filter( 'woocommerce_available_variation', 'bbloomer_add_custom_field_variation_data' );
  
 function bbloomer_add_custom_field_variation_data( $variations ) {
-
-    $variations['msrp'] = '<div class="woocommerce_custom_field">MSRP: ' . money_format("$ %i",get_post_meta( $variations[ 'variation_id' ], 'msrp', true )). '</span></div>';
-
-    $variations['price_html'] = '<div class="woocommerce_custom_field">Our Price: ' . money_format("$ %i",get_post_meta( $variations[ 'variation_id' ], '_price', true )). '</span></div>';
+	
+	unset( $variations['msrp'] );
+	unset( $variations['price_html'] );
+	
     return $variations;
+	
 }
 
 function pmwoodwind_product_in_term($tax, $term, $_post = NULL) {
