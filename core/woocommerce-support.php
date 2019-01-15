@@ -21,6 +21,8 @@ add_filter( 'woocommerce_product_get_image', 'pmwoodwind_add_classes_to_woocomme
  */
 function pmwoodwind_add_classes_to_woocommerce_product_image( $html, $product, $size, $attr, $placeholder ) {
 	
+	if ( get_page_template_slug() == 'compare.php' ) return $html;
+	
 	if ( is_tax( 'product_cat' ) || $size == 'main_image' ) {
 		
 		$html = str_replace( 'class="', 'class="main-image zoom ', $html );
@@ -185,8 +187,9 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 			
 			<?php
 	
+			global $compare;
 			
-			$compare = array();  
+			if ( ! $compare ) $compare = array();  
 			
 			echo '<ul class="comparelist">';
 	
@@ -203,7 +206,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 						$status = 'sale';
 					}
 						$isnew = 'used';
-					if(is_new(get_the_id())){
+					if(pmwoodwind_is_new_product(get_the_id())){
 						$isnew = 'new';
 					}
 					$types = wp_get_post_terms($comp, 'product_cat');
@@ -212,8 +215,8 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 						$filters .= ' filter'.$type->term_id;
 					}
 						?>
-						<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?> <?php echo get_serial($comp);?> <?php get_the_title($comp);?>">
-							<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo pmwoodwind_main_thumbnail($comp);?></a>
+						<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?>">
+							<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo woocommerce_get_product_thumbnail( $comp, 'main_image' );?></a>
 								<h5>
 								<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
 								<span class="price <?php echo $price;?>"><?php
@@ -260,6 +263,12 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 			</div>
 			
 	</div>
+
+	<script>
+jQuery(function(){
+  jQuery('.comparelist').mixItUp();
+});
+</script>
 
 <?php
 	
@@ -529,3 +538,69 @@ add_action( 'woocommerce_product_meta_end', function() {
 	} );
 	
 }, 99 );
+
+//add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+
+add_action( 'woocommerce_single_product_summary', 'pmwoodwind_add_to_compare_button', 40 );
+
+function pmwoodwind_add_to_compare_button() {
+	
+	global $compare;
+	
+	if ( ! $compare ) $compare = array();
+	
+	if ( isset( $_GET['remove'] ) ) {
+		unset( $_SESSION['comparelist'][ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
+		unset( $compare[ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
+	}
+	
+	if ( isset( $_GET['tocompare'] ) ) {
+		$_SESSION['comparelist'][ esc_attr( $_GET['tocompare'] ) ][ get_the_id() ] = get_the_id();
+	}
+	
+	$categories = wp_get_object_terms( get_the_ID(), 'product_cat' );
+	
+	$categories = array_filter( $categories, function( $category ) {
+		return $category->parent == 0;
+	} );
+	
+	$firsttype = $categories[0];
+	
+	?>
+		
+		<div class="shares">
+			
+			<h3 class="share"><i class="fa fa-navicon" aria-hidden="true"></i> Compare <?php the_title();?></h3>
+			<ul class="compare" style="width: auto;margin: 20px 0px;">
+				
+				<?php if ( isset($_SESSION['comparelist'][ $firsttype->slug ][ get_the_id()] ) ) : ?>
+					<li style="width: auto;">
+						<a class="facebook social-icon" href="<?php echo get_permalink();?>?remove=<?php echo $firsttype->slug;?>&item=<?php echo get_the_id();?>" title="compare">
+							<i class="fa fa-minus"></i> remove from compare
+						</a>
+				</li>
+				<?php else : ?>
+					<li style="width: auto;">
+						<a class="facebook social-icon" href="<?php the_permalink();?>?tocompare=<?php echo $firsttype->slug;?>" title="compare">
+							<i class="fa fa-plus"></i> add to compare
+						</a>
+				</li>
+				<?php endif; ?>
+			</ul>
+			
+		</div>	
+		<div class="shares">
+			
+			<h3 class="share"><i class="fa fa-share-alt" aria-hidden="true"></i> Share <?php the_title();?></h3>
+			<ul class="social-icons">
+				<li><a class="facebook social-icon" href="#" onclick="javascript: window.open('https://www.facebook.com/sharer/sharer.php?u=<?php the_permalink();?>'); return false;" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+				<li><a class="twitter social-icon" href="#" title="Twitter" onclick="javascript: window.open('https://twitter.com/home?status=Vulputate justo&nbsp;<?php the_permalink();?>'); return false;" target="_blank"><i class="fa fa-twitter"></i></a></li>
+				<li><a class="pinterest social-icon" href="#" onclick="javascript: window.open('https://pinterest.com/pin/create/button/?url=<?php the_permalink();?>'); return false;" title="Pinterest" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+				<li><a class="gplus social-icon" href="#" onclick="javascript: window.open('https://plus.google.com/share?url=<?php the_permalink();?>'); return false;" title="Google +" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+				<li><a class="linkedin social-icon" href="#" onclick="javascript: window.open('https://www.linkedin.com/shareArticle?mini=true&amp;url=<?php the_permalink();?>'); return false;" title="LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+			</ul>
+		</div>	
+		
+		<?php 
+	
+}

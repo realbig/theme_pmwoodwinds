@@ -2,7 +2,11 @@
 /**
  * Template name:Compare
  */
- get_header();?>
+ get_header();
+
+global $post;
+
+?>
 
  	<div id="blog" class="blog-home container hover-section">
 		<div class="category-head">
@@ -71,7 +75,7 @@
 					</tr>	
 				</thead>
 				<tbody>
-					<? foreach($list as $item):
+					<?php foreach($list as $item): setup_postdata( $item );
 						$price = pmwoodwind_product_main_price($item);
 						$status = $price;
 						if(is_numeric($price)){
@@ -85,7 +89,8 @@
 						$lastcat = $types[count($types)-1];
 					?>
 						<tr>
-							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>"><?php echo get_the_post_thumbnail( $item, 'main_image', array( 'class' => 'main-image zoom' ) ); ?></a></td>
+							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>">
+								<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?></a></td>
 							<td><a style="color: #0e0b0b;" href="<?php echo get_permalink($item);?>"><?php echo get_the_title($item);?></a></td>
 							<td style="text-transform:uppercase;"><?php
 						if(is_numeric($price)){
@@ -105,7 +110,11 @@
 							<td class="remove"><a style="color: #ed492e; "href="<?php echo get_permalink();?>?remove=<?php echo $l;?>&item=<?php echo $item;?>"><i class="fa fa-times"></i> remove</a></td>
 				
 						</tr>
-					<? endforeach;?>
+					<?php 
+					
+					wp_reset_postdata();
+					
+					endforeach;?>
 					<tfoot>
 						<tr style="background: #1e1e1e;color: #fff;">
 						<th>Image</th>
@@ -122,7 +131,7 @@
 				</tfoot>
 				</tbody>
 		</table>
-		<? endforeach;?>
+		<?php endforeach;?>
 	</div>
 	</div>
 	<script>
@@ -152,4 +161,4 @@
 		return true;
 	}
 	</script>
-	<?php get_footer();?>
+	<?php get_footer();
