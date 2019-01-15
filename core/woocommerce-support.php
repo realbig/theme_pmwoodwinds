@@ -176,7 +176,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 		return $category->parent == 0;
 	} );
 	
-	$firsttype = $categories[0];
+	$firsttype = array_values( $categories )[0];
 	
 	?>
 
@@ -196,7 +196,10 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 			if ( isset( $_SESSION['comparelist'] ) ) :
 	
 				$comparelist = $_SESSION['comparelist'];
-				$compare = $comparelist[$firsttype->slug];
+	
+				if ( isset( $comparelist[$firsttype->slug] ) ) {
+					$compare = $comparelist[$firsttype->slug];
+				}
 
 				foreach ( $compare as $comp) :
 
@@ -417,7 +420,25 @@ function pmwoodwind_show_product_single_brand() {
 	
 }
 
-add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_inventory', 11 );
+add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_year', 11 );
+
+/**
+ * Show the custom Year String on Single Products
+ * 
+ * @since		{{VERSION}}
+ * @return		void
+ */
+function pmwoodwind_show_product_single_year() {
+	
+	if ( $year = pmwoodwind_product_get_year( get_the_id() ) ) : ?>
+
+		<span>Year: <?php echo $year; ?></span>
+
+	<?php endif;
+	
+}
+
+add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_inventory', 12 );
 
 /**
  * Show the custom Inventory String on Single Products
@@ -550,8 +571,6 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 	
 }, 1 );
 
-//add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-
 add_action( 'woocommerce_single_product_summary', 'pmwoodwind_add_to_compare_button', 40 );
 
 function pmwoodwind_add_to_compare_button() {
@@ -575,7 +594,7 @@ function pmwoodwind_add_to_compare_button() {
 		return $category->parent == 0;
 	} );
 	
-	$firsttype = $categories[0];
+	$firsttype = array_values( $categories )[0];
 	
 	?>
 		
@@ -615,3 +634,71 @@ function pmwoodwind_add_to_compare_button() {
 		<?php 
 	
 }
+
+add_action( 'woocommerce_before_single_product_summary', function() {
+	
+	$price = pmwoodwind_product_main_price( get_the_ID() );
+	
+	$status = $price;
+	if ( is_numeric( $price ) ) {
+		$status = 'sale';
+	}
+	
+	if ( $price ) :
+		
+		if ( strtolower( trim( $status ) ) == 'sold' ) : ?>
+		
+		<?php 
+		
+			remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+		
+		endif;
+		
+	else : 
+	
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+	
+	endif;
+	
+} );
+
+add_action( 'woocommerce_single_product_summary', function() {
+	
+	$price = pmwoodwind_product_main_price( get_the_ID() );
+	
+	$status = wc_get_product( get_the_ID() )->get_stock_status( 'edit' );
+	
+	$categories = wp_get_object_terms( get_the_ID(), 'product_cat' );
+	
+	$categories = array_filter( $categories, function( $category ) {
+		return $category->parent !== 0;
+	} );
+	
+	$firstcat = array_values( $categories )[0];
+	
+	$lastcat = end( $categories );
+	
+	?>
+		
+		<div class="out-of-stock-notice">
+	
+			<?php if ( $price ) : 
+
+				if ( $status == 'outofstock' ) : ?>
+
+					Currently, our <?php the_title();?> is sold.<br/>View our latest <a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>"><?php echo $lastcat->name;?></a> or browse all <a href="<?php echo get_term_link( $firstcat->term_id, 'product_cat' ); ?>"><?php echo $firstcat->name;?> listings.</a><br /><br />
+
+				<?php endif;
+
+			elseif ( ! $price || 
+				   $status == 'onbackorder' ) : ?>
+
+				Currently, our <?php the_title();?> is unavailable.<br/>View our latest <a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>"><?php echo $lastcat->name;?></a> or browse all <a href="<?php echo get_term_link( $firstcat->term_id, 'product_cat' ); ?>"><?php echo $firstcat->name;?> listings.</a><br /><br />
+
+			<?php endif; ?>
+	
+		</div>
+		
+	<?php 
+	
+}, 30 );
