@@ -635,33 +635,6 @@ function pmwoodwind_add_to_compare_button() {
 	
 }
 
-add_action( 'woocommerce_before_single_product_summary', function() {
-	
-	$price = pmwoodwind_product_main_price( get_the_ID() );
-	
-	$status = $price;
-	if ( is_numeric( $price ) ) {
-		$status = 'sale';
-	}
-	
-	if ( $price ) :
-		
-		if ( strtolower( trim( $status ) ) == 'sold' ) : ?>
-		
-		<?php 
-		
-			remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-		
-		endif;
-		
-	else : 
-	
-		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-	
-	endif;
-	
-} );
-
 add_action( 'woocommerce_single_product_summary', function() {
 	
 	$price = pmwoodwind_product_main_price( get_the_ID() );
