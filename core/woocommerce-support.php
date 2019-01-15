@@ -529,15 +529,26 @@ function pmwoodwind_handle_payment_complete_order_status( $order_status, $order_
 // Like, seriously? This should be default based on the Attribute Option
 add_action( 'woocommerce_product_meta_end', function() {
 
-	add_filter( 'woocommerce_product_get_attributes', function( $attributes ) {
-
-		return array_filter( $attributes, function( $attribute ) {
-			return $attribute->get_visible() === true;
-		} );
-
-	} );
+	add_filter( 'woocommerce_product_get_attributes', 'pmwoodwind_remove_attributes_listing' );
 	
 }, 99 );
+
+function pmwoodwind_remove_attributes_listing( $attributes ) {
+	
+	// It is showing other things we don't want there, so let's nuke them all for now.
+	return array();
+
+	return array_filter( $attributes, function( $attribute ) {
+		return $attribute->get_visible() === true;
+	} );
+	
+}
+
+add_action( 'woocommerce_after_single_product_summary', function() {
+	
+	remove_filter( 'woocommerce_product_get_attributes', 'pmwoodwind_remove_attributes_listing' );
+	
+}, 1 );
 
 //add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 
