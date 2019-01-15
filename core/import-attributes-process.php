@@ -52,27 +52,24 @@ class pmwoodwinds_import_attributes_process extends WP_Background_Process {
 		
 		if ( $inventory_value = esc_attr( strtolower( get_post_meta( $product_id, '_inhouse_inventory', true ) ) ) ) {
 			
+			$inventory_value = str_replace( ' ', '-', $inventory_value );
+			
 			// Find pre-generated Term
 			$term = term_exists( $inventory_value, wc_attribute_taxonomy_name( 'In-House Inventory' ) );
 			
-			if ( ! $term ) {
-				
-				$term = term_exists( 'used', wc_attribute_taxonomy_name( 'In-House Inventory' ) );
+			if ( $term ) {
 				
 				$value = array( (int) $term['term_id'] );
 				
+				$inventory_attribute = new WC_Product_Attribute();
+				$inventory_attribute->set_id( 1 );
+				$inventory_attribute->set_name( wc_attribute_taxonomy_name( 'In-House Inventory' ) );
+				$inventory_attribute->set_options( $value );
+				$inventory_attribute->set_visible( false );
+
+				$attributes[] = $inventory_attribute;
+				
 			}
-			else {
-				$value = array( (int) $term['term_id'] );
-			}
-		
-			$inventory_attribute = new WC_Product_Attribute();
-			$inventory_attribute->set_id( 1 );
-			$inventory_attribute->set_name( wc_attribute_taxonomy_name( 'In-House Inventory' ) );
-			$inventory_attribute->set_options( $value );
-			$inventory_attribute->set_visible( false );
-			
-			$attributes[] = $inventory_attribute;
 			
 		}
 		

@@ -63,6 +63,7 @@ if ( ! class_exists( 'pmwoodwinds_import_attributes' ) ) {
 				'OOS' => "Out Of Stock",
 				'TOOT' => "Temporarily Out Of Stock",
 				'Discontinued' => "Discontinued",
+				'ON-HAND' => 'On Hand',
 			);
 			
 			foreach ( $inventory_options as $slug => $label ) {

@@ -49,13 +49,17 @@ function pmwoodwind_product_main_price($postid){
 	return get_post_meta($postid,'_price',true);
 	
 }
-function pmwoodwind_is_new_product($postid){
-	$new = get_post_meta($postid,'_product_new',true);
-	if($new === 'yes'){
+function pmwoodwind_is_new_product( $product_id ) {
+	
+	$product = wc_get_product( $product_id );
+	
+	$is_new = $product->get_attribute( 'Is New?' );
+	
+	if ( strtolower( $is_new ) == 'new' ) {
 		return true;
-	} else {
-		return false;
 	}
+	
+	return false;
 	
 }
 function pmwoodwind_product_get_serial($postid){
@@ -64,11 +68,16 @@ function pmwoodwind_product_get_serial($postid){
 		return esc_html( $serial );
 	}
 }	
-function pmwoodwind_product_get_year($postid){
-	$year = get_post_meta($postid,'_product_year',true);
-	if($year){
+function pmwoodwind_product_get_year( $product_id ) {
+	
+	$product = wc_get_product( $product_id );
+	
+	if ( $year = $product->get_attribute( 'Product Year' ) ) {
 		return esc_html( $year );
 	}
+	
+	return false;
+	
 }
 function pmwoodwind_product_get_brand($postid){
 	$brand = wp_get_post_terms($postid, 'pwb-brand');
@@ -76,11 +85,16 @@ function pmwoodwind_product_get_brand($postid){
 		return $brand;
 	}
 }
-function pmwoodwind_get_inventory($postid){
-	$inventory = get_post_meta($postid,'_inhouse_inventory',true);
-	if($inventory){
+function pmwoodwind_get_inventory( $product_id ) {
+	
+	$product = wc_get_product( $product_id );
+	
+	if ( $inventory = $product->get_attribute( 'In-House Inventory' ) ) {
 		return esc_html( $inventory );
 	}
+	
+	return false;
+	
 }	
 function pmwoodwind_is_mouthpiece($postid){
 	$types = wp_get_post_terms($postid, 'product_cat');
