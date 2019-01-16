@@ -555,12 +555,9 @@ add_action( 'woocommerce_product_meta_end', function() {
 }, 99 );
 
 function pmwoodwind_remove_attributes_listing( $attributes ) {
-	
-	// It is showing other things we don't want there, so let's nuke them all for now.
-	return array();
 
 	return array_filter( $attributes, function( $attribute ) {
-		return $attribute->get_visible() === true;
+		return $attribute->get_variation() === true;
 	} );
 	
 }
