@@ -23,7 +23,7 @@ class pmwoodwinds_import_attributes_process extends WP_Background_Process {
 		
 		$product = wc_get_product( $product_id );
 		
-		$attributes = array();
+		$attributes = $product->get_attributes();
 		
 		if ( get_post_meta( $product_id, '_product_new', true ) == 'yes' ) {
 			
