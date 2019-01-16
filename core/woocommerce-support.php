@@ -342,7 +342,7 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 		$msrp = get_post_meta( get_the_ID(), '_msrp', true );
 		
 		?>
-		MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span>
+		MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span><br />
 		<?php
 		
 	}
@@ -352,7 +352,7 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	if ( is_numeric( $price ) && 
 		( ! isset( $_product_attributes['is_variation'] ) || $_product_attributes['is_variation'] === 0 ) ) : ?>
 
-		Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span>
+		Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span><br />
 
 	<?php endif;
 	
