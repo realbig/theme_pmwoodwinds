@@ -36,15 +36,17 @@ get_header(); ?>
 
 						<?php 
 						
-						if ( ! isset( $_GET['show'] ) ) $_GET['show'] = 'all';
+						global $wp;
+						
+						if ( ! isset( $_GET['_show'] ) ) $_GET['_show'] = 'all';
 	
-							$show = esc_attr( $_GET['show'] );
+						$show = esc_attr( $_GET['_show'] );
 						
 						?>
 
-						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'used' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( 'show', 'used' ); ?>">Used</a></li>
-						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'new' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( 'show', 'new' ); ?>">New</a></li>
-						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'all' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( 'show', 'all' ); ?>">All</a></li>
+						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'used' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( '_show', 'used' ); ?>" data-value="used">Used</a></li>
+						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'new' ) ? ' selected' : ''; ?>" href="<?php echo add_query_arg( '_show', 'new' ); ?>" data-value="new">New</a></li>
+						<li class="filtertype"><a class="new-used-filter<?php echo ( $show == 'all' ) ? ' selected' : ''; ?>" href="<?php echo trailingslashit( home_url( $wp->request ) ); ?>" data-value="">All</a></li>
 
 					</ul> <!-- cd-filters -->
 				</div> <!-- cd-tab-filter -->

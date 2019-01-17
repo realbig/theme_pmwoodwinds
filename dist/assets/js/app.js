@@ -5963,191 +5963,57 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function ($) {
 
-	var $products = $('.woocommerce ul.products li.product');
+	var loaded = false,
+	    $products = false;
 
-	var disableFilters = function disableFilters() {
+	// Check to see if we're on the right page
+	if ($('.woocommerce-result-count').length <= 0) return;
 
-		$('#product-search').attr('disabled', true);
+	var content = $('.woocommerce-result-count').html().trim();
 
-		$('.cd-filter').addClass('disabled');
+	content = content.replace(/(\d+(?:.*\d)?)/i, "<span class='facetwp-counts'>$1</span>");
 
-		$products.each(function (index, element) {
-			Foundation.Motion.animateOut(element, 'scale-out-down');
-		});
-	};
+	// Update the string with FacetWP's values as appropriate
+	$('.woocommerce-result-count').html(content);
 
-	var enableFilters = function enableFilters() {
+	// Ensure this does not fire on page load
+	$(document).on('facetwp-refresh', function () {
 
-		$('#product-search').attr('disabled', false);
+		if (loaded) {
 
-		$('.cd-filter').removeClass('disabled');
-	};
-
-	$(document).on('ready', function () {
-
-		var search = getURLParam('s');
-
-		if (search) {
-
-			$('#product-search').val(search);
+			$products.each(function (index, element) {
+				Foundation.Motion.animateOut(element, 'scale-out-down');
+			});
+		} else {
+			loaded = true;
 		}
-
-		$products.each(function (index, element) {
-			Foundation.Motion.animateIn(element, 'scale-in-up');
-		});
 	});
 
-	$(document).on('click touch', '.wcpf-checkbox-label, .wcpf-button', function () {
-		disableFilters();
-	});
-
-	$(window).on('wcpf_update_products', function () {
+	$(document).on('facetwp-loaded', function () {
 
 		$products = $('.woocommerce ul.products li.product');
 
-		if (!$products.length) return;
-
-		enableFilters();
-
 		$products.each(function (index, element) {
 			Foundation.Motion.animateIn(element, 'scale-in-up');
 		});
 
-		$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
+		setTimeout(function () {
+
+			$(document).trigger('product-animations-done');
+		}, 500); // Wait until animation finishes, 500ms is Motion-UI default
 	});
 
-	var typingTimer,
-	    doneTypingInterval = 1000; // Wait 1s after they stop typing
-
-	function doneTyping() {
-
-		var url = location.href.replace(/\?.*/g, '');
-
-		window.history.pushState('', '', url + setURLParam('s', $('#product-search').val()));
-
-		$('.filter-submit.hidden button').click();
-	}
-
-	$('#product-search').on('keyup', function () {
-		clearTimeout(typingTimer);
-		typingTimer = setTimeout(doneTyping, doneTypingInterval);
-	});
-
-	$('#product-search').on('keydown', function () {
-		if (typingTimer) {
-			clearTimeout(typingTimer);
-		}
-	});
-
-	$('.new-used-filter').on('click touch', function (event) {
+	$(document).on('click touch', '.new-used-filter', function (event) {
 
 		event.preventDefault();
 
-		var url = location.href.replace(/\?.*/g, ''),
-		    show = getURLParam('show', $(this).attr('href'));
-
-		if (show == 'all') {
-			url = url + setURLParam('show', false);
-		} else {
-			url = url + setURLParam('show', show);
-		}
-
-		window.history.pushState('', '', url);
-
-		$('.new-used-filter').removeClass('selected');
-		$(this).addClass('selected');
-
-		$('.filter-submit.hidden button').click();
+		$('.facetwp-facet-show select').val($(this).data('value')).trigger('change');
 	});
 
-	/**
-  * Returns a Query String for the current Page with your changes
-  * 
-  * @param		{string} key   Key
-  * @param 		{string} value Value
-  *                         
-  * @since		{{VERSION}}
-  * @returns 	{string} Query String
-  */
-	function setURLParam(key, value) {
+	$(document).on('product-animations-done', function () {
 
-		key = encodeURIComponent(key);
-		value = encodeURIComponent(value);
-
-		var urlParams = location.search.substr(1).split('&');
-
-		if (urlParams == '' && value !== 'false') {
-			return '?' + key + '=' + value;
-		} else {
-
-			var paramCount = urlParams.length,
-			    param;
-
-			while (paramCount--) {
-				param = urlParams[paramCount].split('=');
-
-				if (param[0] == key) {
-
-					if (value !== 'false') {
-
-						param[1] = value;
-						urlParams[paramCount] = param.join('=');
-					} else {
-
-						urlParams.splice(paramCount, 1);
-					}
-
-					break;
-				}
-			}
-
-			if (paramCount < 0) {
-
-				urlParams[urlParams.length] = [key, value].join('=');
-			}
-
-			return '?' + urlParams.join('&');
-		}
-
-		return '';
-	}
-
-	/**
-  * Grabs GET Parameter from the URL
-  * 
-  * @param		{string} variable Variable Name
-  * @param 		{string} url      URL. Defaults to the current URL
-  *                            
-  * @since		{{VERSION}}
-  * @return 		{string} Parameter Value
-  */
-	function getURLParam(variable) {
-		var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-
-
-		if (url === undefined) {
-			url = location.href;
-		}
-
-		// Remove Hash from URL
-		url = url.replace(/#.*$/, '');
-
-		// Remove URL before your params
-		url = url.replace(/^.*\?/, '');
-
-		var vars = url.split('&');
-
-		for (var i = 0; i < vars.length; i++) {
-
-			var pair = vars[i].split('=');
-
-			if (pair[0] == variable) {
-				return pair[1];
-			}
-		}
-
-		return false;
-	}
+		$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
+	});
 })(jQuery);
 
 /***/ }),

@@ -747,3 +747,16 @@ function pmwoodwind_product_single_primary_image_hover_zoom( $attributes, $attac
 
 // Remove the Description/Additional Information Tabs
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+
+if ( class_exists( 'FacetWP' ) ) {
+
+	// Remove default pagination
+	remove_action( 'woocommerce_after_shop_loop', 'woocommerce_pagination', 10 );
+	
+	add_action( 'woocommerce_after_shop_loop', function() {
+		
+		echo do_shortcode( '[facetwp pager="true"]' );
+		
+	} );
+	
+}
