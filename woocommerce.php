@@ -60,7 +60,28 @@ get_header(); ?>
 				
 				<div class="<?php echo ( is_tax( 'product_cat' ) ) ? 'cd-filter filter-is-visible' : ''; ?>">
 					
-					<?php if ( is_active_sidebar( 'shop' ) ) : ?>
+					<?php 
+					
+					$term_slug = '';
+					
+					if ( is_tax( 'product_cat' ) ) : 
+					
+						$queried_object = get_queried_object();
+					
+						// Find top parent
+						while ( $queried_object->parent > 0 ) {
+							$queried_object = get_term( $queried_object->parent, 'product_cat' );
+						}
+					
+						$term_slug = $queried_object->slug;
+					
+					endif;
+					
+					if ( is_active_sidebar( $term_slug ) ) : 
+					
+						dynamic_sidebar( $term_slug );
+					
+					elseif ( is_active_sidebar( 'shop' ) ) : ?>
 				
 						<?php dynamic_sidebar( 'shop' ); ?>
 					

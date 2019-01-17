@@ -487,9 +487,27 @@ add_action( 'widgets_init', 'pmwoodwind_add_woocommerce_sidebar' );
 function pmwoodwind_add_woocommerce_sidebar() {
 
 	register_sidebar( array(
-			'id' => 'shop',
-			'name' => 'WooCommerce Sidebar',
-			'description' => 'Shown on Product Archive Pages.',
+		'id' => 'shop',
+		'name' => 'Default WooCommerce Sidebar',
+		'description' => 'Shown on Product Archive Pages.',
+	) );
+	
+	register_sidebar( array(
+		'id' => 'instruments',
+		'name' => 'Instruments Sidebar',
+		'description' => 'Shown on Product Archive Pages.',
+	) );
+	
+	register_sidebar( array(
+		'id' => 'mouthpieces',
+		'name' => 'Mouthpieces Sidebar',
+		'description' => 'Shown on Product Archive Pages.',
+	) );
+	
+	register_sidebar( array(
+		'id' => 'accessories',
+		'name' => 'Accessories Sidebar',
+		'description' => 'Shown on Product Archive Pages.',
 	) );
 	
 }
