@@ -35,6 +35,7 @@ Foundation.Motion = Motion;
 
 module.exports = Foundation;
 
+import './lib/photoswipe';
 import './lib/product-archive-animations';
 import './lib/media-animations';
 import './lib/iframe-resize';

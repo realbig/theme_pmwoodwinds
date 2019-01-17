@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -149,15 +149,15 @@ exports.transitionend = transitionend;
 "use strict";
 
 
+__webpack_require__(26);
+
 __webpack_require__(25);
 
 __webpack_require__(24);
 
-__webpack_require__(23);
+__webpack_require__(28);
 
 __webpack_require__(27);
-
-__webpack_require__(26);
 
 __webpack_require__(7);
 
@@ -181,15 +181,15 @@ __webpack_require__(17);
 
 __webpack_require__(18);
 
-__webpack_require__(20);
+__webpack_require__(21);
 
-__webpack_require__(22);
+__webpack_require__(23);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(28);
+var _whatInput = __webpack_require__(29);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -197,7 +197,9 @@ var _foundation = __webpack_require__(4);
 
 var _foundationUtil = __webpack_require__(6);
 
-__webpack_require__(21);
+__webpack_require__(20);
+
+__webpack_require__(22);
 
 __webpack_require__(19);
 
@@ -5760,6 +5762,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function ($) {
 
+	if (typeof wc_single_product_params == 'undefined') return;
+
+	// Force Photoswipe to zoom further
+	// https://stackoverflow.com/a/40459340
+	wc_single_product_params.photoswipe_options.getDoubleTapZoom = function (isMouseClick, item) {
+		if (isMouseClick) {
+			return 2;
+		} else {
+			return item.initialZoomLevel < 0.7 ? 2 : 1.33;
+		}
+	};
+})(jQuery);
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
     $(document).ready(function () {
         // ========= jPlayer config 1 ==========
         // Home player, Track player, Single post top player
@@ -5891,7 +5915,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6087,7 +6111,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6278,7 +6302,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /*
@@ -6780,7 +6804,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10295,7 +10319,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11537,7 +11561,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 /**!
@@ -13614,7 +13638,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14089,7 +14113,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14474,8 +14498,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 29 */,
-/* 30 */
+/* 30 */,
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(3);

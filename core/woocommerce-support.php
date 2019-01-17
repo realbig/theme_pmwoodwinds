@@ -309,6 +309,7 @@ add_filter( 'woocommerce_single_product_photoswipe_options', 'pmwoodwind_photosw
 function pmwoodwind_photoswipe_options( $options ) {
 	
 	$options['captionEl'] = false;
+	$options['maxSpreadZoom'] = 2;
 	
 	return $options;
 	
