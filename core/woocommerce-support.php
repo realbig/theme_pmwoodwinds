@@ -712,3 +712,35 @@ function pmwoodwind_remove_slider_class_from_second_slider( $classes ) {
 	return array_values( $classes );
 	
 }
+
+// Add the ability to hover zoom on the Primary Image
+add_action( 'woocommerce_before_single_product_summary', function() {
+	
+	add_filter( 'wp_get_attachment_image_attributes', 'pmwoodwind_product_single_primary_image_hover_zoom', 10, 3 ); 
+	
+}, 19 );
+
+// Ensure it doesn't effect any other images, as the filter is generic
+add_action( 'woocommerce_before_single_product_summary', function() {
+	
+	remove_filter( 'wp_get_attachment_image_attributes', 'pmwoodwind_product_single_primary_image_hover_zoom', 10, 3 ); 
+	
+}, 21 );
+
+/**
+ * Add ability to "Hover Zoom" on the Primary Image on Product Single
+ * 
+ * @param		array        $attributes Attributes for the image markup
+ * @param		object       $attachment Image attachment WP_Post Object
+ * @param 		string|array $size       Requested size. Image size or array of width and height values (in that order). Default 'thumbnail'.
+ *                                                                                                                           
+ * @since		{{VERSION}}
+ * @return		array        Attributes for the image markup
+ */
+function pmwoodwind_product_single_primary_image_hover_zoom( $attributes, $attachment, $size ) {
+	
+	$attributes['class'] .= ' main-image zoom';
+	
+	return $attributes;
+	
+}
