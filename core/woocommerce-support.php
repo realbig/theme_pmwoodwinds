@@ -116,7 +116,7 @@ function pmwoodwind_product_single_image_column_start() {
 	
 }
 
-add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_single_image_column_end', 25 );
+add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_single_image_column_end', 98 );
 
 /**
  * Wraps the Image Column on Product Single in a proper Column without needing to edit the Template
@@ -289,9 +289,11 @@ add_filter( 'woocommerce_single_product_carousel_options', 'pmwoodwind_flexslide
  */
 function pmwoodwind_flexslider_options( $options ) {
 
-    $options['directionNav'] = true; // Arrows
-	$options['controlNav'] = false; // Thumbnails below Slider
-	$options['slideshow'] = true; // Auto-progress slides, since we're hiding thumbnails	
+	$options['controlNav'] = false; // Thumbnails below Slider. We're adding a second slider to handle this
+	//$options['slideshow'] = true;
+	// We cannot use Slideshow due to relying upon $.fn.wc_product_gallery() being available. If Slideshow is enabled, then it tries to run before the second slider is added and it fails
+	
+	$options['sync'] = '.pmwoodwind-product-gallery-carousel';
 	
     return $options;
 }
@@ -673,3 +675,40 @@ add_action( 'woocommerce_single_product_summary', function() {
 	<?php 
 	
 }, 30 );
+
+add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_second_image_slider', 30 );
+
+/**
+ * In order to have a slider below control the main image, we technically need TWO sliders
+ * http://flexslider.woothemes.com/thumbnail-slider.html
+ * 
+ * @since		{{VERSION}}
+ * @return		void
+ */
+function pmwoodwind_second_image_slider() {
+	
+	add_filter( 'woocommerce_single_product_image_gallery_classes', 'pmwoodwind_remove_slider_class_from_second_slider' );
+	
+	woocommerce_show_product_images();
+	
+	remove_filter( 'woocommerce_single_product_image_gallery_classes', 'pmwoodwind_remove_slider_class_from_second_slider' );
+	
+}
+
+/**
+ * Ensure the default Product Slider JS doesn't apply to ours
+ * 
+ * @param		array $classes Classes applied to the Slider container
+ *                                                      
+ * @since		{{VERSION}}
+ * @return		array Classes applied to the Slider container
+ */
+function pmwoodwind_remove_slider_class_from_second_slider( $classes ) {
+	
+	$index = array_search( 'woocommerce-product-gallery', $classes );
+	
+	$classes[ $index ] = 'pmwoodwind-product-gallery-carousel';
+	
+	return array_values( $classes );
+	
+}
