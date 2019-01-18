@@ -851,6 +851,7 @@ add_action( 'admin_init', function() {
 require_once __DIR__ . '/core/import-photos.php';
 require_once __DIR__ . '/core/apply-instruments-shipping-class.php';
 require_once __DIR__ . '/core/import-attributes.php';
+require_once __DIR__ . '/core/import-sorting.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
@@ -888,6 +889,42 @@ function pmwoodwind_add_sidebars() {
 			'id' => 'media',
 			'name' => 'Media Sidebar',
 			'description' => 'Shown on Media Archive Pages.',
+	) );
+	
+}
+
+/**
+ * Returns a numeric index to use for sorting on the initial page load
+ * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
+ * 
+ * @since		{{VERSION}}
+ * @return		array Sorting Key
+ */
+function pmwoodwind_get_instrument_sorting_key() {
+	
+	return apply_filters( 'pmwoodwind_get_instrument_sorting_key', array(
+		'Sopranino Saxophones',
+		'Soprano Saxophones',
+		'Alto Saxophones',
+		'C Melody saxophones',
+		'Tenor Saxophones',
+		'Baritone saxophones',
+		'Bass Saxophones',
+		'Electronic Saxophones',
+		'Bb Clarinets',
+		'A Clarinets',
+		'Eb Clarinets',
+		'Alto Clarinets',
+		'Bass Clarinets',
+		'Contra Alto Clarinets',
+		'Contra Bass Clarinets',
+		'Piccolos',
+		'Flutes',
+		'Alto Flutes',
+		'Bass Flutes',
+		'Oboes',
+		'Bassoons',
+		'English Horns',
 	) );
 	
 }

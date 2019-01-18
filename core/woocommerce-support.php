@@ -780,3 +780,31 @@ if ( class_exists( 'FacetWP' ) ) {
 	} );
 	
 }
+
+// Use our stored Instrument Order for a default Sort
+add_action( 'woocommerce_product_query', function( $query ) {
+	
+	if ( isset( $_GET['orderby'] ) ) return;
+	
+	// Not looking at a Category/Tag
+	if ( ! is_a( $query->queried_object, 'WP_Term' ) ) return;
+	
+	// Not a Product Category
+	if ( $query->queried_object->taxonomy !== 'product_cat' ) return;
+	
+	$term = $query->queried_object;
+	
+	while ( $term->parent !== 0 ) {
+		$term = get_term( $term->parent, 'product_cat' );
+	}
+	
+	// Only sort in this way for Instruments
+	if ( $term->slug !== 'instruments' ) return;
+	
+	$query->set( 'meta_key', 'instrument_sort_order' );
+	$query->set( 'orderby', array( 
+		'meta_value_num' => 'ASC',
+		'title' => 'ASC',
+	) );
+	
+} );
