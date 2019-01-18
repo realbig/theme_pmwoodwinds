@@ -344,4 +344,8 @@
 		}
 	}
 	
+	.pswp__button.pswp__button--zoom {
+		display: block !important; // Ensure Zoom is always visible on larger screens
+	}
+	
 }
