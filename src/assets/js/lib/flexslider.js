@@ -2,28 +2,31 @@
 
 	if ( typeof wc_single_product_params == 'undefined' ) return;
 
-	$( document ).on( 'ready', function() {
+	$( '.woocommerce-product-gallery' ).on( 'wc-product-gallery-before-init', function( event, slider, args ) {
 
-		var defaultflexSliderOptions = Object.assign( {}, wc_single_product_params.flexslider ),
-			flexSliderOptions = Object.assign( {}, defaultflexSliderOptions );
+		var flexSliderOptions = Object.assign( {}, args );
 
-		var flexSliderOptions = $.extend( {
+		flexSliderOptions.flexslider = $.extend( {
 			asNavFor: '.woocommerce-product-gallery',
 			itemWidth: 125,
 			itemMargin: 0,
-		}, defaultflexSliderOptions );
+		}, flexSliderOptions.flexslider );
 
-		flexSliderOptions.sync = '';
-		flexSliderOptions.directionNav = true;
+		flexSliderOptions.flexslider.sync = '';
+		flexSliderOptions.flexslider.directionNav = true;
+		flexSliderOptions.flexslider.slideshow = true;
+		flexSliderOptions.flexslider.animationLoop = true;
+		
+		flexSliderOptions.photoswipe_enabled = false;
 
 		// Assign the global Flexslider options to ours
-		window.wc_single_product_params.flexslider = flexSliderOptions;
+		//window.wc_single_product_params.flexslider = flexSliderOptions;
 
 		// Run WooCommerce's Flexslider JS to gain any styling it has
-		$( '.pmwoodwind-product-gallery-carousel' ).wc_product_gallery();
+		$( '.pmwoodwind-product-gallery-carousel' ).wc_product_gallery( flexSliderOptions );
 
 		// Restore the global Flexslider options so that the Primary Image Slider can use it
-		window.wc_single_product_params.flexslider = defaultflexSliderOptions;
+		//window.wc_single_product_params.flexslider = defaultflexSliderOptions;
 
 	} );
 
