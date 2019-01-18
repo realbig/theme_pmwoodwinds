@@ -185,11 +185,26 @@
 	}
 	
 	.woocommerce-product-gallery {
-		margin-bottom: 5px !important;
+		
+		margin-bottom: 0px !important;
+		
+		.woocommerce-product-gallery__image {
+			
+			span {
+				top: 0 !important;
+			}
+			
+		}
+		
+	}
+	
+	.woocommerce-product-gallery, .pmwoodwind-product-gallery-carousel {
+		border: 2px #000 solid;
 	}
 	
 	.pmwoodwind-product-gallery-carousel {
 		position: relative;
+		top: -10px;
 	}
 	
 	ul.flex-direction-nav {

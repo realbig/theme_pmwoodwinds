@@ -1410,8 +1410,8 @@ if (typeof jQuery === 'undefined') {
 
 		var flexSliderOptions = $.extend({
 			asNavFor: '.woocommerce-product-gallery',
-			itemWidth: 100,
-			itemMargin: 5
+			itemWidth: 125,
+			itemMargin: 0
 		}, defaultflexSliderOptions);
 
 		flexSliderOptions.sync = '';
@@ -1419,8 +1419,6 @@ if (typeof jQuery === 'undefined') {
 
 		// Assign the global Flexslider options to ours
 		window.wc_single_product_params.flexslider = flexSliderOptions;
-
-		console.log(window.wc_single_product_params.flexslider);
 
 		// Run WooCommerce's Flexslider JS to gain any styling it has
 		$('.pmwoodwind-product-gallery-carousel').wc_product_gallery();
