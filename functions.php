@@ -928,3 +928,68 @@ function pmwoodwind_get_instrument_sorting_key() {
 	) );
 	
 }
+
+add_action( 'save_post', 'pmwoodwind_save_instrument_sorting_key' );
+
+/**
+ * On Product Save, update the hidden Instrument Sorting value
+ * 
+ * @param		integer $post_id Post ID
+ *                               
+ * @since		{{VERSION}}
+ */
+function pmwoodwind_save_instrument_sorting_key( $post_id ) {
+	
+	if ( get_post_type( $post_id ) !== 'product' ) 
+		return;
+	
+	// Autosave, do nothing
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+        return;
+	
+	// AJAX? Not used here
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) 
+        return;
+	
+	// Check user permissions
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+        return;
+	
+	// Return if it's a post revision
+	if ( false !== wp_is_post_revision( $post_id ) )
+        return;
+	
+	if ( ! isset( $_POST['tax_input'] ) || ! isset( $_POST['tax_input']['product_cat'] ) )
+		return;
+	
+	$sort_value = 0;
+	
+	$key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
+	
+	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
+		
+		$term = get_term( $term_id, 'product_cat' );
+		
+		$index = array_search( strtolower( $term->name ), $key );
+			
+		if ( $index !== false ) {
+
+			$index = $index + 1; // Cannot zero-index otherwise we may not actually save a value
+
+			if ( $index > $sort_value ) {
+
+				$sort_value = $index;
+
+			}
+
+		}
+		
+	}
+	
+	if ( $sort_value > 0 ) {
+			
+		$update = update_post_meta( $post_id, 'instrument_sort_order', $sort_value );
+
+	}
+	
+}

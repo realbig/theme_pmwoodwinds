@@ -53,11 +53,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 			
 		}
 		
-		if ( (int) $sort_value === 1 ) {
-		
-			error_log( "$product_id has been updated with Sort Value of $sort_value" );
-			
-		}
+		error_log( "$product_id has been updated with Sort Value of $sort_value" );
 
 		return false;
 		
