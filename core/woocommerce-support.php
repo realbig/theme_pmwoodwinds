@@ -312,6 +312,8 @@ function pmwoodwind_photoswipe_options( $options ) {
 	
 	$options['captionEl'] = false;
 	$options['maxSpreadZoom'] = 2;
+	$options['fullscreenEl'] = false;
+	$options['zoomEl'] = true;
 	
 	return $options;
 	
