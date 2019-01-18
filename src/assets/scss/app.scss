@@ -7,6 +7,13 @@
 @import './style';
 
 @import 'motion-ui';
+
+$motion-ui-speeds: (
+  default: 250ms,
+  slow: 750ms,
+  fast: 250ms,
+);
+
 @include motion-ui-transitions;
 @include motion-ui-animations;
 

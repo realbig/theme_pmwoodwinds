@@ -31,7 +31,7 @@
 		
 			$( document ).trigger( 'media-animations-done' );
 			
-		}, 500 ); // Wait until animation finishes, 500ms is Motion-UI default
+		}, 250 ); // Wait until animation finishes, 500ms is Motion-UI default
 		
 	} );
 	
