@@ -219,7 +219,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 					}
 						?>
 						<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?>">
-							<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo woocommerce_get_product_thumbnail( $comp, 'main_image' );?></a>
+							<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo wp_get_attachment_image( get_post_thumbnail_id( $comp ), 'main_image' );?></a>
 								<h5>
 								<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
 								<span class="price <?php echo $price;?>"><?php
