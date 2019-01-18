@@ -231,6 +231,12 @@
 					
 					pointer-events: all;
 					
+					background: url( '../../../../../plugins/woocommerce/assets/css/photoswipe/default-skin/default-skin.svg' );
+					background-color: transparent;
+					background-size: 264px 88px;
+					height: 30px;
+					width: 32px;
+					
 				}
 				
 			}
@@ -243,13 +249,16 @@
 					
 					visibility: hidden;
 					
+					position: relative;
+					
 					&:before {
 						
-						visibility:visible;
-						content: '\f104';
-						font-family: FontAwesome;
-						margin-left: 10px;
-						font-size: 70px;
+						content: '';
+						position: absolute;
+						visibility: visible;
+						left: 5px;
+						
+						background-position: -138px -44px;
 						
 					}
 					
@@ -265,13 +274,17 @@
 					
 					visibility: hidden;
 					
+					position: relative;
+					
 					&:after {
 						
-						visibility:visible;
-						content: '\f105';
-						font-family: FontAwesome;
-						margin-right: 10px;
-						font-size: 70px;
+						content: '';
+						position: absolute;
+						visibility: visible;
+						right: 5px;
+						
+						background-position: -94px -44px;
+						
 						
 					}
 					
