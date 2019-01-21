@@ -6008,7 +6008,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		event.preventDefault();
 
-		$('.facetwp-facet-show select').val($(this).data('value')).trigger('change');
+		var $select = $('.facetwp-facet-show select');
+
+		if ($select.find('option[value="' + $(this).data('value') + '"]').length <= 0) {
+			$select.append('<option value="' + $(this).data('value') + '">' + $(this).data('value') + '</option>');
+		}
+
+		$select.val($(this).data('value')).trigger('change');
 	});
 
 	$(document).on('product-animations-done', function () {
