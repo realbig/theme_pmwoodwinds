@@ -707,6 +707,15 @@ add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_second_imag
  */
 function pmwoodwind_second_image_slider() {
 	
+	$product_id = get_the_ID();
+	$product = wc_get_product( $product_id );
+	
+	// Don't show secondary slider if it is a placeholder
+	if ( ! $product->get_image_id() ) return;
+	
+	// Don't show secondary slider if there are no Gallery Images
+	if ( ! $product->get_gallery_image_ids() ) return;
+	
 	add_filter( 'woocommerce_single_product_image_gallery_classes', 'pmwoodwind_remove_slider_class_from_second_slider' );
 	
 	woocommerce_show_product_images();
