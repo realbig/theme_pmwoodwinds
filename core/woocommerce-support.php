@@ -808,3 +808,18 @@ add_action( 'woocommerce_product_query', function( $query ) {
 	) );
 	
 } );
+
+add_filter( 'woocommerce_is_sold_individually', 'pmwoodwind_remove_all_quantity_fields', 10, 2 );
+
+/**
+ * Force all Products to be sold individually (No Quantity Field)
+ * 
+ * @param		boolean $return  If is sold individually
+ * @param		object  $product WC_Product Object
+ *                                     
+ * @since		{{VERSION}}
+ * @return		boolean If is sold individually
+ */
+function pmwoodwind_remove_all_quantity_fields( $return, $product ) {
+    return true;
+}
