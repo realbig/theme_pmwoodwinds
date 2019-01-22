@@ -223,6 +223,25 @@
 		
 	}
 	
+	.facetwp-facet {
+		
+		.facetwp-checkbox {
+			
+			&.checked + .facetwp-depth {
+				
+				// "Auto-Check Sub-Categories
+				.facetwp-checkbox {
+					
+					background-image: url( '../../../../../plugins/facetwp/assets/images/checkbox-on.png' );
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 }
 
 .blockUI.blockOverlay {
