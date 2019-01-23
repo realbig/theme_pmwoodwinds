@@ -1,0 +1,27 @@
+.navigation-bar {
+	
+	&.scroll-BG {
+		
+		background: #6195e0 !important;
+		
+	}
+
+	ul.rightnav {
+
+		@media (max-width: 991px) {
+			display: none;
+		}
+
+	}
+	
+	.cloud-container i.menu-btn {
+		
+		&, &:hover {
+		
+			color: #fff;
+			
+		}
+		
+	}
+
+}

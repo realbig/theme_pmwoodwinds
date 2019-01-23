@@ -18,6 +18,7 @@ $motion-ui-speeds: (
 @include motion-ui-animations;
 
 @import 'global/admin-bar';
+@import 'global/navigation';
 
 @import 'templates/taxonomy-product_cat';
 @import 'templates/single-product';
