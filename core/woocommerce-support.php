@@ -110,7 +110,7 @@ function pmwoodwind_product_single_image_column_start() {
 
 		?>
 
-		<div class="col-sm-12 col-md-6 image-column">
+		<div class="col-sm-12 col-md-7 image-column">
 
 	<?php
 	
@@ -142,7 +142,7 @@ add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_sin
  */
 function pmwoodwind_product_single_summary_column_start() { ?>
 
-		<div class="col-sm-12 col-md-6 summary-column">
+		<div class="col-sm-12 col-md-5 summary-column">
 
 	<?php
 	

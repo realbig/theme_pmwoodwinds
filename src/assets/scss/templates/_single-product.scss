@@ -5,6 +5,14 @@
 		background: transparent;
 		border: 0;
 		
+		.category-head {
+			
+			img {
+				max-width: none;
+			}
+			
+		}
+		
 		.single_add_to_cart_button, .add_to_cart_button, .compare.button, .button {
 			
 			display: inline-block;
