@@ -381,7 +381,7 @@ add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_m
 add_filter( 'get_the_terms', 'pmwoodwind_show_only_child_categories', 10, 3 );
 
 /**
- * Only show Child Categories on Product Single
+ * Only show the "most" Child Category on Product Single
  * 
  * @param		array   $terms    Terms
  * @param		integer $post_id  Post ID
@@ -396,11 +396,34 @@ function pmwoodwind_show_only_child_categories( $terms, $post_id, $taxonomy ) {
 	
 	if ( ! is_single() ) return $terms;
 	
-	$terms = array_filter( $terms, function( $term ) {
-		return $term->parent !== 0;
-	} );
+	$child = end( $terms );
 	
-	return $terms;
+	return array( $child );
+	
+}
+
+add_filter( 'ngettext', 'pmwoodwinds_remove_categories_text', 10, 5 );
+
+/**
+ * Forcefully remove the Translation for "Category:" and "Categories:" which are used on Product Single
+ * 
+ * @param		string  $translation The resulting Translation
+ * @param		string  $single      The string that would be used if there's only 1 item
+ * @param		string  $plural      The string that would be used if there's more than 1 item
+ * @param		integer $number      The number of items
+ * @param		string  $domain      The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_remove_categories_text( $translation, $single, $plural, $number, $domain ) {
+	
+	if ( $domain !== 'woocommerce' ) return $translation;
+	
+	if ( $single !== 'Category:' || 
+	   $plural !== 'Categories:' ) return $translation;
+	
+	return '';
 	
 }
 
