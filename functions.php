@@ -719,7 +719,7 @@ function pmwoodwind_register_scripts() {
 	wp_register_script(
 		'pmwoodwind',
 		THEME_URL . '/dist/assets/js/app.js',
-		array( 'modernizr', 'slick-silder' ),
+		array( 'modernizr', 'slick-silder', 'pmwoodwind-rev-slider' ),
 		THEME_VER,
 		true
 	);

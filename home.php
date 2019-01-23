@@ -7,7 +7,7 @@
 
    <!-- Header Revolution Slider -->
 	<div id="rev-slider" class="slider-container" style="overflow: visible; height: 527.2px;">
-		<div class="slider revslider-initialised tp-simpleresponsive" id="revslider-661" style="height: 548px;">
+		<div class="slider tp-simpleresponsive" id="revslider-661" style="height: 548px;">
 			<ul style="display: block; overflow: hidden; width: 100%; height: 100%; max-height: none;" class="tp-revslider-mainul">
 			<!-- First slide -->
  <?php
