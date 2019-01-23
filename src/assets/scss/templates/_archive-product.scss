@@ -1,8 +1,20 @@
 .archive.woocommerce, .tax-product_cat {
 	
+	.shop-sidebar {
+		
+		@media (min-width: 992px) {
+		
+			position: absolute;
+			
+		}
+		
+	}
+	
 	.cd-filter {
 		
-		float: left;
+		@media (max-width: 991px) {
+			top: 25px;
+		}
 		
 		&.disabled {
 			
@@ -126,7 +138,34 @@
 		
 	}
 	
+	@media (min-width: 992px) {
+		
+		.cd-filter-trigger {
+			left: 10%;
+		}
+		
+	}
+	
+	.cd-filter-trigger {
+		top: -50px;
+	}
+	
 	.cd-gallery { 
+		
+		@media (min-width: 992px) {
+			
+			&.filter-is-visible {
+				padding-left: 0;
+			}
+			
+			&:not(.filter-is-visible) {
+				width: 100%;
+				left: 0;
+			}
+			
+		}
+		
+		padding-top: 15px;
 		
 		ul.products {
 		

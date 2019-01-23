@@ -3514,8 +3514,9 @@ xgallery
 
 -------------------------------- */
 .cd-gallery {
-  padding: 26px 5%;
+  /*padding: 26px 5%;
   width: 100%;
+	*/
 }
 .cd-gallery li {
   margin-bottom: 1.6em;
@@ -3540,7 +3541,7 @@ xgallery
 }
 @media only screen and (min-width: 768px) {
   .cd-gallery {
-    padding: 40px 3%;
+    /*padding: 40px 3%;*/
   }
   .cd-gallery ul {
 	  
@@ -3558,8 +3559,8 @@ xgallery
 }
 @media only screen and (min-width: 1170px) {
   .cd-gallery {
-    padding: 50px 2%;
-    float: right;
+    /*padding: 50px 2%;*/
+    /*float: right;*/
     -webkit-transition: width 0.3s;
     -moz-transition: width 0.3s;
     transition: width 0.3s;
@@ -3569,7 +3570,7 @@ xgallery
   }
   .cd-gallery.filter-is-visible {
     /* reduce width when filter is visible */
-    width: 80%;
+    /*width: 80%;*/
   }
 }
 
@@ -3583,7 +3584,7 @@ xfilter
   position: relative;
   top: -50px;	
   left: 0;
-  width: 280px;
+  /*width: 280px;*/
   height: 100%;
   background: #ffffff;
   box-shadow: 4px 4px 20px transparent;
@@ -3653,7 +3654,7 @@ xfilter
 }
 @media only screen and (min-width: 1170px) {
   .cd-filter {
-    width: 20%;
+    /*width: 20%;*/
   }
   .cd-filter form {
     padding: 70px 10%;

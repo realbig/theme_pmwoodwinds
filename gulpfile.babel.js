@@ -219,7 +219,7 @@ function reload(done) {
 // Watch for changes to static assets, pages, Sass, and JavaScript
 function watch() {
   gulp.watch(PATHS.assets, copy);
-  gulp.watch('src/assets/scss/**/*.scss').on('all', sass);
+  gulp.watch(['src/assets/scss/**/*.scss','src/assets/scss/**/*.css']).on('all', sass);
   //gulp.watch('**/*.php').on('all', browser.reload);
   gulp.watch('src/assets/js/**/*.js').on('all', gulp.series('webpack:build', tinymce));
   gulp.watch('src/assets/img/**/*').on('all', gulp.series(images));

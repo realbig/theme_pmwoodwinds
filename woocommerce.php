@@ -53,10 +53,24 @@ get_header(); ?>
 			</div>
 		
 		<?php endif; ?>
+			
+		<?php if ( is_tax( 'product_cat' ) ) : ?>
+			
+			<div class="content cd-gallery col-sm-12 col-md-9 col-md-push-3 filter-is-visible">
+				
+		<?php else : ?>
+				
+			<div class="content col-sm-12<?php echo ( ! is_single() ) ? ' col-md-9' : ''; ?>">
+				
+		<?php endif; ?>
+			
+			<?php woocommerce_content(); ?>
+			
+		</div>
 		
 		<?php if ( ! is_single() ) : ?>
 
-			<div class="<?php echo ( ! is_tax( 'product_cat' ) ) ? 'col-sm-12 col-md-3' : ''; ?> shop-sidebar">
+			<div class="col-sm-12 col-md-3 col-md-pull-9 shop-sidebar">
 				
 				<div class="<?php echo ( is_tax( 'product_cat' ) ) ? 'cd-filter filter-is-visible' : ''; ?>">
 					
@@ -108,20 +122,6 @@ get_header(); ?>
 			</div>
 
 		<?php endif; ?>
-			
-		<?php if ( is_tax( 'product_cat' ) ) : ?>
-			
-			<div class="content cd-gallery filter-is-visible">
-				
-		<?php else : ?>
-				
-			<div class="content col-sm-12<?php echo ( ! is_single() ) ? ' col-md-9' : ''; ?>">
-				
-		<?php endif; ?>
-			
-			<?php woocommerce_content(); ?>
-			
-		</div>
 		
 	</div>
 	
