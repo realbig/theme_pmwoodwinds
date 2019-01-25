@@ -2277,6 +2277,12 @@ jQuery(document).ready(function ($) {
     // === Revolution Slider config ===
     if ($('.slider').length > 0) {
         jQuery('.slider').revolution({
+
+            // Disable auto-play
+            stopLoop: 'on',
+            stopAfterLoops: 0,
+            stopAtSlide: 1,
+
             delay: 9000,
             startwidth: 1920,
             startheight: 780,
