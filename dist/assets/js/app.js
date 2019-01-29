@@ -2273,58 +2273,6 @@ jQuery(document).ready(function ($) {
             }
         }); // end validate 
     }
-    //
-    // === Revolution Slider config ===
-    if ($('.slider').length > 0) {
-        jQuery('.slider').revolution({
-
-            // Disable auto-play
-            stopLoop: 'on',
-            stopAfterLoops: 0,
-            stopAtSlide: 1,
-
-            delay: 9000,
-            startwidth: 1920,
-            startheight: 780,
-            //
-            fullScreenAlignForce: "off",
-            autoHeight: "off",
-            minHeight: "off",
-            //
-            fullWidth: "off",
-            forceFullWidth: "off",
-            fullScreen: "off",
-            fullScreenOffset: "0px",
-            //
-            onHoverStop: "on",
-            //
-            thumbWidth: 100,
-            thumbHeight: 50,
-            thumbAmount: 3,
-            //
-            hideThumbsOnMobile: "on",
-            hideNavDelayOnMobile: 1500,
-            hideBulletsOnMobile: "on",
-            hideArrowsOnMobile: "on",
-            hideThumbsUnderResoluition: 0,
-            //
-            hideThumbs: 1,
-            hideTimerBar: "on",
-            //
-            keyboardNavigation: "on",
-            //
-            navigationType: "none",
-            navigationArrows: "solo",
-            navigationStyle: "round",
-            //
-            navigationHAlign: "center",
-            navigationVAlign: "bottom",
-            navigationHOffset: 30,
-            navigationVOffset: 105
-        });
-    }
-    var wh = $(window).height() * 0.8;
-    $(".slider-container").height(wh);
 
     $("#eventsbg").css('border-bottom', wh + 'px solid');
     // === Responsive Videos ===
@@ -4704,21 +4652,6 @@ jQuery(document).ready(function ($) {
 		autoplay: true,
 		autoplaySpeed: 5000
 	}, _defineProperty(_$$not$slick, 'speed', 1000), _defineProperty(_$$not$slick, 'slidesToShow', 5), _defineProperty(_$$not$slick, 'centerMode', true), _defineProperty(_$$not$slick, 'centerPadding', '3px'), _$$not$slick));
-	var mainslides = $(".tp-revslider-mainul li").length;
-
-	switchslides(0, mainslides);
-	function switchslides(p, mainslides) {
-
-		p++;
-		if (p == mainslides) {
-			p = 0;
-		}
-		setTimeout(function () {
-			$(".tp-revslider-mainul li").removeClass('active');
-			$(".tp-revslider-mainul li.slide" + p).addClass('active');
-			switchslides(p, mainslides);
-		}, 7000);
-	}
 	$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
 	//open/close lateral filter
 	$('.cd-filter-trigger').on('click', function () {

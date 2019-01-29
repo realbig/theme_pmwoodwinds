@@ -5,17 +5,8 @@
  get_header();?>
 
 
-   <!-- Header Revolution Slider -->
-	<div id="rev-slider" class="slider-container" style="overflow: visible; height: 527.2px;">
-		<div class="slider tp-simpleresponsive" id="revslider-661" style="height: 548px;">
-			<ul style="display: block; overflow: hidden; width: 100%; height: 100%; max-height: none;" class="tp-revslider-mainul">
-			<!-- First slide -->
- <?php
-	 $sliders = get_posts(array(
-		'numberposts'	=> -1,
-		'post_type'		=> 'slider',
+   <?php 
 
-	));		
 	$homesections = get_posts(array(
 		'numberposts'	=> -1,
 		'post_type'		=> 'homesection',
@@ -42,46 +33,8 @@
 	));
 
 
-	$p=0;
+	?>
 
-	foreach($sliders as $slider):	
-	$_slide_background = wp_get_attachment_url( get_post_thumbnail_id($slider->ID) );
-	$_slide_product = get_post_meta($slider->ID, '_slide_product', true)[0];
-	$_slider_image = wp_get_attachment_url(get_post_meta($slider->ID, '_slider_image', true));
-
-				$class = '';
-			if($p == 0):
-			$class = 'active';
-			endif;
-			?>
-			<li data-transition="boxslide" data-slotamount="7" class="tp-revslider-slidesli slide<?php echo $p;?> <?php echo $class;?>" style="width: 100%; height: 100%; overflow: hidden;">
-			
-			   <div class="slotholder" style="width:100%;height:100%;"><div class="tp-bgimg defaultimg" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" src="<?php echo $_slide_background;?>" data-src="<?php echo $_slide_background;?>" style="background-color: rgba(0, 0, 0, 0); background-repeat: no-repeat; background-image: url('<?php echo $_slide_background;?>'); background-size: cover; background-position: center center; width: 100%; height: 100%; opacity: 1; visibility: visible;"></div></div>
-				
-			   <div class="caption sft title tp-caption start" data-x="center" data-y="290" data-speed="700" data-start="1300" data-easing="easeOutBack" style="left: -60px;top: 50px;;width: 100%;text-align: center; visibility: visible; opacity: 1; transform: translate3d(0px, 0px, 0px);">
-			   		 <img src="<?php echo $_slider_image;?>" style="top: 50px;position: relative;">
-			   <?php echo $slider->post_title;?><small></small></div>
-				
-			   <div class="caption sfb paragraph tp-caption start" data-x="center" data-y="290" data-speed="700" data-start="1500" data-easing="easeOutBack" style="min-height: 0px; min-width: 0px; line-height: initial; border-width: 0px; margin: 0px; padding: 0px; letter-spacing: 0px; font-size: 11px;width: 100%;text-align: center;top: 255px; visibility: visible; opacity: 1; transform: translate3d(0px, 0px, 0px);">
-					<?php
-			
-				$desc = $slider->post_content;
-				$desc = preg_split('/(?<=[.?!])\s+(?=[a-z])/i', $desc);
-				foreach($desc as $des){
-					echo $des.'</br>';
-				}
-				?></div>
-
-			   <div class="caption sfl button-rev tp-resizeme tp-caption start" data-x="center" data-hoffset="0" data-y="530" data-speed="700" data-start="1700" data-easing="" style="min-height: 0px; min-width: 0px; line-height: 14px; border-width: 0px; margin: 0px; padding: 0px; letter-spacing: 0px; font-size: 9px;left:0;width: 100%;text-align: center; top: 358.09px; visibility: visible; opacity: 1; transform: translate3d(0px, 0px, 0px);"><a href="<?php echo get_permalink($_slide_product);?>" style="min-height: 0px; min-width: 0px; line-height: 8px; border-width: 0px; margin: 0px; padding: 10px 17px; letter-spacing: 0px; font-size: 8px;"><i class="flaticon-playbutton22" style="min-height: 0px; min-width: 0px; line-height: 8px; border-width: 0px; margin: 0px; padding: 0px; letter-spacing: 0px; font-size: 8px;"></i> View Instrument ($<?php echo get_post_meta($_slide_product, '_price', true);?>)</a></div>
-
-
-			
-
-			</li>
-<?php
-$p++;
- endforeach;?>  
-			</ul>
 		<div class="tp-loader spinner0" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="tp-bannertimer" style="visibility: hidden; width: 0%;"></div></div>
 		<?php if($events):?>
 		<div id="eventsbg" style="border-bottom: 527.2px solid;"></div>

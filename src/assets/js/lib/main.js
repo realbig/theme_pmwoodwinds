@@ -18,23 +18,7 @@ jQuery(document).ready(function($){
             slidesToShow: 5,
             centerMode: true,
             centerPadding: '3px',
-        }); 
-	var mainslides = $(".tp-revslider-mainul li").length;
-	
-	switchslides(0, mainslides);
-	function switchslides(p, mainslides){
-
-		p++;
-		if(p == mainslides){
-			p = 0;
-		}
-		setTimeout(function(){
-		$(".tp-revslider-mainul li").removeClass('active');
-		$(".tp-revslider-mainul li.slide"+p).addClass('active');		
-			switchslides(p, mainslides);	
-		}, 7000);
-	
-	}
+        });
 	 $('img.zoom')
 		.wrap('<span style="display:inline-block;top: 5px;"></span>')
 		.css('display', 'block')

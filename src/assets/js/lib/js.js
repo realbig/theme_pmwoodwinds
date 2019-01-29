@@ -134,61 +134,7 @@ jQuery(document).ready(function($) {
                 }
             }
         });// end validate 
-    }
-    //
-    // === Revolution Slider config ===
-    if ($('.slider').length>0) {
-        jQuery('.slider').revolution({
-			
-			// Disable auto-play
-			stopLoop: 'on',
-			stopAfterLoops: 0,
-			stopAtSlide: 1,
-			
-            delay:9000,
-            startwidth:1920,
-            startheight:780,
-            //
-            fullScreenAlignForce:"off",
-            autoHeight:"off",
-            minHeight:"off",
-            //
-            fullWidth:"off",
-            forceFullWidth:"off",
-            fullScreen:"off",
-            fullScreenOffset:"0px",
-            //
-            onHoverStop:"on",
-            //
-            thumbWidth:100,
-            thumbHeight:50,
-            thumbAmount:3,
-            //
-            hideThumbsOnMobile:"on",
-            hideNavDelayOnMobile:1500,
-            hideBulletsOnMobile:"on",
-            hideArrowsOnMobile:"on",
-            hideThumbsUnderResoluition:0,
-            //
-            hideThumbs:1,
-            hideTimerBar:"on",
-            //
-            keyboardNavigation:"on",
-            //
-            navigationType:"none",
-            navigationArrows:"solo",
-            navigationStyle:"round",
-            //
-            navigationHAlign:"center",
-            navigationVAlign:"bottom",
-            navigationHOffset:30,
-            navigationVOffset:105,
-        });
-    }
-	var wh =  $(window).height()*0.8;
-    $(".slider-container").height(wh);
- 
-
+	 }
 
     $("#eventsbg").css('border-bottom',wh+'px solid');
     // === Responsive Videos ===

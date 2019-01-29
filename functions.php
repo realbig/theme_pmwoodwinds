@@ -677,25 +677,9 @@ add_action( 'init', 'pmwoodwind_register_scripts' );
 function pmwoodwind_register_scripts() {
 	
 	wp_register_script(
-		'pmwoodwind-rev-slider-tools',
-		THEME_URL . '/dist/assets/vendor/rs-plugin/js/jquery.themepunch.tools.min.js',
-		array( 'jquery' ),
-		THEME_VER,
-		false
-	);
-	
-	wp_register_script(
 		'modernizr',
 		THEME_URL . '/dist/assets/vendor/modernizr.js',
 		array( 'jquery' ),
-		THEME_VER,
-		false
-	);
-	
-	wp_register_script(
-		'pmwoodwind-rev-slider',
-		THEME_URL . '/dist/assets/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js',
-		array( 'pmwoodwind-rev-slider-tools' ),
 		THEME_VER,
 		false
 	);
@@ -719,7 +703,7 @@ function pmwoodwind_register_scripts() {
 	wp_register_script(
 		'pmwoodwind',
 		THEME_URL . '/dist/assets/js/app.js',
-		array( 'modernizr', 'slick-silder', 'pmwoodwind-rev-slider' ),
+		array( 'modernizr', 'slick-silder' ),
 		THEME_VER,
 		true
 	);

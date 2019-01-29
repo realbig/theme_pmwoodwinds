@@ -1,9 +1,6 @@
 <?php
 
  get_header();?>
-
-
-   <!-- Header Revolution Slider -->
 	
 		<div id="latest-work" class="latest-work container hover-section">
 		<div class="category-head">
