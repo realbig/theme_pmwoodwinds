@@ -336,13 +336,10 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	
 	$html = '';
 	
-	$_product_attributes = get_post_meta( get_the_ID(), '_product_attributes', true );
-	
 	ob_start();
 	
 	if ( pmwoodwind_is_new_product( get_the_ID() ) && 
-		get_post_meta( get_the_ID(), '_msrp', true ) && 
-		( ! isset( $_product_attributes['is_variation'] ) || $_product_attributes['is_variation'] === 0 ) ) {
+		get_post_meta( get_the_ID(), '_msrp', true ) ) {
 		
 		$msrp = get_post_meta( get_the_ID(), '_msrp', true );
 		
@@ -354,8 +351,7 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	
 	$price = pmwoodwind_product_main_price( get_the_id() );
 
-	if ( is_numeric( $price ) && 
-		( ! isset( $_product_attributes['is_variation'] ) || $_product_attributes['is_variation'] === 0 ) ) : ?>
+	if ( is_numeric( $price ) ) : ?>
 
 		Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span><br />
 
