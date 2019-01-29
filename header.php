@@ -20,13 +20,13 @@
 	<div id="home" class="navigation-bar scroll-BG">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-8 col-sm-10 col-md-2 logo-container">
+				<div class="col-xs-8 col-sm-10 col-lg-2 logo-container">
 					<a href="<?php bloginfo( 'url' ); ?>" title="Saxophone Repair,Used Saxophones,Selmer,Mark VI,Paul Maslin,Conn,Alto Saxophone,Tenor Saxophone,Instruments,Soprano Saxophone,Bari Saxophone">
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo.png" alt="Saxophone Repair,Used Saxophones,Selmer,Mark VI,Paul Maslin,Conn,Alto Saxophone,Tenor Saxophone,Instruments,Soprano Saxophone,Bari Saxophone">
 					</a>
 				</div>
 				
-				<div class="col-sm-0 col-md-9 nav-container">
+				<div class="col-sm-0 col-lg-9 nav-container">
 				<?php
 					wp_nav_menu( array(
 					'theme_location' => 'primary',
@@ -40,7 +40,7 @@
 					?>
 				</div>
 
-				<div class="col-xs-4 col-sm-2 col-md-1 cloud-container">
+				<div class="col-xs-3 col-lg-1 cloud-container">
 				<ul class="rightnav">
 						<li><a class="" href="javascript:pmwoodwindsOpenSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></li>
 						<li class="hassubs"><a class="" href="/shopping-cart"><?php if($items > 0):?><span class="cartcount"><?php echo $items;?></span><?php endif;?><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>

@@ -285,7 +285,7 @@ position: relative;
 .navigation-bar .cloud-container i.menu-btn.close-icon:before {
   content: '\e024';
 }
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1024px) {
   .navigation-bar {
     padding: 15px 0;
   }

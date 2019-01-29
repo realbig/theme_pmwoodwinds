@@ -1,6 +1,6 @@
 .navigation-bar {
 	
-	&.scroll-BG {
+	&, &.scroll-BG {
 		
 		background: #6195e0 !important;
 		
@@ -14,12 +14,30 @@
 
 	}
 	
-	.cloud-container i.menu-btn {
+	.cloud-container {
 		
-		&, &:hover {
-		
-			color: #fff;
+		@media only screen and (min-width: 991px) and (max-width: 1024px) {
 			
+			float: right;
+			margin-top: -3.25rem;
+			
+		}
+		
+		@media only (max-width: 1024px) and (orientation: landscape) {
+			
+			float: right;
+			margin-top: -3.25rem;
+			
+		}
+		
+		i.menu-btn {
+		
+			&, &:hover {
+
+				color: #fff;
+
+			}
+		
 		}
 		
 	}
