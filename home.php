@@ -33,6 +33,8 @@
 	));
 
 
+	echo do_shortcode( '[rev_slider alias="home"]' );
+
 	?>
 
 		<div class="tp-loader spinner0" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="tp-bannertimer" style="visibility: hidden; width: 0%;"></div></div>

@@ -977,3 +977,66 @@ function pmwoodwind_save_instrument_sorting_key( $post_id ) {
 	}
 	
 }
+
+if ( ! is_admin() ) {
+
+	add_filter( 'get_post_metadata', 'pmwoodwind_convert_meta_for_revslider', 100, 4 );
+	
+}
+
+/**
+ * Instead of rewriting the Meta for the Sliders, make it so that on the Frontend it returns values that RevSlider can understand
+ * https://wordpress.stackexchange.com/a/175179
+ * 
+ * @param		mixed   $meta_data The value get_metadata() should return a single metadata value, or an array of values.
+ * @param		integer $object_id Post ID
+ * @param		string  $meta_key  Meta Key
+ * @param		array   $single    Meta value, or an array of values.
+ *                                                       
+ * @since		{{VERSION}}
+ * @return		mixed   Modified Value
+ */
+function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_key, $single ) {
+
+    if ( isset( $meta_key ) && 
+		get_post_type( $object_id ) == 'slider' && 
+		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price' ) ) ) {
+		
+        remove_filter( 'get_post_metadata', 'pmwoodwind_convert_meta_for_revslider', 100 );
+		
+        $current_meta = get_post_meta( $object_id, $meta_key, true );
+		
+		if ( $meta_key == '_slide_product' && 
+		   is_array( $current_meta ) && 
+		   ! empty( $current_meta ) ) {
+			$current_meta = get_permalink( $current_meta[0] );
+		}
+		elseif ( $meta_key == '_slider_image' && 
+			   is_numeric( $current_meta ) ) {
+			$current_meta = wp_get_attachment_url( $current_meta );
+		}
+		elseif ( $meta_key == '_price' ) {
+			
+			$product = get_post_meta( $object_id, '_slide_product', true );
+			
+			if ( is_array( $product ) && 
+			   ! empty( $product ) ) {
+				
+				$product_id = $product[0];
+				
+				$current_meta = get_post_meta( $product_id, $meta_key, true );
+				
+			}
+			
+		}
+		
+		add_filter( 'get_post_metadata', 'pmwoodwind_convert_meta_for_revslider', 100, 4 );
+		
+        return $current_meta;
+		
+    }
+
+    // Return original if the check does not pass
+    return $meta_data;
+
+}
