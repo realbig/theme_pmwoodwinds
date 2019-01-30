@@ -37,9 +37,7 @@
 
 	?>
 
-		<div class="tp-loader spinner0" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="tp-bannertimer" style="visibility: hidden; width: 0%;"></div></div>
 		<?php if($events):?>
-		<div id="eventsbg" style="border-bottom: 527.2px solid;"></div>
 		<div id="events" style="width:25%;">
 		<?php
 			$event = $events[0];

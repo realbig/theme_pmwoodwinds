@@ -3207,7 +3207,7 @@ top: 0px;}
 }
 #events {
 position: absolute;
-top: 50%;
+top: 5%;
 z-index: 88;
 right: 0;
 height: 100%;
@@ -3225,6 +3225,7 @@ top: 29px;
 z-index: 88;
 right: 0;	
 opacity:0.3;
+	pointer-events: none;
 }
 #rev-slider{
 	overflow: hidden!important;
