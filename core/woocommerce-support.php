@@ -769,6 +769,20 @@ add_action( 'woocommerce_single_product_summary', function() {
 	
 		</div>
 		
+		<h5 class="contactproduct">
+			
+			<?php if ( pmwoodwind_is_instrument( get_the_ID() ) ) : ?>
+			
+				Please <a href="/contact" target="_blank">contact PM Woodwind</a> if you are interested in buying or selling <?php echo ( pmwoodwind_is_new_product( get_the_ID() ) ) ? 'new' : 'used'; ?> <?php echo $lastcat->name;?>.
+			
+			<?php else : ?>
+			
+				Please <a href="/contact" target="_blank">contact PM Woodwind</a> if you are interested in buying or selling <?php echo $lastcat->name;?>.
+			
+			<?php endif; ?>
+		
+		</h5>
+		
 	<?php 
 	
 }, 30 );

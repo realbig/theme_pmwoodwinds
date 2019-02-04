@@ -1649,9 +1649,11 @@ img.attachment-post-thumbnail, .full img{
 height: auto;
 }
 .product h5{
+	/*
 background: #193a6f;
 text-align: center;
 padding: 5px 10px;	
+	*/
 }	
 .product{
 border: 2px solid #193a6f;
