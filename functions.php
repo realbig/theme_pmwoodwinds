@@ -95,7 +95,33 @@ function pmwoodwind_get_inventory( $product_id ) {
 	
 	return false;
 	
-}	
+}
+function pmwoodwind_is_horn($postid){
+	$types = wp_get_post_terms($postid, 'product_cat');
+	$mouthpiece = false;
+	foreach($types as $type){
+
+		if($type->slug == 'saxophones'){
+		
+			$mouthpiece = true;
+			break;
+		}
+	}	
+	return $mouthpiece;
+}
+function pmwoodwind_is_instrument($postid){
+	$types = wp_get_post_terms($postid, 'product_cat');
+	$mouthpiece = false;
+	foreach($types as $type){
+
+		if($type->slug == 'instruments'){
+		
+			$mouthpiece = true;
+			break;
+		}
+	}	
+	return $mouthpiece;
+}
 function pmwoodwind_is_mouthpiece($postid){
 	$types = wp_get_post_terms($postid, 'product_cat');
 	$mouthpiece = false;
@@ -104,6 +130,7 @@ function pmwoodwind_is_mouthpiece($postid){
 		if($type->slug == 'mouthpieces'){
 		
 			$mouthpiece = true;
+			break;
 		}
 	}	
 	return $mouthpiece;
@@ -116,6 +143,7 @@ function pmwoodwind_is_accessory($postid){
 		if($type->slug == 'accessories'){
 		
 			$accesory = true;
+			break;
 		}
 	}	
 	return $accesory;
@@ -453,7 +481,6 @@ function pmwoodwind_change_translate_text_multiple( $translated ) {
 		'In stock' => 'Sale',
 		'Out of stock' => 'Sold',
 		'On backorder' => 'TBD',
-		'SKU' => 'Serial',
 		'Stock status' => 'Sale Status',
 		'Move to Trash' => 'Delete'
 	);

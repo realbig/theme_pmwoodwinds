@@ -423,6 +423,65 @@ function pmwoodwinds_remove_categories_text( $translation, $single, $plural, $nu
 	
 }
 
+add_filter( 'gettext', 'pmwoodwinds_change_sku_text', 10, 4 );
+
+/**
+ * Alter the label for SKU depending on the Product Categories and Attributes
+ * 
+ * @param		string  $translation			The resulting Translation
+ * @param		string  $untranslated_text      The original string
+ * @param		string  $domain					The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_change_sku_text( $translation, $untranslated_text, $domain ) {
+	
+	if ( $domain !== 'woocommerce' ) return $translation;
+	
+	if ( $untranslated_text !== 'SKU' && $untranslated_text !== 'SKU:' ) return $translation;
+	
+	$product_id = false;
+	
+	if ( ! is_admin() && 
+	   is_single() ) {
+		$product_id = get_the_ID();
+	}
+	else if ( isset( $_GET['post'] ) && 
+			$_GET['post'] && 
+			get_post_type( $_GET['post'] ) == 'product' ) {
+		
+		$product_id = $_GET['post'];
+		
+	}
+	
+	if ( ! $product_id ) $translation = 'Product ID';
+	
+	if ( pmwoodwind_is_horn( $product_id ) && 
+		! pmwoodwind_is_new_product( $product_id ) ) {
+		
+		$translation = 'Serial';
+		
+	}
+	else if ( pmwoodwind_is_mouthpiece( $product_id ) ) {
+		
+		$translation = 'PMW #';
+		
+	}
+	else {
+		
+		$translation = 'Product ID';
+		
+	}
+	
+	if ( substr( $untranslated_text, -1 ) == ':' ) {
+		$translation .= ':';
+	}
+	
+	return $translation;
+	
+}
+
 add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_brand', 10 );
 
 /**
