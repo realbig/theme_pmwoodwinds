@@ -170,6 +170,18 @@ function pmwoodwind_product_single_summary_column_end() { ?>
 
 add_action( 'woocommerce_after_single_product_summary', function() {
 	
+	?>
+
+	<div class="col-sm-12 product-content">
+		<?php the_content(); ?>
+	</div>
+
+	<?php 
+	
+} );
+
+add_action( 'woocommerce_after_single_product_summary', function() {
+	
 	$categories = wp_get_object_terms( get_the_ID(), 'product_cat' );
 	
 	$categories = array_filter( $categories, function( $category ) {

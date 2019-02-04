@@ -468,7 +468,9 @@ function pmwoodwind_add_custom_general_fields() {
 	woocommerce_wp_checkbox( 
 		array( 
 			'id'          => '_show_excerpt', 
-			'label'       => 'Show Product Description?',
+			'label'       => 'Show Short Product Description?',
+			'desc_tip'    => 'true',
+			'description' => "The manufacturer's suggested retail price.",
 		)
 	);
 	
