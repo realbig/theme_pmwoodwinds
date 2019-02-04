@@ -2274,7 +2274,6 @@ jQuery(document).ready(function ($) {
         }); // end validate 
     }
 
-    $("#eventsbg").css('border-bottom', wh + 'px solid');
     // === Responsive Videos ===
     if ($('.embed-video').length > 0) {
         $('.embed-video').fitVids();
