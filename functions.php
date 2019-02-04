@@ -465,6 +465,13 @@ function pmwoodwind_add_custom_general_fields() {
 		)
 	);
 	
+	woocommerce_wp_checkbox( 
+		array( 
+			'id'          => '_show_excerpt', 
+			'label'       => 'Show Product Description?',
+		)
+	);
+	
 }
 function pmwoodwind_add_custom_general_fields_save( $post_id ){
 	
@@ -473,6 +480,16 @@ function pmwoodwind_add_custom_general_fields_save( $post_id ){
 	
 	if ( ! empty( $woocommerce_text_field ) ) {
 		update_post_meta( $post_id, '_msrp', esc_attr( $woocommerce_text_field ) );
+	}
+	
+	// Checkbox Field
+	$woocommerce_checkbox = isset( $_POST['_show_excerpt'] ) ? $_POST['_show_excerpt'] : array();
+	
+	if ( ! empty( $woocommerce_checkbox ) ) {
+		update_post_meta( $post_id, '_show_excerpt', $woocommerce_checkbox );
+	}
+	else {
+		delete_post_meta( $post_id, '_show_excerpt' );
 	}
 	
 }

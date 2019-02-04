@@ -909,3 +909,25 @@ add_filter( 'woocommerce_is_sold_individually', 'pmwoodwind_remove_all_quantity_
 function pmwoodwind_remove_all_quantity_fields( $return, $product ) {
     return true;
 }
+
+add_filter( 'woocommerce_short_description', 'pmwoodwind_hide_short_description' );
+
+/**
+ * Determine whether to hide the Excerpt for Products or not based on a Checkbox
+ * 
+ * @param		string $description Post Excerpt
+ *                                  
+ * @since		{{VERSION}}
+ * @return		string Post Excerpt
+ */
+function pmwoodwind_hide_short_description( $description ) {
+	
+	$show_excerpt = get_post_meta( get_the_ID(), '_show_excerpt', true );
+	
+	if ( empty( $show_excerpt ) ) {
+		return '';
+	}
+	
+	return $description;
+	
+}
