@@ -848,14 +848,14 @@ function pmwoodwind_remove_slider_class_from_second_slider( $classes ) {
 // Add the ability to hover zoom on the Primary Image
 add_action( 'woocommerce_before_single_product_summary', function() {
 	
-	//add_filter( 'wp_get_attachment_image_attributes', 'pmwoodwind_product_single_primary_image_hover_zoom', 10, 3 ); 
+	add_filter( 'wp_get_attachment_image_attributes', 'pmwoodwind_product_single_primary_image_hover_zoom', 10, 3 ); 
 	
 }, 19 );
 
 // Ensure it doesn't effect any other images, as the filter is generic
 add_action( 'woocommerce_before_single_product_summary', function() {
 	
-	//remove_filter( 'wp_get_attachment_image_attributes', 'pmwoodwind_product_single_primary_image_hover_zoom', 10, 3 ); 
+	remove_filter( 'wp_get_attachment_image_attributes', 'pmwoodwind_product_single_primary_image_hover_zoom', 10, 3 ); 
 	
 }, 21 );
 
