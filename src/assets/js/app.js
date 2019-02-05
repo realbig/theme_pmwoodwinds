@@ -8,6 +8,7 @@ import 'twitter-fetcher/js/twitterFetcher';
 import 'mixitup/src/jquery.mixitup';
 
 import './lib/bootstrap';
+
 import './lib/countdown';
 import './lib/instafeed.min';
 import './lib/jquery.fitvids';

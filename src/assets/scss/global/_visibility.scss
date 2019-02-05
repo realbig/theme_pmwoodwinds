@@ -1,0 +1,58 @@
+// xs breakpoint
+
+.visible-sm, .visible-md, .visible-lg {
+	display: none;
+}
+
+// sm breakpoint
+@media only screen and (min-width: 768px) {
+	
+	.visible-md, .visible-lg {
+		display: none;
+	}
+	
+	.visible-sm {
+		
+		display: inline-block;
+		
+		&.visible-sm-block {
+			display: block;
+		}
+		
+	}
+	
+}
+
+// md breakpoint
+@media only screen and (min-width: 992px) {
+	
+	.visible-lg {
+		display: none;
+	}
+	
+	.visible-md {
+		
+		display: inline-block;
+		
+		&.visible-md-block {
+			display: block;
+		}
+		
+	}
+	
+}
+
+// lg breakpoint
+@media only screen and (min-width: 1200px) {
+	
+	.visible-lg {
+		
+		display: inline-block;
+		
+		&.visible-lg-block {
+			display: block;
+		}
+		
+	}
+	
+}

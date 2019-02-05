@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 32);
+/******/ 	return __webpack_require__(__webpack_require__.s = 33);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -155,7 +155,7 @@ __webpack_require__(26);
 
 __webpack_require__(25);
 
-__webpack_require__(29);
+__webpack_require__(30);
 
 __webpack_require__(28);
 
@@ -189,7 +189,7 @@ var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(30);
+var _whatInput = __webpack_require__(31);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -4631,6 +4631,12 @@ Jssor Slider (MIT license)
 "use strict";
 
 
+var _responsiveToolkit = __webpack_require__(29);
+
+var _responsiveToolkit2 = _interopRequireDefault(_responsiveToolkit);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 window.pmwoodwindsCloseSearch = function () {
@@ -4639,85 +4645,94 @@ window.pmwoodwindsCloseSearch = function () {
 window.pmwoodwindsOpenSearch = function () {
 	jQuery('#search').slideDown(400);
 };
-jQuery(document).ready(function ($) {
-	var _$$not$slick;
 
-	$('form.dgwt-wcas-search-form').submit(function (event) {
-		event.preventDefault();
-	});
-	$('#pmwoodwind_product_images').not('.slick-initialized').slick((_$$not$slick = {
-		infinite: true,
-		speed: 300,
-		autoplay: true,
-		autoplaySpeed: 5000
-	}, _defineProperty(_$$not$slick, 'speed', 1000), _defineProperty(_$$not$slick, 'slidesToShow', 5), _defineProperty(_$$not$slick, 'centerMode', true), _defineProperty(_$$not$slick, 'centerPadding', '3px'), _$$not$slick));
-	$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
-	//open/close lateral filter
-	$('.cd-filter-trigger').on('click', function () {
-		triggerFilter(true);
-	});
-	$('.cd-filter .cd-close').on('click', function () {
-		triggerFilter(false);
-	});
+(function ($, viewport) {
 
-	function triggerFilter($bool) {
-		var elementsToTrigger = $([$('.cd-filter-trigger'), $('.cd-filter'), $('.cd-tab-filter'), $('.cd-gallery')]);
-		elementsToTrigger.each(function () {
-			$(this).toggleClass('filter-is-visible', $bool);
+	jQuery(document).ready(function ($) {
+		var _$$not$slick;
+
+		$('form.dgwt-wcas-search-form').submit(function (event) {
+			event.preventDefault();
 		});
-	}
+		$('#pmwoodwind_product_images').not('.slick-initialized').slick((_$$not$slick = {
+			infinite: true,
+			speed: 300,
+			autoplay: true,
+			autoplaySpeed: 5000
+		}, _defineProperty(_$$not$slick, 'speed', 1000), _defineProperty(_$$not$slick, 'slidesToShow', 5), _defineProperty(_$$not$slick, 'centerMode', true), _defineProperty(_$$not$slick, 'centerPadding', '3px'), _$$not$slick));
 
-	//mobile version - detect click event on filters tab
-	var filter_tab_placeholder = $('.cd-tab-filter .placeholder a'),
-	    filter_tab_placeholder_default_value = 'Select',
-	    filter_tab_placeholder_text = filter_tab_placeholder.text();
+		if (viewport.is('>md')) {
 
-	$('.cd-tab-filter li').on('click', function (event) {
-		//detect which tab filter item was selected
-		var selected_filter = $(event.target).data('type');
-
-		//check if user has clicked the placeholder item
-		if ($(event.target).is(filter_tab_placeholder)) {
-			filter_tab_placeholder_default_value == filter_tab_placeholder.text() ? filter_tab_placeholder.text(filter_tab_placeholder_text) : filter_tab_placeholder.text(filter_tab_placeholder_default_value);
-			$('.cd-tab-filter').toggleClass('is-open');
-
-			//check if user has clicked a filter already selected 
-		} else if (filter_tab_placeholder.data('type') == selected_filter) {
-			filter_tab_placeholder.text($(event.target).text());
-			$('.cd-tab-filter').removeClass('is-open');
-		} else {
-			//close the dropdown and change placeholder text/data-type value
-			$('.cd-tab-filter').removeClass('is-open');
-			filter_tab_placeholder.text($(event.target).text()).data('type', selected_filter);
-			filter_tab_placeholder_text = $(event.target).text();
-
-			//add class selected to the selected filter item
-			$('.cd-tab-filter .selected').removeClass('selected');
-			$(event.target).addClass('selected');
+			$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
 		}
+
+		//open/close lateral filter
+		$('.cd-filter-trigger').on('click', function () {
+			triggerFilter(true);
+		});
+		$('.cd-filter .cd-close').on('click', function () {
+			triggerFilter(false);
+		});
+
+		function triggerFilter($bool) {
+			var elementsToTrigger = $([$('.cd-filter-trigger'), $('.cd-filter'), $('.cd-tab-filter'), $('.cd-gallery')]);
+			elementsToTrigger.each(function () {
+				$(this).toggleClass('filter-is-visible', $bool);
+			});
+		}
+
+		//mobile version - detect click event on filters tab
+		var filter_tab_placeholder = $('.cd-tab-filter .placeholder a'),
+		    filter_tab_placeholder_default_value = 'Select',
+		    filter_tab_placeholder_text = filter_tab_placeholder.text();
+
+		$('.cd-tab-filter li').on('click', function (event) {
+			//detect which tab filter item was selected
+			var selected_filter = $(event.target).data('type');
+
+			//check if user has clicked the placeholder item
+			if ($(event.target).is(filter_tab_placeholder)) {
+				filter_tab_placeholder_default_value == filter_tab_placeholder.text() ? filter_tab_placeholder.text(filter_tab_placeholder_text) : filter_tab_placeholder.text(filter_tab_placeholder_default_value);
+				$('.cd-tab-filter').toggleClass('is-open');
+
+				//check if user has clicked a filter already selected 
+			} else if (filter_tab_placeholder.data('type') == selected_filter) {
+				filter_tab_placeholder.text($(event.target).text());
+				$('.cd-tab-filter').removeClass('is-open');
+			} else {
+				//close the dropdown and change placeholder text/data-type value
+				$('.cd-tab-filter').removeClass('is-open');
+				filter_tab_placeholder.text($(event.target).text()).data('type', selected_filter);
+				filter_tab_placeholder_text = $(event.target).text();
+
+				//add class selected to the selected filter item
+				$('.cd-tab-filter .selected').removeClass('selected');
+				$(event.target).addClass('selected');
+			}
+		});
+
+		//close filter dropdown inside lateral .cd-filter 
+		$('.cd-filter-block h4').on('click touch', function (event) {
+			$(this).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
+		});
+
+		var inputText;
+		var $matching = $();
+
+		var delay = function () {
+			var timer = 0;
+			return function (callback, ms) {
+				clearTimeout(timer);
+				timer = setTimeout(callback, ms);
+			};
+		}();
+		var filters = [];
+		var catfilters = [];
+		var brandsfilters = [];
+		var combinations = [];
+		var f = 0;
 	});
-
-	//close filter dropdown inside lateral .cd-filter 
-	$('.cd-filter-block h4').on('click touch', function (event) {
-		$(this).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
-	});
-
-	var inputText;
-	var $matching = $();
-
-	var delay = function () {
-		var timer = 0;
-		return function (callback, ms) {
-			clearTimeout(timer);
-			timer = setTimeout(callback, ms);
-		};
-	}();
-	var filters = [];
-	var catfilters = [];
-	var brandsfilters = [];
-	var combinations = [];
-	var f = 0;
-});
+})(jQuery, _responsiveToolkit2.default);
 
 /***/ }),
 /* 19 */
@@ -13521,6 +13536,250 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 /* 29 */
+/***/ (function(module, exports) {
+
+/*!
+ * Responsive Bootstrap Toolkit
+ * Author:    Maciej Gurban
+ * License:   MIT
+ * Version:   2.6.3 (2016-06-21)
+ * Origin:    https://github.com/maciej-gurban/responsive-bootstrap-toolkit
+ */
+var ResponsiveBootstrapToolkit = (function($){
+
+    // Internal methods
+    var internal = {
+
+        /**
+         * Breakpoint detection divs for each framework version
+         */
+        detectionDivs: {
+            // Bootstrap 3
+            bootstrap: {
+                'xs': $('<div class="device-xs visible-xs visible-xs-block"></div>'),
+                'sm': $('<div class="device-sm visible-sm visible-sm-block"></div>'),
+                'md': $('<div class="device-md visible-md visible-md-block"></div>'),
+                'lg': $('<div class="device-lg visible-lg visible-lg-block"></div>')
+            },
+            // Foundation 5
+            foundation: {
+                'small':  $('<div class="device-xs show-for-small-only"></div>'),
+                'medium': $('<div class="device-sm show-for-medium-only"></div>'),
+                'large':  $('<div class="device-md show-for-large-only"></div>'),
+                'xlarge': $('<div class="device-lg show-for-xlarge-only"></div>')
+            }
+        },
+
+         /**
+         * Append visibility divs after DOM laoded
+         */
+        applyDetectionDivs: function() {
+            $(document).ready(function(){
+                $.each(self.breakpoints, function(alias){
+                    self.breakpoints[alias].appendTo('.responsive-bootstrap-toolkit');
+                });
+            });
+        },
+
+        /**
+         * Determines whether passed string is a parsable expression
+         */
+        isAnExpression: function( str ) {
+            return (str.charAt(0) == '<' || str.charAt(0) == '>');
+        },
+
+        /**
+         * Splits the expression in into <|> [=] alias
+         */
+        splitExpression: function( str ) {
+
+            // Used operator
+            var operator = str.charAt(0);
+            // Include breakpoint equal to alias?
+            var orEqual  = (str.charAt(1) == '=') ? true : false;
+
+            /**
+             * Index at which breakpoint name starts.
+             *
+             * For:  >sm, index = 1
+             * For: >=sm, index = 2
+             */
+            var index = 1 + (orEqual ? 1 : 0);
+
+            /**
+             * The remaining part of the expression, after the operator, will be treated as the
+             * breakpoint name to compare with
+             */
+            var breakpointName = str.slice(index);
+
+            return {
+                operator:       operator,
+                orEqual:        orEqual,
+                breakpointName: breakpointName
+            };
+        },
+
+        /**
+         * Returns true if currently active breakpoint matches the expression
+         */
+        isAnyActive: function( breakpoints ) {
+            var found = false;
+            $.each(breakpoints, function( index, alias ) {
+                // Once first breakpoint matches, return true and break out of the loop
+                if( self.breakpoints[ alias ].is(':visible') ) {
+                    found = true;
+                    return false;
+                }
+            });
+            return found;
+        },
+
+        /**
+         * Determines whether current breakpoint matches the expression given
+         */
+        isMatchingExpression: function( str ) {
+
+            var expression = internal.splitExpression( str );
+
+            // Get names of all breakpoints
+            var breakpointList = Object.keys(self.breakpoints);
+
+            // Get index of sought breakpoint in the list
+            var pos = breakpointList.indexOf( expression.breakpointName );
+
+            // Breakpoint found
+            if( pos !== -1 ) {
+
+                var start = 0;
+                var end   = 0;
+
+                /**
+                 * Parsing viewport.is('<=md') we interate from smallest breakpoint ('xs') and end
+                 * at 'md' breakpoint, indicated in the expression,
+                 * That makes: start = 0, end = 2 (index of 'md' breakpoint)
+                 *
+                 * Parsing viewport.is('<md') we start at index 'xs' breakpoint, and end at
+                 * 'sm' breakpoint, one before 'md'.
+                 * Which makes: start = 0, end = 1
+                 */
+                if( expression.operator == '<' ) {
+                    start = 0;
+                    end   = expression.orEqual ? ++pos : pos;
+                }
+                /**
+                 * Parsing viewport.is('>=sm') we interate from breakpoint 'sm' and end at the end
+                 * of breakpoint list.
+                 * That makes: start = 1, end = undefined
+                 *
+                 * Parsing viewport.is('>sm') we start at breakpoint 'md' and end at the end of
+                 * breakpoint list.
+                 * Which makes: start = 2, end = undefined
+                 */
+                if( expression.operator == '>' ) {
+                    start = expression.orEqual ? pos : ++pos;
+                    end   = undefined;
+                }
+
+                var acceptedBreakpoints = breakpointList.slice(start, end);
+
+                return internal.isAnyActive( acceptedBreakpoints );
+
+            }
+        }
+
+    };
+
+    // Public methods and properties
+    var self = {
+
+        /**
+         * Determines default debouncing interval of 'changed' method
+         */
+        interval: 300,
+
+        /**
+         *
+         */
+        framework: null,
+
+        /**
+         * Breakpoint aliases, listed from smallest to biggest
+         */
+        breakpoints: null,
+
+        /**
+         * Returns true if current breakpoint matches passed alias
+         */
+        is: function( str ) {
+            if( internal.isAnExpression( str ) ) {
+                return internal.isMatchingExpression( str );
+            }
+            return self.breakpoints[ str ] && self.breakpoints[ str ].is(':visible');
+        },
+
+        /**
+         * Determines which framework-specific breakpoint detection divs to use
+         */
+        use: function( frameworkName, breakpoints ) {
+            self.framework = frameworkName.toLowerCase();
+
+            if( self.framework === 'bootstrap' || self.framework === 'foundation') {
+                self.breakpoints = internal.detectionDivs[ self.framework ];
+            } else {
+                self.breakpoints = breakpoints;
+            }
+
+            internal.applyDetectionDivs();
+        },
+
+        /**
+         * Returns current breakpoint alias
+         */
+        current: function(){
+            var name = 'unrecognized';
+            $.each(self.breakpoints, function(alias){
+                if (self.is(alias)) {
+                    name = alias;
+                }
+            });
+            return name;
+        },
+
+        /*
+         * Waits specified number of miliseconds before executing a callback
+         */
+        changed: function(fn, ms) {
+            var timer;
+            return function(){
+                clearTimeout(timer);
+                timer = setTimeout(function(){
+                    fn();
+                }, ms || self.interval);
+            };
+        }
+
+    };
+
+    // Create a placeholder
+    $(document).ready(function(){
+        $('<div class="responsive-bootstrap-toolkit"></div>').appendTo('body');
+    });
+
+    if( self.framework === null ) {
+        self.use('bootstrap');
+    }
+
+    return self;
+
+})(jQuery);
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ResponsiveBootstrapToolkit;
+}
+
+
+/***/ }),
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -13995,7 +14254,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14380,8 +14639,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 31 */,
-/* 32 */
+/* 32 */,
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(3);
