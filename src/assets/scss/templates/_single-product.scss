@@ -31,6 +31,10 @@
 			background: #6195e0;
 			border: 2px solid #000;
 			
+			&:disabled, &.disabled, &:active, &:focus, &:hover {
+				background: #325483 !important;
+			}
+			
 		}
 		
 	}
