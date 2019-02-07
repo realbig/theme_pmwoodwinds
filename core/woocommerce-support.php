@@ -364,7 +364,13 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 
 	if ( is_numeric( $price ) ) : ?>
 
-		Our Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span><br />
+		<?php if ( $msrp ) : ?>
+
+			Our 
+
+		<?php endif; ?>
+
+			Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span><br />
 
 	<?php endif;
 	
