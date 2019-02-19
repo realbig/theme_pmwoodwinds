@@ -180,114 +180,87 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 	
 } );
 
-add_action( 'woocommerce_after_single_product_summary', function() {
+/**
+ * Swap out the Image returned by the Compare Widget
+ * 
+ * @param		string  $image_html  Image HTML
+ * @param		object  $product     WooCommerce Product Object
+ * @param		string  $size        Image Size
+ * @param		array   $attr        Image Attributes?
+ * @param		boolean $placeholder Whether to show a Placeholder if no image exists
+ * @param		integer $image    Attachment ID
+ *                                         
+ * @since		{{VERSION}}
+ * @return		string  Image HTML
+ */
+function pmwoodwind_force_compare_widget_to_use_main_image( $image_html, $product, $size, $attr, $placeholder, $image ) {
 	
-	$categories = wp_get_object_terms( get_the_ID(), 'product_cat' );
+	// Override size
+	$size = 'main_image';
 	
-	$categories = array_filter( $categories, function( $category ) {
-		return $category->parent == 0;
-	} );
+	if ( $product->get_image_id() ) {
+		$image_html = wp_get_attachment_image( $product->get_image_id(), $size, false, $attr );
+	} elseif ( $product->get_parent_id() ) {
+		$parent_product = wc_get_product( $product->get_parent_id() );
+		if ( $parent_product ) {
+			$image_html = $parent_product->get_image( $size, $attr, $placeholder );
+		}
+	}
+
+	if ( ! $image_html && $placeholder ) {
+		$image_html = wc_placeholder_img( $size );
+	}
 	
-	$firsttype = array_values( $categories )[0];
+	return $image_html;
 	
-	?>
+}
+
+add_action( 'woocommerce_after_single_product_summary', function() { ?>
 
 <div class="row">
-			<div class="col-sm-12 cd-gallery ">
-			<div class="similar">
-			<h4><span>Your <?php echo $firsttype->name;?> Compare List</span></h4>
+	
+	<div class="col-sm-12">
+		
+		<div class="similar">
 			
-			<?php
+			<?php if ( is_active_sidebar( 'compare' ) ) : 
+																	
+				pmwoodwind_compare_product_widget_image_fix_start();
+					
+				dynamic_sidebar( 'compare' );
+																	
+				pmwoodwind_compare_product_widget_image_fix_end();
 	
-			global $compare;
-			
-			if ( ! $compare ) $compare = array();  
-			
-			echo '<ul class="comparelist">';
+			endif; ?>
 	
-			if ( isset( $_SESSION['comparelist'] ) ) :
-	
-				$comparelist = $_SESSION['comparelist'];
-	
-				if ( isset( $comparelist[$firsttype->slug] ) ) {
-					$compare = $comparelist[$firsttype->slug];
-				}
-
-				foreach ( $compare as $comp) :
-
-					$price = pmwoodwind_product_main_price($comp);
-					$status = $price;
-					if(is_numeric($price)){
-						$status = 'sale';
-					}
-						$isnew = 'used';
-					if(pmwoodwind_is_new_product(get_the_id())){
-						$isnew = 'new';
-					}
-					$types = wp_get_post_terms($comp, 'product_cat');
-					$filters = '';
-					foreach($types as $type){
-						$filters .= ' filter'.$type->term_id;
-					}
-						?>
-						<li class="mix <?php echo $isnew;?> <?php echo $status;?> <?php echo $filters;?>">
-							<a href="<?php echo get_permalink($comp);?>" title="<?php echo get_the_title($comp);?>"><?php echo wp_get_attachment_image( get_post_thumbnail_id( $comp ), 'main_image' );?></a>
-								<h5>
-								<a href="<?php  echo  get_permalink($comp);?>"><?php  echo  get_the_title($comp);?></a>
-								<span class="price <?php echo $price;?>"><?php
-								if(is_numeric($price)){
-									echo money_format("$ %i",$price);
-								} else {
-									echo $price;
-								}
-								?></span>
-									</h5>
-						</li>
-						<?php
-				endforeach;	
-				?><li class="mix all">
-						<a href="/compare/?list=<?php echo $firsttype->slug;?>">
-						<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
-						<span class="over">
-						<i class="fa fa-navicon" aria-hidden="true"></i>
-				 </a>
-							</span>
-							<h5>
-							<a href="/compare/?list=<?php echo $firsttype->slug;?>">
-							compare</a>
-								</h5>
-					</li><?php
-
-			else:
-			?><li class="mix all">
-
-					<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?>
-					<span class="over">
-					<i class="fa fa-navicon" aria-hidden="true"></i>
-
-						</span>
-						<h5>
-
-						your list is empty
-							</h5>
-				</li><?php
-			endif;
-					echo '</ul>';		
-			?>
-				</div>
-			</div>
+		</div>	
 			
 	</div>
-
-	<script>
-jQuery(function(){
-  jQuery('.comparelist').mixItUp();
-});
-</script>
+	
+</div>
 
 <?php
 	
 } );
+
+function pmwoodwind_compare_product_widget_image_fix_start() {
+	
+	add_filter( 'woocommerce_product_get_image', 'pmwoodwind_force_compare_widget_to_use_main_image', 10, 6 );
+	
+}
+
+function pmwoodwind_compare_product_widget_image_fix_end() {
+	
+	remove_filter( 'woocommerce_product_get_image', 'pmwoodwind_force_compare_widget_to_use_main_image', 10, 6 );
+	
+}
+
+add_action( 'wp_ajax_wc_products_compare_add_product_ajax', 'pmwoodwind_compare_product_widget_image_fix_start', 1 );
+add_action( 'wp_ajax_nopriv_wc_products_compare_add_product_ajax', 'pmwoodwind_compare_product_widget_image_fix_start', 1 );
+
+add_action( 'wp_ajax_wc_products_compare_add_product_ajax', 'pmwoodwind_compare_product_widget_image_fix_end', 11 );
+add_action( 'wp_ajax_nopriv_wc_products_compare_add_product_ajax', 'pmwoodwind_compare_product_widget_image_fix_end', 11 );
+
 
 add_filter( 'woocommerce_single_product_carousel_options', 'pmwoodwind_flexslider_options' );
 
@@ -607,6 +580,12 @@ function pmwoodwind_add_woocommerce_sidebar() {
 		'id' => 'accessories',
 		'name' => 'Accessories Sidebar',
 		'description' => 'Shown on Product Archive Pages.',
+	) );
+	
+	register_sidebar( array(
+		'id' => 'compare',
+		'name' => 'Compare Products Sidebar',
+		'description' => 'Shown on Product Single Pages.',
 	) );
 	
 }
