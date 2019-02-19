@@ -966,3 +966,10 @@ add_action( 'woocommerce_single_product_summary', function() {
 	remove_class_action( 'woocommerce_single_product_summary', 'WC_Products_Compare_Frontend', 'display_compare_button', 31 );
 	
 }, 1 );
+
+add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
+	
+	// Send them to the old Compare template, as it has been updated to use the Compare data from the plugin
+	return 'compare';
+	
+} );
