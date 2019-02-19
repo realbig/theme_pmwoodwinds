@@ -694,6 +694,10 @@ function pmwoodwind_add_to_compare_button() {
 						
 						if ( ! is_array( $compared_products ) ) $compared_products = array(); 
 	
+						$compared_products = array_filter( $compared_products, function( $item ) {
+							return $item !== 'false';
+						} );
+	
 						?>
 				
 						<li style="width: auto;" class="woocommerce-products-compare-compare-button">

@@ -42,3 +42,4 @@ import './lib/product-archive-animations';
 import './lib/media-animations';
 import './lib/iframe-resize';
 import './lib/facetwp';
+import './lib/compare';

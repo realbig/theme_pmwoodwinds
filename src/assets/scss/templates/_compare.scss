@@ -1,7 +1,50 @@
 body.page-template-compare {
-	
+
 	.wp-post-image, .size-main_image {
 		height: auto !important;
 	}
-	
+
+	.woocommerce-products-compare-compare-button {
+
+		position: relative;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+
+		label {
+			display: inline-block;
+			cursor: pointer;
+		}
+
+		input.woocommerce-products-compare-checkbox {
+
+			position: absolute;
+			opacity: 0;
+			cursor: pointer;
+			height: 0;
+			width: 0;
+
+			& ~ .checkmark.remove {
+
+				display: none;
+
+			}
+
+			&:checked {
+
+				& ~ .checkmark.remove {
+					display: inline;
+				}
+
+				& ~ .checkmark.add {
+					display: none;
+				}
+
+			}
+
+		}
+
+	}
+
 }

@@ -18,6 +18,7 @@ global $post;
 			<p><a href="#" style="font-size:30px;" onclick="javascript:PrintElem('comparelist');"><i class="fa fa-print"></i></a></p>
 			
 		</div>
+		
 	<div class="comparelist" id="comparelist" style="margin-bottom:40px;">
 	 <style>
 	  table img{
@@ -39,27 +40,23 @@ global $post;
 
 	 </style>
 	<?php 
-		$comparelist = $_SESSION['comparelist'];
-		if(isset($_GET['list'])){
-			$compare[ esc_attr( $_GET['list'] )] = $comparelist[ esc_attr( $_GET['list'] )];
-		} else {
-			$compare = $comparelist;
-		}
-		if(isset($_GET['remove'])){
-			unset($_SESSION['comparelist'][ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
-			unset($compare[ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
-		} 
-	
-		foreach($compare as $l=>$list):
-			if(empty($list)){
-				unset($_SESSION['comparelist'][$l]);
-				unset($compare[$l]);
-
-			}
-		endforeach;
-		foreach($compare as $l=>$list):?>
 		
-		<h3 style="margin:20px 0px;"><?php echo ucfirst(strtolower($l));?> list:</h3>
+		$list = array();
+		
+		if ( class_exists( 'WC_Products_Compare_Frontend' ) ) {
+		
+			$list = WC_Products_Compare_Frontend::get_compared_products();
+			
+			$list = array_filter( $list, function( $item ) {
+				return $item !== 'false';
+			} );
+			
+		}
+						
+		if ( ! is_array( $list ) ) $list = array();
+		
+		?>
+		
 		<table style="font-size: 15px;width:100%;">
 				<thead>
 					<tr style="background: #1e1e1e;color: #fff;">
@@ -107,7 +104,20 @@ global $post;
 							<td><?php echo pmwoodwind_product_get_serial($item);?></td>
 							<td><?php echo pmwoodwind_product_get_year($item);?></td>
 							<td><?php echo $lastcat->name;?></td>
-							<td class="remove"><a style="color: #ed492e; "href="<?php echo get_permalink();?>?remove=<?php echo $l;?>&item=<?php echo $item;?>"><i class="fa fa-times"></i> remove</a></td>
+							
+							<td class="remove woocommerce-products-compare-compare-button">
+								
+								<label>
+							
+									<input type="checkbox" class="woocommerce-products-compare-checkbox" data-product-id="<?php echo esc_attr( $item ); ?>" checked id="woocommerce-products-compare-checkbox-<?php echo esc_attr( $item );?>" />
+
+									<span class="checkmark remove" style="color: #ed492e">
+										<i class="fa fa-times"></i> remove 
+									</span>
+
+								</label>
+								
+							</td>
 				
 						</tr>
 					<?php 
@@ -131,7 +141,6 @@ global $post;
 				</tfoot>
 				</tbody>
 		</table>
-		<?php endforeach;?>
 	</div>
 	</div>
 	<script>
