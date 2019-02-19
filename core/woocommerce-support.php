@@ -692,19 +692,6 @@ add_action( 'woocommerce_single_product_summary', 'pmwoodwind_add_to_compare_but
 
 function pmwoodwind_add_to_compare_button() {
 	
-	global $compare;
-	
-	if ( ! $compare ) $compare = array();
-	
-	if ( isset( $_GET['remove'] ) ) {
-		unset( $_SESSION['comparelist'][ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
-		unset( $compare[ esc_attr( $_GET['remove'] ) ][ esc_attr( $_GET['item'] ) ] );
-	}
-	
-	if ( isset( $_GET['tocompare'] ) ) {
-		$_SESSION['comparelist'][ esc_attr( $_GET['tocompare'] ) ][ get_the_id() ] = get_the_id();
-	}
-	
 	$categories = wp_get_object_terms( get_the_ID(), 'product_cat' );
 	
 	$categories = array_filter( $categories, function( $category ) {
@@ -720,19 +707,36 @@ function pmwoodwind_add_to_compare_button() {
 			<h3 class="share"><i class="fa fa-navicon" aria-hidden="true"></i> Compare <?php the_title();?></h3>
 			<ul class="compare" style="width: auto;margin: 20px 0px;">
 				
-				<?php if ( isset($_SESSION['comparelist'][ $firsttype->slug ][ get_the_id()] ) ) : ?>
-					<li style="width: auto;">
-						<a class="facebook social-icon" href="<?php echo get_permalink();?>?remove=<?php echo $firsttype->slug;?>&item=<?php echo get_the_id();?>" title="compare">
-							<i class="fa fa-minus"></i> remove from compare
-						</a>
-				</li>
-				<?php else : ?>
-					<li style="width: auto;">
-						<a class="facebook social-icon" href="<?php the_permalink();?>?tocompare=<?php echo $firsttype->slug;?>" title="compare">
-							<i class="fa fa-plus"></i> add to compare
-						</a>
-				</li>
-				<?php endif; ?>
+				<?php 
+	
+					if ( class_exists( 'WC_Products_Compare_Frontend' ) ) : 
+				
+						$compared_products = WC_Products_Compare_Frontend::get_compared_products();
+						
+						if ( ! is_array( $compared_products ) ) $compared_products = array(); 
+	
+						?>
+				
+						<li style="width: auto;" class="woocommerce-products-compare-compare-button">
+							
+							<label>
+							
+								<input type="checkbox" class="woocommerce-products-compare-checkbox" data-product-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php echo ( in_array( get_the_ID(), $compared_products ) ) ? 'checked' : ''; ?> id="woocommerce-products-compare-checkbox-<?php echo esc_attr( get_the_ID() );?>" />
+
+								<span class="checkmark add">
+									<i class="fa fa-plus"></i> add to compare
+								</span>
+
+								<span class="checkmark remove">
+									<i class="fa fa-minus"></i> remove from compare
+								</span>
+								
+							</label>
+							
+						</li>
+				
+					<?php endif; ?>
+				
 			</ul>
 			
 		</div>	
@@ -965,3 +969,17 @@ function pmwoodwind_hide_short_description( $description ) {
 	return $description;
 	
 }
+
+add_action( 'woocommerce_after_shop_loop_item', function() {
+
+	// Do not show the Compare button in the Shop Loop
+	remove_class_action( 'woocommerce_after_shop_loop_item', 'WC_Products_Compare_Frontend', 'display_compare_button', 11 );
+	
+}, 1 );
+
+add_action( 'woocommerce_single_product_summary', function() {
+	
+	// Remove included Add to Compare on Single. We will be recreating it at the desired location
+	remove_class_action( 'woocommerce_single_product_summary', 'WC_Products_Compare_Frontend', 'display_compare_button', 31 );
+	
+}, 1 );
