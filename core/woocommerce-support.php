@@ -350,6 +350,8 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	
 	ob_start();
 	
+	$msrp = false;
+	
 	if ( get_post_meta( get_the_ID(), '_msrp', true ) ) {
 		
 		$msrp = get_post_meta( get_the_ID(), '_msrp', true );
