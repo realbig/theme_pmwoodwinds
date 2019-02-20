@@ -457,7 +457,7 @@ function pmwoodwind_add_custom_general_fields() {
   
 	woocommerce_wp_text_input( 
 		array( 
-			'id'          => '_msrp', 
+			'id'          => 'msrp', 
 			'label'       => 'MSRP',
 			'placeholder' => 'MSRP',
 			'desc_tip'    => 'true',
@@ -478,13 +478,13 @@ function pmwoodwind_add_custom_general_fields() {
 function pmwoodwind_add_custom_general_fields_save( $post_id ){
 	
 	// Text Field
-	$woocommerce_text_field = $_POST['_msrp'];
+	$woocommerce_text_field = $_POST['msrp'];
 	
 	if ( ! empty( $woocommerce_text_field ) ) {
-		update_post_meta( $post_id, '_msrp', esc_attr( $woocommerce_text_field ) );
+		update_post_meta( $post_id, 'msrp', esc_attr( $woocommerce_text_field ) );
 	}
 	else {
-		delete_post_meta( $post_id, '_msrp' );
+		delete_post_meta( $post_id, 'msrp' );
 	}
 	
 	// Checkbox Field

@@ -325,9 +325,9 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	
 	$msrp = false;
 	
-	if ( get_post_meta( get_the_ID(), '_msrp', true ) ) {
+	if ( get_post_meta( get_the_ID(), 'msrp', true ) ) {
 		
-		$msrp = get_post_meta( get_the_ID(), '_msrp', true );
+		$msrp = get_post_meta( get_the_ID(), 'msrp', true );
 		
 		?>
 		MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span><br />
