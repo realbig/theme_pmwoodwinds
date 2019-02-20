@@ -483,6 +483,9 @@ function pmwoodwind_add_custom_general_fields_save( $post_id ){
 	if ( ! empty( $woocommerce_text_field ) ) {
 		update_post_meta( $post_id, '_msrp', esc_attr( $woocommerce_text_field ) );
 	}
+	else {
+		delete_post_meta( $post_id, '_msrp' );
+	}
 	
 	// Checkbox Field
 	$woocommerce_checkbox = isset( $_POST['_show_excerpt'] ) ? $_POST['_show_excerpt'] : array();
