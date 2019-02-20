@@ -323,14 +323,21 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	
 	ob_start();
 	
-	$msrp = false;
+	$msrp = get_post_meta( get_the_ID(), 'msrp', true );
 	
-	if ( get_post_meta( get_the_ID(), 'msrp', true ) ) {
+	if ( $product->get_type() == 'variable' ) {
 		
-		$msrp = get_post_meta( get_the_ID(), 'msrp', true );
+		$default_attributes = pmwoodwind_get_default_attributes( $product );
+		$variation_id = pmwoodwind_find_matching_product_variation( $product, $default_attributes );
+		
+		$msrp = get_post_meta( $variation_id, 'msrp', true );
+		
+	}
+	
+	if ( $msrp ) {
 		
 		?>
-		MSRP: <span><?php echo money_format("$ <span price='".$msrp."' class='priceitem'>%i</span>",$msrp);?></span><br />
+		MSRP: <span><?php echo money_format( "$ <span class='msrp'>%i</span>", (float) $msrp );?></span><br />
 		<?php
 		
 	}
@@ -345,7 +352,7 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 
 		<?php endif; ?>
 
-			Price: <span><?php echo money_format("$ <span price='".$price."' class='priceitem'>%i</span>",$price);?></span><br />
+			Price: <span><?php echo money_format( "$ <span class='regular-price'>%i</span>", (float) $price );?></span><br />
 
 	<?php endif;
 	
@@ -973,3 +980,12 @@ add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
 	return 'compare';
 	
 } );
+
+// Add MSRP into JS Variation Data
+add_filter( 'woocommerce_available_variation', function( $variation_data, $product, $variation ) {
+	
+	$variation_data['msrp'] = get_post_meta( $variation->get_id(), 'msrp', true );
+	
+	return $variation_data;
+	
+}, 10, 3 );

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 36);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -149,15 +149,15 @@ exports.transitionend = transitionend;
 "use strict";
 
 
+__webpack_require__(30);
+
 __webpack_require__(29);
 
 __webpack_require__(28);
 
-__webpack_require__(27);
+__webpack_require__(33);
 
-__webpack_require__(32);
-
-__webpack_require__(30);
+__webpack_require__(31);
 
 __webpack_require__(7);
 
@@ -183,13 +183,13 @@ __webpack_require__(21);
 
 __webpack_require__(24);
 
-__webpack_require__(26);
+__webpack_require__(27);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(33);
+var _whatInput = __webpack_require__(34);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -210,6 +210,8 @@ __webpack_require__(12);
 __webpack_require__(10);
 
 __webpack_require__(8);
+
+__webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4672,7 +4674,7 @@ Jssor Slider (MIT license)
 "use strict";
 
 
-var _responsiveToolkit = __webpack_require__(31);
+var _responsiveToolkit = __webpack_require__(32);
 
 var _responsiveToolkit2 = _interopRequireDefault(_responsiveToolkit);
 
@@ -6057,6 +6059,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function ($) {
 
+	$(document).on('found_variation', 'form', function (event, variation) {
+
+		$('p.price span.msrp').wc_set_content(variation.msrp);
+
+		$('p.price span.regular-price').wc_set_content(variation.display_regular_price.toFixed(2));
+	});
+})(jQuery);
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
   /**
    * ### HOW TO CREATE A VALID ID TO USE: ###
    * Go to www.twitter.com and sign in as normal, go to your settings page.
@@ -6240,7 +6259,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 /*
@@ -6742,7 +6761,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10257,7 +10276,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11499,7 +11518,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 /**!
@@ -13576,7 +13595,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /*!
@@ -13820,7 +13839,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14295,7 +14314,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14680,8 +14699,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 34 */,
-/* 35 */
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(3);

@@ -45,7 +45,14 @@ add_filter('wp_nav_menu','pmwoodwind_add_menuclass');
 		'footer_bottom'  => __( 'Footer Bottom', 'pmWoodwind' ),
 	) );
 	
-function pmwoodwind_product_main_price($postid){
+function pmwoodwind_product_main_price($postid) {
+	
+	$product = wc_get_product( $postid );
+	
+	if ( $product->get_type() == 'variable' ) {
+		return $product->get_variation_regular_price( 'min' );
+	}
+	
 	return get_post_meta($postid,'_price',true);
 	
 }
@@ -1214,4 +1221,59 @@ if( ! function_exists( 'remove_class_action') ){
 	function remove_class_action( $tag, $class_name = '', $method_name = '', $priority = 10 ) {
 		remove_class_filter( $tag, $class_name, $method_name, $priority );
 	}
+}
+
+/**
+ * Find matching product variation
+ *
+ * @param WC_Product $product
+ * @param array $attributes
+ * @return int Matching variation ID or 0.
+ */
+function pmwoodwind_find_matching_product_variation( $product, $attributes ) {
+
+    foreach ( $attributes as $key => $value ) {
+		
+	    if ( strpos( $key, 'attribute_' ) === 0 ) {
+		    continue;
+	    }
+
+	    unset( $attributes[ $key ] );
+	    $attributes[ sprintf( 'attribute_%s', $key ) ] = $value;
+		
+    }
+
+    if ( class_exists( 'WC_Data_Store' ) ) {
+
+        $data_store = WC_Data_Store::load( 'product' );
+        return $data_store->find_matching_product_variation( $product, $attributes );
+
+    }
+	else {
+
+        return $product->get_matching_variation( $attributes );
+
+    }
+
+}
+
+/**
+ * Get variation default attributes
+ *
+ * @param WC_Product $product
+ * @return array
+ */
+function pmwoodwind_get_default_attributes( $product ) {
+ 
+    if ( method_exists( $product, 'get_default_attributes' ) ) {
+ 
+        return $product->get_default_attributes();
+ 
+    }
+	else {
+ 
+        return $product->get_variation_default_attributes();
+ 
+    }
+ 
 }
