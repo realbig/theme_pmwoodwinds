@@ -992,3 +992,31 @@ add_filter( 'woocommerce_available_variation', function( $variation_data, $produ
 	return $variation_data;
 	
 }, 10, 3 );
+
+add_filter( 'widget_title', function( $title, $widget_instance, $widget_id ) {
+	
+	if ( $widget_id !== 'compared_products' ) return $title;
+	
+	if ( ! is_single() || 
+	   get_post_type() !== 'product' ) {
+		return $title;
+	}
+	
+	$type = '';
+	if ( pmwoodwind_is_instrument( get_the_ID() ) ) {
+		$type = ' Instrument ';
+	}
+	
+	if ( pmwoodwind_is_mouthpiece( get_the_ID() ) ) {
+		$type = ' Mouthpiece ';
+	}
+	
+	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
+		$type = ' Accessory ';
+	}
+	
+	$title = "Your{$type}Compare List";
+	
+	return $title;
+	
+}, 10, 3 );
