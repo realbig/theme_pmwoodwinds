@@ -459,7 +459,7 @@ function pmwoodwinds_change_sku_text( $translation, $untranslated_text, $domain 
 	if ( pmwoodwind_is_horn( $product_id ) && 
 		! pmwoodwind_is_new_product( $product_id ) ) {
 		
-		$translation = 'Serial';
+		$translation = 'Serial #';
 		
 	}
 	else if ( pmwoodwind_is_mouthpiece( $product_id ) ) {
