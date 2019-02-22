@@ -44,3 +44,4 @@ import './lib/iframe-resize';
 import './lib/facetwp';
 import './lib/compare';
 import './lib/product-single-variations';
+import './lib/product-single-compare';

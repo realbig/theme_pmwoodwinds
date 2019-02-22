@@ -690,7 +690,10 @@ function pmwoodwind_add_to_compare_button() {
 		
 		<div class="shares">
 			
-			<h3 class="share"><i class="fa fa-navicon" aria-hidden="true"></i> Compare <?php the_title();?></h3>
+			<div class="compare-header">
+				<h3 class="share"><i class="fa fa-navicon" aria-hidden="true"></i> Compare <?php the_title();?></h3>
+			</div>
+			
 			<ul class="compare" style="width: auto;margin: 20px 0px;">
 				
 				<?php 
