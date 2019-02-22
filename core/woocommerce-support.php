@@ -992,29 +992,3 @@ add_filter( 'woocommerce_available_variation', function( $variation_data, $produ
 	return $variation_data;
 	
 }, 10, 3 );
-
-add_filter( 'gettext', 'pmwoodwinds_change_compare_products_text', 10, 4 );
-
-/**
- * Alter the text for the Compare Products button in the Compare Products widget
- * 
- * @param		string  $translation			The resulting Translation
- * @param		string  $untranslated_text      The original string
- * @param		string  $domain					The Text Domain
- *                                       
- * @since		{{VERSION}}
- * @return		string  The resulting Translation
- */
-function pmwoodwinds_change_compare_products_text( $translation, $untranslated_text, $domain ) {
-	
-	if ( $domain !== 'woocommerce-products-compare' ) return $translation;
-	
-	if ( $untranslated_text == 'Compare Products' ) {
-		
-		$translation = 'Compare';
-		
-	}
-	
-	return $translation;
-	
-}
