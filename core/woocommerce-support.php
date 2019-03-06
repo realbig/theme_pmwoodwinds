@@ -977,6 +977,7 @@ add_action( 'woocommerce_single_product_summary', function() {
 	
 }, 1 );
 
+// This code cannot be active until after the Compare Products plugin has been activated
 add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
 	
 	// Send them to the old Compare template, as it has been updated to use the Compare data from the plugin
