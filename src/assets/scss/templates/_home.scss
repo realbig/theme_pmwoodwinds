@@ -1,8 +1,18 @@
 body.home {
 	
 	.forcefullwidth_wrapper_tp_banner {
-		
-		margin-top: 4rem !important;
+
+		margin-top: 3rem !important;
+
+	}
+	
+	@media (min-width: 992px) {
+	
+		.forcefullwidth_wrapper_tp_banner {
+
+			margin-top: 4rem !important;
+
+		}
 		
 	}
 	
