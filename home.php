@@ -13,23 +13,6 @@
 		'orderby' => 'menu_order',
 		'order'   => 'ASC',
 
-	));	
-
-	$events = get_posts(array(
-		'numberposts'	=> 1,
-		'post_type'		=> 'tribe_events',
-		'orderby'		=> 'date',
-		'order'			=> 'DESC',
-		'meta_value'       => '1',
-		'post_status'      => 'publish',
-		'tax_query' => array(
-			'relationship' => 'AND',
-			array(
-				'taxonomy' => 'tribe_events_cat',
-				'field' => 'slug',
-				'terms' => 'featured',
-			),
-		),
 	));
 
 
@@ -37,42 +20,6 @@
 
 	?>
 
-		<?php if($events):?>
-		<div id="events" style="width:25%;">
-		<?php
-			$event = $events[0];
-			
-			$date_format = get_option( 'date_format', 'F j, Y' );
-			$time_format = get_option( 'time_format', 'g:i a' );
-			$start_datetime = strtotime( get_post_meta( $event->ID, '_EventStartDate', true ) );
-			
-			$organizers = array();
-			
-			if ( function_exists( 'tribe_get_organizer_ids' ) ) {
-			
-				$organizers = tribe_get_organizer_ids( $event->ID );
-				
-			}
-			
-		?>
-			<h3 style="color: #6195e0;padding: 5px 0px;font-size: 16px;line-height: 16px;"><?php echo $event->post_title;?></h3>
-			<h4><i class="fa fa-calendar" aria-hidden="true"></i> <?php echo date( $date_format, $start_datetime ); ?>
-				<?php echo tribe_get_option( 'dateTimeSeparator', ' @ ' ); ?>
-				<?php echo date( $time_format, $start_datetime ); ?></h4>
-			
-			<?php if ( $organizers ) : 
-			
-				$organizer = $organizers[0];
-			
-			?>
-			
-				<p style="font-size: 16px;">for reservations call <?php echo tribe_get_organizer_phone( $organizer );?></p>
-			
-			<?php endif; ?>
-			
-			 <div class="caption sfl button-rev tp-resizeme" style="top: -20px;position: relative;" data-x="center" data-hoffset="0" data-y="530" data-speed="700" data-start="1700" data-easing=""><a class="btn" style="font-size: 15px;padding: 10px 25px;" href="<?php echo get_permalink($events[0]);?>"><i class="flaticon-playbutton22"></i>Event Details</a></div>
-		</div>
-		<?php endif;?>
 	</div>
 	<div class="fullbg">
 	<!-- New Releases -->

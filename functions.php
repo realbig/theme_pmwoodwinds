@@ -385,7 +385,7 @@ add_action( 'admin_init', function() {
 
 	}
 	
-	if ( isset( $_GET['import'] ) ) {
+	if ( isset( $_GET['excel_import'] ) ) {
 
 		$dir = wp_upload_dir();
 		$path = $dir['basedir'].'/products/mouthpieces.xlsx';
@@ -1056,7 +1056,7 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 
     if ( isset( $meta_key ) && 
 		get_post_type( $object_id ) == 'slider' && 
-		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price' ) ) ) {
+		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price', '_event_image', '_event_title', '_event_datetime', '_event_reservations', '_event_link' ) ) ) {
 		
         remove_filter( 'get_post_metadata', 'pmwoodwind_convert_meta_for_revslider', 100 );
 		
@@ -1081,6 +1081,110 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 				$product_id = $product[0];
 				
 				$current_meta = get_post_meta( $product_id, $meta_key, true );
+				
+			}
+			
+		}
+		elseif ( $meta_key == '_event_image' ) {
+			
+			$event = pmwoodwind_get_featured_event();
+			
+			if ( ! $event ) {
+				$current_meta = '';
+			}
+			else {
+				
+				if ( has_post_thumbnail( $event->ID ) ) {
+					
+					$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'medium' );
+					
+				}
+				
+			}
+			
+		}
+		elseif ( $meta_key == '_event_title' ) {
+			
+			$event = pmwoodwind_get_featured_event();
+			
+			if ( ! $event ) {
+				$current_meta = '';
+			}
+			else {
+				
+				$current_meta = get_the_title( $event->ID );
+				
+			}
+			
+		}
+		elseif ( $meta_key == '_event_datetime' ) {
+			
+			$event = pmwoodwind_get_featured_event();
+			
+			if ( ! $event ) {
+				$current_meta = '';
+			}
+			else {
+				
+				$date_format = get_option( 'date_format', 'F j, Y' );
+				$time_format = get_option( 'time_format', 'g:i a' );
+				$start_datetime = strtotime( get_post_meta( $event->ID, '_EventStartDate', true ) );
+				
+				if ( function_exists( 'tribe_get_option' ) ) {
+				
+					$current_meta = date( $date_format, $start_datetime ) . tribe_get_option( 'dateTimeSeparator', ' @ ' ) . date( $time_format, $start_datetime );
+					
+				}
+				
+			}
+			
+		}
+		elseif ( $meta_key == '_event_reservations' ) {
+			
+			$event = pmwoodwind_get_featured_event();
+			
+			if ( ! $event ) {
+				$current_meta = '';
+			}
+			else {
+				
+				$organizers = array();
+			
+				if ( function_exists( 'tribe_get_organizer_ids' ) ) {
+
+					$organizers = tribe_get_organizer_ids( $event->ID );
+
+				}
+				
+				$organizer = false;
+				
+				if ( is_array( $organizers ) && 
+					isset( $organizers[0] ) && 
+					$organizers[0] ) {
+					
+					$organizer = $organizers[0];
+					
+				}
+				
+				if ( function_exists( 'tribe_get_organizer_phone' ) ) {
+				
+					$current_meta = 'for reservations call ' . tribe_get_organizer_phone( $organizer );
+					
+				}
+				
+			}
+			
+		}
+		elseif ( $meta_key == '_event_link' ) {
+			
+			$event = pmwoodwind_get_featured_event();
+			
+			if ( ! $event ) {
+				$current_meta = '';
+			}
+			else {
+				
+				$current_meta = get_permalink( $event->ID );
 				
 			}
 			
@@ -1276,4 +1380,39 @@ function pmwoodwind_get_default_attributes( $product ) {
  
     }
  
+}
+
+/**
+ * Gets the Featured Event for use on the Home Slider
+ * 
+ * @since		{{VERSION}}
+ * @return		object|boolean		WP_Post on success, false on failure
+ */
+function pmwoodwind_get_featured_event() {
+	
+	$events = get_posts( array(
+		'numberposts'	=> 1,
+		'post_type'		=> 'tribe_events',
+		'orderby'		=> 'date',
+		'order'			=> 'DESC',
+		'meta_value'       => '1',
+		'post_status'      => 'publish',
+		'tax_query' => array(
+			'relationship' => 'AND',
+			array(
+				'taxonomy' => 'tribe_events_cat',
+				'field' => 'slug',
+				'terms' => 'featured',
+			),
+		),
+	) );
+	
+	if ( is_array( $events ) && 
+		isset( $events[0] ) && 
+		$events[0] ) {
+		return $events[0];
+	}
+	
+	return false;
+	
 }
