@@ -1,3 +1,19 @@
-  img{
-	  width:200px;
-  }
+img {
+	width:200px;
+}
+
+body.compare-list-print {
+	
+	table {
+		
+		img {
+	
+			&.wp-post-image, &.size-main_image {
+				height: auto !important;
+			}
+			
+		}
+		
+	}
+	
+}

@@ -144,13 +144,23 @@ global $post;
 	</div>
 	</div>
 	<script>
+		
+		var pmwoodwindPrint = function( mywindow ) {
+			
+			setTimeout( function() { // This runs ever so slightly too fast
+				mywindow.print();
+				mywindow.close();
+			}, 1 );
+			
+		}
+		
 		function PrintElem(elem)
 	{
 		var mywindow = window.open('', 'PRINT', 'height=800,width=1020');
 		
 		mywindow.document.write('<html><head><title>Compare Lists</title>');
-		mywindow.document.write( "<link rel=\"stylesheet\" href=\"<?php echo THEME_URL; ?>/assets/css/print.css\" type=\"text/css\" media=\"print\"/>" );
-		mywindow.document.write('</head><body >');
+		mywindow.document.write( "<link rel=\"stylesheet\" href=\"<?php echo THEME_URL; ?>/dist/assets/css/print.css\" type=\"text/css\" media=\"print\"/>" );
+		mywindow.document.write('</head><body class="compare-list-print">');
 		mywindow.document.write('<center><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo.png" alt="Saxophone Repair,Used Saxophones,Selmer,Mark VI,Paul Maslin,Conn,Alto Saxophone,Tenor Saxophone,Instruments,Soprano Saxophone,Bari Saxophone"/></center>');
 		mywindow.document.write('<h1 style="text-align:center">Compare Lists</h1>');
 		
@@ -160,12 +170,32 @@ global $post;
 		mywindow.document.write(printhtml.innerHTML);
 		mywindow.document.write('<h1 style="text-align:center"><?php bloginfo( 'url' ); ?></h1>');
 		mywindow.document.write('</body></html>');
-
+		
+		if ( ! mywindow.document.attachEvent || typeof mywindow.document.attachEvent === "undefined" ) {
+			
+			// Not IE
+			
+			mywindow.document.addEventListener( "DOMContentLoaded", function() {
+				
+				pmwoodwindPrint( mywindow );
+				
+			} );
+			
+		}
+		else {
+			
+			// IE
+			
+			mywindow.document.attachEvent( "onreadystatechange", function() {
+				if ( mywindow.document.readyState === "complete" ) {
+					pmwoodwindPrint( mywindow );
+				}
+			} );
+			
+		}
+		
 		mywindow.document.close(); // necessary for IE >= 10
-		mywindow.focus(); // necessary for IE >= 10*/
-
-		mywindow.print();
-		mywindow.close();
+//mywindow.focus(); // necessary for IE >= 10*/
 
 		return true;
 	}
