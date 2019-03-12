@@ -980,6 +980,22 @@ add_action( 'woocommerce_single_product_summary', function() {
 // This code cannot be active until after the Compare Products plugin has been activated
 add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
 	
+	/*
+	
+	if ( pmwoodwind_is_instrument( get_the_ID() ) ) {
+		return 'compare?list=instruments';
+	}
+
+	if ( pmwoodwind_is_mouthpiece( get_the_ID() ) ) {
+		return 'compare?list=mouthpieces';
+	}
+
+	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
+		return 'compare?list=accessories';
+	}
+	
+	*/
+	
 	// Send them to the old Compare template, as it has been updated to use the Compare data from the plugin
 	return 'compare';
 	
@@ -1013,6 +1029,18 @@ function pmwoodwinds_change_compare_products_text( $translation, $untranslated_t
 	if ( $untranslated_text == 'Compare Products' ) {
 		
 		$translation = 'Compare';
+		
+		if ( pmwoodwind_is_instrument( get_the_ID() ) ) {
+			$translation .= ' Instruments';
+		}
+
+		if ( pmwoodwind_is_mouthpiece( get_the_ID() ) ) {
+			$translation .= ' Mouthpieces';
+		}
+
+		if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
+			$translation .= ' Accessories';
+		}
 		
 	}
 	
