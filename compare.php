@@ -195,7 +195,7 @@ global $post;
 		}
 		
 		mywindow.document.close(); // necessary for IE >= 10
-//mywindow.focus(); // necessary for IE >= 10*/
+		mywindow.focus(); // necessary for IE >= 10*/
 
 		return true;
 	}
