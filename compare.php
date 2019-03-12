@@ -79,7 +79,7 @@ global $post;
 		
 		<?php if ( ! empty( $instruments ) ) : ?>
 		
-			<h2 class="section-title">Instruments:</h2>
+			<h3 class="section-title">Instruments list:</h2>
 		
 			<table style="font-size: 15px;width:100%;">
 				<thead>
@@ -170,7 +170,7 @@ global $post;
 		
 		<?php if ( ! empty( $mouthpieces ) ) : ?>
 		
-			<h2 class="section-title">Mouthpieces:</h2>
+			<h3 class="section-title">Mouthpieces list:</h2>
 		
 			<table style="font-size: 15px;width:100%;">
 				<thead>
@@ -261,7 +261,7 @@ global $post;
 
 		<?php if ( ! empty( $accessories ) ) : ?>
 	
-			<h2 class="section-title">Accessories:</h2>
+			<h3 class="section-title">Accessories list:</h2>
 		
 			<table style="font-size: 15px;width:100%;">
 				<thead>
