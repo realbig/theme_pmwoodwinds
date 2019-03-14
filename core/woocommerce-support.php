@@ -1075,3 +1075,18 @@ add_filter( 'widget_title', function( $title, $widget_instance, $widget_id ) {
 	return $title;
 	
 }, 10, 3 );
+
+add_filter( 'dynamic_sidebar_params', function( $params ) {
+	
+	if ( strpos( $params[0]['widget_id'], 'compared_products' ) === false ) return $params;
+	
+	if ( ! is_single() || 
+	   get_post_type() !== 'product' ) {
+		return $params;
+	}
+	
+	$params[0]['after_widget'] = '<button id="pmwoodwind-clear-compare" class="button woocommerce-products-compare-widget-compare-button">Remove All</button>';
+	
+	return $params;
+	
+} );

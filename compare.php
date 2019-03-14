@@ -47,9 +47,13 @@ global $post;
 		
 			$list = WC_Products_Compare_Frontend::get_compared_products();
 			
-			$list = array_filter( $list, function( $item ) {
-				return $item !== 'false';
-			} );
+			if ( is_array( $list ) ) {
+			
+				$list = array_filter( $list, function( $item ) {
+					return $item !== 'false';
+				} );
+				
+			}
 			
 		}
 						
