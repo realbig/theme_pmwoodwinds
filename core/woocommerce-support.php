@@ -980,8 +980,6 @@ add_action( 'woocommerce_single_product_summary', function() {
 // This code cannot be active until after the Compare Products plugin has been activated
 add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
 	
-	/*
-	
 	if ( pmwoodwind_is_instrument( get_the_ID() ) ) {
 		return 'compare?list=instruments';
 	}
@@ -993,8 +991,6 @@ add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
 	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
 		return 'compare?list=accessories';
 	}
-	
-	*/
 	
 	// Send them to the old Compare template, as it has been updated to use the Compare data from the plugin
 	return 'compare';
@@ -1088,5 +1084,45 @@ add_filter( 'dynamic_sidebar_params', function( $params ) {
 	$params[0]['after_widget'] = '<button id="pmwoodwind-clear-compare" class="button woocommerce-products-compare-widget-compare-button">Remove All</button>';
 	
 	return $params;
+	
+} );
+
+/**
+ * Filter down Compare Products Widget to only match the currently viewed Product's Type
+ * This is super gross and hacky and should definitely be changed to use a Filter if the Plugin ever supports one.
+ * 
+ * This only filters on the PHP end. This can cause inconsistencies with the JavaScript. For example, if they have 2 Instruments and 1 Mouthpiece in the Compare Cookie and try to Compare while viewing a Mouthpiece, it will think they have 3 things being compared even though it is technically only 1, thereby allowing them to proceed (It normally requires 2 items)
+ * 
+ * @since		{{VERSION}}
+ * @return		void
+ */
+add_action( 'wp_head', function() {
+	
+	if ( is_admin() ) return;
+	
+	if ( ! is_single() || get_post_type() !== 'product' ) return;
+	
+	if ( ! $_COOKIE ) return;
+	
+	if ( ! isset( $_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] ) || ! $_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] ) return;
+	
+	// Default to Instrument
+	$type = 'instrument';
+	
+	if ( pmwoodwind_is_mouthpiece( get_the_ID() ) ) {
+		$type = 'mouthpiece';
+	}
+	
+	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
+		$type = 'accessory';
+	}
+	
+	$_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] = array_filter( explode( ',', $_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] ), function( $product_id ) use ( $type ) {
+		
+		return call_user_func( 'pmwoodwind_is_' . $type, $product_id );
+		
+	} );
+	
+	$_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] = implode( ',', $_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] );
 	
 } );

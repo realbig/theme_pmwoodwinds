@@ -79,9 +79,17 @@ global $post;
 			
 		}
 		
+		$type = 'instruments';
+		
+		if ( isset( $_GET['list'] ) && 
+			$_GET['list'] ) {
+			$type = strtolower( esc_attr( $_GET['list'] ) );
+		}
+		
 		?>
 		
-		<?php if ( ! empty( $instruments ) ) : ?>
+		<?php if ( ! empty( $instruments ) && 
+				 $type == 'instruments' ) : ?>
 		
 			<h3 class="section-title">Instruments list:</h2>
 		
@@ -172,7 +180,8 @@ global $post;
 		
 		<?php endif; ?>
 		
-		<?php if ( ! empty( $mouthpieces ) ) : ?>
+		<?php if ( ! empty( $mouthpieces ) && 
+				 $type == 'mouthpieces' ) : ?>
 		
 			<h3 class="section-title">Mouthpieces list:</h2>
 		
@@ -263,7 +272,8 @@ global $post;
 		
 		<?php endif; ?>
 
-		<?php if ( ! empty( $accessories ) ) : ?>
+		<?php if ( ! empty( $accessories ) && 
+				 $type == 'accessories' ) : ?>
 	
 			<h3 class="section-title">Accessories list:</h2>
 		
