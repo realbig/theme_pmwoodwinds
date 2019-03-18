@@ -1126,3 +1126,9 @@ add_action( 'wp_head', function() {
 	$_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] = implode( ',', $_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] );
 	
 } );
+
+add_filter( 'woocommerce_products_compare_max_products', function( $max_products ) {
+	
+	return 99;
+	
+} );
