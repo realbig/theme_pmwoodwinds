@@ -969,6 +969,36 @@ function pmwoodwind_get_instrument_sorting_key() {
 	
 }
 
+/**
+ * Returns a numeric index to use for sorting on the initial page load
+ * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
+ * 
+ * @since		{{VERSION}}
+ * @return		array Sorting Key
+ */
+function pmwoodwind_get_mouthpiece_sorting_key() {
+	
+	return apply_filters( 'pmwoodwind_get_mouthpiece_sorting_key', array(
+		'Brass Mouthpieces',
+		'Sopranino Mouthpieces',
+		'Soprano Mouthpieces',
+		'Hard Rubber Soprano Mouthpieces',
+		'Metal Soprano Mouthpieces',
+		'Alto Mouthpieces',
+		'Metal Alto Mouthpieces',
+		'Rubber Alto Mouthpieces',
+		'Tenor Mouthpieces',
+		'Metal Tenor Mouthpieces',
+		'Hard Rubber Tenor Mouthpieces',
+		'Baritone Mouthpieces',
+		'Metal Baritone Mouthpiece',
+		'Hard Rubber Baritone Mouthpieces',
+		'Clarinet Mouthpieces',
+		'Bass Clarinet Mouthpieces',
+	) );
+	
+}
+
 add_action( 'save_post', 'pmwoodwind_save_instrument_sorting_key' );
 
 /**
@@ -1004,16 +1034,24 @@ function pmwoodwind_save_instrument_sorting_key( $post_id ) {
 	
 	$sort_value = 0;
 	
-	$key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
+	$instrument_key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
+	$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
 	
 	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
 		
 		$term = get_term( $term_id, 'product_cat' );
 		
-		$index = array_search( strtolower( $term->name ), $key );
+		$index = array_search( strtolower( $term->name ), $instrument_key );
 			
+		if ( $index == false ) {
+			
+			// Check against mouthpieces
+			$index = array_search( strtolower( $term->name ), $mouthpiece_key );
+			
+		}
+		
 		if ( $index !== false ) {
-
+			
 			$index = $index + 1; // Cannot zero-index otherwise we may not actually save a value
 
 			if ( $index > $sort_value ) {
@@ -1021,14 +1059,14 @@ function pmwoodwind_save_instrument_sorting_key( $post_id ) {
 				$sort_value = $index;
 
 			}
-
+			
 		}
 		
 	}
 	
 	if ( $sort_value > 0 ) {
 			
-		$update = update_post_meta( $post_id, 'instrument_sort_order', $sort_value );
+		$update = update_post_meta( $post_id, 'product_sort_order', $sort_value );
 
 	}
 	

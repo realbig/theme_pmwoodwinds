@@ -25,31 +25,39 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		
 		if ( ! is_array( $terms ) ) $terms = array();
 		
-		$key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
+		$instrument_key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
+		$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
 		
 		$sort_value = 0;
 		
 		foreach ( $terms as $term ) {
 			
-			$index = array_search( strtolower( $term->name ), $key );
+			$index = array_search( strtolower( $term->name ), $instrument_key );
 			
+			if ( $index == false ) {
+			
+				// Check against mouthpieces
+				$index = array_search( strtolower( $term->name ), $mouthpiece_key );
+
+			}
+
 			if ( $index !== false ) {
-				
+
 				$index = $index + 1; // Cannot zero-index otherwise we may not actually save a value
-				
+
 				if ( $index > $sort_value ) {
-				
+
 					$sort_value = $index;
-					
+
 				}
-				
+
 			}
 			
 		}
 		
 		if ( $sort_value > 0 ) {
 			
-			$update = update_post_meta( $product_id, 'instrument_sort_order', $sort_value );
+			$update = update_post_meta( $product_id, 'product_sort_order', $sort_value );
 			
 		}
 		

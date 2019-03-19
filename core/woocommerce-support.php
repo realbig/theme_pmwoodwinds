@@ -915,10 +915,10 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		$term = get_term( $term->parent, 'product_cat' );
 	}
 	
-	// Only sort in this way for Instruments
-	if ( $term->slug !== 'instruments' ) return;
+	// Only sort in this way for Instruments and Mouthpieces
+	if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' ) return;
 	
-	$query->set( 'meta_key', 'instrument_sort_order' );
+	$query->set( 'meta_key', 'product_sort_order' );
 	$query->set( 'orderby', array( 
 		'meta_value_num' => 'ASC',
 		'title' => 'ASC',
