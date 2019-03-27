@@ -8,7 +8,7 @@
 
 	var content = $( '.woocommerce-result-count' ).html().trim();
 
-	content = content.replace( /(\d+(?:.*\d)?)/i, "<span class='facetwp-counts'>$1</span>" );
+	content = content.replace( /(\d+(?:.*\d)?|the single result)/i, "<span class='facetwp-counts'>$1</span>" );
 
 	// Update the string with FacetWP's values as appropriate
 	$( '.woocommerce-result-count' ).html( content );

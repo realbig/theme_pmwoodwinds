@@ -7,7 +7,7 @@
 
 get_header(); ?>
 
-<?php if ( ! is_tax( 'product_cat' ) ) : ?>
+<?php if ( ! is_tax( 'product_cat' ) && ! is_post_type_archive( 'product' ) ) : ?>
 
 <div class="container">
 	
@@ -15,7 +15,7 @@ get_header(); ?>
 	
 	<div class="row">
 		
-		<?php if ( is_tax( 'product_cat' ) ) : ?>
+		<?php if ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) : ?>
 		
 			<div class="col-sm-12 product-cat-header">
 
@@ -54,7 +54,7 @@ get_header(); ?>
 		
 		<?php endif; ?>
 			
-		<?php if ( is_tax( 'product_cat' ) ) : ?>
+		<?php if ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) : ?>
 			
 			<div class="content cd-gallery col-sm-12 col-md-9 col-md-push-3 filter-is-visible">
 				
@@ -72,7 +72,7 @@ get_header(); ?>
 
 			<div class="col-sm-12 col-md-3 col-md-pull-9 shop-sidebar">
 				
-				<div class="<?php echo ( is_tax( 'product_cat' ) ) ? 'cd-filter filter-is-visible' : ''; ?>">
+				<div class="<?php echo ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) ? 'cd-filter filter-is-visible' : ''; ?>">
 					
 					<?php 
 					
@@ -113,7 +113,7 @@ get_header(); ?>
 					
 				</div>
 				
-				<?php if ( is_tax( 'product_cat' ) ) : ?>
+				<?php if ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) : ?>
 				
 					<a href="#0" class="cd-filter-trigger"><i class="fa fa-filter" aria-hidden="true"></i> Filters</a>
 				
