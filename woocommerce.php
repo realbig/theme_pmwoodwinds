@@ -105,7 +105,7 @@ get_header(); ?>
 					
 					<?php endif; ?>
 
-					<?php if ( is_tax( 'product_cat' ) ) : ?>
+					<?php if ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) : ?>
 
 						<a href="#0" class="cd-close"><i class="fa fa-times" aria-hidden="true"></i></a>
 
