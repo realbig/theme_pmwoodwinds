@@ -1132,3 +1132,33 @@ add_filter( 'woocommerce_products_compare_max_products', function( $max_products
 	return 99;
 	
 } );
+
+add_action( 'woocommerce_before_shop_loop_item_title', function() {
+	
+	remove_filter( 'woocommerce_product_get_image', 'pmwoodwind_add_classes_to_woocommerce_product_image', 99, 5 );
+	
+	add_filter( 'single_product_archive_thumbnail_size', 'pmwoodwind_change_related_products_image_size' );
+	
+}, 9 );
+
+add_action( 'woocommerce_before_shop_loop_item_title', function() {
+	
+	add_filter( 'woocommerce_product_get_image', 'pmwoodwind_add_classes_to_woocommerce_product_image', 99, 5 );
+	
+	remove_filter( 'single_product_archive_thumbnail_size', 'pmwoodwind_change_related_products_image_size' );
+	
+}, 11 );
+
+/**
+ * Prevent Related Products on Product Single from using Cropped Thumbnails
+ * 
+ * @param		string $image_size Image Size
+ *                                  
+ * @since		{{VERSION}}
+ * @return		string Image Size
+ */
+function pmwoodwind_change_related_products_image_size( $image_size ) {
+	
+	return 'main_image';
+	
+}
