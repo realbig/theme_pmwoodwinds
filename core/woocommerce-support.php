@@ -454,20 +454,24 @@ function pmwoodwinds_change_sku_text( $translation, $untranslated_text, $domain 
 		
 	}
 	
-	if ( ! $product_id ) $translation = 'Product ID';
+	if ( ! $product_id ) $translation = 'Product ID'; // Not Saved yet
 	
-	if ( pmwoodwind_is_horn( $product_id ) && 
-		! pmwoodwind_is_new_product( $product_id ) ) {
+	if ( pmwoodwind_is_new_product( $product_id ) ) { // Everything New gets Product ID
+		
+		$translation = 'Product ID';
+		
+	}
+	else if ( pmwoodwind_is_instrument( $product_id ) ) { // Used Instruments
 		
 		$translation = 'Serial #';
 		
 	}
-	else if ( pmwoodwind_is_mouthpiece( $product_id ) ) {
+	else if ( pmwoodwind_is_mouthpiece( $product_id ) ) { // Used Mouthpieces
 		
 		$translation = 'PMW #';
 		
 	}
-	else {
+	else { // All Other Used
 		
 		$translation = 'Product ID';
 		
