@@ -103,7 +103,6 @@ global $post;
 						<th>Brand</th>
 						<th>Serial</th>
 						<th>Year</th>
-						<th>Type</th>
 						<th class="remove"></th>
 					</tr>	
 				</thead>
@@ -139,7 +138,6 @@ global $post;
 							?></td>
 							<td><?php echo pmwoodwind_product_get_serial($item);?></td>
 							<td><?php echo pmwoodwind_product_get_year($item);?></td>
-							<td><?php echo $lastcat->name;?></td>
 							
 							<td class="remove woocommerce-products-compare-compare-button">
 								
@@ -170,7 +168,6 @@ global $post;
 						<th>Brand</th>
 						<th>Serial</th>
 						<th>Year</th>
-						<th>Type</th>
 						<th class="remove"></th>
 						</tr>
 					
@@ -195,7 +192,6 @@ global $post;
 						<th>Brand</th>
 						<th>Serial</th>
 						<th>Year</th>
-						<th>Type</th>
 						<th class="remove"></th>
 					</tr>	
 				</thead>
@@ -231,7 +227,6 @@ global $post;
 							?></td>
 							<td><?php echo pmwoodwind_product_get_serial($item);?></td>
 							<td><?php echo pmwoodwind_product_get_year($item);?></td>
-							<td><?php echo $lastcat->name;?></td>
 							
 							<td class="remove woocommerce-products-compare-compare-button">
 								
@@ -262,7 +257,6 @@ global $post;
 						<th>Brand</th>
 						<th>Serial</th>
 						<th>Year</th>
-						<th>Type</th>
 						<th class="remove"></th>
 						</tr>
 					
