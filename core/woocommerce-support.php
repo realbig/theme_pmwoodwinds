@@ -1166,3 +1166,48 @@ function pmwoodwind_change_related_products_image_size( $image_size ) {
 	return 'main_image';
 	
 }
+
+add_filter( 'term_link', 'pmwoodwind_alter_product_category_link', 10, 3 );
+
+/**
+ * Make all Child Product Category links use the FacetWP Filters for the most-Parent Category
+ * 
+ * @param		string $link     Category Link
+ * @param		object $term     WP_Term
+ * @param		string $taxonomy Taxonomy Name
+ *                                   
+ * @since		{{VERSION}}
+ * @return		string Category Link
+ */
+function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
+	
+	if ( $taxonomy !== 'product_cat' ) return $link;
+	
+	if ( $term->parent == 0 ) return $link;
+	
+	// Store slug so we can use it later
+	$slug = $term->slug;
+	
+	while ( $term->parent !== 0 ) {
+		
+		$term = get_term( $term->parent, 'product_cat' );
+		
+	}
+	
+	if ( $term->slug == 'accessories' ) {
+		$type = 'accessory';
+	}
+	else if ( $term->slug == 'mouthpieces' ) {
+		$type = 'mouthpiece';
+	}
+	else {
+		$type = 'instrument';
+	}
+	
+	$link = get_term_link( $term->term_id, 'product_cat' );
+	
+	$link = add_query_arg( '_' . $type . '_categories', $slug, $link );
+	
+	return $link;
+	
+}

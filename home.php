@@ -74,7 +74,7 @@
 			}
 
 			?>
-			<a href="/products/<?php echo $lastcat->slug;?>">
+			<a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>">
 				<?php echo wp_get_attachment_image( $gallery_images[ $image - 1 ], 'home_grid', false, array( 'class' => 'img-responsive' ) ); ?>
 				<p><?php echo $lastcat->name;?></p>
 			</a>
