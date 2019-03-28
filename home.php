@@ -95,7 +95,7 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="album">
-					<a class="case" href="/products/accessories/reeds/?show=new">
+					<a class="case" href="/products/accessories?_accessory_categories=reeds&_show=new">
 						<div class="disk-wrapper">
 							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
@@ -104,12 +104,12 @@
 						</div>
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/rico.jpg" alt="Cover" class="img-responsive cover">
 					</a>
-					<h5>Rico Reserve Classic (<a href="/products/accessories/reeds/?show=new">reeds</a>)</h5>
+					<h5>Rico Reserve Classic (<a href="/products/accessories?_accessory_categories=reeds&_show=new">reeds</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="album">
-					<a class="case" href="/products/accessories/cases/?show=new">
+					<a class="case" href="/products/accessories?_accessory_categories=cases&_show=new">
 						<div class="disk-wrapper">
 							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
@@ -118,12 +118,12 @@
 						</div>
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hiscox.jpg" alt="Cover" class="img-responsive cover">
 					</a>
-					<h5>Hiscox Case (<a href="/products/accessories/cases/?show=new">Cases</a>)</h5>
+					<h5>Hiscox Case (<a href="/products/accessories?_accessory_categories=cases&_show=new">Cases</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="album">
-					<a class="case" href="/products/accessories/stands/?show=new">
+					<a class="case" href="/products/accessories?_accessory_categories=stands&_show=new">
 						<div class="disk-wrapper">
 							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
@@ -133,12 +133,12 @@
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/stand.jpg" alt="Cover" class="img-responsive cover">
 						
 					</a>
-					<h5>Belmonte Stand (<a href="/products/accessories/stands/?show=new">Stands</a>)</h5>
+					<h5>Belmonte Stand (<a href="/products/accessories?_accessory_categories=stands&_show=new">Stands</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="album">
-					<a class="case" href="/products/accessories/resonators/?show=new">
+					<a class="case" href="/products/accessories?_accessory_categories=resonators&_show=new">
 						<div class="disk-wrapper">
 							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
 						</div>
@@ -147,11 +147,11 @@
 						</div>
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/brass.jpg" alt="Cover" class="img-responsive cover">
 					</a>
-					<h5>Screw-In Brass Domed (<a href="/products/accessories/resonators/?show=new">Resonators</a>)</h5>
+					<h5>Screw-In Brass Domed (<a href="/products/accessories?_accessory_categories=resonators&_show=new">Resonators</a>)</h5>
 				</div>
 			</div>
 		</div>
-		<p style="margin:50px;text-align:center;"><a href="/products/accessories/?show=new" class="btnbluebig">Browse Accessories by Category</a></p>
+		<p style="margin:50px;text-align:center;"><a href="/products/accessories/?_show=new" class="btnbluebig">Browse Accessories by Category</a></p>
 	</div>
 	<!-- Tour Dates -->
 	
