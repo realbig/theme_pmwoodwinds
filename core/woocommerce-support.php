@@ -1213,6 +1213,12 @@ function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
 	
 	$link = add_query_arg( '_' . $type . '_categories', $slug, $link );
 	
+	if ( $type == 'accessory' ) {
+		
+		$link = add_query_arg( '_show', 'new', $link );
+		
+	}
+	
 	return $link;
 	
 }
