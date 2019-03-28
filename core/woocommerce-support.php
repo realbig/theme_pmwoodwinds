@@ -1194,14 +1194,19 @@ function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
 		
 	}
 	
-	if ( $term->slug == 'accessories' ) {
-		$type = 'accessory';
+	$type = false;
+	
+	if ( $term->slug == 'instruments' ) {
+		$type = 'instrument';
 	}
 	else if ( $term->slug == 'mouthpieces' ) {
 		$type = 'mouthpiece';
 	}
+	else if ( $term->slug == 'accessories' ) {
+		$type = 'accessory';
+	}
 	else {
-		$type = 'instrument';
+		$type = 'product';
 	}
 	
 	$link = get_term_link( $term->term_id, 'product_cat' );
