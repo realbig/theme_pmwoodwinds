@@ -27,6 +27,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		
 		$instrument_key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
 		$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
+		$accessory_key = array_map( 'strtolower', pmwoodwind_get_accessory_sorting_key() );
 		
 		$sort_value = 0;
 		
@@ -38,6 +39,13 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 			
 				// Check against mouthpieces
 				$index = array_search( strtolower( $term->name ), $mouthpiece_key );
+
+			}
+			
+			if ( $index == false ) {
+			
+				// Check against Accessories
+				$index = array_search( strtolower( $term->name ), $accessory_key );
 
 			}
 

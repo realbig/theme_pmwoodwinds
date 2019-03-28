@@ -999,16 +999,73 @@ function pmwoodwind_get_mouthpiece_sorting_key() {
 	
 }
 
-add_action( 'save_post', 'pmwoodwind_save_instrument_sorting_key' );
+/**
+ * Returns a numeric index to use for sorting on the initial page load
+ * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
+ * 
+ * @since		{{VERSION}}
+ * @return		array Sorting Key
+ */
+function pmwoodwind_get_accessory_sorting_key() {
+	
+	return apply_filters( 'pmwoodwind_get_accessory_sorting_key', array(
+		'Instrument Cases',
+		'Soprano Saxophone Cases',
+		'Alto Saxophone Cases',
+		'Tenor Saxophone Cases',
+		'Baritone Saxophone Cases',
+		'Flute Cases',
+		'Clarinet Cases',
+		'Case Straps',
+		'Ligatures',
+		'Clarinet', // The next couple are children of Ligatures. No other Categories are so generic so this should not be a problem
+		'Saxophones',
+		'Maintenance',
+		'Brass',
+		'Woodwind',
+		'Instrument Enhancers',
+		'Other',
+		'Neck Straps',
+		'Harnesses',
+		'Straps',
+		'Reeds',
+		'Synthetic Reeds',
+		'Saxophone Reeds',
+		'Sopranino Saxophone Reeds',
+		'Soprano Saxophone Reeds',
+		'Alto Saxophone Reeds',
+		'Tenor Saxophone Reeds',
+		'Baritone Saxophone Reeds',
+		'Bass Saxophone Reeds',
+		'Clarinet Reeds',
+		'Bb Clarinet Reeds',
+		'Harmony Clarinet Reeds',
+		'Bass Clarinet Reeds',
+		'Reed Cases',
+		'Resonators',
+		'Alto',
+		'Stands',
+		'Clarinet Stands',
+		'Flute Stands',
+		'Saxophone Stands',
+		'Soprano Saxophone Stands',
+		'Alto/Tenor Saxophone Stands',
+		'Baritone Saxophone Stands',
+		'Music Stands',
+	) );
+	
+}
+
+add_action( 'save_post', 'pmwoodwind_save_product_sorting_key' );
 
 /**
- * On Product Save, update the hidden Instrument Sorting value
+ * On Product Save, update the hidden Product Sorting value
  * 
  * @param		integer $post_id Post ID
  *                               
  * @since		{{VERSION}}
  */
-function pmwoodwind_save_instrument_sorting_key( $post_id ) {
+function pmwoodwind_save_product_sorting_key( $post_id ) {
 	
 	if ( get_post_type( $post_id ) !== 'product' ) 
 		return;
@@ -1036,6 +1093,7 @@ function pmwoodwind_save_instrument_sorting_key( $post_id ) {
 	
 	$instrument_key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
 	$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
+	$accessory_key = array_map( 'strtolower', pmwoodwind_get_accessory_sorting_key() );
 	
 	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
 		
@@ -1047,6 +1105,13 @@ function pmwoodwind_save_instrument_sorting_key( $post_id ) {
 			
 			// Check against mouthpieces
 			$index = array_search( strtolower( $term->name ), $mouthpiece_key );
+			
+		}
+		
+		if ( $index == false ) {
+			
+			// Check against Accessories
+			$index = array_search( strtolower( $term->name ), $accessory_key );
 			
 		}
 		
