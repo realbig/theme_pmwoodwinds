@@ -358,7 +358,7 @@ global $post;
 			setTimeout( function() { // This runs ever so slightly too fast
 				mywindow.print();
 				mywindow.close();
-			}, 1 );
+			}, 10 );
 			
 		}
 		
