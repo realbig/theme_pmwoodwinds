@@ -1095,24 +1095,51 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
 	$accessory_key = array_map( 'strtolower', pmwoodwind_get_accessory_sorting_key() );
 	
+	$is_instrument = false;
+	$is_mouthpiece = false;
+	$is_accessory = false;
+	
+	$instrument_term = get_term_by( 'slug', 'instruments', 'product_cat' );
+	$instrument_term_id = (int) $instrument_term->term_id;
+	
+	$mouthpiece_term = get_term_by( 'slug', 'mouthpieces', 'product_cat' );
+	$mouthpiece_term_id = (int) $mouthpiece_term->term_id;
+	
+	$accessory_term = get_term_by( 'slug', 'accessories', 'product_cat' );
+	$accessory_term_id = (int) $accessory_term->term_id;
+
+	$is_instrument = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $instrument_term_id ) {
+		return ( $term_id == $instrument_term_id ) ? true : false;
+	} );
+
+	$is_mouthpiece = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $mouthpiece_term_id ) {
+		return ( $term_id == $mouthpiece_term_id ) ? true : false;
+	} );
+
+	$is_accessory = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $accessory_term_id ) {
+		return ( $term_id == $accessory_term_id ) ? true : false;
+	} );
+	
 	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
 		
 		$term = get_term( $term_id, 'product_cat' );
 		
-		$index = array_search( strtolower( $term->name ), $instrument_key );
+		if ( $is_instrument ) {
 			
-		if ( $index == false ) {
-			
+			$index = array_search( strtolower( $term->name ), $instrument_key );
+
+		}
+		else if ( $is_mouthpiece ) {
+
 			// Check against mouthpieces
 			$index = array_search( strtolower( $term->name ), $mouthpiece_key );
-			
+
 		}
-		
-		if ( $index == false ) {
-			
+		else if ( $is_accessory ) {
+
 			// Check against Accessories
 			$index = array_search( strtolower( $term->name ), $accessory_key );
-			
+
 		}
 		
 		if ( $index !== false ) {

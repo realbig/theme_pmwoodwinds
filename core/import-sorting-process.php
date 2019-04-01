@@ -31,18 +31,36 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		
 		$sort_value = 0;
 		
+		$is_instrument = false;
+		$is_mouthpiece = false;
+		$is_accessory = false;
+		
+		$is_instrument = array_filter( $terms, function( $term ) {
+			return ( $term->slug == 'instruments' ) ? true : false;
+		} );
+		
+		$is_mouthpiece = array_filter( $terms, function( $term ) {
+			return ( $term->slug == 'mouthpieces' ) ? true : false;
+		} );
+		
+		$is_accessory = array_filter( $terms, function( $term ) {
+			return ( $term->slug == 'accessories' ) ? true : false;
+		} );
+		
 		foreach ( $terms as $term ) {
 			
-			$index = array_search( strtolower( $term->name ), $instrument_key );
+			if ( $is_instrument ) {
 			
-			if ( $index == false ) {
+				$index = array_search( strtolower( $term->name ), $instrument_key );
+				
+			}
+			else if ( $is_mouthpiece ) {
 			
 				// Check against mouthpieces
 				$index = array_search( strtolower( $term->name ), $mouthpiece_key );
 
 			}
-			
-			if ( $index == false ) {
+			else if ( $is_accessory ) {
 			
 				// Check against Accessories
 				$index = array_search( strtolower( $term->name ), $accessory_key );
