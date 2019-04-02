@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 38);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -149,21 +149,19 @@ exports.transitionend = transitionend;
 "use strict";
 
 
+__webpack_require__(33);
+
 __webpack_require__(32);
 
 __webpack_require__(31);
 
-__webpack_require__(30);
+__webpack_require__(36);
 
-__webpack_require__(35);
-
-__webpack_require__(33);
+__webpack_require__(34);
 
 __webpack_require__(8);
 
 __webpack_require__(10);
-
-__webpack_require__(14);
 
 __webpack_require__(15);
 
@@ -181,15 +179,17 @@ __webpack_require__(21);
 
 __webpack_require__(22);
 
-__webpack_require__(25);
+__webpack_require__(23);
 
-__webpack_require__(29);
+__webpack_require__(26);
+
+__webpack_require__(30);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(36);
+var _whatInput = __webpack_require__(37);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -197,25 +197,27 @@ var _foundation = __webpack_require__(4);
 
 var _foundationUtil = __webpack_require__(6);
 
-__webpack_require__(24);
-
-__webpack_require__(12);
-
-__webpack_require__(26);
-
-__webpack_require__(23);
+__webpack_require__(25);
 
 __webpack_require__(13);
 
-__webpack_require__(11);
+__webpack_require__(27);
+
+__webpack_require__(24);
+
+__webpack_require__(14);
+
+__webpack_require__(12);
 
 __webpack_require__(9);
 
+__webpack_require__(29);
+
 __webpack_require__(28);
 
-__webpack_require__(27);
-
 __webpack_require__(7);
+
+__webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1465,6 +1467,47 @@ if (typeof jQuery === 'undefined') {
 
 (function ($) {
 
+	// Parent Category
+	$(document).on('click touch', '.facetwp-facet > .facetwp-checkbox', function (event) {
+
+		// This is read _before_ the class is applied
+		var isChecking = $(this).hasClass('checked') ? false : true;
+
+		var $childCategories = $(this).next('.facetwp-depth').find('.facetwp-checkbox');
+
+		if (!isChecking) return;
+
+		// If we're checking a Parent Category, force-uncheck all Child Categories
+		// We make them appear checked via CSS. Having them actually be checked causes issues with the query, and the end result is the same anyway
+		$childCategories.removeClass('checked');
+	});
+
+	// Child Category
+	$(document).on('click touch', '.facetwp-facet .facetwp-depth .facetwp-checkbox', function (event) {
+
+		// This is read _before_ the class is applied
+		var isChecking = $(this).hasClass('checked') ? false : true;
+
+		if (!isChecking) return;
+
+		var $parentCategory = $(this).closest('.facetwp-depth').first().prev('.facetwp-checkbox');
+
+		// If the Parent Category isn't checked, we don't care
+		if (!$parentCategory.hasClass('checked')) return;
+
+		$parentCategory.removeClass('checked');
+	});
+})(jQuery);
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
 	$(document).on('facetwp-loaded', function () {
 
 		$('html, body').animate({
@@ -1474,7 +1517,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1513,7 +1556,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1575,7 +1618,7 @@ function resizeIframe(iFrame) {
 })(jQuery);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1662,7 +1705,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(undefined);
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1746,7 +1789,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery || window.Zepto);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2149,7 +2192,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2219,7 +2262,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2398,7 +2441,7 @@ jQuery(document).ready(function ($) {
 }); // END READY
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4201,7 +4244,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4706,13 +4749,13 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _responsiveToolkit = __webpack_require__(34);
+var _responsiveToolkit = __webpack_require__(35);
 
 var _responsiveToolkit2 = _interopRequireDefault(_responsiveToolkit);
 
@@ -4816,7 +4859,7 @@ window.pmwoodwindsOpenSearch = function () {
 })(jQuery, _responsiveToolkit2.default);
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5789,7 +5832,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5829,7 +5872,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5851,7 +5894,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5990,7 +6033,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6051,37 +6094,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		$select.val($(this).data('value')).trigger('change');
 	});
 
-	// Parent Category
-	$(document).on('click touch', '.facetwp-facet > .facetwp-checkbox', function (event) {
-
-		// This is read _before_ the class is applied
-		var isChecking = $(this).hasClass('checked') ? false : true;
-
-		var $childCategories = $(this).next('.facetwp-depth').find('.facetwp-checkbox');
-
-		if (!isChecking) return;
-
-		// If we're checking a Parent Category, force-uncheck all Child Categories
-		// We make them appear checked via CSS. Having them actually be checked causes issues with the query, and the end result is the same anyway
-		$childCategories.removeClass('checked');
-	});
-
-	// Child Category
-	$(document).on('click touch', '.facetwp-facet .facetwp-depth .facetwp-checkbox', function (event) {
-
-		// This is read _before_ the class is applied
-		var isChecking = $(this).hasClass('checked') ? false : true;
-
-		if (!isChecking) return;
-
-		var $parentCategory = $(this).closest('.facetwp-depth').first().prev('.facetwp-checkbox');
-
-		// If the Parent Category isn't checked, we don't care
-		if (!$parentCategory.hasClass('checked')) return;
-
-		$parentCategory.removeClass('checked');
-	});
-
 	$(document).on('product-animations-done', function () {
 
 		$('img.zoom').wrap('<span style="display:inline-block;top: 5px;"></span>').css('display', 'block').parent().zoom();
@@ -6089,7 +6101,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6115,7 +6127,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6132,7 +6144,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6323,7 +6335,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 /*
@@ -6825,7 +6837,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10340,7 +10352,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11582,7 +11594,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /**!
@@ -13659,7 +13671,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /*!
@@ -13903,7 +13915,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14378,7 +14390,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14763,8 +14775,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 37 */,
-/* 38 */
+/* 38 */,
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(3);

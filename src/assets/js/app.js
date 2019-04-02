@@ -46,3 +46,4 @@ import './lib/compare';
 import './lib/product-single-variations';
 import './lib/product-single-compare';
 import './lib/ajax-search-for-woocommerce';
+import './lib/facetwp-checkboxes';
