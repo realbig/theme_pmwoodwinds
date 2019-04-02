@@ -29,29 +29,29 @@ get_header();
 			</div>
 		</div>
 		
-		<div class="sidebar">
+		<div class="col-sm-12 col-md-3 col-md-pull-9 sidebar">
 				
-				<div class="cd-filter filter-is-visible">
-					
-					<?php if ( is_active_sidebar( 'media' ) ) : ?>
-				
-						<?php dynamic_sidebar( 'media' ); ?>
-					
-					<?php else : ?>
-					
-						Please add Widgets to the "Media" Sidebar under Appearance -> Widgets
-					
-					<?php endif; ?>
+			<div class="cd-filter filter-is-visible">
 
-					<a href="#0" class="cd-close"><i class="fa fa-times" aria-hidden="true"></i></a>
-					
-				</div>
-				
-				<a href="#0" class="cd-filter-trigger"><i class="fa fa-filter" aria-hidden="true"></i> Filters</a>
-				
+				<?php if ( is_active_sidebar( 'media' ) ) : ?>
+
+					<?php dynamic_sidebar( 'media' ); ?>
+
+				<?php else : ?>
+
+					Please add Widgets to the "Media" Sidebar under Appearance -> Widgets
+
+				<?php endif; ?>
+
+				<a href="#0" class="cd-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+
 			</div>
+
+			<a href="#0" class="cd-filter-trigger"><i class="fa fa-filter" aria-hidden="true"></i> Filters</a>
+
+		</div>
 		
-		<div class="row content cd-gallery filter-is-visible">
+		<div class="content cd-gallery col-sm-12 col-md-9 col-md-push-3 filter-is-visible">
 
 			<?php
 				if ( have_posts() ) : ?>

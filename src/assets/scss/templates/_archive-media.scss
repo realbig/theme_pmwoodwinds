@@ -33,4 +33,224 @@
 		
 	}
 	
+	.sidebar {
+		
+		@media (min-width: 992px) {
+		
+			position: absolute;
+			
+		}
+		
+	}
+	
+	.cd-filter {
+		
+		@media (max-width: 991px) {
+			top: 25px;
+		}
+		
+		width: 100%;
+		
+		&.disabled {
+			
+			* {
+				pointer-events: none;
+			}
+			
+			&:after {
+				
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				
+				background: rgba( 0, 0, 0, 0.3 );
+				
+			}
+			
+		}
+		
+		#product-search {
+			
+			color: #111;
+			
+		}
+		
+		.wcpf-heading-label {
+			
+			position: relative;
+			margin-bottom: .2em;
+			padding: 10px 0 10px 20px;
+			color: #bbb;
+			text-transform: uppercase;
+			font-weight: 700;
+			font-size: 0.8rem;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			cursor: pointer;
+			
+			font-family: 'Montserrat';
+			line-height: 18px;
+			padding-left: 0;
+			padding-right: 0;
+			
+			span, a {
+				font-weight: inherit;
+			}
+			
+			span:before {
+				color: #bbb;
+			}
+			
+		}
+		
+		.wcpf-input-container {
+			
+			border-color: #000;
+			border-width: 2px;
+			border-radius: 0;
+			
+		}
+		
+		.wcpf-checkbox-label {
+			
+			margin-bottom: 5px;
+			
+		}
+		
+		.facetwp-checkbox {
+			
+			font-size: 0.8rem;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			top: 0px;
+			position: relative;
+			
+			span {
+				font-family: inherit;
+			}
+			
+		}
+		
+		.wcpf-checkbox-item.checked {
+			
+			& > .wcpf-checkbox-item-inner {
+			
+				& > .wcpf-checkbox-label {
+					
+					& > .wcpf-input-container {
+
+						background: #000;
+
+						&:after {
+
+							top: 3px !important;
+							left: 2px !important;
+
+							border-color: #fff !important;
+
+						}
+						
+					}
+
+				}
+				
+			}
+			
+		}
+		
+		.hidden {
+			
+			display: none;
+			
+		}
+		
+	}
+	
+	@media (min-width: 992px) {
+		
+		.cd-filter-trigger {
+			left: 10%;
+		}
+		
+	}
+	
+	.cd-filter-trigger {
+		top: -50px;
+	}
+	
+	.cd-gallery { 
+		
+		@media (min-width: 992px) {
+			
+			&.filter-is-visible {
+				padding-left: 0;
+			}
+			
+			&:not(.filter-is-visible) {
+				width: 100%;
+				left: 0;
+			}
+			
+		}
+		
+		padding-top: 15px;
+		
+	}
+	
+	.widget {
+		
+		padding: 70px 10%;
+		
+		&:first-of-type {
+			padding-bottom: 0;
+		}
+		
+		&:nth-of-type(1n + 2) {
+			padding-top: 0;
+		}
+		
+	}
+	
+	.facetwp-facet-show {
+		
+		display: none;
+		
+	}
+	
+	.facetwp-pager {
+		
+		text-align: center;
+		
+		span {
+			color: #fff;
+		}
+		
+	}
+	
+	.facetwp-facet {
+		
+		.facetwp-checkbox {
+			
+			&.checked + .facetwp-depth {
+				
+				// "Auto-Check Sub-Categories
+				.facetwp-checkbox {
+					
+					background-image: url( '../../../../../plugins/facetwp/assets/images/checkbox-on.png' );
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 }
