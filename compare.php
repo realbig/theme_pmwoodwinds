@@ -350,6 +350,9 @@ global $post;
 		<?php endif; ?>
 		
 	</div>
+
+		<h3 id="site-url-for-print" class="show-for-print" aria-hidden="true"><?php echo site_url(); ?></h3>
+
 	</div>
 	<script>
 		
@@ -362,59 +365,10 @@ global $post;
 			
 		}
 		
-		// https://stackoverflow.com/a/28002292
-		function getStyle( mywindow, source, callback ) {
-			
-			var style = mywindow.document.createElement( 'link' );
-			var prior = mywindow.document.getElementsByTagName( 'head' )[0];
-			style.async = 1;
-
-			style.onload = style.onreadystatechange = function( _, isAbort ) {
-				
-				if ( isAbort || 
-					! style.readyState || 
-					/loaded|complete/.test( style.readyState ) ) {
-					
-						style.onload = style.onreadystatechange = null;
-						style = undefined;
-
-						if ( ! isAbort ) { 
-							
-							if ( callback ) callback();
-						
-						}
-					
-				}
-				
-			};
-
-			style.rel = 'stylesheet';
-			style.href = source;
-			prior.appendChild( style );
-		
-		}
-		
 		function PrintElem(elem)
 	{
-		var mywindow = window.open('', 'PRINT', 'height=800,width=1020');
 		
-		mywindow.document.write('<html><head><title>Compare Lists</title>');
-		mywindow.document.write('</head><body class="compare-list-print">');
-		mywindow.document.write('<center><img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo.png" alt="Saxophone Repair,Used Saxophones,Selmer,Mark VI,Paul Maslin,Conn,Alto Saxophone,Tenor Saxophone,Instruments,Soprano Saxophone,Bari Saxophone"/></center>');
-		mywindow.document.write('<h1 style="text-align:center">Compare Lists</h1>');
-		
-		var printhtml = document.getElementById(elem);
-	
-
-		mywindow.document.write(printhtml.innerHTML);
-		mywindow.document.write('<h1 style="text-align:center"><?php bloginfo( 'url' ); ?></h1>');
-		mywindow.document.write('</body></html>');
-		
-		// This waits until the Stylesheet has fully loaded, preventing race conditions with our weird pop-up version of the page
-		getStyle( mywindow, '<?php echo THEME_URL; ?>/dist/assets/css/print.css?ver=' + <?php echo THEME_VER; ?>, pmwoodwindPrint( mywindow ) );
-		
-		mywindow.document.close(); // necessary for IE >= 10
-		mywindow.focus(); // necessary for IE >= 10*/
+		pmwoodwindPrint( window );
 
 		return true;
 	}

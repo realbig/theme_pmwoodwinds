@@ -777,7 +777,7 @@ function pmwoodwind_register_scripts() {
 		THEME_URL . '/dist/assets/css/app.css',
 		array(),
 		THEME_VER,
-		'all'
+		'screen'
 	);
 	
 	wp_register_style(

@@ -2,7 +2,15 @@ img {
 	width:200px;
 }
 
-body.compare-list-print {
+.nav-container, .cloud-container, #search, .category-head, .footer {
+	display: none;
+}
+
+.logo-container {
+	text-align: center;
+}
+
+body.compare-list-print, body.page-template-compare {
 	
 	table {
 		
@@ -14,6 +22,10 @@ body.compare-list-print {
 			
 		}
 		
+	}
+	
+	#site-url-for-print {
+		text-align: center;
 	}
 	
 }
