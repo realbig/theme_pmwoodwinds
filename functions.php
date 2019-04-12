@@ -1009,6 +1009,8 @@ function pmwoodwind_get_mouthpiece_sorting_key() {
 function pmwoodwind_get_accessory_sorting_key() {
 	
 	return apply_filters( 'pmwoodwind_get_accessory_sorting_key', array(
+		'Music',
+		'Books',
 		'Instrument Cases',
 		'Soprano Saxophone Cases',
 		'Alto Saxophone Cases',
@@ -1158,7 +1160,7 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	
 	if ( $sort_value > 0 ) {
 			
-		$update = update_post_meta( $post_id, 'product_sort_order', $sort_value );
+		$update = update_post_meta( $post_id, 'product_sort_order', (int) $sort_value );
 
 	}
 	

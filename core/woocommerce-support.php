@@ -919,7 +919,7 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		$term = get_term( $term->parent, 'product_cat' );
 	}
 	
-	// Only sort in this way for Instruments and Mouthpieces
+	// Only sort in this way for Instruments, Mouthpieces and Accessories
 	if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' ) return;
 	
 	$query->set( 'meta_key', 'product_sort_order' );

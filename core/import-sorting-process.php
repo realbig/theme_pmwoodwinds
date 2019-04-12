@@ -83,7 +83,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		
 		if ( $sort_value > 0 ) {
 			
-			$update = update_post_meta( $product_id, 'product_sort_order', $sort_value );
+			$update = update_post_meta( $product_id, 'product_sort_order', (int) $sort_value );
 			
 		}
 		
