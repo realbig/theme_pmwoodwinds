@@ -1076,17 +1076,13 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
         return;
 	
-	// AJAX? Not used here
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) 
-        return;
-	
 	// Check user permissions
 	if ( ! current_user_can( 'edit_post', $post_id ) )
         return;
 	
 	// Return if it's a post revision
 	if ( false !== wp_is_post_revision( $post_id ) )
-        return;
+				return;
 	
 	if ( ! isset( $_POST['tax_input'] ) || ! isset( $_POST['tax_input']['product_cat'] ) )
 		return;
