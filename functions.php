@@ -6,7 +6,6 @@ define( 'THEME_VER', $theme_header->get( 'Version' ) );
 define( 'THEME_URL', get_template_directory_uri() );
 define( 'THEME_DIR', get_template_directory() );
 
-session_start();
 require_once('vendor/autoload.php');
 require_once('excel.php');
 if ( ! function_exists( 'softicious' ) ) :
