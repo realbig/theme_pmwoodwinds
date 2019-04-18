@@ -1543,3 +1543,137 @@ function pmwoodwind_get_featured_event() {
 	return false;
 	
 }
+
+add_action( 'init', 'pmwoodwind_register_video_post_type' );
+
+function pmwoodwind_register_video_post_type() {
+
+	$labels = array(
+		'name'               => __( 'Videos', 'pmWoodwind' ),
+		'singular_name'      => __( 'Video', 'pmWoodwind' ),
+		'menu_name'          => __( 'Videos', 'pmWoodwind' ),
+		'name_admin_bar'     => __( 'Video', 'pmWoodwind' ),
+		'add_new'            => __( 'Add New', 'pmWoodwind' ),
+		'add_new_item'       => __( 'Add New Video', 'pmWoodwind' ),
+		'new_item'           => __( 'New Video', 'pmWoodwind' ),
+		'edit_item'          => __( 'Edit Video', 'pmWoodwind' ),
+		'view_item'          => __( 'View Video', 'pmWoodwind' ),
+		'all_items'          => __( 'All Videos', 'pmWoodwind' ),
+		'search_items'       => __( 'Search Videos', 'pmWoodwind' ),
+		'parent_item_colon'  => __( 'Parent Videos:', 'pmWoodwind' ),
+		'not_found'          => __( 'No videos found.', 'pmWoodwind' ),
+		'not_found_in_trash' => __( 'No videos found in Trash.', 'pmWoodwind' ),
+	);
+
+	$args = array(
+		'menu_icon'          => 'dashicons-video-alt2',
+		'labels'             => $labels,
+		'description'        => __( 'Description.', 'pmWoodwind' ),
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'video' ),
+		'capability_type'    => 'post',
+		'has_archive'        => false,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )
+	);
+
+	register_post_type( 'video', $args );
+
+	$labels = array(
+		'name'              => __( 'Video Categories', 'pmWoodwind' ),
+		'singular_name'     => __( 'Video Category', 'pmWoodwind' ),
+		'search_items'      => __( 'Search Video Categories', 'pmWoodwind' ),
+		'all_items'         => __( 'All Video Categories', 'pmWoodwind' ),
+		'parent_item'       => __( 'Parent Video Category', 'pmWoodwind' ),
+		'parent_item_colon' => __( 'Parent Video Category:', 'pmWoodwind' ),
+		'edit_item'         => __( 'Edit Video Category', 'pmWoodwind' ),
+		'update_item'       => __( 'Update Video Category', 'pmWoodwind' ),
+		'add_new_item'      => __( 'Add New Video Category', 'pmWoodwind' ),
+		'new_item_name'     => __( 'New Video Category Name', 'pmWoodwind' ),
+		'menu_name'         => __( 'Video Category', 'pmWoodwind' ),
+	);
+
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'video-category' ),
+	);
+
+	register_taxonomy( 'video-category', array( 'video' ), $args );
+
+}
+
+add_action( 'init', 'pmwoodwind_register_media_post_type' );
+
+function pmwoodwind_register_media_post_type() {
+
+	$labels = array(
+		'name'               => __( 'Media', 'pmWoodwind' ),
+		'singular_name'      => __( 'Media', 'pmWoodwind' ),
+		'menu_name'          => __( 'Media', 'pmWoodwind' ),
+		'name_admin_bar'     => __( 'Media', 'pmWoodwind' ),
+		'add_new'            => __( 'Add New', 'pmWoodwind' ),
+		'add_new_item'       => __( 'Add New Media', 'pmWoodwind' ),
+		'new_item'           => __( 'New Media', 'pmWoodwind' ),
+		'edit_item'          => __( 'Edit Media', 'pmWoodwind' ),
+		'view_item'          => __( 'View Media', 'pmWoodwind' ),
+		'all_items'          => __( 'All Media', 'pmWoodwind' ),
+		'search_items'       => __( 'Search Media', 'pmWoodwind' ),
+		'parent_item_colon'  => __( 'Parent Media:', 'pmWoodwind' ),
+		'not_found'          => __( 'No media found.', 'pmWoodwind' ),
+		'not_found_in_trash' => __( 'No media found in Trash.', 'pmWoodwind' ),
+	);
+
+	$args = array(
+		'menu_icon'          => 'dashicons-video-alt2',
+		'labels'             => $labels,
+		'description'        => __( 'Description.', 'pmWoodwind' ),
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'media' ),
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )
+	);
+
+	register_post_type( 'media', $args );
+
+	$labels = array(
+		'name'              => __( 'Media Types', 'pmWoodwind' ),
+		'singular_name'     => __( 'Media Type', 'pmWoodwind' ),
+		'search_items'      => __( 'Search Media Types', 'pmWoodwind' ),
+		'all_items'         => __( 'All Media Types', 'pmWoodwind' ),
+		'parent_item'       => __( 'Parent Media Type', 'pmWoodwind' ),
+		'parent_item_colon' => __( 'Parent Media Type:', 'pmWoodwind' ),
+		'edit_item'         => __( 'Edit Media Type', 'pmWoodwind' ),
+		'update_item'       => __( 'Update Media Type', 'pmWoodwind' ),
+		'add_new_item'      => __( 'Add New Media Type', 'pmWoodwind' ),
+		'new_item_name'     => __( 'New Media Type Name', 'pmWoodwind' ),
+		'menu_name'         => __( 'Media Types', 'pmWoodwind' ),
+	);
+
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'mediatype' ),
+	);
+
+	register_taxonomy( 'mediatype', array( 'media' ), $args );
+
+}
