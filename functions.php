@@ -402,8 +402,7 @@ add_action( 'admin_init', function() {
 			);
 
 
-
-
+			global $wpdb;
 
 			$newid = wp_insert_post( $new );
 			if($newid):
