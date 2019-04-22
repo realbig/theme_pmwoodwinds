@@ -21,49 +21,48 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 	 */
 	protected function task( $product_id ) {
 		
-		$terms = get_the_terms( $product_id, 'product_cat' );
+		$post_term_ids = get_the_terms( $product_id, 'product_cat' );
+
+		$term_ids = array();
 		
-		if ( ! is_array( $terms ) ) $terms = array();
+		if ( is_array( $post_term_ids ) ) {
+
+			foreach ( $post_term_ids as $term ) {
+				$term_ids[] = $term->term_id;
+			}
+
+		}
 		
-		$instrument_key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
-		$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
-		$accessory_key = array_map( 'strtolower', pmwoodwind_get_accessory_sorting_key() );
+		$instrument_key = pmwoodwind_get_instrument_sorting_key();
+		$mouthpiece_key = pmwoodwind_get_mouthpiece_sorting_key();
+		$accessory_key = pmwoodwind_get_accessory_sorting_key();
 		
 		$sort_value = 0;
 		
-		$is_instrument = false;
-		$is_mouthpiece = false;
-		$is_accessory = false;
+		// We have methods for this, but they'd call the functions to get the keys an additional time for every product. 
+		$is_instrument = array_intersect( $term_ids, $instrument_key );
+		$is_mouthpiece = array_intersect( $term_ids, $mouthpiece_key );
+		$is_accessory = array_intersect( $term_ids, $accessory_key );
+
+		$index = false;
 		
-		$is_instrument = array_filter( $terms, function( $term ) {
-			return ( $term->slug == 'instruments' ) ? true : false;
-		} );
-		
-		$is_mouthpiece = array_filter( $terms, function( $term ) {
-			return ( $term->slug == 'mouthpieces' ) ? true : false;
-		} );
-		
-		$is_accessory = array_filter( $terms, function( $term ) {
-			return ( $term->slug == 'accessories' ) ? true : false;
-		} );
-		
-		foreach ( $terms as $term ) {
+		foreach ( $term_ids as $term_id ) {
 			
 			if ( $is_instrument ) {
 			
-				$index = array_search( strtolower( $term->name ), $instrument_key );
+				$index = array_search( $term_id, $instrument_key );
 				
 			}
 			else if ( $is_mouthpiece ) {
 			
 				// Check against mouthpieces
-				$index = array_search( strtolower( $term->name ), $mouthpiece_key );
+				$index = array_search( $term_id, $mouthpiece_key );
 
 			}
 			else if ( $is_accessory ) {
 			
 				// Check against Accessories
-				$index = array_search( strtolower( $term->name ), $accessory_key );
+				$index = array_search( $term_id, $accessory_key );
 
 			}
 
