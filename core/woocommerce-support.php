@@ -1222,3 +1222,20 @@ function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
 	return $link;
 	
 }
+
+add_filter( 'the_title', function( $title, $post_id ) {
+
+	if ( is_single() || 
+	   get_post_type( $post_id ) !== 'product' ) {
+		return $title;
+	}
+
+	if ( pmwoodwind_is_new_product( $post_id ) ) {
+
+		return __( 'New - ', 'pmWoodwind' ) . $title;
+
+	}
+
+	return $title;
+
+}, 10, 2 );
