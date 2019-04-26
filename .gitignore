@@ -8,4 +8,4 @@ config.yml
 *.swp
 composer.lock
 package-lock.json
-.vscode
+.vscode/

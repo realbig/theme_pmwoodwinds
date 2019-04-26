@@ -115,44 +115,58 @@ function pmwoodwind_is_horn($postid){
 	}	
 	return $mouthpiece;
 }
-function pmwoodwind_is_instrument($postid){
-	$types = wp_get_post_terms($postid, 'product_cat');
-	$mouthpiece = false;
-	foreach($types as $type){
+function pmwoodwind_is_instrument( $post_id = null ) {
 
-		if($type->slug == 'instruments'){
-		
-			$mouthpiece = true;
-			break;
-		}
-	}	
-	return $mouthpiece;
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$instrument_term_ids = pmwoodwind_get_instrument_sorting_key();
+
+	$post_term_ids = wp_get_post_terms( $post_id, 'product_cat', array( 'fields' => 'ids' ) );
+
+	if ( array_intersect( $post_term_ids, $instrument_term_ids ) ) {
+		return true;
+	}
+
+	return false;
+	
 }
-function pmwoodwind_is_mouthpiece($postid){
-	$types = wp_get_post_terms($postid, 'product_cat');
-	$mouthpiece = false;
-	foreach($types as $type){
 
-		if($type->slug == 'mouthpieces'){
-		
-			$mouthpiece = true;
-			break;
-		}
-	}	
-	return $mouthpiece;
+function pmwoodwind_is_mouthpiece( $post_id ) {
+
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$mouthpiece_term_ids = pmwoodwind_get_mouthpiece_sorting_key();
+
+	$post_term_ids = wp_get_post_terms( $post_id, 'product_cat', array( 'fields' => 'ids' ) );
+
+	if ( array_intersect( $post_term_ids, $mouthpiece_term_ids ) ) {
+		return true;
+	}
+
+	return false;
+
 }
-function pmwoodwind_is_accessory($postid){
-	$types = wp_get_post_terms($postid, 'product_cat');
-	$accesory = false;
-	foreach($types as $type){
 
-		if($type->slug == 'accessories'){
-		
-			$accesory = true;
-			break;
-		}
-	}	
-	return $accesory;
+function pmwoodwind_is_accessory( $post_id ) {
+
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$accessory_term_ids = pmwoodwind_get_accessory_sorting_key();
+
+	$post_term_ids = wp_get_post_terms( $post_id, 'product_cat', array( 'fields' => 'ids' ) );
+
+	if ( array_intersect( $post_term_ids, $accessory_term_ids ) ) {
+		return true;
+	}
+
+	return false;
+
 }
 
 // Legacy. Only used by the import script as a way to determine which Images belong to which Product
@@ -402,8 +416,7 @@ add_action( 'admin_init', function() {
 			);
 
 
-
-
+			global $wpdb;
 
 			$newid = wp_insert_post( $new );
 			if($newid):
@@ -940,31 +953,13 @@ function pmwoodwind_add_sidebars() {
  * @return		array Sorting Key
  */
 function pmwoodwind_get_instrument_sorting_key() {
+
+	$instrument_term = get_term_by( 'slug', 'instruments', 'product_cat' );
+	$instrument_term_id = (int) $instrument_term->term_id;
+
+	$terms = pmwoodwind_get_product_category_list_recursive( $instrument_term_id );
 	
-	return apply_filters( 'pmwoodwind_get_instrument_sorting_key', array(
-		'Sopranino Saxophones',
-		'Soprano Saxophones',
-		'Alto Saxophones',
-		'C Melody saxophones',
-		'Tenor Saxophones',
-		'Baritone saxophones',
-		'Bass Saxophones',
-		'Electronic Saxophones',
-		'Bb Clarinets',
-		'A Clarinets',
-		'Eb Clarinets',
-		'Alto Clarinets',
-		'Bass Clarinets',
-		'Contra Alto Clarinets',
-		'Contra Bass Clarinets',
-		'Piccolos',
-		'Flutes',
-		'Alto Flutes',
-		'Bass Flutes',
-		'Oboes',
-		'Bassoons',
-		'English Horns',
-	) );
+	return apply_filters( 'pmwoodwind_get_instrument_sorting_key', $terms );
 	
 }
 
@@ -976,25 +971,13 @@ function pmwoodwind_get_instrument_sorting_key() {
  * @return		array Sorting Key
  */
 function pmwoodwind_get_mouthpiece_sorting_key() {
+
+	$mouthpiece_term = get_term_by( 'slug', 'mouthpieces', 'product_cat' );
+	$mouthpiece_term_id = (int) $mouthpiece_term->term_id;
+
+	$terms = pmwoodwind_get_product_category_list_recursive( $mouthpiece_term_id );
 	
-	return apply_filters( 'pmwoodwind_get_mouthpiece_sorting_key', array(
-		'Brass Mouthpieces',
-		'Sopranino Mouthpieces',
-		'Soprano Mouthpieces',
-		'Hard Rubber Soprano Mouthpieces',
-		'Metal Soprano Mouthpieces',
-		'Alto Mouthpieces',
-		'Metal Alto Mouthpieces',
-		'Rubber Alto Mouthpieces',
-		'Tenor Mouthpieces',
-		'Metal Tenor Mouthpieces',
-		'Hard Rubber Tenor Mouthpieces',
-		'Baritone Mouthpieces',
-		'Metal Baritone Mouthpiece',
-		'Hard Rubber Baritone Mouthpieces',
-		'Clarinet Mouthpieces',
-		'Bass Clarinet Mouthpieces',
-	) );
+	return apply_filters( 'pmwoodwind_get_mouthpiece_sorting_key', $terms );
 	
 }
 
@@ -1006,55 +989,39 @@ function pmwoodwind_get_mouthpiece_sorting_key() {
  * @return		array Sorting Key
  */
 function pmwoodwind_get_accessory_sorting_key() {
+
+	$accessory_term = get_term_by( 'slug', 'accessories', 'product_cat' );
+	$accessory_term_id = (int) $accessory_term->term_id;
+
+	$terms = pmwoodwind_get_product_category_list_recursive( $accessory_term_id );
 	
-	return apply_filters( 'pmwoodwind_get_accessory_sorting_key', array(
-		'Music',
-		'Books',
-		'Instrument Cases',
-		'Soprano Saxophone Cases',
-		'Alto Saxophone Cases',
-		'Tenor Saxophone Cases',
-		'Baritone Saxophone Cases',
-		'Flute Cases',
-		'Clarinet Cases',
-		'Case Straps',
-		'Ligatures',
-		'Clarinet', // The next couple are children of Ligatures. No other Categories are so generic so this should not be a problem
-		'Saxophones',
-		'Maintenance',
-		'Brass',
-		'Woodwind',
-		'Instrument Enhancers',
-		'Other',
-		'Neck Straps',
-		'Harnesses',
-		'Straps',
-		'Reeds',
-		'Synthetic Reeds',
-		'Saxophone Reeds',
-		'Sopranino Saxophone Reeds',
-		'Soprano Saxophone Reeds',
-		'Alto Saxophone Reeds',
-		'Tenor Saxophone Reeds',
-		'Baritone Saxophone Reeds',
-		'Bass Saxophone Reeds',
-		'Clarinet Reeds',
-		'Bb Clarinet Reeds',
-		'Harmony Clarinet Reeds',
-		'Bass Clarinet Reeds',
-		'Reed Cases',
-		'Resonators',
-		'Alto',
-		'Stands',
-		'Clarinet Stands',
-		'Flute Stands',
-		'Saxophone Stands',
-		'Soprano Saxophone Stands',
-		'Alto/Tenor Saxophone Stands',
-		'Baritone Saxophone Stands',
-		'Music Stands',
-	) );
+	return apply_filters( 'pmwoodwind_get_accessory_sorting_key', $terms );
 	
+}
+
+function pmwoodwind_get_product_category_list_recursive( $term_id, &$sorted = array() ) {
+
+	// We need the term_order key, so we cannot only pull in the Term ID
+	$terms = get_terms( 'product_cat', array( 'parent' => $term_id, 'hide_empty' => false ) );
+
+	usort( $terms, 'pmwoodwind_sort_by_term_order' );
+
+	foreach ( $terms as $term ) {
+
+		$sorted[] = $term->term_id;
+
+		pmwoodwind_get_product_category_list_recursive( $term->term_id, $sorted );
+
+	}
+
+	return $sorted;
+
+}
+
+function pmwoodwind_sort_by_term_order( $a, $b ) {
+
+	return $a->term_order > $b->term_order;
+
 }
 
 add_action( 'save_post', 'pmwoodwind_save_product_sorting_key' );
@@ -1088,54 +1055,43 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	
 	$sort_value = 0;
 	
-	$instrument_key = array_map( 'strtolower', pmwoodwind_get_instrument_sorting_key() );
-	$mouthpiece_key = array_map( 'strtolower', pmwoodwind_get_mouthpiece_sorting_key() );
-	$accessory_key = array_map( 'strtolower', pmwoodwind_get_accessory_sorting_key() );
+	$instrument_key = pmwoodwind_get_instrument_sorting_key();
+	$mouthpiece_key = pmwoodwind_get_mouthpiece_sorting_key();
+	$accessory_key = pmwoodwind_get_accessory_sorting_key();
 	
 	$is_instrument = false;
 	$is_mouthpiece = false;
 	$is_accessory = false;
-	
-	$instrument_term = get_term_by( 'slug', 'instruments', 'product_cat' );
-	$instrument_term_id = (int) $instrument_term->term_id;
-	
-	$mouthpiece_term = get_term_by( 'slug', 'mouthpieces', 'product_cat' );
-	$mouthpiece_term_id = (int) $mouthpiece_term->term_id;
-	
-	$accessory_term = get_term_by( 'slug', 'accessories', 'product_cat' );
-	$accessory_term_id = (int) $accessory_term->term_id;
 
-	$is_instrument = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $instrument_term_id ) {
-		return ( $term_id == $instrument_term_id ) ? true : false;
-	} );
+	if ( array_intersect( $_POST['tax_input']['product_cat'], $instrument_key ) ) {
+		$is_instrument = true;
+	}
 
-	$is_mouthpiece = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $mouthpiece_term_id ) {
-		return ( $term_id == $mouthpiece_term_id ) ? true : false;
-	} );
+	if ( array_intersect( $_POST['tax_input']['product_cat'], $mouthpiece_key ) ) {
+		$is_mouthpiece = true;
+	}
 
-	$is_accessory = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $accessory_term_id ) {
-		return ( $term_id == $accessory_term_id ) ? true : false;
-	} );
+	if ( array_intersect( $_POST['tax_input']['product_cat'], $accessory_key ) ) {
+		$is_accessory = true;
+	}
 	
 	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
 		
-		$term = get_term( $term_id, 'product_cat' );
-		
 		if ( $is_instrument ) {
 			
-			$index = array_search( strtolower( $term->name ), $instrument_key );
+			$index = array_search( $term_id, $instrument_key );
 
 		}
 		else if ( $is_mouthpiece ) {
 
 			// Check against mouthpieces
-			$index = array_search( strtolower( $term->name ), $mouthpiece_key );
+			$index = array_search( $term_id, $mouthpiece_key );
 
 		}
 		else if ( $is_accessory ) {
 
 			// Check against Accessories
-			$index = array_search( strtolower( $term->name ), $accessory_key );
+			$index = array_search( $term_id, $accessory_key );
 
 		}
 		

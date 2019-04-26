@@ -14,6 +14,11 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 			$this->process_all = new pmwoodwinds_import_sorting_process();
 			
 			add_action( 'admin_init', array( $this, 'process_handler' ) );
+
+			// Re-index whenever someone adds/deletes/reorders the Product Categories
+			add_action( 'create_product_cat', array( $this, 'categories_updated' ) );
+			add_action( 'edited_product_cat', array( $this, 'categories_updated' ) );
+			add_action( 'delete_product_cat', array( $this, 'categories_updated' ) );
 			
 		}
 		
@@ -29,6 +34,12 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 				
 			}
 			
+		}
+
+		public function categories_updated() {
+
+			$this->handle_all();
+
 		}
 		
 		/**
@@ -57,6 +68,7 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 				'post_type' => 'product',
 				'fields' => 'ids',
 				'posts_per_page' => -1,
+				'post_status' => 'publish',
 			) );
 			
 			error_log( count( $products->posts ) . " Products Found. Starting..." );
