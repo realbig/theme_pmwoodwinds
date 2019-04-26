@@ -1,0 +1,28 @@
+body.page-template-clients {
+
+    #clients {
+
+        & > .row {
+            margin-bottom: 1rem;
+        }
+
+        blockquote {
+
+            &, p {
+                margin-top: 0;
+            }
+
+            margin-left: 0;
+            margin-right: 0;
+
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: .5rem;
+        }
+
+    }
+
+}
