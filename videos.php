@@ -61,15 +61,10 @@
 
 								<a href="<?php esc_attr_e( get_term_link( $term, $term->taxonomy ) ); ?>">
 
-									<?php if ( function_exists( 'z_taxonomy_image' ) ) : ?>
-
-										<?php if ( function_exists( 'z_taxonomy_image_url' ) && 
-										z_taxonomy_image_url( $term->term_id ) == '' ) : ?>
-											<?php echo wc_placeholder_img( 'main_image' ); ?>
-										<?php else : ?>
-											<?php echo z_taxonomy_image( $term->term_id, 'main_image' ); ?>
-										<?php endif; ?>
-
+									<?php if ( ! get_term_meta( $term->term_id, 'wpcf-typeimage', true ) ) : ?>
+										<?php echo wc_placeholder_img( 'main_image' ); ?>
+									<?php elseif ( function_exists( 'types_render_termmeta' ) ) : ?>
+										<?php echo types_render_termmeta( 'typeimage', array( 'term_id' => $term->term_id, 'size' => 'main_image' ) ); ?>
 									<?php endif; ?>
 
 									<?php echo $term->name; ?>

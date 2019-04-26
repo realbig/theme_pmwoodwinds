@@ -182,7 +182,7 @@ if ($term->parent > 0){
 						
 						<?php else : ?>
 						
-							<img src="<?php echo $term_image;?>" class="main-image zoom" alt="<?php echo $term->name;?>">
+							<?php echo types_render_termmeta( 'typeimage', array( 'term_id' => $product, 'size' => 'main_image' ) ); ?>
 						
 						<?php endif; ?>
 						
