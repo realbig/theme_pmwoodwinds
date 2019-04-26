@@ -55,7 +55,11 @@ function pmwoodwind_product_main_price($postid) {
 	return get_post_meta($postid,'_price',true);
 	
 }
-function pmwoodwind_is_new_product( $product_id ) {
+function pmwoodwind_is_new_product( $product_id = null ) {
+
+	if ( ! $product_id ) $product_id = get_the_ID();
+
+	if ( ! $product_id ) return false;
 	
 	$product = wc_get_product( $product_id );
 	
