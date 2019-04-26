@@ -53,6 +53,7 @@
 						$terms = get_terms( array(
 							'taxonomy' => 'video-category',
 							'hide_empty' => true,
+							'orderby' => 'term_order',
 						) );
 
 						foreach ( $terms as $term ) : ?>
