@@ -197,11 +197,13 @@
 		</div>
 		<div class="trd-satisfied-user-info">
 			
-			<?php if ( $image_url = get_post_meta($post->ID, 'wpcf-image', true) ) : ?>
-				<div class="trd-user-img-wrapper">
-					<img src="<?php echo $image_url;?>" alt="<?php echo $post->post_title;?>">
-				</div>
-			<?php endif; ?>
+			<div class="trd-user-img-wrapper">
+				<?php if ( ! get_post_meta( $post->ID, 'wpcf-image', true ) ) : ?>
+					<?php echo wc_placeholder_img( 'thumbnail' ); ?>
+				<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
+					<?php echo types_render_field( 'image', array( 'post_id' => $post->ID, 'size' => 'thumbnail' ) ); ?>
+				<?php endif; ?>
+			</div>
 			
 			<h3>
 			

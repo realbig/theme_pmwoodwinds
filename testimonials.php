@@ -51,7 +51,13 @@
 				<div class="testimonial-item">
 						<div class="info">
 						<div class="trd-user-img-wrapper">
-							<img src="<?php echo esc_attr( get_post_meta( get_the_ID(), 'wpcf-image', true) );?>" alt="<?php the_title();?>">
+							
+							<?php if ( ! get_post_meta( $post->ID, 'wpcf-image', true ) ) : ?>
+								<?php echo wc_placeholder_img( 'thumbnail' ); ?>
+							<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
+								<?php echo types_render_field( 'image', array( 'post_id' => $post->ID, 'size' => 'thumbnail' ) ); ?>
+							<?php endif; ?>
+
 						</div>           
 
 					</div>

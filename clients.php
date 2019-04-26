@@ -64,12 +64,16 @@
 				<div class="row">
 
 					<div class="col-sm-12 col-md-4 trd-satisfied-user-info">
+
+						<div class="trd-user-img-wrapper">
 						
-						<?php if ( ! get_post_meta( get_the_ID(), 'wpcf-image', true ) ) : ?>
-							<?php echo wc_placeholder_img( 'thumbnail' ); ?>
-						<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
-							<?php echo types_render_field( 'image', array( 'size' => 'thumbnail' ) ); ?>
-						<?php endif; ?>
+							<?php if ( ! get_post_meta( get_the_ID(), 'wpcf-image', true ) ) : ?>
+								<?php echo wc_placeholder_img( 'thumbnail' ); ?>
+							<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
+								<?php echo types_render_field( 'image', array( 'size' => 'thumbnail' ) ); ?>
+							<?php endif; ?>
+
+						</div>
 						
 						<h3>
 						
