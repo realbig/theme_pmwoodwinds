@@ -186,7 +186,9 @@
 		'numberposts'	=> 6,
 		'post_type'		=> 'clients',
 		'meta_key'		=> 'wpcf-show-in-home',
-		'meta_value'	=> 'yes'
+		'meta_value'	=> 'yes',
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
 	));
 	foreach($posts as $post):?>
 	<div class="trd-testimonial-slides">

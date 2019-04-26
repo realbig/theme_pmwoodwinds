@@ -33,7 +33,9 @@
 	 $posts = new WP_Query(array(
 		'posts_per_page'	=> -1,
 		'post_type'		=> 'clients',
-		'meta_key'		=> 'wpcf-testimonial'
+		'meta_key'		=> 'wpcf-testimonial',
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
 	));
 		 
 	global $post;
