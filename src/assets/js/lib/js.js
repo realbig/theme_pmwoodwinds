@@ -21,6 +21,11 @@ jQuery( document ).on( "click", ".lg-actions .lg-icon", function() {
 z = 0;
 jQuery("span#lg-zoom-in").show();
 });
+
+import ResponsiveBootstrapToolkit from 'responsive-toolkit';
+
+( function( $, viewport ) {
+
 jQuery(document).ready(function($) {
     "use strict";
 	
@@ -32,32 +37,37 @@ jQuery(document).ready(function($) {
 		
 	} );
 
-		 $('.lg-actions .lg-icon').hide();
-        $('#trd-testimonial').not('.slick-initialized').slick({
-            infinite: true,
-            speed: 300,
-            autoplay: true,
-            autoplaySpeed: 5000,
-            speed: 1000,
-            slidesToShow: 3,
-            centerMode: true,
-			centerPadding : '12px',
-            responsive: [{
-              breakpoint: 1023,
-              settings: {
-                slidesToShow: 3
-              }
+         $('.lg-actions .lg-icon').hide();
+         
+         if ( viewport.is( '>md' ) ) {
 
-            }, {
-
-              breakpoint: 767,
-              settings: {
+            $('#trd-testimonial').not('.slick-initialized').slick({
+                infinite: true,
+                speed: 300,
+                autoplay: true,
+                autoplaySpeed: 5000,
+                speed: 1000,
                 slidesToShow: 3,
-                centerPadding : '10px'
-              }
+                centerMode: true,
+                centerPadding : '12px',
+                responsive: [{
+                breakpoint: 1023,
+                settings: {
+                    slidesToShow: 3
+                }
 
-            }]
-        });     
+                }, {
+
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 3,
+                    centerPadding : '10px'
+                }
+
+                }]
+            });  
+            
+        }
 
 
 	$("#instruments .category").mouseover(function() {
@@ -182,3 +192,5 @@ jQuery(document).ready(function($) {
     }).scroll();
 
 });// END READY
+
+} )( jQuery, ResponsiveBootstrapToolkit );

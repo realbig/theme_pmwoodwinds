@@ -142,28 +142,270 @@ exports.GetYoDigits = GetYoDigits;
 exports.transitionend = transitionend;
 
 /***/ }),
-/* 2 */,
-/* 3 */
+/* 2 */
+/***/ (function(module, exports) {
+
+/*!
+ * Responsive Bootstrap Toolkit
+ * Author:    Maciej Gurban
+ * License:   MIT
+ * Version:   2.6.3 (2016-06-21)
+ * Origin:    https://github.com/maciej-gurban/responsive-bootstrap-toolkit
+ */
+var ResponsiveBootstrapToolkit = (function($){
+
+    // Internal methods
+    var internal = {
+
+        /**
+         * Breakpoint detection divs for each framework version
+         */
+        detectionDivs: {
+            // Bootstrap 3
+            bootstrap: {
+                'xs': $('<div class="device-xs visible-xs visible-xs-block"></div>'),
+                'sm': $('<div class="device-sm visible-sm visible-sm-block"></div>'),
+                'md': $('<div class="device-md visible-md visible-md-block"></div>'),
+                'lg': $('<div class="device-lg visible-lg visible-lg-block"></div>')
+            },
+            // Foundation 5
+            foundation: {
+                'small':  $('<div class="device-xs show-for-small-only"></div>'),
+                'medium': $('<div class="device-sm show-for-medium-only"></div>'),
+                'large':  $('<div class="device-md show-for-large-only"></div>'),
+                'xlarge': $('<div class="device-lg show-for-xlarge-only"></div>')
+            }
+        },
+
+         /**
+         * Append visibility divs after DOM laoded
+         */
+        applyDetectionDivs: function() {
+            $(document).ready(function(){
+                $.each(self.breakpoints, function(alias){
+                    self.breakpoints[alias].appendTo('.responsive-bootstrap-toolkit');
+                });
+            });
+        },
+
+        /**
+         * Determines whether passed string is a parsable expression
+         */
+        isAnExpression: function( str ) {
+            return (str.charAt(0) == '<' || str.charAt(0) == '>');
+        },
+
+        /**
+         * Splits the expression in into <|> [=] alias
+         */
+        splitExpression: function( str ) {
+
+            // Used operator
+            var operator = str.charAt(0);
+            // Include breakpoint equal to alias?
+            var orEqual  = (str.charAt(1) == '=') ? true : false;
+
+            /**
+             * Index at which breakpoint name starts.
+             *
+             * For:  >sm, index = 1
+             * For: >=sm, index = 2
+             */
+            var index = 1 + (orEqual ? 1 : 0);
+
+            /**
+             * The remaining part of the expression, after the operator, will be treated as the
+             * breakpoint name to compare with
+             */
+            var breakpointName = str.slice(index);
+
+            return {
+                operator:       operator,
+                orEqual:        orEqual,
+                breakpointName: breakpointName
+            };
+        },
+
+        /**
+         * Returns true if currently active breakpoint matches the expression
+         */
+        isAnyActive: function( breakpoints ) {
+            var found = false;
+            $.each(breakpoints, function( index, alias ) {
+                // Once first breakpoint matches, return true and break out of the loop
+                if( self.breakpoints[ alias ].is(':visible') ) {
+                    found = true;
+                    return false;
+                }
+            });
+            return found;
+        },
+
+        /**
+         * Determines whether current breakpoint matches the expression given
+         */
+        isMatchingExpression: function( str ) {
+
+            var expression = internal.splitExpression( str );
+
+            // Get names of all breakpoints
+            var breakpointList = Object.keys(self.breakpoints);
+
+            // Get index of sought breakpoint in the list
+            var pos = breakpointList.indexOf( expression.breakpointName );
+
+            // Breakpoint found
+            if( pos !== -1 ) {
+
+                var start = 0;
+                var end   = 0;
+
+                /**
+                 * Parsing viewport.is('<=md') we interate from smallest breakpoint ('xs') and end
+                 * at 'md' breakpoint, indicated in the expression,
+                 * That makes: start = 0, end = 2 (index of 'md' breakpoint)
+                 *
+                 * Parsing viewport.is('<md') we start at index 'xs' breakpoint, and end at
+                 * 'sm' breakpoint, one before 'md'.
+                 * Which makes: start = 0, end = 1
+                 */
+                if( expression.operator == '<' ) {
+                    start = 0;
+                    end   = expression.orEqual ? ++pos : pos;
+                }
+                /**
+                 * Parsing viewport.is('>=sm') we interate from breakpoint 'sm' and end at the end
+                 * of breakpoint list.
+                 * That makes: start = 1, end = undefined
+                 *
+                 * Parsing viewport.is('>sm') we start at breakpoint 'md' and end at the end of
+                 * breakpoint list.
+                 * Which makes: start = 2, end = undefined
+                 */
+                if( expression.operator == '>' ) {
+                    start = expression.orEqual ? pos : ++pos;
+                    end   = undefined;
+                }
+
+                var acceptedBreakpoints = breakpointList.slice(start, end);
+
+                return internal.isAnyActive( acceptedBreakpoints );
+
+            }
+        }
+
+    };
+
+    // Public methods and properties
+    var self = {
+
+        /**
+         * Determines default debouncing interval of 'changed' method
+         */
+        interval: 300,
+
+        /**
+         *
+         */
+        framework: null,
+
+        /**
+         * Breakpoint aliases, listed from smallest to biggest
+         */
+        breakpoints: null,
+
+        /**
+         * Returns true if current breakpoint matches passed alias
+         */
+        is: function( str ) {
+            if( internal.isAnExpression( str ) ) {
+                return internal.isMatchingExpression( str );
+            }
+            return self.breakpoints[ str ] && self.breakpoints[ str ].is(':visible');
+        },
+
+        /**
+         * Determines which framework-specific breakpoint detection divs to use
+         */
+        use: function( frameworkName, breakpoints ) {
+            self.framework = frameworkName.toLowerCase();
+
+            if( self.framework === 'bootstrap' || self.framework === 'foundation') {
+                self.breakpoints = internal.detectionDivs[ self.framework ];
+            } else {
+                self.breakpoints = breakpoints;
+            }
+
+            internal.applyDetectionDivs();
+        },
+
+        /**
+         * Returns current breakpoint alias
+         */
+        current: function(){
+            var name = 'unrecognized';
+            $.each(self.breakpoints, function(alias){
+                if (self.is(alias)) {
+                    name = alias;
+                }
+            });
+            return name;
+        },
+
+        /*
+         * Waits specified number of miliseconds before executing a callback
+         */
+        changed: function(fn, ms) {
+            var timer;
+            return function(){
+                clearTimeout(timer);
+                timer = setTimeout(function(){
+                    fn();
+                }, ms || self.interval);
+            };
+        }
+
+    };
+
+    // Create a placeholder
+    $(document).ready(function(){
+        $('<div class="responsive-bootstrap-toolkit"></div>').appendTo('body');
+    });
+
+    if( self.framework === null ) {
+        self.use('bootstrap');
+    }
+
+    return self;
+
+})(jQuery);
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ResponsiveBootstrapToolkit;
+}
+
+
+/***/ }),
+/* 3 */,
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+__webpack_require__(34);
+
 __webpack_require__(33);
 
 __webpack_require__(32);
 
-__webpack_require__(31);
-
 __webpack_require__(36);
 
-__webpack_require__(34);
+__webpack_require__(35);
 
-__webpack_require__(8);
+__webpack_require__(9);
 
-__webpack_require__(10);
-
-__webpack_require__(15);
+__webpack_require__(11);
 
 __webpack_require__(16);
 
@@ -181,9 +423,11 @@ __webpack_require__(22);
 
 __webpack_require__(23);
 
-__webpack_require__(26);
+__webpack_require__(24);
 
-__webpack_require__(30);
+__webpack_require__(27);
+
+__webpack_require__(31);
 
 var _jquery = __webpack_require__(0);
 
@@ -193,31 +437,31 @@ var _whatInput = __webpack_require__(37);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
-var _foundation = __webpack_require__(4);
+var _foundation = __webpack_require__(5);
 
-var _foundationUtil = __webpack_require__(6);
+var _foundationUtil = __webpack_require__(7);
 
-__webpack_require__(25);
-
-__webpack_require__(13);
-
-__webpack_require__(27);
-
-__webpack_require__(24);
+__webpack_require__(26);
 
 __webpack_require__(14);
 
-__webpack_require__(12);
+__webpack_require__(28);
 
-__webpack_require__(9);
+__webpack_require__(25);
+
+__webpack_require__(15);
+
+__webpack_require__(13);
+
+__webpack_require__(10);
+
+__webpack_require__(30);
 
 __webpack_require__(29);
 
-__webpack_require__(28);
+__webpack_require__(8);
 
-__webpack_require__(7);
-
-__webpack_require__(11);
+__webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -230,7 +474,7 @@ _foundation.Foundation.Motion = _foundationUtil.Motion;
 module.exports = _foundation.Foundation;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -249,7 +493,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _foundationUtil = __webpack_require__(1);
 
-var _foundationUtil2 = __webpack_require__(5);
+var _foundationUtil2 = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -595,7 +839,7 @@ function hyphenate(str) {
 exports.Foundation = Foundation;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -847,7 +1091,7 @@ function parseStyleToObject(str) {
 exports.MediaQuery = MediaQuery;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -966,7 +1210,7 @@ exports.Move = Move;
 exports.Motion = Motion;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1000,7 +1244,7 @@ exports.Motion = Motion;
 })(jQuery);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1413,7 +1657,7 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1433,7 +1677,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1459,7 +1703,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1500,7 +1744,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1517,7 +1761,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1800,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1618,7 +1862,7 @@ function resizeIframe(iFrame) {
 })(jQuery);
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1705,7 +1949,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(undefined);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1789,7 +2033,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery || window.Zepto);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2192,7 +2436,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2262,11 +2506,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+var _responsiveToolkit = __webpack_require__(2);
+
+var _responsiveToolkit2 = _interopRequireDefault(_responsiveToolkit);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2293,155 +2543,162 @@ jQuery(document).on("click", ".lg-actions .lg-icon", function () {
     z = 0;
     jQuery("span#lg-zoom-in").show();
 });
-jQuery(document).ready(function ($) {
-    "use strict";
 
-    var _$$not$slick;
+(function ($, viewport) {
 
-    $(document).on('click', '.single-product .zoomImg', function () {
+    jQuery(document).ready(function ($) {
+        "use strict";
 
-        var href = $(this).attr('src').replace(/-\d+x\d+/, '');
+        $(document).on('click', '.single-product .zoomImg', function () {
 
-        $('.slick-track a[href="' + href + '"]').click();
-    });
+            var href = $(this).attr('src').replace(/-\d+x\d+/, '');
 
-    $('.lg-actions .lg-icon').hide();
-    $('#trd-testimonial').not('.slick-initialized').slick((_$$not$slick = {
-        infinite: true,
-        speed: 300,
-        autoplay: true,
-        autoplaySpeed: 5000
-    }, _defineProperty(_$$not$slick, "speed", 1000), _defineProperty(_$$not$slick, "slidesToShow", 3), _defineProperty(_$$not$slick, "centerMode", true), _defineProperty(_$$not$slick, "centerPadding", '12px'), _defineProperty(_$$not$slick, "responsive", [{
-        breakpoint: 1023,
-        settings: {
-            slidesToShow: 3
+            $('.slick-track a[href="' + href + '"]').click();
+        });
+
+        $('.lg-actions .lg-icon').hide();
+
+        if (viewport.is('>md')) {
+            var _$$not$slick;
+
+            $('#trd-testimonial').not('.slick-initialized').slick((_$$not$slick = {
+                infinite: true,
+                speed: 300,
+                autoplay: true,
+                autoplaySpeed: 5000
+            }, _defineProperty(_$$not$slick, "speed", 1000), _defineProperty(_$$not$slick, "slidesToShow", 3), _defineProperty(_$$not$slick, "centerMode", true), _defineProperty(_$$not$slick, "centerPadding", '12px'), _defineProperty(_$$not$slick, "responsive", [{
+                breakpoint: 1023,
+                settings: {
+                    slidesToShow: 3
+                }
+
+            }, {
+
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 3,
+                    centerPadding: '10px'
+                }
+
+            }]), _$$not$slick));
         }
 
-    }, {
+        $("#instruments .category").mouseover(function () {
+            $("#instruments .category").removeClass('main');
+            $(this).addClass('main');
+        });
+        // === Header Menu Button ===
+        $('#menu-button').on('click', function (e) {
+            e.preventDefault();
+            $(this).toggleClass('close-icon');
+            $('#main-nav').toggleClass('fade');
+        });
 
-        breakpoint: 767,
-        settings: {
-            slidesToShow: 3,
-            centerPadding: '10px'
+        $('#main-nav').on('click', function () {
+            $('#menu-button').removeClass('close-icon');
+            $('#main-nav').removeClass('fade');
+        });
+
+        // === LightGallery Home ===
+        if ($('#gallery').length > 0) {
+            // $("#gallery").lightGallery();
+        }
+        if ($('#pmwoodwind_product_images').length > 0) {
+            $("#pmwoodwind_product_images").lightGallery();
         }
 
-    }]), _$$not$slick));
-
-    $("#instruments .category").mouseover(function () {
-        $("#instruments .category").removeClass('main');
-        $(this).addClass('main');
-    });
-    // === Header Menu Button ===
-    $('#menu-button').on('click', function (e) {
-        e.preventDefault();
-        $(this).toggleClass('close-icon');
-        $('#main-nav').toggleClass('fade');
-    });
-
-    $('#main-nav').on('click', function () {
-        $('#menu-button').removeClass('close-icon');
-        $('#main-nav').removeClass('fade');
-    });
-
-    // === LightGallery Home ===
-    if ($('#gallery').length > 0) {
-        // $("#gallery").lightGallery();
-    }
-    if ($('#pmwoodwind_product_images').length > 0) {
-        $("#pmwoodwind_product_images").lightGallery();
-    }
-
-    // === Countdown index.html config ===
-    if ($('#countdown-home-1').length > 0) {
-        $("#countdown-home-1").countdown({
-            date: "30 march 2016 12:00:00", // Edit this line
-            format: "on"
-        }, function () {
-            // This will run when the countdown ends
-        });
-    }
-
-    // === Countdown track.html config ===
-    if ($('#countdown-1').length > 0) {
-        $("#countdown-1").countdown({
-            date: "30 march 2016 12:00:00", // Edit this line
-            format: "on"
-        }, function () {
-            // This will run when the countdown ends
-        });
-    }
-    if ($('#countdown-2').length > 0) {
-        $("#countdown-2").countdown({
-            date: "12 march 2016 12:00:00", // Edit this line
-            format: "on"
-        }, function () {
-            // This will run when the countdown ends
-        });
-    }
-
-    // === Form Validation ===
-    // Contact Page Form
-    if ($('#contact-form').length > 0) {
-        $('#contact-form').validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: true
-                }
-            }, //end rules
-            messages: {
-                email: {
-                    required: "Please type a e-mail address.",
-                    email: "This is not a valid email address."
-                }
-            }
-        }); // end validate 
-    }
-
-    // === Responsive Videos ===
-    if ($('.embed-video').length > 0) {
-        $('.embed-video').fitVids();
-    }
-
-    // === ScrollTo annimation ===
-    $('.scrollTo').on('click', function (e) {
-        e.preventDefault();
-        var target = this.hash,
-            $target = $(target);
-        if ($(target).length > 0) {
-            $('body, html').stop().animate({
-                'scrollTop': $(target).offset().top - 0
-            }, 1000, 'swing', function () {
-                window.location.hash = target;
+        // === Countdown index.html config ===
+        if ($('#countdown-home-1').length > 0) {
+            $("#countdown-home-1").countdown({
+                date: "30 march 2016 12:00:00", // Edit this line
+                format: "on"
+            }, function () {
+                // This will run when the countdown ends
             });
         }
-    }); // End Click  
 
-    // === Go to top ===
-    $('.go-to-top').click(function () {
-        $('html, body').animate({ scrollTop: 0 }, 'slow');
-        return false;
-    });
-
-    // === Header Nav BG ===
-    $(window).scroll(function () {
-        if ($(document).scrollTop() > 150) {
-            $('.navigation-bar').addClass('scroll-BG');
-        } else {
-            $('.navigation-bar').removeClass('scroll-BG');
+        // === Countdown track.html config ===
+        if ($('#countdown-1').length > 0) {
+            $("#countdown-1").countdown({
+                date: "30 march 2016 12:00:00", // Edit this line
+                format: "on"
+            }, function () {
+                // This will run when the countdown ends
+            });
         }
-    });
+        if ($('#countdown-2').length > 0) {
+            $("#countdown-2").countdown({
+                date: "12 march 2016 12:00:00", // Edit this line
+                format: "on"
+            }, function () {
+                // This will run when the countdown ends
+            });
+        }
 
-    // === Header Parallax Image Style ===
-    $(window).on('scroll', function () {
-        var curPos = $(window).scrollTop();
-        $('.header-parallax-image').css('background-position', 'right bottom -' + curPos * .8 + 'px');
-        //fadePanels(curPos);
-    }).scroll();
-}); // END READY
+        // === Form Validation ===
+        // Contact Page Form
+        if ($('#contact-form').length > 0) {
+            $('#contact-form').validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                }, //end rules
+                messages: {
+                    email: {
+                        required: "Please type a e-mail address.",
+                        email: "This is not a valid email address."
+                    }
+                }
+            }); // end validate 
+        }
+
+        // === Responsive Videos ===
+        if ($('.embed-video').length > 0) {
+            $('.embed-video').fitVids();
+        }
+
+        // === ScrollTo annimation ===
+        $('.scrollTo').on('click', function (e) {
+            e.preventDefault();
+            var target = this.hash,
+                $target = $(target);
+            if ($(target).length > 0) {
+                $('body, html').stop().animate({
+                    'scrollTop': $(target).offset().top - 0
+                }, 1000, 'swing', function () {
+                    window.location.hash = target;
+                });
+            }
+        }); // End Click  
+
+        // === Go to top ===
+        $('.go-to-top').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            return false;
+        });
+
+        // === Header Nav BG ===
+        $(window).scroll(function () {
+            if ($(document).scrollTop() > 150) {
+                $('.navigation-bar').addClass('scroll-BG');
+            } else {
+                $('.navigation-bar').removeClass('scroll-BG');
+            }
+        });
+
+        // === Header Parallax Image Style ===
+        $(window).on('scroll', function () {
+            var curPos = $(window).scrollTop();
+            $('.header-parallax-image').css('background-position', 'right bottom -' + curPos * .8 + 'px');
+            //fadePanels(curPos);
+        }).scroll();
+    }); // END READY
+})(jQuery, _responsiveToolkit2.default);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4244,7 +4501,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4749,13 +5006,13 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _responsiveToolkit = __webpack_require__(35);
+var _responsiveToolkit = __webpack_require__(2);
 
 var _responsiveToolkit2 = _interopRequireDefault(_responsiveToolkit);
 
@@ -4859,7 +5116,7 @@ window.pmwoodwindsOpenSearch = function () {
 })(jQuery, _responsiveToolkit2.default);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5832,7 +6089,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5872,7 +6129,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5894,7 +6151,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6033,7 +6290,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6101,7 +6358,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6127,7 +6384,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6144,7 +6401,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6335,7 +6592,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /*
@@ -6837,7 +7094,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10352,7 +10609,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11594,7 +11851,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /**!
@@ -13671,250 +13928,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-/*!
- * Responsive Bootstrap Toolkit
- * Author:    Maciej Gurban
- * License:   MIT
- * Version:   2.6.3 (2016-06-21)
- * Origin:    https://github.com/maciej-gurban/responsive-bootstrap-toolkit
- */
-var ResponsiveBootstrapToolkit = (function($){
-
-    // Internal methods
-    var internal = {
-
-        /**
-         * Breakpoint detection divs for each framework version
-         */
-        detectionDivs: {
-            // Bootstrap 3
-            bootstrap: {
-                'xs': $('<div class="device-xs visible-xs visible-xs-block"></div>'),
-                'sm': $('<div class="device-sm visible-sm visible-sm-block"></div>'),
-                'md': $('<div class="device-md visible-md visible-md-block"></div>'),
-                'lg': $('<div class="device-lg visible-lg visible-lg-block"></div>')
-            },
-            // Foundation 5
-            foundation: {
-                'small':  $('<div class="device-xs show-for-small-only"></div>'),
-                'medium': $('<div class="device-sm show-for-medium-only"></div>'),
-                'large':  $('<div class="device-md show-for-large-only"></div>'),
-                'xlarge': $('<div class="device-lg show-for-xlarge-only"></div>')
-            }
-        },
-
-         /**
-         * Append visibility divs after DOM laoded
-         */
-        applyDetectionDivs: function() {
-            $(document).ready(function(){
-                $.each(self.breakpoints, function(alias){
-                    self.breakpoints[alias].appendTo('.responsive-bootstrap-toolkit');
-                });
-            });
-        },
-
-        /**
-         * Determines whether passed string is a parsable expression
-         */
-        isAnExpression: function( str ) {
-            return (str.charAt(0) == '<' || str.charAt(0) == '>');
-        },
-
-        /**
-         * Splits the expression in into <|> [=] alias
-         */
-        splitExpression: function( str ) {
-
-            // Used operator
-            var operator = str.charAt(0);
-            // Include breakpoint equal to alias?
-            var orEqual  = (str.charAt(1) == '=') ? true : false;
-
-            /**
-             * Index at which breakpoint name starts.
-             *
-             * For:  >sm, index = 1
-             * For: >=sm, index = 2
-             */
-            var index = 1 + (orEqual ? 1 : 0);
-
-            /**
-             * The remaining part of the expression, after the operator, will be treated as the
-             * breakpoint name to compare with
-             */
-            var breakpointName = str.slice(index);
-
-            return {
-                operator:       operator,
-                orEqual:        orEqual,
-                breakpointName: breakpointName
-            };
-        },
-
-        /**
-         * Returns true if currently active breakpoint matches the expression
-         */
-        isAnyActive: function( breakpoints ) {
-            var found = false;
-            $.each(breakpoints, function( index, alias ) {
-                // Once first breakpoint matches, return true and break out of the loop
-                if( self.breakpoints[ alias ].is(':visible') ) {
-                    found = true;
-                    return false;
-                }
-            });
-            return found;
-        },
-
-        /**
-         * Determines whether current breakpoint matches the expression given
-         */
-        isMatchingExpression: function( str ) {
-
-            var expression = internal.splitExpression( str );
-
-            // Get names of all breakpoints
-            var breakpointList = Object.keys(self.breakpoints);
-
-            // Get index of sought breakpoint in the list
-            var pos = breakpointList.indexOf( expression.breakpointName );
-
-            // Breakpoint found
-            if( pos !== -1 ) {
-
-                var start = 0;
-                var end   = 0;
-
-                /**
-                 * Parsing viewport.is('<=md') we interate from smallest breakpoint ('xs') and end
-                 * at 'md' breakpoint, indicated in the expression,
-                 * That makes: start = 0, end = 2 (index of 'md' breakpoint)
-                 *
-                 * Parsing viewport.is('<md') we start at index 'xs' breakpoint, and end at
-                 * 'sm' breakpoint, one before 'md'.
-                 * Which makes: start = 0, end = 1
-                 */
-                if( expression.operator == '<' ) {
-                    start = 0;
-                    end   = expression.orEqual ? ++pos : pos;
-                }
-                /**
-                 * Parsing viewport.is('>=sm') we interate from breakpoint 'sm' and end at the end
-                 * of breakpoint list.
-                 * That makes: start = 1, end = undefined
-                 *
-                 * Parsing viewport.is('>sm') we start at breakpoint 'md' and end at the end of
-                 * breakpoint list.
-                 * Which makes: start = 2, end = undefined
-                 */
-                if( expression.operator == '>' ) {
-                    start = expression.orEqual ? pos : ++pos;
-                    end   = undefined;
-                }
-
-                var acceptedBreakpoints = breakpointList.slice(start, end);
-
-                return internal.isAnyActive( acceptedBreakpoints );
-
-            }
-        }
-
-    };
-
-    // Public methods and properties
-    var self = {
-
-        /**
-         * Determines default debouncing interval of 'changed' method
-         */
-        interval: 300,
-
-        /**
-         *
-         */
-        framework: null,
-
-        /**
-         * Breakpoint aliases, listed from smallest to biggest
-         */
-        breakpoints: null,
-
-        /**
-         * Returns true if current breakpoint matches passed alias
-         */
-        is: function( str ) {
-            if( internal.isAnExpression( str ) ) {
-                return internal.isMatchingExpression( str );
-            }
-            return self.breakpoints[ str ] && self.breakpoints[ str ].is(':visible');
-        },
-
-        /**
-         * Determines which framework-specific breakpoint detection divs to use
-         */
-        use: function( frameworkName, breakpoints ) {
-            self.framework = frameworkName.toLowerCase();
-
-            if( self.framework === 'bootstrap' || self.framework === 'foundation') {
-                self.breakpoints = internal.detectionDivs[ self.framework ];
-            } else {
-                self.breakpoints = breakpoints;
-            }
-
-            internal.applyDetectionDivs();
-        },
-
-        /**
-         * Returns current breakpoint alias
-         */
-        current: function(){
-            var name = 'unrecognized';
-            $.each(self.breakpoints, function(alias){
-                if (self.is(alias)) {
-                    name = alias;
-                }
-            });
-            return name;
-        },
-
-        /*
-         * Waits specified number of miliseconds before executing a callback
-         */
-        changed: function(fn, ms) {
-            var timer;
-            return function(){
-                clearTimeout(timer);
-                timer = setTimeout(function(){
-                    fn();
-                }, ms || self.interval);
-            };
-        }
-
-    };
-
-    // Create a placeholder
-    $(document).ready(function(){
-        $('<div class="responsive-bootstrap-toolkit"></div>').appendTo('body');
-    });
-
-    if( self.framework === null ) {
-        self.use('bootstrap');
-    }
-
-    return self;
-
-})(jQuery);
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ResponsiveBootstrapToolkit;
-}
-
-
-/***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14779,7 +14792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(4);
 
 
 /***/ })

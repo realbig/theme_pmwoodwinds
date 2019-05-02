@@ -180,7 +180,7 @@
 			<p>Our Partners Testimonials. </p>
 		</div>
 
-     <div id="trd-testimonial" class="trd-testimonial">
+     <div id="trd-testimonial" class="trd-testimonial row">
 	 <?php
 	 $posts = get_posts(array(
 		'numberposts'	=> 6,
@@ -191,7 +191,7 @@
 		'order' => 'ASC',
 	));
 	foreach($posts as $post):?>
-	<div class="trd-testimonial-slides">
+	<div class="trd-testimonial-slides col-sm-12 col-md-3">
 		<div class="trd-testimonial-text">
 			<p><?php echo get_post_meta($post->ID, 'wpcf-testimonial', true);?></p>
 		</div>

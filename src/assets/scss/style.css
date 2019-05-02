@@ -4178,7 +4178,7 @@ margin: 0;
 padding: 10px;
 }
 .testimonial-item .text{
-	width: 70%;
+	/*width: 70%;*/
 float: left;
 }
 .client-item{
@@ -4215,7 +4215,7 @@ left: 20px;
     transform: translateX(-50%);
 }
 .testimonial-item .info{
-	width: 120px;
+	/*width: 120px;*/
 	float:left;
 }	
 .testimonial-item .info img{
@@ -4237,9 +4237,9 @@ height:100px;
 border-radius: 3px;
 position: relative;
 margin-bottom: 27px;
-width:calc(50% - 20px);
+/*width:calc(50% - 20px);*/
 float:left;
-margin:10px;
+/*margin:10px;*/
 min-height:280px;
 }
 #search{

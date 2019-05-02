@@ -39,16 +39,24 @@
 	));
 		 
 	global $post;
+
+	$index = 0;
+	$max_per_row = 1; // 0 indexed
 		 
 	if ( $posts->have_posts() ) : 
 		 
 		 while ( $posts->have_posts() ) : $posts->the_post();
-		 
+
+		 if ( $index == 0 ) : ?>
+
+			<div class="row">
+
+		<?php endif;
 		 
 			$show = get_post_meta( get_the_ID(), 'wpcf-is-testimonial', true);
 			if($show):
 				?>
-				<div class="testimonial-item">
+				<div class="testimonial-item col-sm-12 col-md-6">
 						<div class="info">
 						<div class="trd-user-img-wrapper">
 							
@@ -68,10 +76,33 @@
 
 				</div>
 				 <?php 
-		 	endif;
+			 endif;
+			 
+			 if ( $index == $max_per_row ) : ?>
+
+				</div>
+
+			<?php
+
+				$index = 0;
+
+			else : 
+
+				$index++;
+
+			endif; 
+
 		 endwhile;
 		 
 		 wp_reset_postdata();
+
+		 // Ensure that the row closes out
+		if ( $index < $max_per_row && 
+			$index > 0 ) : ?>
+
+			</div>
+
+		<?php endif;
 		 
 	endif;
 		 ?>      
