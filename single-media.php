@@ -13,9 +13,6 @@
 		<div class="cd-tab-filter-wrapper">
 			<div class="cd-tab-filter">
 				<ul class="cd-filters">
-					<li class="placeholder"> 
-						<a data-type="used" href="#used">Used</a> <!-- selected option on mobile -->
-					</li> 
 
 
 					

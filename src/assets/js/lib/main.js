@@ -55,7 +55,7 @@ import ResponsiveBootstrapToolkit from 'responsive-toolkit';
 			filter_tab_placeholder_default_value = 'Select',
 			filter_tab_placeholder_text = filter_tab_placeholder.text();
 
-		$('.cd-tab-filter li').on('click', function(event){
+		$('.cd-tab-filter li').on('click touch', function(event){
 			//detect which tab filter item was selected
 			var selected_filter = $(event.target).data('type');
 

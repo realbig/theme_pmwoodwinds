@@ -48,6 +48,9 @@
 	$( document ).on( 'click touch', '.new-used-filter', function( event ) {
 		
 		event.preventDefault();
+
+		$( '.new-used-filter' ).removeClass( 'selected' );
+		$( this ).addClass( 'selected' );
 		
 		var $select = $( '.facetwp-facet-show select' );
 		

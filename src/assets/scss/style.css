@@ -3418,7 +3418,7 @@ xtab-filter
 }
 .cd-tab-filter li:first-child {
   /* this way the placehodler is alway visible */
-  display: block;
+  /*display: block;*/
 }
 .cd-tab-filter a {
   display: block;
@@ -3452,48 +3452,47 @@ text-decoration: none;
   /* reduces the opacity of the placeholder on mobile when the menu is open */
   opacity: .4;
 }
-@media only screen and (min-width: 768px) {
-  .cd-tab-filter {
-    /* tabbed navigation style on medium devices */
-    width: auto;
-    cursor: auto;
-  }
-  .cd-tab-filter::after {
-    /* hide the arrow */
-    display: none;
-  }
-  .cd-tab-filter ul {
-    background: transparent;
-    position: static;
-    box-shadow: none;
-    text-align: center;
-  }
-  .cd-tab-filter li {
-    display: inline-block;
-  }
-  .cd-tab-filter li.placeholder {
-    display: none !important;
-  }
-  .cd-tab-filter a {
-    display: inline-block;
-    padding: 0 1em;
-    width: auto;
-    color: #9a9a9a;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 0.8rem;
-  }
-  .no-touch .cd-tab-filter a:hover {
-    color: #41307c;
-  }
-  .cd-tab-filter a.selected {
+
+.cd-tab-filter {
+  /* tabbed navigation style on medium devices */
+  width: auto;
+  cursor: auto;
+}
+.cd-tab-filter::after {
+  /* hide the arrow */
+  display: none;
+}
+.cd-tab-filter ul {
+  background: transparent;
+  position: static;
+  box-shadow: none;
+  text-align: center;
+}
+.cd-tab-filter li {
+  display: inline-block;
+}
+.cd-tab-filter li.placeholder {
+  display: none !important;
+}
+.cd-tab-filter a {
+  display: inline-block;
+  padding: 0 1em;
+  width: auto;
+  color: #9a9a9a;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.no-touch .cd-tab-filter a:hover {
+  color: #41307c;
+}
+.cd-tab-filter a.selected {
 background: transparent;
 color: #fff;
 box-shadow: inset 0 -2px 0 #fff;
-  }
-  .cd-tab-filter.is-open ul li {
-    display: inline-block;
-  }
+}
+.cd-tab-filter.is-open ul li {
+  display: inline-block;
 }
 @media only screen and (min-width: 1170px) {
   .cd-tab-filter {

@@ -5067,7 +5067,7 @@ window.pmwoodwindsOpenSearch = function () {
 		    filter_tab_placeholder_default_value = 'Select',
 		    filter_tab_placeholder_text = filter_tab_placeholder.text();
 
-		$('.cd-tab-filter li').on('click', function (event) {
+		$('.cd-tab-filter li').on('click touch', function (event) {
 			//detect which tab filter item was selected
 			var selected_filter = $(event.target).data('type');
 
@@ -6341,6 +6341,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	$(document).on('click touch', '.new-used-filter', function (event) {
 
 		event.preventDefault();
+
+		$('.new-used-filter').removeClass('selected');
+		$(this).addClass('selected');
 
 		var $select = $('.facetwp-facet-show select');
 
