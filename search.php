@@ -27,9 +27,6 @@ $apply = false;
 		<div class="cd-tab-filter-wrapper">
 			<div class="cd-tab-filter">
 				<ul class="cd-filters">
-					<li class="placeholder"> 
-						<a data-type="used" href="#used">Used</a> <!-- selected option on mobile -->
-					</li> 
 
 
 					<li class="filtertype"><a <?php if($show=='used'):?>class="selected"<?php endif;?> href="<?php echo $currentlink;?>?show=used">Used</a></li>
