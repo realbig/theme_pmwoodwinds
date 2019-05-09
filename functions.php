@@ -946,6 +946,12 @@ function pmwoodwind_add_sidebars() {
 			'name' => 'Media Sidebar',
 			'description' => 'Shown on Media Archive Pages.',
 	) );
+
+	register_sidebar( array(
+		'id' => 'video',
+		'name' => 'Video Sidebar',
+		'description' => 'Shown on Video Archive Pages.',
+) );
 	
 }
 
@@ -1536,7 +1542,7 @@ function pmwoodwind_register_video_post_type() {
 		'query_var'          => true,
 		'rewrite'            => array( 'slug' => 'video' ),
 		'capability_type'    => 'post',
-		'has_archive'        => false,
+		'has_archive'        => true,
 		'hierarchical'       => false,
 		'menu_position'      => null,
 		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )

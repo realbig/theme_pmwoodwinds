@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 39);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -393,15 +393,15 @@ if (typeof module !== 'undefined' && module.exports) {
 "use strict";
 
 
+__webpack_require__(35);
+
 __webpack_require__(34);
 
 __webpack_require__(33);
 
-__webpack_require__(32);
+__webpack_require__(37);
 
 __webpack_require__(36);
-
-__webpack_require__(35);
 
 __webpack_require__(9);
 
@@ -433,7 +433,7 @@ var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(37);
+var _whatInput = __webpack_require__(38);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -448,6 +448,8 @@ __webpack_require__(14);
 __webpack_require__(28);
 
 __webpack_require__(25);
+
+__webpack_require__(32);
 
 __webpack_require__(15);
 
@@ -6596,6 +6598,88 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /***/ }),
 /* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
+    var loaded = false,
+        $video = false,
+        $videoCategories,
+        $categoryCheckboxes;
+
+    // Ensure this does not fire on page load
+    $(document).on('facetwp-refresh', function () {
+
+        if (loaded) {
+
+            $video.each(function (index, element) {
+                Foundation.Motion.animateOut(element, 'scale-out-down');
+            });
+
+            if ($categoryCheckboxes.hasClass('checked')) {
+
+                // Hide Categories if something is checked
+                $videoCategories.each(function (index, element) {
+                    Foundation.Motion.animateOut(element, 'scale-out-down');
+                });
+
+                setTimeout(function () {
+
+                    $videoCategories.each(function (index, element) {
+                        $(element).css('display', 'none');
+                    });
+                }, 250); // Wait until animation finishes, 500ms is Motion-UI default
+            } else {
+
+                // Show Categories if nothing is checked
+                $videoCategories.each(function (index, element) {
+                    $(element).css('display', 'block');
+                    Foundation.Motion.animateIn(element, 'scale-in-up');
+                });
+            }
+        } else {
+            loaded = true;
+        }
+    });
+
+    $(document).on('facetwp-loaded', function () {
+
+        $video = $('.post-type-archive-video .content .video');
+        $videoCategories = $('.post-type-archive-video .content .video-category');
+        $categoryCheckboxes = $('.facetwp-facet-video_categories .facetwp-checkbox');
+
+        // Only show results if something is checked
+        if ($categoryCheckboxes.hasClass('checked')) {
+
+            $video.each(function (index, element) {
+                Foundation.Motion.animateIn(element, 'scale-in-up');
+            });
+        }
+
+        setTimeout(function () {
+
+            $(document).trigger('video-animations-done');
+        }, 250); // Wait until animation finishes, 500ms is Motion-UI default
+    });
+
+    $(document).on('click touch', '.video-category > a', function (event) {
+
+        event.preventDefault();
+
+        $categoryCheckboxes = $('.facetwp-facet-video_categories .facetwp-checkbox');
+
+        var $checkbox = $categoryCheckboxes.filter('[data-value="' + $(this).data('slug') + '"]');
+
+        // This feels so wrong but it is basically what FacetWP expects
+        $checkbox.click();
+    });
+})(jQuery);
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports) {
 
 /*
@@ -7097,7 +7181,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10612,7 +10696,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11854,7 +11938,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /**!
@@ -13931,7 +14015,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14406,7 +14490,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14791,8 +14875,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 38 */,
-/* 39 */
+/* 39 */,
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);
