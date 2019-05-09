@@ -47,38 +47,63 @@
 		 
 		 while ( $posts->have_posts() ) : $posts->the_post();
 
-		 if ( $index == 0 ) : ?>
+			if ( $index == 0 ) : ?>
 
-			<div class="row">
+				<div class="row">
 
-		<?php endif;
-		 
-			$show = get_post_meta( get_the_ID(), 'wpcf-is-testimonial', true);
-			if($show):
-				?>
-				<div class="testimonial-item col-sm-12 col-md-6">
-						<div class="info">
+			<?php endif; ?>
+
+			<div class="col-sm-12 col-md-6">
+
+				<div class="row">
+
+					<div class="col-sm-12 col-md-4 trd-satisfied-user-info">
+
 						<div class="trd-user-img-wrapper">
-							
-							<?php if ( ! get_post_meta( $post->ID, 'wpcf-image', true ) ) : ?>
+						
+							<?php if ( ! get_post_meta( get_the_ID(), 'wpcf-image', true ) ) : ?>
 								<?php echo wc_placeholder_img( 'thumbnail' ); ?>
 							<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
-								<?php echo types_render_field( 'image', array( 'post_id' => $post->ID, 'size' => 'thumbnail' ) ); ?>
+								<?php echo types_render_field( 'image', array( 'size' => 'thumbnail' ) ); ?>
 							<?php endif; ?>
 
-						</div>           
+						</div>
+						
+						<h3>
+						
+							<?php 
 
+							$website_url = get_post_meta(get_the_ID(), 'wpcf-link', true);
+
+							if ( $website_url ) : ?>
+						
+								<a href="<?php echo get_post_meta(get_the_ID(), 'wpcf-link', true);?>" target="_blank">
+									
+							<?php endif; ?>
+									
+									<?php echo $post->post_title;?>
+							
+							<?php if ( $website_url ) : ?>
+							
+								</a>
+						
+							<?php endif; ?>
+						
+						</h3>
+						
 					</div>
-					<div class="text">
-						<h3><?php the_title()?></h3>
-						<p><?php echo esc_html( get_post_meta($post->ID, 'wpcf-testimonial', true) );?></p>
+
+					<div class="col-sm-12 col-md-8 trd-testimonial-text">
+						<blockquote><p><?php echo get_post_meta(get_the_ID(), 'wpcf-testimonial', true);?></p></blockquote>
 					</div>
 
 				</div>
-				 <?php 
-			 endif;
-			 
-			 if ( $index == $max_per_row ) : ?>
+
+			</div>
+
+			<?php 
+
+			if ( $index == $max_per_row ) : ?>
 
 				</div>
 
