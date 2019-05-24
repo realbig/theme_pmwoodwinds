@@ -75,32 +75,28 @@
 
 						</div>
 						
-						<h3>
-						
-							<?php 
-
-							$website_url = get_post_meta(get_the_ID(), 'wpcf-link', true);
-
-							if ( $website_url ) : ?>
-						
-								<a href="<?php echo get_post_meta(get_the_ID(), 'wpcf-link', true);?>" target="_blank">
-									
-							<?php endif; ?>
-									
-									<?php echo $post->post_title;?>
-							
-							<?php if ( $website_url ) : ?>
-							
-								</a>
-						
-							<?php endif; ?>
-						
-						</h3>
-						
 					</div>
 
 					<div class="col-sm-12 col-md-8 trd-testimonial-text">
-						<blockquote><p><?php echo get_post_meta(get_the_ID(), 'wpcf-testimonial', true);?></p></blockquote>
+
+						<?php if ( $website_url = get_post_meta(get_the_ID(), 'wpcf-link', true) ) : ?>
+						
+							<a href="<?php echo get_post_meta(get_the_ID(), 'wpcf-link', true);?>" target="_blank">
+								
+						<?php endif; ?>
+					
+						<h3>
+							
+							<?php echo $post->post_title;?>
+						
+						</h3>
+
+						<?php if ( $website_url ) : ?>
+							
+							</a>
+					
+						<?php endif; ?>
+
 					</div>
 
 				</div>

@@ -23,6 +23,20 @@ body.page-template-clients, body.page-template-testimonials {
             margin-bottom: .5rem;
         }
 
+        .trd-testimonial-text {
+
+            a {
+
+                text-decoration: underline;
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                }
+
+            }
+
+        }
+
     }
 
 }
