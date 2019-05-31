@@ -1660,3 +1660,42 @@ add_filter( 'posts_orderby', function( $orderby, \WP_Query $q ) {
 	return $orderby;
 	
 }, PHP_INT_MAX, 2 );
+
+// Now we're going to trick WooCommerce into loading PhotoSwipe scripts on the Media Archive.
+// Please do not ever reuse this code
+
+add_action( 'wp_enqueue_scripts', function() {
+
+	global $wp_query;
+
+	if ( get_post_type() !== 'media' || $wp_query->is_singular ) return;
+
+	$wp_query->set( 'post_type', 'product' );
+	$wp_query->set( 'old_post_type', 'media' );
+	$wp_query->is_single = true;
+	$wp_query->is_singular = true;
+
+	$old_queried_object = $wp_query->get_queried_object();
+
+	$wp_query->set( 'old_queried_object', $old_queried_object );
+	
+	$random_product = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 1 ) );
+
+	$wp_query->queried_object = $random_product[0];
+
+}, 9 );
+
+add_action( 'wp_enqueue_scripts', function() {
+
+	global $wp_query;
+
+	if ( $wp_query->get( 'old_post_type' ) == 'media' ) {
+
+		$wp_query->set( 'post_type', 'media' );
+		$wp_query->is_single = false;
+		$wp_query->is_singular = false;
+		$wp_query->queried_object = $wp_query->get( 'old_queried_object' );
+
+	}
+
+}, 11 );

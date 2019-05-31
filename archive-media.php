@@ -64,16 +64,51 @@ get_header();
 
 							<div class="background">
 
-								<div class="image">
-									<?php the_post_thumbnail();?>
-								</div>
-								<div class="text">
-									<h5><?php the_title();?></h5>
+								<?php 
+								
+								$content = get_the_content();
 
-									<?php the_content();?>
+								$did_match = preg_match( '/\[gallery.*?ids="(.*?)"/', $content, $matches );
 
-									<a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
-								</div>
+								$attachment_ids = array();
+								if ( $did_match && 
+									isset( $matches[1] ) && 
+									$matches[1] ) {
+
+									$attachment_ids = explode( ',', preg_replace( '/\s/', '', $matches[1] ) );
+
+								}
+
+								$img_data = array();
+
+								foreach ( $attachment_ids as $attachment_id ) {
+
+									$attachment_id = preg_replace( '/\D/', '', $attachment_id );
+
+									$image = wp_get_attachment_image_src( $attachment_id, 'full', false );
+									$caption = wp_get_attachment_caption( $attachment_id );
+
+									$img_data[] = array(
+										'src' => $image[0],
+										'w' => $image[1],
+										'h' => $image[2],
+										'caption' => $caption,
+									);
+
+								}
+
+								?>
+
+								<a href="<?php echo get_permalink();?>" class="media-photoswipe" data-gallery="<?php echo esc_attr( json_encode( $img_data ) ); ?>">
+
+									<div class="image">
+										<?php the_post_thumbnail();?>
+									</div>
+									<div class="text">
+										<h5><?php the_title();?></h5>
+									</div>
+
+								</a>
 
 							</div>
 
@@ -82,6 +117,7 @@ get_header();
 						<?php
 
 					endwhile;
+
 				endif; ?>
 			
 		</div>

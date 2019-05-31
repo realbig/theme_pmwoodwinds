@@ -86,4 +86,13 @@
 
 	<!-- ======== JavaScript ======== -->
 	<?php wp_footer();?>
+
+	<?php if ( get_post_type() == 'media' ) : 
+
+		if ( function_exists( 'woocommerce_photoswipe' ) ) : 
+			woocommerce_photoswipe();
+		endif;
+
+	endif; ?>
+
 </body></html>

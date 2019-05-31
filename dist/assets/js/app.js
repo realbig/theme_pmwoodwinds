@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 40);
+/******/ 	return __webpack_require__(__webpack_require__.s = 41);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -393,15 +393,15 @@ if (typeof module !== 'undefined' && module.exports) {
 "use strict";
 
 
+__webpack_require__(36);
+
 __webpack_require__(35);
 
 __webpack_require__(34);
 
-__webpack_require__(33);
+__webpack_require__(38);
 
 __webpack_require__(37);
-
-__webpack_require__(36);
 
 __webpack_require__(9);
 
@@ -425,15 +425,15 @@ __webpack_require__(23);
 
 __webpack_require__(24);
 
-__webpack_require__(27);
+__webpack_require__(28);
 
-__webpack_require__(31);
+__webpack_require__(32);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(38);
+var _whatInput = __webpack_require__(39);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -441,15 +441,15 @@ var _foundation = __webpack_require__(5);
 
 var _foundationUtil = __webpack_require__(7);
 
-__webpack_require__(26);
+__webpack_require__(27);
 
 __webpack_require__(14);
 
-__webpack_require__(28);
+__webpack_require__(29);
 
 __webpack_require__(25);
 
-__webpack_require__(32);
+__webpack_require__(33);
 
 __webpack_require__(15);
 
@@ -457,13 +457,15 @@ __webpack_require__(13);
 
 __webpack_require__(10);
 
-__webpack_require__(30);
+__webpack_require__(31);
 
-__webpack_require__(29);
+__webpack_require__(30);
 
 __webpack_require__(8);
 
 __webpack_require__(12);
+
+__webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6142,6 +6144,42 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function ($) {
 
+	if ($('body.post-type-archive-media').length < 0) return;
+
+	$(document).on('click touch', 'a.media-photoswipe', function (event) {
+
+		event.preventDefault();
+
+		var pswpElement = $('.pswp')[0],
+		    items = $(this).data('gallery');
+
+		var options = $.extend({
+			index: 0,
+			addCaptionHTMLFn: function addCaptionHTMLFn(item, captionEl) {
+				if (!item.title) {
+					captionEl.children[0].textContent = '';
+					return false;
+				}
+				captionEl.children[0].textContent = item.title;
+				return true;
+			}
+		}, wc_single_product_params.photoswipe_options);
+
+		// Initializes and opens PhotoSwipe.
+		var photoswipe = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+		photoswipe.init();
+	});
+})(jQuery);
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
 	if (typeof wc_single_product_params == 'undefined') return;
 
 	// Force Photoswipe to zoom further
@@ -6156,7 +6194,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6295,7 +6333,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6366,7 +6404,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6392,7 +6430,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6409,7 +6447,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6600,7 +6638,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6682,7 +6720,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /*
@@ -7184,7 +7222,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10699,7 +10737,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -11941,7 +11979,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /**!
@@ -14018,7 +14056,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14493,7 +14531,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -14878,8 +14916,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 39 */,
-/* 40 */
+/* 40 */,
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);
