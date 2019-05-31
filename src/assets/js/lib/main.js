@@ -14,16 +14,21 @@ import ResponsiveBootstrapToolkit from 'responsive-toolkit';
 		$('form.dgwt-wcas-search-form').submit(function( event ) {
 		  event.preventDefault();
 		});
-			$('#pmwoodwind_product_images').not('.slick-initialized').slick({
-				infinite: true,
-				speed: 300,
-				autoplay: true,
-				autoplaySpeed: 5000,
-				speed: 1000,
-				slidesToShow: 5,
-				centerMode: true,
-				centerPadding: '3px',
-			});
+
+			if ( $( '#pmwoodwind_product_images' ).length > 0 ) {
+
+				$('#pmwoodwind_product_images').not('.slick-initialized').slick({
+					infinite: true,
+					speed: 300,
+					autoplay: true,
+					autoplaySpeed: 5000,
+					speed: 1000,
+					slidesToShow: 5,
+					centerMode: true,
+					centerPadding: '3px',
+				});
+
+			}
 
 		if ( viewport.is( '>md' ) ) {
 

@@ -2560,7 +2560,7 @@ jQuery(document).on("click", ".lg-actions .lg-icon", function () {
 
         $('.lg-actions .lg-icon').hide();
 
-        if (viewport.is('>md')) {
+        if (viewport.is('>md') && $('#trd-testimonial').length > 0) {
             var _$$not$slick;
 
             $('#trd-testimonial').not('.slick-initialized').slick((_$$not$slick = {
@@ -5032,17 +5032,20 @@ window.pmwoodwindsOpenSearch = function () {
 (function ($, viewport) {
 
 	jQuery(document).ready(function ($) {
-		var _$$not$slick;
-
 		$('form.dgwt-wcas-search-form').submit(function (event) {
 			event.preventDefault();
 		});
-		$('#pmwoodwind_product_images').not('.slick-initialized').slick((_$$not$slick = {
-			infinite: true,
-			speed: 300,
-			autoplay: true,
-			autoplaySpeed: 5000
-		}, _defineProperty(_$$not$slick, 'speed', 1000), _defineProperty(_$$not$slick, 'slidesToShow', 5), _defineProperty(_$$not$slick, 'centerMode', true), _defineProperty(_$$not$slick, 'centerPadding', '3px'), _$$not$slick));
+
+		if ($('#pmwoodwind_product_images').length > 0) {
+			var _$$not$slick;
+
+			$('#pmwoodwind_product_images').not('.slick-initialized').slick((_$$not$slick = {
+				infinite: true,
+				speed: 300,
+				autoplay: true,
+				autoplaySpeed: 5000
+			}, _defineProperty(_$$not$slick, 'speed', 1000), _defineProperty(_$$not$slick, 'slidesToShow', 5), _defineProperty(_$$not$slick, 'centerMode', true), _defineProperty(_$$not$slick, 'centerPadding', '3px'), _$$not$slick));
+		}
 
 		if (viewport.is('>md')) {
 
