@@ -40,3 +40,13 @@ body.page-template-clients, body.page-template-testimonials {
     }
 
 }
+
+body.page-template-testimonials {
+
+    h3 {
+
+        @extend a;
+
+    }
+
+}
