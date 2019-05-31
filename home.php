@@ -20,6 +20,62 @@
 
 	?>
 
+	<?php 
+	
+	$event = pmwoodwind_get_featured_event();
+
+	if ( $event ) : ?>
+
+	<div id="featured-event" class="hide-for-sm">
+
+		<?php echo get_the_post_thumbnail( $event->ID, 'thumbnail' ); ?>
+
+		<h3><?php echo get_the_title( $event->ID ); ?></h3>
+
+		<?php 
+
+		$date_format = get_option( 'date_format', 'F j, Y' );
+		$time_format = get_option( 'time_format', 'g:i a' );
+		$start_datetime = strtotime( get_post_meta( $event->ID, '_EventStartDate', true ) );
+				
+		if ( function_exists( 'tribe_get_option' ) ) : ?>
+		
+			<p class="event-start-date"><?php echo date( $date_format, $start_datetime ) . tribe_get_option( 'dateTimeSeparator', ' @ ' ) . date( $time_format, $start_datetime ); ?></p>
+			
+		<?php endif; 
+
+		$organizers = array();
+			
+		if ( function_exists( 'tribe_get_organizer_ids' ) ) {
+
+			$organizers = tribe_get_organizer_ids( $event->ID );
+
+		}
+
+		$organizer = false;
+
+		if ( is_array( $organizers ) && 
+			isset( $organizers[0] ) && 
+			$organizers[0] ) {
+			
+			$organizer = $organizers[0];
+			
+		}
+
+		if ( function_exists( 'tribe_get_organizer_phone' ) ) : ?>
+
+			<p class="event-organizer-phone"><?php echo 'for reservations call ' . tribe_get_organizer_phone( $organizer ); ?></p>
+	
+		<?php endif; ?>
+
+		<a href="<?php echo get_permalink( $event->ID ); ?>" class="btn">
+			Event Details
+		</a>
+
+	</div>
+
+	<?php endif; ?>
+
 	</div>
 	<div class="fullbg">
 	<!-- New Releases -->

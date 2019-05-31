@@ -16,10 +16,20 @@ body.home {
 		
 	}
 	
-	#events {
+	#featured-event {
+
+		padding: 2rem;
 		
-		@media only screen and (max-width: 1023px) {
-			display: none;
+		text-align: center;
+
+		img {
+			max-width: 150px;
+			height: auto;
+			margin-bottom: 2rem;
+		}
+
+		.btn {
+			margin: 0;
 		}
 		
 	}
