@@ -99,7 +99,7 @@ get_header();
 
 								?>
 
-								<a href="<?php echo get_permalink();?>" class="media-photoswipe" data-gallery="<?php echo esc_attr( json_encode( $img_data ) ); ?>">
+								<a href="<?php echo get_permalink();?>" <?php echo ! empty( $attachment_ids ) ? 'class="media-photoswipe"  data-gallery="' . esc_attr( json_encode( $img_data ) ) . '"' : ''; ?>">
 
 									<div class="image">
 										<?php the_post_thumbnail();?>
