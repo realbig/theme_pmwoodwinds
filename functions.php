@@ -2,7 +2,8 @@
 
 $theme_header = wp_get_theme();
 
-define( 'THEME_VER', $theme_header->get( 'Version' ) );
+//define( 'THEME_VER', $theme_header->get( 'Version' ) );
+define( 'THEME_VER', time() );
 define( 'THEME_URL', get_template_directory_uri() );
 define( 'THEME_DIR', get_template_directory() );
 
@@ -752,7 +753,7 @@ function pmwoodwind_register_scripts() {
 		'modernizr',
 		THEME_URL . '/dist/assets/vendor/modernizr.js',
 		array( 'jquery' ),
-		THEME_VER,
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		false
 	);
 	
@@ -776,7 +777,7 @@ function pmwoodwind_register_scripts() {
 		'pmwoodwind',
 		THEME_URL . '/dist/assets/js/app.js',
 		array( 'modernizr', 'slick-silder' ),
-		THEME_VER,
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		true
 	);
 	
@@ -784,7 +785,7 @@ function pmwoodwind_register_scripts() {
 		'pmwoodwind-admin',
 		THEME_URL . '/dist/assets/js/admin.js',
 		array( 'jquery' ),
-		THEME_VER,
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		true
 	);
 	
@@ -792,7 +793,7 @@ function pmwoodwind_register_scripts() {
 		'pmwoodwind',
 		THEME_URL . '/dist/assets/css/app.css',
 		array(),
-		THEME_VER,
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		'screen'
 	);
 	
@@ -800,7 +801,7 @@ function pmwoodwind_register_scripts() {
 		'pmwoodwind-print',
 		THEME_URL . '/dist/assets/css/print.css',
 		array(),
-		THEME_VER,
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		'print'
 	);
 	
@@ -808,7 +809,7 @@ function pmwoodwind_register_scripts() {
 		'montserrat',
 		'//fonts.googleapis.com/css?family=Montserrat:400,700',
 		array(),
-		THEME_VER,
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		'all'
 	);
 	
