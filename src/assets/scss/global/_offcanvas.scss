@@ -1,0 +1,71 @@
+html,
+body {
+    overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+.offcanvas-collapse {
+    display: none;
+}
+.offcanvas-collapse.open {
+
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    background-color: #6195e0;
+    transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+    transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    z-index: 1040;
+    color: #fff;
+
+    .alignright {
+        float: right;
+        &:after {
+            clear: both;
+        }
+    }
+
+    button {
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    & > .container {
+
+        float: left;
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        overflow-y: visible;
+        padding-right: 1rem;
+        padding-left: 1rem;
+        color: #fff;
+
+        input[type="text"] {
+            color: #000;
+        }
+
+        .widget {
+
+            padding-top: 1rem;
+            padding-left: 0;
+            padding-right: 0;
+
+            color: #fff;
+
+        }
+
+    }
+
+}

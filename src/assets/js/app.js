@@ -49,3 +49,4 @@ import './lib/product-single-compare';
 import './lib/ajax-search-for-woocommerce';
 import './lib/facetwp-checkboxes';
 import './lib/media-photoswipe';
+import './lib/offcanvas';

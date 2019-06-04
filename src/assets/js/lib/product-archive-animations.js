@@ -1,3 +1,31 @@
+import ResponsiveBootstrapToolkit from 'responsive-toolkit';
+
+var facets = jQuery( '.shop-sidebar .widget' ).html();
+	
+( function( $, viewport ) {
+
+	$( document ).ready( function() {
+
+		// Ensure our secondary set of Filters for mobile works
+		if ( viewport.is( '>sm' ) ) {
+
+			if ( $( '.shop-sidebar .widget' ).length <= 0 ) {
+
+				$( 'shop-sidebar .cd-filter' ).prepend( facets );
+
+			}
+
+		}
+		else {
+
+			$( '.shop-sidebar .widget' ).remove();
+
+		}
+
+	} );
+
+} )( jQuery, ResponsiveBootstrapToolkit );
+
 ( function( $ ) {
 	
 	var loaded = false,

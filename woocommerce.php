@@ -5,11 +5,58 @@
  * http://docs.woothemes.com/document/third-party-custom-theme-compatibility/
  */
 
-get_header(); ?>
+get_header(); 
+
+$term_slug = '';
+					
+if ( is_tax( 'product_cat' ) ) : 
+
+	$queried_object = get_queried_object();
+
+	// Find top parent
+	while ( $queried_object->parent > 0 ) {
+		$queried_object = get_term( $queried_object->parent, 'product_cat' );
+	}
+
+	$term_slug = $queried_object->slug;
+
+endif;
+
+?>
 
 <?php if ( ! is_tax( 'product_cat' ) && ! is_post_type_archive( 'product' ) ) : ?>
 
 <div class="container">
+
+<?php else : ?>
+
+<div class="hide-for-md navbar-collapse offcanvas-collapse">
+
+	<button data-toggle="offcanvas" class="alignright">
+			x
+	</button>
+
+	<div class="container">
+
+		<p>Once you've applied your desired filters, tap the "x" in the upper-right corner.</p>
+
+		<?php if ( is_active_sidebar( $term_slug ) ) : 
+		
+			dynamic_sidebar( $term_slug );
+		
+		elseif ( is_active_sidebar( 'shop' ) ) : ?>
+
+			<?php dynamic_sidebar( 'shop' ); ?>
+		
+		<?php else : ?>
+		
+			Please add Widgets to the "Shop" Sidebar under Appearance -> Widgets
+		
+		<?php endif; ?>
+
+	</div>
+
+</div>
 	
 <?php endif; ?>
 	
@@ -54,6 +101,10 @@ get_header(); ?>
 		<?php if ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) : ?>
 			
 			<div class="content cd-gallery col-sm-12 col-md-9 col-md-push-3 filter-is-visible">
+
+				<div class="hide-for-md filter-toggle">
+					<button class="filter-toggle" data-toggle="offcanvas"><span class="fa fa-filter"></span> Show Filters</button>
+				</div>
 				
 		<?php else : ?>
 				
@@ -67,26 +118,11 @@ get_header(); ?>
 		
 		<?php if ( ! is_single() ) : ?>
 
-			<div class="col-sm-12 col-md-3 col-md-pull-9 shop-sidebar">
+			<div class="col-sm-12 col-md-3 col-md-pull-9 shop-sidebar hide-for-xs visible-md">
 				
 				<div class="<?php echo ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) ? 'cd-filter filter-is-visible' : ''; ?>">
 					
 					<?php 
-					
-					$term_slug = '';
-					
-					if ( is_tax( 'product_cat' ) ) : 
-					
-						$queried_object = get_queried_object();
-					
-						// Find top parent
-						while ( $queried_object->parent > 0 ) {
-							$queried_object = get_term( $queried_object->parent, 'product_cat' );
-						}
-					
-						$term_slug = $queried_object->slug;
-					
-					endif;
 					
 					if ( is_active_sidebar( $term_slug ) ) : 
 					
