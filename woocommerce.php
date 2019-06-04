@@ -32,27 +32,31 @@ endif;
 
 <div class="hide-for-md navbar-collapse offcanvas-collapse">
 
-	<button data-toggle="offcanvas" class="alignright">
-			x
-	</button>
+	<div class="content">
 
-	<div class="container">
+		<button data-toggle="offcanvas" class="alignright close-filters">
+				x
+		</button>
 
-		<p>Once you've applied your desired filters, tap the "x" in the upper-right corner.</p>
+		<div class="container">
 
-		<?php if ( is_active_sidebar( $term_slug ) ) : 
-		
-			dynamic_sidebar( $term_slug );
-		
-		elseif ( is_active_sidebar( 'shop' ) ) : ?>
+			<?php if ( is_active_sidebar( $term_slug ) ) : 
+			
+				dynamic_sidebar( $term_slug );
+			
+			elseif ( is_active_sidebar( 'shop' ) ) : ?>
 
-			<?php dynamic_sidebar( 'shop' ); ?>
-		
-		<?php else : ?>
-		
-			Please add Widgets to the "Shop" Sidebar under Appearance -> Widgets
-		
-		<?php endif; ?>
+				<?php dynamic_sidebar( 'shop' ); ?>
+			
+			<?php else : ?>
+			
+				Please add Widgets to the "Shop" Sidebar under Appearance -> Widgets
+			
+			<?php endif; ?>
+
+		</div>
+
+		<button class="apply-filters button" data-toggle="offcanvas">Apply Filters</button>
 
 	</div>
 
