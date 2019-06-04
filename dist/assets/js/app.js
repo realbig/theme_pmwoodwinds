@@ -6412,6 +6412,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function ($) {
 
+	if ($('body.single-product').length > 0) {
+
+		var navigationEntries = performance.getEntriesByType('navigation');
+
+		for (var index in navigationEntries) {
+
+			if (navigationEntries[index].type == 'back_forward') {
+				window.location = window.location; // Refresh
+			}
+		}
+	}
+
 	$(document).on('click touch', '.compare-header', function () {
 
 		$('.woocommerce-products-compare-checkbox').click();
