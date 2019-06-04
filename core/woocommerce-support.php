@@ -328,9 +328,31 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	if ( $product->get_type() == 'variable' ) {
 		
 		$default_attributes = pmwoodwind_get_default_attributes( $product );
+
 		$variation_id = pmwoodwind_find_matching_product_variation( $product, $default_attributes );
+
+		if ( $variation_id ) {
 		
-		$msrp = get_post_meta( $variation_id, 'msrp', true );
+			$msrp = get_post_meta( $variation_id, 'msrp', true );
+
+		}
+		else {
+
+			$msrp = 0;
+			$variations = $product->get_children();
+
+			foreach ( $variations as $variation_id ) {
+
+				$variation_msrp = get_post_meta( $variation_id, 'msrp', true );
+
+				if ( $msrp == 0 || 
+					$variation_msrp < $msrp ) {
+					$msrp = $variation_msrp;
+				}
+
+			}
+
+		}
 		
 	}
 	
