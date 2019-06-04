@@ -11,6 +11,7 @@
   },
   "keywords": [],
   "dependencies": {
+    "bootstrap": "^3.3.5",
     "foundation-sites": "^6.4.1",
     "jplayer": "^2.9.2",
     "lightgallery": "^1.2.0",
