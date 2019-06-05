@@ -909,6 +909,7 @@ require_once __DIR__ . '/core/import-photos.php';
 require_once __DIR__ . '/core/apply-instruments-shipping-class.php';
 require_once __DIR__ . '/core/import-attributes.php';
 require_once __DIR__ . '/core/import-sorting.php';
+require_once __DIR__ . '/core/reset-default-variation.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
