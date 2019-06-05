@@ -56,7 +56,7 @@ if ( ! class_exists( 'pmwoodwinds_reset_default_variation' ) ) {
             $is_new_taxonomy = wc_attribute_taxonomy_name( 'Is New?' );
 			
 			$products = new WP_Query( array(
-                'type' => 'variation',
+                'post_type' => 'product',
                 'fields' => 'ids',
                 'product_type' => 'variable',
                 'posts_per_page' => -1,
