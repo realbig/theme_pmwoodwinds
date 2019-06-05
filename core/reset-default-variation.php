@@ -62,7 +62,7 @@ if ( ! class_exists( 'pmwoodwinds_reset_default_variation' ) ) {
                 'posts_per_page' => -1,
                 'tax_query' => array(
                     'taxonomy' => $is_new_taxonomy,
-                    'terms' => 'New',
+                    'terms' => 'new',
                     'field' => 'slug',
                 ),
             ) );
