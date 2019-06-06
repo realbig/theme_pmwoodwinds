@@ -1701,3 +1701,25 @@ add_action( 'wp_enqueue_scripts', function() {
 	}
 
 }, 11 );
+
+add_filter( 'gettext', 'pmwoodwinds_change_upcoming_events_text', 10, 4 );
+
+/**
+ * Alter the label for Upcomming Events
+ * 
+ * @param		string  $translation			The resulting Translation
+ * @param		string  $untranslated_text      The original string
+ * @param		string  $domain					The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_change_upcoming_events_text( $translation, $untranslated_text, $domain ) {
+	
+	if ( $domain !== 'the-events-calendar' ) return $translation;
+
+	if ( $untranslated_text !== 'Upcoming %s' ) return $translation;
+
+	return 'Next %s';
+
+}
