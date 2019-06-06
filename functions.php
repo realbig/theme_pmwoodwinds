@@ -1718,8 +1718,14 @@ function pmwoodwinds_change_upcoming_events_text( $translation, $untranslated_te
 	
 	if ( $domain !== 'the-events-calendar' ) return $translation;
 
-	if ( $untranslated_text !== 'Upcoming %s' ) return $translation;
+	if ( $untranslated_text == 'Upcoming %s' ) {
+		return 'Next %s';
+	}
+	
+	if ( $untranslated_text == 'Past %s' ) { 
+		return 'Previous %s';
+	}
 
-	return 'Next %s';
+	return $translation;
 
 }
