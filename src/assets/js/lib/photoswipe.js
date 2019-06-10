@@ -1,9 +1,6 @@
 ( function( $ ) {
 	
 	if ( typeof wc_single_product_params == 'undefined' ) return;
-
-	// Only for Single Products
-	
 	
 	// Force Photoswipe to zoom further
 	// https://stackoverflow.com/a/40459340
@@ -22,6 +19,31 @@
 			}
 
 		}
-    };
+	};
+	
+	$( document ).on( 'click touch', '.woocommerce-product-gallery__image a', function( event ) {
+
+		event.preventDefault();
+
+		$( '#wpadminbar' ).hide();
+
+		$( 'body' ).addClass( 'photoswipe-open' );
+
+		var checkForClose;
+
+		checkForClose = setInterval( function() {
+
+			if ( ! $( '.pswp' ).hasClass( 'pswp--open' ) ) {
+
+				$( 'body' ).removeClass( 'photoswipe-open' );
+				$( '#wpadminbar' ).show();
+
+				clearInterval( checkForClose );
+
+			}
+
+		}, 100 );
+
+	} );
 	
 } )( jQuery );

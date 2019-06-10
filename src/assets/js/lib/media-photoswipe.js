@@ -23,7 +23,15 @@
 
 		// Initializes and opens PhotoSwipe.
 		var photoswipe = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options );
+
+		$( '#wpadminbar' ).hide();
 		photoswipe.init();
+
+		photoswipe.listen( 'close', function() {
+
+			$( '#wpadminbar' ).show();
+
+		} );
 
     } );
 

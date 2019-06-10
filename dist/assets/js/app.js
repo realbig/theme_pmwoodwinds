@@ -6169,7 +6169,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		// Initializes and opens PhotoSwipe.
 		var photoswipe = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+
+		$('#wpadminbar').hide();
 		photoswipe.init();
+
+		photoswipe.listen('close', function () {
+
+			$('#wpadminbar').show();
+		});
 	});
 })(jQuery);
 
@@ -6209,9 +6216,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	if (typeof wc_single_product_params == 'undefined') return;
 
-	// Only for Single Products
-
-
 	// Force Photoswipe to zoom further
 	// https://stackoverflow.com/a/40459340
 	wc_single_product_params.photoswipe_options.getDoubleTapZoom = function (isMouseClick, item) {
@@ -6227,6 +6231,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 		}
 	};
+
+	$(document).on('click touch', '.woocommerce-product-gallery__image a', function (event) {
+
+		event.preventDefault();
+
+		$('#wpadminbar').hide();
+
+		$('body').addClass('photoswipe-open');
+
+		var checkForClose;
+
+		checkForClose = setInterval(function () {
+
+			if (!$('.pswp').hasClass('pswp--open')) {
+
+				$('body').removeClass('photoswipe-open');
+				$('#wpadminbar').show();
+
+				clearInterval(checkForClose);
+			}
+		}, 100);
+	});
 })(jQuery);
 
 /***/ }),
