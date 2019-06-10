@@ -51,7 +51,7 @@ get_header();
 
 		</div>
 		
-		<div class="content cd-gallery col-sm-12 col-md-9 col-md-push-3 filter-is-visible">
+		<div class="content container cd-gallery col-sm-12 col-md-9 col-md-push-3 filter-is-visible">
 
             <div id="video-categories">
 
@@ -89,11 +89,20 @@ get_header();
             <div id="video-archive">
 
                 <?php if ( have_posts() ) : ?>
-                    <?php
-                    /* Start the Loop */
-                    while ( have_posts() ) : the_post();
+					<?php
+					
+					$index = 0;
+					$max_per_row = 2; // 0 indexed
 
-                        ?>
+                    /* Start the Loop */
+					while ( have_posts() ) : the_post();
+					
+						if ( $index == 0 ) : ?>
+
+						<div class="row">
+
+						<?php endif; ?>
+
                         <div <?php post_class( array( 'col-sm-12', 'col-md-4' ) ); ?> style="display: none;">
 
                             <div class="background">
@@ -111,12 +120,32 @@ get_header();
 
                             </div>
 
-                        </div>
-            
-                        <?php
+						</div>
+						
+						<?php if ( $index == $max_per_row ) : ?>
+
+							</div>
+
+						<?php
+
+							$index = 0;
+
+						else : 
+
+							$index++;
+
+						endif; 
 
                     endwhile;
-                endif; ?>
+				endif;
+				
+				// Ensure that the row closes out
+				if ( $index < $max_per_row && 
+					$index > 0 ) : ?>
+
+					</div>
+
+				<?php endif; ?>
 
             </div>
 			
