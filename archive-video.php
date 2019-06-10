@@ -102,9 +102,10 @@ get_header();
                                     <?php the_post_thumbnail();?>
                                 </div>
                                 <div class="text">
-                                    <h5><?php the_title();?></h5>
 
-                                    <?php the_content();?>
+									<?php the_content();?>
+									
+									<h5><?php the_title();?></h5>
 
                                     <a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
                                 </div>
