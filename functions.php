@@ -1701,3 +1701,35 @@ add_action( 'wp_enqueue_scripts', function() {
 	}
 
 }, 11 );
+
+add_action( 'tribe_before_get_template_part', function( $template, $file, $template_2, $slug, $name ) {
+
+	if ( strpos( $slug, 'title-bar' ) === false ) return;
+
+	echo '<div class="category-head">';
+
+}, 10, 5 );
+
+add_action( 'tribe_after_get_template_part', function( $template, $file, $slug, $name ) {
+
+	if ( strpos( $slug, 'title-bar' ) === false ) return;
+
+	echo '</div>';
+	
+}, 10, 4 );
+
+add_action( 'tribe_events_after_the_title', function() {
+
+	ob_start();
+
+	?>
+
+		<div class="bars-animation">
+			<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
+		</div>
+	
+	<?php 
+
+	echo ob_get_clean();
+
+} );

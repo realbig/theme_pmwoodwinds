@@ -1,14 +1,19 @@
 <?php
 
- get_header();?>
+ global $wp_query;
+ 
+ get_header(); ?>
 	
 		<div id="latest-work" class="latest-work container hover-section">
-		<div class="category-head">
-			<h4><?php the_title();?></h4>
-			<div class="bars-animation">
-				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
-			</div>
-		</div><!-- Category Head -->
+
+		<?php if ( isset( $wp_query->query['post_type'] ) && ! $wp_query->query['post_type'] == 'tribe_events' ) : ?>
+			<div class="category-head">
+				<h4><?php the_title(); ?></h4>
+				<div class="bars-animation">
+					<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
+				</div>
+			</div><!-- Category Head -->
+		<?php endif; ?>
 
 		<div class="row">
 			<div class="col-sm-12">
