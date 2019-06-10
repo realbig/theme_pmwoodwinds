@@ -61,43 +61,25 @@
 
 			<div class="col-sm-12 col-md-6">
 
-				<div class="row">
+				<div class="trd-testimonial-text">
 
-					<div class="col-sm-12 col-md-4 trd-satisfied-user-info">
-
-						<div class="trd-user-img-wrapper">
-						
-							<?php if ( ! get_post_meta( get_the_ID(), 'wpcf-image', true ) ) : ?>
-								<?php echo wc_placeholder_img( 'thumbnail' ); ?>
-							<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
-								<?php echo types_render_field( 'image', array( 'size' => 'thumbnail' ) ); ?>
-							<?php endif; ?>
-
-						</div>
-						
-					</div>
-
-					<div class="col-sm-12 col-md-8 trd-testimonial-text">
-
-						<?php if ( $website_url = get_post_meta(get_the_ID(), 'wpcf-link', true) ) : ?>
-						
-							<a href="<?php echo get_post_meta(get_the_ID(), 'wpcf-link', true);?>" target="_blank">
-								
-						<?php endif; ?>
+					<?php if ( $website_url = get_post_meta(get_the_ID(), 'wpcf-link', true) ) : ?>
 					
-						<h3>
+						<a href="<?php echo get_post_meta(get_the_ID(), 'wpcf-link', true);?>" target="_blank">
 							
-							<?php echo $post->post_title;?>
+					<?php endif; ?>
+				
+					<h3>
 						
-						</h3>
-
-						<?php if ( $website_url ) : ?>
-							
-							</a>
+						<?php echo $post->post_title;?>
 					
-						<?php endif; ?>
+					</h3>
 
-					</div>
+					<?php if ( $website_url ) : ?>
+						
+						</a>
+				
+					<?php endif; ?>
 
 				</div>
 
