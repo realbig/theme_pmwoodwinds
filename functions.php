@@ -1702,6 +1702,17 @@ add_action( 'wp_enqueue_scripts', function() {
 
 }, 11 );
 
+add_filter( 'woocommerce_single_product_photoswipe_options', function( $options ) {
+
+	if ( get_post_type() !== 'media' ) return $options;
+
+	$options['maxSpreadZoom'] = 1;
+	$options['zoomEl'] = false;
+
+	return $options;
+
+} );
+
 add_action( 'tribe_before_get_template_part', function( $template, $file, $template_2, $slug, $name ) {
 
 	if ( strpos( $slug, 'title-bar' ) === false ) return;
@@ -1715,7 +1726,7 @@ add_action( 'tribe_after_get_template_part', function( $template, $file, $slug, 
 	if ( strpos( $slug, 'title-bar' ) === false ) return;
 
 	echo '</div>';
-	
+
 }, 10, 4 );
 
 add_action( 'tribe_events_after_the_title', function() {
