@@ -14,7 +14,7 @@ get_header();
 ?>
 <div id="blog" class="blog-home hover-section category-layout">
 		<div class="category-head">
-			<h4><?php echo single_cat_title();?></h4>
+			<h4>Media</h4>
 			<div class="bars-animation">
 				<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hicon.png" alt="PM">
 			</div>
