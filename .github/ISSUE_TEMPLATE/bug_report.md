@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 labels: bug
-about: Something doesn't work correctly.
+about: Something doesn't work correctly. Bugs are purely functional problems.
 
 ---
 
