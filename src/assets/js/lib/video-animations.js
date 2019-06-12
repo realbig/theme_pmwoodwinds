@@ -10,6 +10,10 @@
 
 		if ( loaded ) {
 
+            $videoCategories.removeClass( function( index, className ) {
+                return ( className.match( /scale-(?:in|out)-.+|mui-.+/gi ) || [] ).join( ' ' );
+            } );
+
             $video.each( function( index, element ) {
                 Foundation.Motion.animateOut( element, 'scale-out-down' );
             } );
@@ -22,9 +26,21 @@
                 } );
 
                 setTimeout( function() {
+
+                    $videoCategories.removeClass( function( index, className ) {
+                        return ( className.match( /scale-(?:in|out)-.+|mui-.+/gi ) || [] ).join( ' ' );
+                    } );
 		
                     $videoCategories.each( function( index, element ) {
-                        $( element ).css( 'display', 'none' );
+
+                        var classes = $( element ).attr( 'class' );
+
+                        if ( classes.match( /scale-(?:in|out)-.+|mui-.+/gi ) !== null ) {
+
+                            $( element ).css( 'display', 'none' );
+
+                        }
+
                     } );
                     
                 }, 250 ); // Wait until animation finishes, 500ms is Motion-UI default
@@ -53,11 +69,32 @@
         $videoCategories = $( '.post-type-archive-video .content .video-category' );
         $categoryCheckboxes = $( '.facetwp-facet-video_categories .facetwp-checkbox' );
 
+        $videoCategories.removeClass( function( index, className ) {
+            return ( className.match( /scale-(?:in|out)-.+|mui-.+/gi ) || [] ).join( ' ' );
+        } );
+
         // Only show results if something is checked
         if ( $categoryCheckboxes.hasClass( 'checked' ) ) {
 		
             $video.each( function( index, element ) {
                 Foundation.Motion.animateIn( element, 'scale-in-up' );
+            } );
+
+        }
+        else {
+
+            $videoCategories.each( function( index, element ) {
+
+                $( element ).css( 'display', 'block' );
+
+                var classes = $( element ).attr( 'class' );
+
+                if ( classes.match( /scale-(?:in|out)-.+|mui-.+/gi ) !== null ) {
+
+                    Foundation.Motion.animateIn( element, 'scale-in-up' );
+
+                }
+
             } );
 
         }
