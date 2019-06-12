@@ -60,7 +60,7 @@ get_header();
 					while ( have_posts() ) : the_post();
 
 						?>
-						<div <?php post_class( array( 'col-sm-12', 'col-md-4' ) ); ?>>
+						<div <?php post_class( array( 'col-sm-12', 'col-md-3' ) ); ?>>
 
 							<div class="background">
 
