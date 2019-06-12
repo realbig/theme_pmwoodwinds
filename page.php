@@ -6,7 +6,7 @@
 	
 		<div id="latest-work" class="latest-work container hover-section">
 
-		<?php if ( ! isset( $wp_query->query['post_type'] ) || ! $wp_query->query['post_type'] == 'tribe_events' ) : ?>
+		<?php if ( ! isset( $wp_query->query['post_type'] ) || $wp_query->query['post_type'] !== 'tribe_events' ) : ?>
 			<div class="category-head">
 				<h4><?php the_title(); ?></h4>
 				<div class="bars-animation">
