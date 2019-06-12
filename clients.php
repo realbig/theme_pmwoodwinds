@@ -47,7 +47,7 @@
 	global $post;
 
 	$index = 0;
-	$max_per_row = 1; // 0 indexed
+	$max_per_row = 3; // 0 indexed
 
 	if ( $posts->have_posts() ) : 
 
@@ -59,7 +59,7 @@
 
 			<?php endif; ?>
 
-			<div class="col-sm-12 col-md-6">
+			<div class="col-sm-12 col-md-6 col-lg-3">
 
 				<div class="trd-testimonial-text">
 
