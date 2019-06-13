@@ -1744,3 +1744,45 @@ add_action( 'tribe_events_after_the_title', function() {
 	echo ob_get_clean();
 
 } );
+
+add_filter( 'gettext', 'pmwoodwinds_change_upcoming_events_text', 10, 4 );
+/**
+ * Alter the label for Upcomming Events
+ * 
+ * @param		string  $translation			The resulting Translation
+ * @param		string  $untranslated_text      The original string
+ * @param		string  $domain					The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_change_upcoming_events_text( $translation, $untranslated_text, $domain ) {
+	
+	if ( $domain !== 'the-events-calendar' ) return $translation;
+
+	if ( $untranslated_text == 'Upcoming %s' || $untranslated_text == 'Past %s' ) {
+		return '%s';
+	}
+
+	return $translation;
+
+}
+
+add_action( 'tribe_before_get_template_part', function( $template, $file, $template_2, $slug, $name ) {
+
+	if ( strpos( $slug, 'list/content' ) === false ) return;
+
+	?>
+
+	<div class="cd-tab-filter-wrapper">
+		<div class="cd-tab-filter">
+			<ul class="cd-filters tribe-events-sub-nav">
+				<li><a class="previous-filter tribe-events-past<?php echo ( isset( $_GET['tribe_event_display'] ) && $_GET['tribe_event_display'] == 'past' ) ? ' selected' : ''; ?>" rel="prev" href="/events/list/?tribe_event_display=past&tribe_paged=1">Past Events</a></li>
+				<li><a class="upcoming-filter tribe-events-nav-next<?php echo ( ! isset( $_GET['tribe_event_display'] ) || $_GET['tribe_event_display'] !== 'past' ) ? ' selected' : ''; ?>" rel="next" href="/events/list/?tribe_event_display=list&tribe_paged=1">Upcoming Events</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<?php 
+
+}, 10, 5 );

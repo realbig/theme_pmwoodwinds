@@ -51,5 +51,17 @@ body.post-type-archive-tribe_events {
 		}
 		
 	}
+
+	&.events-list {
+
+		#tribe-events-bar {
+			margin-bottom: 0;
+		}
+
+		.cd-tab-filter-wrapper {
+			margin-bottom: 1rem;
+		}
+
+	}
 	
 }

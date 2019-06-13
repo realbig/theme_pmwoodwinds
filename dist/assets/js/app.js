@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 43);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -393,21 +393,19 @@ exports.transitionend = transitionend;
 "use strict";
 
 
+__webpack_require__(38);
+
 __webpack_require__(37);
 
 __webpack_require__(36);
 
-__webpack_require__(35);
+__webpack_require__(40);
 
 __webpack_require__(39);
-
-__webpack_require__(38);
 
 __webpack_require__(9);
 
 __webpack_require__(11);
-
-__webpack_require__(16);
 
 __webpack_require__(17);
 
@@ -425,15 +423,17 @@ __webpack_require__(23);
 
 __webpack_require__(24);
 
-__webpack_require__(29);
+__webpack_require__(25);
 
-__webpack_require__(33);
+__webpack_require__(30);
+
+__webpack_require__(34);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(40);
+var _whatInput = __webpack_require__(41);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -441,33 +441,35 @@ var _foundation = __webpack_require__(5);
 
 var _foundationUtil = __webpack_require__(7);
 
-__webpack_require__(28);
-
-__webpack_require__(14);
-
-__webpack_require__(30);
-
-__webpack_require__(25);
-
-__webpack_require__(34);
+__webpack_require__(29);
 
 __webpack_require__(15);
 
-__webpack_require__(13);
-
-__webpack_require__(10);
-
-__webpack_require__(32);
-
 __webpack_require__(31);
-
-__webpack_require__(8);
-
-__webpack_require__(12);
 
 __webpack_require__(26);
 
+__webpack_require__(35);
+
+__webpack_require__(16);
+
+__webpack_require__(14);
+
+__webpack_require__(10);
+
+__webpack_require__(33);
+
+__webpack_require__(32);
+
+__webpack_require__(8);
+
+__webpack_require__(13);
+
 __webpack_require__(27);
+
+__webpack_require__(28);
+
+__webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1715,6 +1717,55 @@ if (typeof jQuery === 'undefined') {
 "use strict";
 
 
+(function ($, ts) {
+
+    // Events calendar uses ts as the variable name, so I guess I will too
+
+    if ($('body.post-type-archive-tribe_events').length <= 0) return;
+
+    $(document).on('click touch', '.cd-tab-filter-wrapper a', function (event) {
+
+        $('.cd-tab-filter-wrapper a').removeClass('selected');
+
+        $(this).addClass('selected');
+    });
+
+    $(document).on('click touch', 'nav.tribe-events-nav-pagination a', function (event) {
+
+        var interval;
+
+        interval = setInterval(function () {
+
+            // Wait for Ajax to finish
+            if (!ts.ajax_running) {
+
+                if (ts.view == 'list') {
+
+                    if (!$('.cd-tab-filter-wrapper a[rel="next"]').hasClass('selected')) {
+                        $('.cd-tab-filter-wrapper a').removeClass('selected');
+                        $('.cd-tab-filter-wrapper a[rel="next"]').addClass('selected');
+                    }
+                } else {
+
+                    if (!$('.cd-tab-filter-wrapper a[rel="prev"]').hasClass('selected')) {
+                        $('.cd-tab-filter-wrapper a').removeClass('selected');
+                        $('.cd-tab-filter-wrapper a[rel="prev"]').addClass('selected');
+                    }
+                }
+
+                clearInterval(interval);
+            }
+        }, 100);
+    });
+})(jQuery, tribe_ev.state);
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 (function ($) {
 
 	// Parent Category
@@ -1750,7 +1801,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1767,7 +1818,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1806,7 +1857,7 @@ if (typeof jQuery === 'undefined') {
 })(jQuery);
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1868,7 +1919,7 @@ function resizeIframe(iFrame) {
 })(jQuery);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1955,7 +2006,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(undefined);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2039,7 +2090,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery || window.Zepto);
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2442,7 +2493,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2512,7 +2563,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(window.jQuery);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2704,7 +2755,7 @@ jQuery(document).on("click", ".lg-actions .lg-icon", function () {
 })(jQuery, _responsiveToolkit2.default);
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4507,7 +4558,7 @@ Jssor Slider (MIT license)
 }(window, document, Math, null, true, false);
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5012,7 +5063,7 @@ Jssor Slider (MIT license)
 })(jQuery);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5125,7 +5176,7 @@ window.pmwoodwindsOpenSearch = function () {
 })(jQuery, _responsiveToolkit2.default);
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6098,7 +6149,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //var $mcj = jQuery.noConflict(true);
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6138,7 +6189,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6181,7 +6232,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6206,7 +6257,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6256,7 +6307,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6395,7 +6446,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6492,7 +6543,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6530,7 +6581,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6547,7 +6598,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6738,7 +6789,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6851,7 +6902,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /*
@@ -7353,7 +7404,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10868,7 +10919,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -12110,7 +12161,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /**!
@@ -14187,7 +14238,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14662,7 +14713,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -15047,8 +15098,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 41 */,
-/* 42 */
+/* 42 */,
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);
