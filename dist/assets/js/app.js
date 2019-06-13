@@ -1717,11 +1717,12 @@ if (typeof jQuery === 'undefined') {
 "use strict";
 
 
-(function ($, ts) {
-
-    // Events calendar uses ts as the variable name, so I guess I will too
+(function ($) {
 
     if ($('body.post-type-archive-tribe_events').length <= 0) return;
+
+    // Events calendar uses ts as the variable name, so I guess I will too
+    var ts = tribe_ev.state;
 
     $(document).on('click touch', '.cd-tab-filter-wrapper a', function (event) {
 
@@ -1757,7 +1758,7 @@ if (typeof jQuery === 'undefined') {
             }
         }, 100);
     });
-})(jQuery, tribe_ev.state);
+})(jQuery);
 
 /***/ }),
 /* 13 */
