@@ -1745,7 +1745,7 @@ add_action( 'tribe_events_after_the_title', function() {
 
 } );
 
-add_filter( 'gettext', 'pmwoodwinds_change_upcoming_events_text', 10, 4 );
+add_filter( 'gettext', 'pmwoodwinds_change_upcoming_past_events_text', 10, 4 );
 /**
  * Alter the label for Upcomming Events
  * 
@@ -1756,12 +1756,39 @@ add_filter( 'gettext', 'pmwoodwinds_change_upcoming_events_text', 10, 4 );
  * @since		{{VERSION}}
  * @return		string  The resulting Translation
  */
-function pmwoodwinds_change_upcoming_events_text( $translation, $untranslated_text, $domain ) {
+function pmwoodwinds_change_upcoming_past_events_text( $translation, $untranslated_text, $domain ) {
 	
 	if ( $domain !== 'the-events-calendar' ) return $translation;
 
 	if ( $untranslated_text == 'Upcoming %s' || $untranslated_text == 'Past %s' ) {
 		return '%s';
+	}
+
+	return $translation;
+
+}
+
+add_filter( 'gettext', 'pmwoodwinds_change_next_previous_events_links_text', 10, 4 );
+/**
+ * Alter the label for Upcomming Events
+ * 
+ * @param		string  $translation			The resulting Translation
+ * @param		string  $untranslated_text      The original string
+ * @param		string  $domain					The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_change_next_previous_events_links_text( $translation, $untranslated_text, $domain ) {
+	
+	if ( $domain !== 'the-events-calendar' ) return $translation;
+
+	if ( $untranslated_text == 'Next %s') {
+		return 'Next';
+	}
+
+	if ( $untranslated_text == 'Previous %s') {
+		return 'Previous';
 	}
 
 	return $translation;
