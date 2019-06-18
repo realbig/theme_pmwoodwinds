@@ -48,5 +48,6 @@ import './lib/product-single-variations';
 import './lib/product-single-compare';
 import './lib/ajax-search-for-woocommerce';
 import './lib/facetwp-checkboxes';
+import './lib/media-fresco';
 import './lib/offcanvas';
 import './lib/events-list';

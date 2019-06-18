@@ -89,9 +89,7 @@ get_header();
 									$caption = wp_get_attachment_caption( $attachment_id );
 
 									$img_data[] = array(
-										'src' => $image[0],
-										'w' => $image[1],
-										'h' => $image[2],
+										'url' => $image[0],
 										'caption' => $caption,
 									);
 
@@ -99,7 +97,7 @@ get_header();
 
 								?>
 
-								<a href="<?php echo get_permalink();?>" <?php echo ! empty( $attachment_ids ) ? 'class="media-photoswipe"  data-gallery="' . esc_attr( json_encode( $img_data ) ) . '"' : ''; ?>">
+								<a href="<?php echo get_permalink();?>" <?php echo ! empty( $attachment_ids ) ? 'class="media-fresco"  data-gallery="' . esc_attr( json_encode( $img_data ) ) . '"' : ''; ?>">
 
 									<div class="image">
 										<?php the_post_thumbnail();?>
