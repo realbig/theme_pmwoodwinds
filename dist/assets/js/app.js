@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -393,15 +393,15 @@ exports.transitionend = transitionend;
 "use strict";
 
 
-__webpack_require__(38);
-
 __webpack_require__(37);
 
 __webpack_require__(36);
 
-__webpack_require__(40);
+__webpack_require__(35);
 
 __webpack_require__(39);
+
+__webpack_require__(38);
 
 __webpack_require__(9);
 
@@ -425,15 +425,15 @@ __webpack_require__(24);
 
 __webpack_require__(25);
 
-__webpack_require__(30);
+__webpack_require__(29);
 
-__webpack_require__(34);
+__webpack_require__(33);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(41);
+var _whatInput = __webpack_require__(40);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -441,15 +441,15 @@ var _foundation = __webpack_require__(5);
 
 var _foundationUtil = __webpack_require__(7);
 
-__webpack_require__(29);
+__webpack_require__(28);
 
 __webpack_require__(15);
 
-__webpack_require__(31);
+__webpack_require__(30);
 
 __webpack_require__(26);
 
-__webpack_require__(35);
+__webpack_require__(34);
 
 __webpack_require__(16);
 
@@ -457,17 +457,15 @@ __webpack_require__(14);
 
 __webpack_require__(10);
 
-__webpack_require__(33);
-
 __webpack_require__(32);
+
+__webpack_require__(31);
 
 __webpack_require__(8);
 
 __webpack_require__(13);
 
 __webpack_require__(27);
-
-__webpack_require__(28);
 
 __webpack_require__(12);
 
@@ -6197,49 +6195,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 (function ($) {
-
-	if ($('body.post-type-archive-media').length < 0) return;
-
-	$(document).on('click touch', 'a.media-photoswipe', function (event) {
-
-		event.preventDefault();
-
-		var pswpElement = $('.pswp')[0],
-		    items = $(this).data('gallery');
-
-		var options = $.extend({
-			index: 0,
-			addCaptionHTMLFn: function addCaptionHTMLFn(item, captionEl) {
-				if (!item.title) {
-					captionEl.children[0].textContent = '';
-					return false;
-				}
-				captionEl.children[0].textContent = item.title;
-				return true;
-			}
-		}, wc_single_product_params.photoswipe_options);
-
-		// Initializes and opens PhotoSwipe.
-		var photoswipe = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-
-		$('#wpadminbar').hide();
-		photoswipe.init();
-
-		photoswipe.listen('close', function () {
-
-			$('#wpadminbar').show();
-		});
-	});
-})(jQuery);
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-(function ($) {
     'use strict';
 
     $(document).on('click touch', '[data-toggle="offcanvas"]', function () {
@@ -6258,7 +6213,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6308,7 +6263,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6447,7 +6402,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(jQuery);
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6544,7 +6499,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6582,7 +6537,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6599,7 +6554,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6790,7 +6745,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6903,7 +6858,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /*
@@ -7405,7 +7360,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10920,7 +10875,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -12162,7 +12117,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /**!
@@ -14239,7 +14194,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14714,7 +14669,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -15099,8 +15054,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 42 */,
-/* 43 */
+/* 41 */,
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);
