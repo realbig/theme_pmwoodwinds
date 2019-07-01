@@ -1,9 +1,25 @@
 body.page-template-clients, body.page-template-testimonials {
 
+    #clients {
+
+        .trd-testimonial-text {
+            margin-bottom: 1rem;
+        }
+
+    }
+
     #clients, #testimonials {
 
-        & > .row {
-            margin-bottom: 1rem;
+        @media (min-width: 768px) {
+
+            .trd-testimonial-text{
+                margin-bottom: 0;
+            }
+
+            & > .row {
+                margin-bottom: 1rem;
+            }
+
         }
 
         blockquote {

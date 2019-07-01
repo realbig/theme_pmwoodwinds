@@ -33,15 +33,8 @@
 	 $posts = new WP_Query( array(
 		'posts_per_page'	=> -1,
 		'post_type'		=> 'clients',
-		'meta_key'		=> 'wpcf-testimonial',
 		'orderby'		=> 'last_name',
 		'order'			=> 'ASC',
-		'meta_query' => array(
-			array(
-				'key' => 'wpcf-show-in-clients',
-				'compare' => 'EXISTS',
-			),
-		),
 	) );
 
 	global $post;
@@ -59,7 +52,7 @@
 
 			<?php endif; ?>
 
-			<div class="col-sm-12 col-md-6 col-lg-3">
+			<div class="col-xs-12 col-sm-6 col-lg-3">
 
 				<div class="trd-testimonial-text">
 
@@ -114,7 +107,7 @@
 		<?php endif;
 
 	endif; ?>
-	
+
 	</div>
 	</div>
 	</div>
