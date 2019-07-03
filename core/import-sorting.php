@@ -19,6 +19,9 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 			add_action( 'create_product_cat', array( $this, 'categories_updated' ) );
 			add_action( 'edited_product_cat', array( $this, 'categories_updated' ) );
 			add_action( 'delete_product_cat', array( $this, 'categories_updated' ) );
+
+			// Update Product Sorting Key when using the Taxonomy Order menu
+			add_action( 'tto/update-order', array( $this, 'categories_updated' ) );
 			
 		}
 		
