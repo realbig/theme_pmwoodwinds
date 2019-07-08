@@ -1178,12 +1178,18 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 
     if ( isset( $meta_key ) && 
 		get_post_type( $object_id ) == 'slider' && 
-		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price', '_event_image', '_event_title', '_event_datetime', '_event_reservations', '_event_link' ) ) ) {
+		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price', '_event_image', '_event_title', '_event_datetime', '_event_reservations', '_event_link', '_formatted_content' ) ) ) {
 		
         remove_filter( 'get_post_metadata', 'pmwoodwind_convert_meta_for_revslider', 100 );
 		
         $current_meta = get_post_meta( $object_id, $meta_key, true );
 		
+		if ( $meta_key == '_formatted_content' ) {
+
+			$post = get_post( $object_id );
+
+			$current_meta = apply_filters( 'the_content', $post->post_content );
+		}
 		if ( $meta_key == '_slide_product' && 
 		   is_array( $current_meta ) && 
 		   ! empty( $current_meta ) ) {
