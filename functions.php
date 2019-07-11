@@ -1921,3 +1921,29 @@ add_action( 'tribe_before_get_template_part', function( $template, $file, $templ
 	<?php 
 
 }, 10, 5 );
+
+/*
+
+add_filter( 'woocommerce_csv_product_export_args', function( $args ) {
+
+	$taxonomy = wc_attribute_taxonomy_name( 'Is New?' );
+
+	$term = term_exists( 'used', $taxonomy );
+	$term_id = (int) $term['term_id'];
+
+	$tax_query = ( isset( $args['tax_query'] ) && $args['tax_query'] ) ? $args['tax_query'] : array();
+
+	$tax_query[] = array(
+		'taxonomy' => $taxonomy,
+		'field' => 'term_id',
+		'terms' => array( $term_id ),
+		'operator' => 'IN',
+	);
+	
+	$args['tax_query'] = $tax_query;
+
+	return $args;
+
+} );
+
+*/
