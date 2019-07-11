@@ -936,6 +936,7 @@ require_once __DIR__ . '/core/import-photos.php';
 require_once __DIR__ . '/core/apply-instruments-shipping-class.php';
 require_once __DIR__ . '/core/import-attributes.php';
 require_once __DIR__ . '/core/import-sorting.php';
+require_once __DIR__ . '/core/import-brand-sorting.php';
 require_once __DIR__ . '/core/reset-default-variation.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
@@ -1038,6 +1039,22 @@ function pmwoodwind_get_accessory_sorting_key() {
 	
 }
 
+/**
+ * Returns a numeric index to use for sorting on the initial page load
+ * To be stored as Post Meta based on the attached Brand (Loop through them all, find whichever matching category has the highest index, and save that one)
+ * 
+ * @since		{{VERSION}}
+ * @return		array Sorting Key
+ */
+function pmwoodwind_get_brand_sorting_key() {
+
+	// We just want the flat list, so 0 works fine
+	$terms = pmwoodwind_get_product_category_list_recursive( 0 );
+	
+	return apply_filters( 'pmwoodwind_get_brand_sorting_key', $terms );
+	
+}
+
 function pmwoodwind_get_product_category_list_recursive( $term_id, &$sorted = array() ) {
 
 	// We need the term_order key, so we cannot only pull in the Term ID
@@ -1057,9 +1074,58 @@ function pmwoodwind_get_product_category_list_recursive( $term_id, &$sorted = ar
 
 }
 
+function pmwoodwind_get_brand_list_recursive( $term_id, &$sorted = array() ) {
+
+	// We need the term_order key, so we cannot only pull in the Term ID
+	$terms = get_terms( 'pwb-brand', array( 'parent' => $term_id, 'hide_empty' => false ) );
+
+	usort( $terms, 'pmwoodwind_sort_by_term_order' );
+
+	foreach ( $terms as $term ) {
+
+		$sorted[] = $term->term_id;
+
+		pmwoodwind_get_brand_list_recursive( $term->term_id, $sorted );
+
+	}
+
+	return $sorted;
+
+}
+
 function pmwoodwind_sort_by_term_order( $a, $b ) {
 
 	return $a->term_order > $b->term_order;
+
+}
+
+/**
+ * Copied this more or less from their Plugin's save routine. We need to grab one of the Term IDs so we can determine the Taxonomy
+ *
+ * @since	{{VERSION}}
+ * @return  [integer|boolean]  First returned Term ID, or False on failure
+ */
+function pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax() {
+
+	if ( ! isset( $_REQUEST['order'] ) || ! $_REQUEST['order'] ) return false;
+
+	$unserialised_data = json_decode( stripslashes( $_REQUEST['order'] ), true );
+	$term_id = false;
+
+	foreach( $unserialised_data as $key => $values ) {
+
+		$items = explode( '&', $values );
+		
+		foreach ( $items as $item_key => $item_ ) {
+			$term_id = trim( str_replace( "item[]=", "", $item_ ) );
+			break;
+		}
+
+		break;
+
+	}
+
+	return $term_id;
 
 }
 
@@ -1151,6 +1217,65 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	if ( $sort_value > 0 ) {
 			
 		$update = update_post_meta( $post_id, 'product_sort_order', (int) $sort_value );
+
+	}
+	
+}
+
+add_action( 'save_post', 'pmwoodwind_save_brand_sorting_key' );
+
+/**
+ * On Product Save, update the hidden Brand Sorting value
+ * 
+ * @param		integer $post_id Post ID
+ *                               
+ * @since		{{VERSION}}
+ */
+function pmwoodwind_save_brand_sorting_key( $post_id ) {
+	
+	if ( get_post_type( $post_id ) !== 'product' ) 
+		return;
+	
+	// Autosave, do nothing
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+        return;
+	
+	// Check user permissions
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+        return;
+	
+	// Return if it's a post revision
+	if ( false !== wp_is_post_revision( $post_id ) )
+				return;
+	
+	if ( ! isset( $_POST['tax_input'] ) || ! isset( $_POST['tax_input']['pwb-brand'] ) )
+		return;
+	
+	$sort_value = 0;
+	
+	$brand_key = pmwoodwind_get_brand_sorting_key();
+	
+	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
+		
+		$index = array_search( $term_id, $brand_key );
+		
+		if ( $index !== false ) {
+			
+			$index = $index + 1; // Cannot zero-index otherwise we may not actually save a value
+
+			if ( $index > $sort_value ) {
+
+				$sort_value = $index;
+
+			}
+			
+		}
+		
+	}
+	
+	if ( $sort_value > 0 ) {
+			
+		$update = update_post_meta( $post_id, 'product_brand_sort_order', (int) $sort_value );
 
 	}
 	

@@ -3,22 +3,22 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
+if ( ! class_exists( 'pmwoodwinds_import_brand_sorting' ) ) {
 
-	class pmwoodwinds_import_sorting {
+	class pmwoodwinds_import_brand_sorting {
 
 		function __construct() {
 			
-			require_once __DIR__ . '/import-sorting-process.php';
+			require_once __DIR__ . '/import-brand-sorting-process.php';
 			
-			$this->process_all = new pmwoodwinds_import_sorting_process();
+			$this->process_all = new pmwoodwinds_import_brand_sorting_process();
 			
 			add_action( 'admin_init', array( $this, 'process_handler' ) );
 
 			// Re-index whenever someone adds/deletes/reorders the Product Categories
-			add_action( 'create_product_cat', array( $this, 'categories_updated' ) );
-			add_action( 'edited_product_cat', array( $this, 'categories_updated' ) );
-			add_action( 'delete_product_cat', array( $this, 'categories_updated' ) );
+			add_action( 'create_pwb-brand', array( $this, 'categories_updated' ) );
+			add_action( 'edited_pwb-brand', array( $this, 'categories_updated' ) );
+			add_action( 'delete_pwb-brand', array( $this, 'categories_updated' ) );
 
 			// Update Product Sorting Key when using the Taxonomy Order menu
 			add_action( 'tto/update-order', array( $this, 'categories_updated' ) );
@@ -30,8 +30,8 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 		 */
 		public function process_handler() {
 			
-			if ( isset( $_GET['fix_sorting'] ) && 
-			   $_GET['fix_sorting'] ) {
+			if ( isset( $_GET['fix_brand_sorting'] ) && 
+			   $_GET['fix_brand_sorting'] ) {
 				
 				$this->handle_all();
 				
@@ -47,7 +47,7 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 
 			$term = get_term( $term_id );
 
-			if ( $term->taxonomy !== 'product_cat' ) return;
+			if ( $term->taxonomy !== 'pwb-brand' ) return;
 
 			$this->handle_all();
 
@@ -92,4 +92,4 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 	
 }
 
-$instance = new pmwoodwinds_import_sorting();
+$instance = new pmwoodwinds_import_brand_sorting();
