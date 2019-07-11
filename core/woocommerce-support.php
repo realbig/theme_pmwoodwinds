@@ -946,10 +946,37 @@ add_action( 'woocommerce_product_query', function( $query ) {
 	// Only sort in this way for Instruments, Mouthpieces and Accessories
 	if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' ) return;
 	
-	$query->set( 'meta_key', 'product_sort_order' );
+	//$query->set( 'meta_key', 'product_sort_order' );
+
+	$meta_query = $query->get( 'meta_query' );
+
+	if ( empty( $meta_query ) ) {
+		$meta_query = array( 'relation' => 'AND' );
+	}
+
+	$meta_query['product_sort_order'] = array(
+		'key' => 'product_sort_order',
+		'type' => 'NUMERIC',
+	);
+
+	/*
+	$meta_query['product_brand_sort_order'] = array(
+		'key' => 'product_brand_sort_order',
+		'type' => 'NUMERIC',
+	);
+	*/
+
+	$meta_query['_sku'] = array(
+		'key' => '_sku',
+	);
+
+	$query->set( 'meta_query', $meta_query );
+
 	$query->set( 'orderby', array( 
-		'meta_value_num' => 'ASC',
+		'product_sort_order' => 'ASC',
+		//'product_brand_sort_order' => 'ASC',
 		'title' => 'ASC',
+		//'_sku' => 'ASC',
 	) );
 	
 } );
