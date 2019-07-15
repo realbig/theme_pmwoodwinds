@@ -959,25 +959,35 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		'type' => 'NUMERIC',
 	);
 
-	/*
-	$meta_query['product_brand_sort_order'] = array(
-		'key' => 'product_brand_sort_order',
-		'type' => 'NUMERIC',
+	$orderby = array(
+		'product_sort_order' => 'ASC',
+		'title' => 'ASC',
 	);
-	*/
 
-	$meta_query['_sku'] = array(
-		'key' => '_sku',
-	);
+	// If Used Instruments, use different Sort Order
+	if ( $term->slug == 'instruments' && 
+		isset( $_GET['_show'] ) 
+		&& $_GET['_show'] == 'used' ) {
+
+		$meta_query['product_brand_sort_order'] = array(
+			'key' => 'product_brand_sort_order',
+			'type' => 'NUMERIC',
+		);
+
+		$meta_query['_sku'] = array(
+			'key' => '_sku',
+		);
+
+		$orderby = array(
+			'product_brand_sort_order' => 'ASC',
+			'product_sort_order' => 'ASC',
+			'_sku' => 'ASC',
+		);
+
+	}
 
 	$query->set( 'meta_query', $meta_query );
-
-	$query->set( 'orderby', array( 
-		'product_sort_order' => 'ASC',
-		//'product_brand_sort_order' => 'ASC',
-		'title' => 'ASC',
-		//'_sku' => 'ASC',
-	) );
+	$query->set( 'orderby', $orderby );
 	
 } );
 

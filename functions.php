@@ -274,6 +274,15 @@ function pmwoodwind_add_new_voucher_link(){
 		   function pmwoodwindSortalphabetically(){
 			    pmwoodwindSortUnorderedList("tto_sortable", desc);
 				desc = !desc;
+
+				jQuery("ul.sortable").sortable({
+					'tolerance':'intersect',
+					'cursor':'pointer',
+					'items':'> li',
+					'axi': 'y',
+					'placeholder':'placeholder',
+					'nested': 'ul'
+				});
 				
 				return false;
 		   }
@@ -301,6 +310,9 @@ function pmwoodwind_add_new_voucher_link(){
 			  }	
 			  
 			  for(var i = 0, l = lis.length; i < l; i++){
+
+				if ( typeof lis[i] == 'undefined' ) continue;
+
 				lis[i].innerHTML = vals[i];
 				lis[i].setAttribute("id", ids[vals[i]]);
 			  }	
@@ -1049,7 +1061,7 @@ function pmwoodwind_get_accessory_sorting_key() {
 function pmwoodwind_get_brand_sorting_key() {
 
 	// We just want the flat list, so 0 works fine
-	$terms = pmwoodwind_get_product_category_list_recursive( 0 );
+	$terms = pmwoodwind_get_brand_list_recursive( 0 );
 	
 	return apply_filters( 'pmwoodwind_get_brand_sorting_key', $terms );
 	
