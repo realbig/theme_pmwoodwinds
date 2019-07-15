@@ -950,6 +950,7 @@ require_once __DIR__ . '/core/import-attributes.php';
 require_once __DIR__ . '/core/import-sorting.php';
 require_once __DIR__ . '/core/import-brand-sorting.php';
 require_once __DIR__ . '/core/reset-default-variation.php';
+require_once __DIR__ . '/core/import-sku-padding.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
@@ -1291,6 +1292,48 @@ function pmwoodwind_save_brand_sorting_key( $post_id ) {
 
 	}
 	
+}
+
+add_action( 'save_post', 'pmwoodwind_save_sorting_sku' );
+
+/**
+ * Save/Update the padded Sorting SKU automatically
+ *
+ * @param   [type]  $post_id  [$post_id description]
+ *
+ * @return  [type]            [return description]
+ */
+function pmwoodwind_save_sorting_sku( $post_id ) {
+
+	if ( get_post_type( $post_id ) !== 'product' ) 
+		return;
+	
+	// Autosave, do nothing
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+        return;
+	
+	// Check user permissions
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+        return;
+	
+	// Return if it's a post revision
+	if ( false !== wp_is_post_revision( $post_id ) )
+				return;
+
+	if ( ! isset( $_POST['_sku'] ) || ! $_POST['_sku'] )
+		return;
+
+	$sku_length = strlen( $_POST['_sku'] );
+
+	// If we have a new longest SKU, update the longest value
+	if ( $sku_length > get_option( 'pmwoodwind_sku_length', 0 ) ) {
+		update_option( 'pmwoodwind_sku_length', $sku_length );
+	}
+
+	$sorting_sku = pmwoodwind_pad_sku_for_sorting( $_POST['_sku'] );
+
+	update_post_meta( $post_id, '_sorting_sku', $sorting_sku );
+
 }
 
 if ( ! is_admin() ) {
@@ -1933,6 +1976,41 @@ add_action( 'tribe_before_get_template_part', function( $template, $file, $templ
 	<?php 
 
 }, 10, 5 );
+
+/**
+ * Figure out what the longest length for a SKU stored in the database is
+ * This is normally only called in the batch import process
+ *
+ * @return  [integer]  Length of longest SKU
+ */
+function pmwoodwind_get_max_sku_length() {
+
+	global $wpdb;
+
+	$max_sku_length = $wpdb->get_var( "
+		SELECT MAX(LENGTH(meta_value))
+		FROM {$wpdb->postmeta}
+		WHERE meta_key = '_sku'
+	" );
+
+	return $max_sku_length;
+
+}
+
+/**
+ * Pad a SKU for sorting. Ensures they are all the length of the longest SKU currently known in the database
+ *
+ * @param   [string]  $sku  Product SKU
+ *
+ * @return  [string]        Product SKU with 0s padded at the front to meet the proper length
+ */
+function pmwoodwind_pad_sku_for_sorting( $sku ) {
+
+	$sorting_sku = str_pad( $sku, get_option( 'pmwoodwind_sku_length', 0 ), '0', STR_PAD_LEFT );
+
+	return $sorting_sku;
+
+}
 
 /*
 

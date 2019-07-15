@@ -975,7 +975,7 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		);
 
 		$meta_query['_sku'] = array(
-			'key' => '_sku',
+			'key' => '_sorting_sku',
 		);
 
 		$orderby = array(
