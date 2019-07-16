@@ -58,6 +58,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		$is_accessory = array_intersect( $term_ids, $accessory_key );
 
 		$index = false;
+		$bottom_most_term_id = 0; // Used only for Used Instruments currently
 		
 		foreach ( $term_ids as $term_id ) {
 			
@@ -86,6 +87,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 				if ( $index > $sort_value ) {
 
 					$sort_value = $index;
+					$bottom_most_term_id = $term_id;
 
 				}
 
@@ -96,6 +98,68 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		if ( $sort_value > 0 ) {
 			
 			$update = update_post_meta( $product_id, 'product_sort_order', (int) $sort_value );
+
+			// The following is only currently used for the Used Instruments page
+
+			$top_category_id = 0;
+			$sorting_key = array();
+
+			// Find the Term IDs of Instrument/Mouthpiece/Accessory and set a Sorting Key to used for later
+			if ( $is_instrument ) {
+
+				$top_category = term_exists( 'instruments', 'product_cat' );
+				$top_category_id = (int) $top_category['term_id'];
+
+				$sorting_key = $instrument_key;
+
+			}
+			else if ( $is_mouthpiece ) {
+
+				$top_category = term_exists( 'mouthpieces', 'product_cat' );
+				$top_category_id = (int) $top_category['term_id'];
+
+				$sorting_key = $mouthpiece_key;
+
+			}
+			else if ( $is_accessory ) {
+
+				$top_category = term_exists( 'accessories', 'product_cat' );
+				$top_category_id = (int) $top_category['term_id'];
+
+				$sorting_key = $accessory_key;
+
+			}
+
+			$parent_category_index = 0;
+			$sub_category_index = 0;
+
+			$sorted_by_term = get_term_by( 'id', $bottom_most_term_id, 'product_cat' );
+
+			// Determine the correct values to save
+			if ( $sorted_by_term->parent == $top_category_id ) {
+
+				$parent_category_index = $sort_value;
+				$sub_category_index = 0; // The only checked category under Instruments/Mouthpieces/Accessories is only one level deep, so give it a default value
+
+			}
+			else {
+
+				$sub_category_index = $sort_value;
+
+				// Get second highest parent
+				$parent_category_id = pmwoodwind_get_second_to_top_category_id( $bottom_most_term_id );
+
+				// Find Index
+				$index = array_search( $parent_category_id, $sorting_key );
+
+				// Increment
+				$parent_category_index = $index + 1;
+
+			}
+
+			// Now we have "Parent" and Sub-Category saved in a way we can sort by for just the Used Instruments page
+			update_post_meta( $product_id, 'parent_category_sort_order', (int) $parent_category_index );
+			update_post_meta( $product_id, 'sub_category_sort_order', (int) $sub_category_index );
 			
 		}
 		
