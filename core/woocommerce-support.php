@@ -969,8 +969,25 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		isset( $_GET['_show'] ) 
 		&& $_GET['_show'] == 'used' ) {
 
-		$meta_query['product_brand_sort_order'] = array(
-			'key' => 'product_brand_sort_order',
+		unset( $meta_query['product_sort_order'] ); // Not using this, so may as well not restrict results to where it exists (Even though it always should)
+
+		$meta_query['parent_category_sort_order'] = array(
+			'key' => 'parent_category_sort_order',
+			'type' => 'NUMERIC',
+		);
+
+		$meta_query['sub_category_sort_order'] = array(
+			'key' => 'sub_category_sort_order',
+			'type' => 'NUMERIC',
+		);
+
+		$meta_query['parent_category_brand_sort_order'] = array(
+			'key' => 'parent_category_brand_sort_order',
+			'type' => 'NUMERIC',
+		);
+
+		$meta_query['sub_category_model_sort_order'] = array(
+			'key' => 'sub_category_model_sort_order',
 			'type' => 'NUMERIC',
 		);
 
@@ -979,8 +996,10 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		);
 
 		$orderby = array(
-			'product_brand_sort_order' => 'ASC',
-			'product_sort_order' => 'ASC',
+			'parent_category_sort_order' => 'ASC',
+			'sub_category_sort_order' => 'ASC',
+			'parent_category_brand_sort_order' => 'ASC',
+			'sub_category_model_sort_order' => 'ASC',
 			'_sku' => 'ASC',
 		);
 

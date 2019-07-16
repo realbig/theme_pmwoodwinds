@@ -951,6 +951,7 @@ require_once __DIR__ . '/core/import-sorting.php';
 require_once __DIR__ . '/core/import-brand-sorting.php';
 require_once __DIR__ . '/core/reset-default-variation.php';
 require_once __DIR__ . '/core/import-sku-padding.php';
+require_once __DIR__ . '/core/force-alphabetical-brands.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
@@ -1109,6 +1110,12 @@ function pmwoodwind_get_brand_list_recursive( $term_id, &$sorted = array() ) {
 function pmwoodwind_sort_by_term_order( $a, $b ) {
 
 	return $a->term_order > $b->term_order;
+
+}
+
+function pmwoodwind_sort_by_term_name( $a, $b ) {
+
+	return strcmp( $a->name, $b->name );
 
 }
 
