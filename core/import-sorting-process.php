@@ -32,6 +32,19 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 			}
 
 		}
+
+		// Ensure we do not use the Rare and Collectable Category for sorting
+		$exclude_term = term_exists( 'rare-and-collectible', 'product_cat' );
+
+		if ( $exclude_term ) {
+
+			$exclude_term_id = (int) $exclude_term['term_id'];
+
+			$term_ids = array_filter( $term_ids, function( $term_id ) use ( $exclude_term_id ) {
+				return $term_id !== $exclude_term_id;
+			} );
+
+		}
 		
 		$instrument_key = pmwoodwind_get_instrument_sorting_key();
 		$mouthpiece_key = pmwoodwind_get_mouthpiece_sorting_key();

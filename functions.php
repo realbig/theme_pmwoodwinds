@@ -1170,6 +1170,19 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	
 	if ( ! isset( $_POST['tax_input'] ) || ! isset( $_POST['tax_input']['product_cat'] ) )
 		return;
+
+	// Ensure we do not use the Rare and Collectable Category for sorting
+	$exclude_term = term_exists( 'rare-and-collectible', 'product_cat' );
+
+	if ( $exclude_term ) {
+
+		$exclude_term_id = (int) $exclude_term['term_id'];
+
+		$_POST['tax_input']['product_cat'] = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $exclude_term_id ) {
+			return $term_id !== $exclude_term_id;
+		} );
+
+	}
 	
 	$sort_value = 0;
 	
