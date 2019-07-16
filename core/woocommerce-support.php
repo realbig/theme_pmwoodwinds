@@ -1300,3 +1300,23 @@ add_filter( 'the_title', function( $title, $post_id ) {
 	return $title;
 
 }, 10, 2 );
+
+
+
+add_action( 'wp_ajax_wc_products_compare_add_product_ajax', 'pmwoodwind_force_compare_products_nonce', 1 );
+add_action( 'wp_ajax_nopriv_wc_products_compare_add_product_ajax', 'pmwoodwind_force_compare_products_nonce', 1 );
+
+/**
+ * Force a valid nonce for Adding to Compare
+ * For some reason this is caching expired/invalid nonces. It only returns HTML for a Product, so I'm going to just defeat the nonce check
+ *
+ * @since	{{VERSION}}
+ * @return  [void]
+ */
+function pmwoodwind_force_compare_products_nonce() {
+
+	if ( ! isset( $_POST['ajaxAddProductNonce'] ) || ! $_POST['ajaxAddProductNonce'] ) return;
+
+	$_POST['ajaxAddProductNonce'] = wp_create_nonce( '_wc_products_compare_add_product_nonce' );
+
+}
