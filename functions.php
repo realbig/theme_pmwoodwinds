@@ -1342,10 +1342,11 @@ function pmwoodwind_save_brand_sorting_key( $post_id ) {
 		return;
 	
 	$sort_value = 0;
+	$bottom_most_term_id = 0; // Used only for Used Instruments currently
 	
 	$brand_key = pmwoodwind_get_brand_sorting_key();
 	
-	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
+	foreach ( $_POST['tax_input']['pwb-brand'] as $term_id ) {
 		
 		$index = array_search( $term_id, $brand_key );
 		
@@ -1356,6 +1357,7 @@ function pmwoodwind_save_brand_sorting_key( $post_id ) {
 			if ( $index > $sort_value ) {
 
 				$sort_value = $index;
+				$bottom_most_term_id = $term_id;
 
 			}
 			
@@ -1366,6 +1368,41 @@ function pmwoodwind_save_brand_sorting_key( $post_id ) {
 	if ( $sort_value > 0 ) {
 			
 		$update = update_post_meta( $post_id, 'product_brand_sort_order', (int) $sort_value );
+
+		// The following is only currently used for the Used Instruments page
+			
+		$sorting_key = $brand_key;
+
+		$parent_category_index = 0;
+		$sub_category_index = 0;
+
+		$sorted_by_term = get_term_by( 'id', $bottom_most_term_id, 'pwb-brand' );
+
+		// Determine the correct values to save
+		if ( $sorted_by_term->parent == 0 ) {
+
+			$parent_category_index = $sort_value;
+			$sub_category_index = 0; // The only checked category under Instruments/Mouthpieces/Accessories is only one level deep, so give it a default value
+
+		}
+		else {
+
+			$sub_category_index = $sort_value;
+
+			// Get highest parent
+			$parent_category_id = pmwoodwind_get_top_category_id( $bottom_most_term_id );
+
+			// Find Index
+			$index = array_search( $parent_category_id, $sorting_key );
+
+			// Increment
+			$parent_category_index = $index + 1;
+
+		}
+
+		// Now we have "Parent" and Sub-Category saved in a way we can sort by for just the Used Instruments page
+		update_post_meta( $post_id, 'parent_category_brand_sort_order', (int) $parent_category_index );
+		update_post_meta( $post_id, 'sub_category_model_sort_order', (int) $sub_category_index );
 
 	}
 	
@@ -2090,14 +2127,14 @@ function pmwoodwind_pad_sku_for_sorting( $sku ) {
 }
 
 /**
- * Gets the second-to-top Category for a given Term ID
+ * Gets the second-to-top Category ID for a given Term ID
  * This is useful to find the furthest-up Category that _is not_ Instruments/Mouthpieces/Accessories
  *
  * @param   [integer]  $term_id  Term ID
  * @param   [object]   $old_term Term from the last loop
  *
  * @since	{{VERSION}}
- * @return  [intereg]  Term ID of the second-to-the-top Category
+ * @return  [integer]  Term ID of the second-to-the-top Category
  */
 function pmwoodwind_get_second_to_top_category_id( $term_id, $old_term = false ) {
 
@@ -2111,6 +2148,26 @@ function pmwoodwind_get_second_to_top_category_id( $term_id, $old_term = false )
 	}
 
 	return pmwoodwind_get_second_to_top_category_id( $term->parent, $term );
+
+}
+
+/**
+ * Gets the top-most Parent Category ID for a given Term ID
+ *
+ * @param   [integer]  $term_id  Term ID
+ *
+ * @since	{{VERSION}}
+ * @return  [integer]  Term ID of the second-to-the-top Category
+ */
+function pmwoodwind_get_top_category_id( $term_id ) {
+
+	$term = get_term( $term_id );
+
+	if ( $term->parent == 0 ) {
+		return $term->term_id;
+	}
+
+	return pmwoodwind_get_top_category_id( $term->parent );
 
 }
 
