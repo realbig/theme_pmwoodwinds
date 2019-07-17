@@ -105,6 +105,14 @@
 			span {
 				font-family: inherit;
 			}
+
+			&[data-value="rare-and-collectible"] {
+
+				.facetwp-counter {
+					display: none;
+				}
+
+			}
 			
 		}
 		

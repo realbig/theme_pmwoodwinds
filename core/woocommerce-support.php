@@ -1005,10 +1005,64 @@ add_action( 'woocommerce_product_query', function( $query ) {
 
 	}
 
+	$categories = ( isset( $_GET['_instrument_categories'] ) && $_GET['_instrument_categories'] ) ? $_GET['_instrument_categories'] : '';
+	$categories = explode( ',', $categories );
+
+	foreach ( $categories as &$category ) {
+		$category = trim( $category ); // Ensure nothing strange happens with our slug
+	}
+
+	// If the user isn't explicitly looking for Rare and Collectable, exclude any Sold Rare and Collectable Instruments from the results
+	if ( ! in_array( 'rare-and-collectible', $categories ) ) {
+
+		$meta_query[] = array(
+			'key' => 'pmwoodwind_hide_product_in_archive',
+			'compare' => 'NOT EXISTS',
+		);
+
+	}
+
 	$query->set( 'meta_query', $meta_query );
 	$query->set( 'orderby', $orderby );
 	
 } );
+
+add_filter( 'facetwp_facet_render_args', 'pmwoodwind_force_rare_and_collectable_checkbox', 10 );
+
+/**
+ * Force the Rare and Collectible Checkbox to always show in Instrument Categories
+ *
+ * @param   [array]  $args  Facet Rendering Args
+ *
+ * @since	{{VERSION}}
+ * @return  [array]         Facet Rendering Args
+ */
+function pmwoodwind_force_rare_and_collectable_checkbox( $args ) {
+
+	if ( $args['facet']['name'] !== 'instrument_categories' ) return $args;
+
+	$found = array_filter( $args['values'], function( $checkbox ) {
+		return $checkbox['facet_value'] == 'rare-and-collectible';
+	} );
+
+	if ( ! $found ) {
+
+		$term = get_term_by( 'slug', 'rare-and-collectible', 'product_cat' );
+
+		$args['values'][] = array(
+			'facet_value' => 'rare-and-collectible',
+			'facet_display_value' => $term->name,
+			'term_id' => $term->term_id,
+			'parent_id' => $term->parent,
+			'depth' => 0,
+			'counter' => '9001',
+		);
+
+	}
+
+	return $args;
+
+}
 
 add_filter( 'woocommerce_is_sold_individually', 'pmwoodwind_remove_all_quantity_fields', 10, 2 );
 

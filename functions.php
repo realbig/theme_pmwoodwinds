@@ -952,6 +952,7 @@ require_once __DIR__ . '/core/import-brand-sorting.php';
 require_once __DIR__ . '/core/reset-default-variation.php';
 require_once __DIR__ . '/core/import-sku-padding.php';
 require_once __DIR__ . '/core/force-alphabetical-brands.php';
+require_once __DIR__ . '/core/import-product-visibility-exclusions.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
@@ -1181,11 +1182,14 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	// Ensure we do not use the Rare and Collectable Category for sorting
 	$exclude_term = term_exists( 'rare-and-collectible', 'product_cat' );
 
+	// Ensure we do not overwrite the saving Categories
+	$categories = $_POST['tax_input']['product_cat'];
+
 	if ( $exclude_term ) {
 
 		$exclude_term_id = (int) $exclude_term['term_id'];
 
-		$_POST['tax_input']['product_cat'] = array_filter( $_POST['tax_input']['product_cat'], function( $term_id ) use ( $exclude_term_id ) {
+		$categories = array_filter( $categories, function( $term_id ) use ( $exclude_term_id ) {
 			return $term_id !== $exclude_term_id;
 		} );
 
@@ -1202,19 +1206,19 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	$is_mouthpiece = false;
 	$is_accessory = false;
 
-	if ( array_intersect( $_POST['tax_input']['product_cat'], $instrument_key ) ) {
+	if ( array_intersect( $categories, $instrument_key ) ) {
 		$is_instrument = true;
 	}
 
-	if ( array_intersect( $_POST['tax_input']['product_cat'], $mouthpiece_key ) ) {
+	if ( array_intersect( $categories, $mouthpiece_key ) ) {
 		$is_mouthpiece = true;
 	}
 
-	if ( array_intersect( $_POST['tax_input']['product_cat'], $accessory_key ) ) {
+	if ( array_intersect( $categories, $accessory_key ) ) {
 		$is_accessory = true;
 	}
 	
-	foreach ( $_POST['tax_input']['product_cat'] as $term_id ) {
+	foreach ( $categories as $term_id ) {
 		
 		if ( $is_instrument ) {
 			
@@ -1454,6 +1458,86 @@ function pmwoodwind_save_sorting_sku( $post_id ) {
 	$sorting_sku = pmwoodwind_pad_sku_for_sorting( $_POST['_sku'] );
 
 	update_post_meta( $post_id, '_sorting_sku', $sorting_sku );
+
+}
+
+add_action( 'save_post', 'pmwoodwind_toggle_hide_product_in_archive' );
+
+/**
+ * On Save, toggle whether or not a Product should be hidden from the Archive View
+ * This is currently only used to hide Sold Rare and Collectible Instruments
+ * 
+ * There is a quirk with this where after rearranging Attributes, it seems to take a second save to "stick". Not sure why. 
+ *
+ * @param   [integer]  $post_id  Post ID
+ *
+ * @return  [void]
+ */
+function pmwoodwind_toggle_hide_product_in_archive( $post_id ) {
+
+	if ( get_post_type( $post_id ) !== 'product' ) 
+		return;
+	
+	// Autosave, do nothing
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+        return;
+	
+	// Check user permissions
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+        return;
+	
+	// Return if it's a post revision
+	if ( false !== wp_is_post_revision( $post_id ) )
+				return;
+
+	if ( ! isset( $_POST['tax_input'] ) || ! isset( $_POST['tax_input']['product_cat'] ) )
+		return;
+
+	if ( ! isset( $_POST['attribute_names'] ) || ! isset( $_POST['attribute_position'] ) || ! isset( $_POST['attribute_values'] ) )
+		return;
+
+	// Ensure we do not overwrite the saving Categories
+	$categories = $_POST['tax_input']['product_cat'];
+
+	// Check if Rare and Collectable
+
+	$term = get_term_by( 'slug', 'rare-and-collectible', 'product_cat' );
+	$term_id = (int) $term->term_id;
+
+	$is_rare_and_collectible = in_array( $term_id, $categories );
+
+	// Check if Sold
+
+	$taxonomy = wc_attribute_taxonomy_name( 'In House Inventory' );
+
+	$term = get_term_by( 'slug', 'sold', $taxonomy );
+	$term_id = ( int ) $term->term_id;
+
+	$attribute_position_index = 0;
+	$attribute_value = 0;
+
+	foreach ( $_POST['attribute_names'] as $index => $attribute_name ) {
+
+		if ( $attribute_name == $taxonomy ) {
+			$attribute_position_index = $index;
+			break;
+		}
+
+	}
+
+	$attribute_position = (int) $_POST['attribute_position'][ $attribute_position_index ];
+
+	$attribute_value = $_POST['attribute_values'][ $attribute_position ];
+
+	$is_sold = in_array( $term_id, $attribute_value );
+
+	if ( $is_rare_and_collectible && $is_sold ) {
+		// Hide Rare and Collectable Products that have Sold by default
+		update_post_meta( $post_id, 'pmwoodwind_hide_product_in_archive', true );
+	}
+	else {
+		delete_post_meta( $post_id, 'pmwoodwind_hide_product_in_archive' );
+	}
 
 }
 
@@ -2175,6 +2259,30 @@ function pmwoodwind_get_top_category_id( $term_id ) {
 	}
 
 	return pmwoodwind_get_top_category_id( $term->parent );
+
+}
+
+/**
+ * Determine if a Product has its In House Inventory Attribute set to Sold
+ *
+ * @param   [integer]  $product_id  Product ID
+ *
+ * @since	{{VERSION}}
+ * @return  [boolean]
+ */
+function pmwoodwind_product_is_sold( $product_id = null ) {
+
+	if ( ! $product_id ) $product_id = get_the_ID();
+
+	$product = wc_get_product( $product_id );
+	
+	$is_new = $product->get_attribute( 'In House Inventory' );
+	
+	if ( strtolower( $is_new ) == 'sold' ) {
+		return true;
+	}
+
+	return false;
 
 }
 
