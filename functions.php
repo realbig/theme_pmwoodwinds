@@ -265,62 +265,6 @@ function pmwoodwind_add_new_voucher_link(){
 		</style>
 		
 		<?php
-	}    
-	if($screen->id == 'product_page_to-interface-product'){
-		?>
-		  <script>
-		   jQuery('#order-terms').prepend('<a href="javascript:void(0);" onclick="pmwoodwindSortalphabetically()" class="button button-primary" >Alphabetically Sort</a>');
-			var desc = false;
-		   function pmwoodwindSortalphabetically(){
-			    pmwoodwindSortUnorderedList("tto_sortable", desc);
-				desc = !desc;
-
-				jQuery("ul.sortable").sortable({
-					'tolerance':'intersect',
-					'cursor':'pointer',
-					'items':'> li',
-					'axi': 'y',
-					'placeholder':'placeholder',
-					'nested': 'ul'
-				});
-				
-				return false;
-		   }
-		    function pmwoodwindSortUnorderedList(ul, sortDescending) {
-			
-			  if(typeof ul == "string")
-				ul = document.getElementById(ul);
-
-			  var lis = ul.getElementsByTagName("LI");
-			  var vals = [];
-			  var ids = [];
-
-			  for(var i = 0, l = lis.length; i < l; i++){
-				ids[lis[i].innerHTML] = lis[i].getAttribute("id");
-				vals[i] = lis[i].innerHTML;
-				
-			  }
-			
-			  vals.sort();
-			 
-
-			  if(sortDescending){
-				vals.reverse();
-			
-			  }	
-			  
-			  for(var i = 0, l = lis.length; i < l; i++){
-
-				if ( typeof lis[i] == 'undefined' ) continue;
-
-				lis[i].innerHTML = vals[i];
-				lis[i].setAttribute("id", ids[vals[i]]);
-			  }	
-			}
-		  </script>
-
-		
-		<?php
 	}	
     if($screen->id == 'product'){
 		$pid = $_GET['post'];
