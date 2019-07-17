@@ -2230,6 +2230,25 @@ function pmwoodwind_product_is_sold( $product_id = null ) {
 
 }
 
+add_action( 'pre_get_posts', 'pmwoodwind_sort_media_items' );
+
+/**
+ * Sort the Media Item archive by Menu Order
+ *
+ * @param   [object]  $query  WP_Query Object
+ *
+ * @since	{{VERSION}}
+ * @return  [void]
+ */
+function pmwoodwind_sort_media_items( $query ) {
+
+	if ( ! is_post_type_archive( 'media' ) ) return;
+
+	$query->set( 'orderby', 'menu_order' );
+	$query->set( 'order', 'ASC' );
+
+}
+
 /*
 
 add_filter( 'woocommerce_csv_product_export_args', function( $args ) {
