@@ -57,9 +57,18 @@ get_header();
 				if ( have_posts() ) : ?>
 					<?php
 					/* Start the Loop */
+
+					$index = 0;
+					$max_per_row = 3; // 0 indexed
+
 					while ( have_posts() ) : the_post();
 
-						?>
+						if ( $index == 0 ) : ?>
+
+							<div class="row">
+			
+						<?php endif; ?>
+
 						<div <?php post_class( array( 'col-sm-12', 'col-md-3' ) ); ?>>
 
 							<div class="background">
@@ -114,7 +123,31 @@ get_header();
 			
 						<?php
 
+						if ( $index == $max_per_row ) : ?>
+
+							</div>
+
+							<?php
+
+							$index = 0;
+
+						else : 
+
+							$index++;
+
+						endif; 
+
 					endwhile;
+
+					wp_reset_postdata();
+
+					// Ensure that the row closes out
+					if ( $index < $max_per_row && 
+						$index > 0 ) : ?>
+
+						</div>
+
+					<?php endif;
 
 				endif; ?>
 			
