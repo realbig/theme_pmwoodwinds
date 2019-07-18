@@ -20,8 +20,8 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 			add_action( 'edited_product_cat', array( $this, 'categories_updated' ) );
 			add_action( 'delete_product_cat', array( $this, 'categories_updated' ) );
 
-			// Update Product Sorting Key when using the Taxonomy Order menu
-			add_action( 'tto/update-order', array( $this, 'categories_updated' ) );
+			// Update Product Sorting Key rearranging Categories
+			add_action( 'yikes_sto_taxonomy_order_updated', array( $this, 'categories_updated' ) );
 			
 		}
 		
@@ -39,9 +39,9 @@ if ( ! class_exists( 'pmwoodwinds_import_sorting' ) ) {
 			
 		}
 
-		public function categories_updated() {
+		public function categories_updated( $taxonomy_ordering_data ) {
 
-			$term_id = pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax();
+			$term_id = pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax( $taxonomy_ordering_data );
 
 			if ( ! $term_id ) return;
 

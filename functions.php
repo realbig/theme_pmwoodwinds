@@ -1016,16 +1016,16 @@ function pmwoodwind_get_brand_sorting_key() {
 
 function pmwoodwind_get_product_category_list_recursive( $term_id, &$sorted = array() ) {
 
-	// We need the term_order key, so we cannot only pull in the Term ID
-	$terms = get_terms( 'product_cat', array( 'parent' => $term_id, 'hide_empty' => false ) );
+	// We are sorting based on Term Meta, so we only need the ID
+	$terms = get_terms( 'product_cat', array( 'parent' => $term_id, 'hide_empty' => false, 'fields' => 'ids' ) );
 
-	usort( $terms, 'pmwoodwind_sort_by_term_order' );
+	usort( $terms, 'pmwoodwind_sort_by_tax_position' );
 
-	foreach ( $terms as $term ) {
+	foreach ( $terms as $term_id ) {
 
-		$sorted[] = $term->term_id;
+		$sorted[] = $term_id;
 
-		pmwoodwind_get_product_category_list_recursive( $term->term_id, $sorted );
+		pmwoodwind_get_product_category_list_recursive( $term_id, $sorted );
 
 	}
 
@@ -1035,16 +1035,16 @@ function pmwoodwind_get_product_category_list_recursive( $term_id, &$sorted = ar
 
 function pmwoodwind_get_brand_list_recursive( $term_id, &$sorted = array() ) {
 
-	// We need the term_order key, so we cannot only pull in the Term ID
-	$terms = get_terms( 'pwb-brand', array( 'parent' => $term_id, 'hide_empty' => false ) );
+	// We are sorting based on Term Meta, so we only need the ID
+	$terms = get_terms( 'pwb-brand', array( 'parent' => $term_id, 'hide_empty' => false, 'fields' => 'ids' ) );
 
-	usort( $terms, 'pmwoodwind_sort_by_term_order' );
+	usort( $terms, 'pmwoodwind_sort_by_tax_position' );
 
-	foreach ( $terms as $term ) {
+	foreach ( $terms as $term_id ) {
 
-		$sorted[] = $term->term_id;
+		$sorted[] = $term_id;
 
-		pmwoodwind_get_brand_list_recursive( $term->term_id, $sorted );
+		pmwoodwind_get_brand_list_recursive( $term_id, $sorted );
 
 	}
 
@@ -1052,9 +1052,12 @@ function pmwoodwind_get_brand_list_recursive( $term_id, &$sorted = array() ) {
 
 }
 
-function pmwoodwind_sort_by_term_order( $a, $b ) {
+function pmwoodwind_sort_by_tax_position( $a, $b ) {
 
-	return $a->term_order > $b->term_order;
+	$a_order = get_term_meta( $a, 'tax_position', true );
+	$b_order = get_term_meta( $b, 'tax_position', true );
+
+	return $a_order > $b_order;
 
 }
 
@@ -1070,24 +1073,13 @@ function pmwoodwind_sort_by_term_name( $a, $b ) {
  * @since	{{VERSION}}
  * @return  [integer|boolean]  First returned Term ID, or False on failure
  */
-function pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax() {
-
-	if ( ! isset( $_REQUEST['order'] ) || ! $_REQUEST['order'] ) return false;
-
-	$unserialised_data = json_decode( stripslashes( $_REQUEST['order'] ), true );
+function pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax( $taxonomy_ordering_data ) {
+	
 	$term_id = false;
 
-	foreach( $unserialised_data as $key => $values ) {
-
-		$items = explode( '&', $values );
-		
-		foreach ( $items as $item_key => $item_ ) {
-			$term_id = trim( str_replace( "item[]=", "", $item_ ) );
-			break;
-		}
-
+	foreach ( $taxonomy_ordering_data as $order_data ) {
+		$term_id = $order_data['term_id'];
 		break;
-
 	}
 
 	return $term_id;

@@ -60,7 +60,8 @@ get_header();
 					$terms = get_terms( array(
 						'taxonomy' => 'video-category',
 						'hide_empty' => true,
-						'orderby' => 'term_order',
+						'meta_key' => 'tax_position',
+						'orderby' => 'tax_position'
 					) );
 
 					foreach ( $terms as $term ) : ?>

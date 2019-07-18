@@ -42,7 +42,7 @@ if ( ! class_exists( 'pmwoodwinds_force_alphabetical_brands' ) ) {
 
                 $data = array(
                     'term_id' => $term_id,
-                    'term_order' => $index + 1,
+                    'tax_position' => $index + 1,
                 );
 
 				$this->process_all->push_to_queue( $data );
@@ -69,7 +69,7 @@ if ( ! class_exists( 'pmwoodwinds_force_alphabetical_brands' ) ) {
         
         private function get_brand_list_recursive( $term_id, &$sorted = array() ) {
 
-            // We need the term_order key, so we cannot only pull in the Term ID
+            // We need the Name key, so we cannot only pull in the Term ID
             $terms = get_terms( 'pwb-brand', array( 'parent' => $term_id, 'hide_empty' => false ) );
         
             usort( $terms, 'pmwoodwind_sort_by_term_name' );

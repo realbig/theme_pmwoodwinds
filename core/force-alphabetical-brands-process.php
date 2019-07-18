@@ -23,17 +23,9 @@ class pmwoodwinds_force_alphabetical_brands_process extends WP_Background_Proces
 
         global $wpdb;
 		
-		$wpdb->update( 
-            $wpdb->terms, 
-            array( 
-                'term_order' => $data['term_order'],
-            ), 
-            array(
-                'term_id' => $data['term_id'],
-            )
-        );
+		update_term_meta( $data['term_id'], 'tax_position', $data['tax_position'] );
 		
-		error_log( $data['term_id'] . " has been updated with Term Order of " . $data['term_order'] );
+		error_log( $data['term_id'] . " has been updated with Tax Position of " . $data['tax_position'] );
 
 		return false;
 		

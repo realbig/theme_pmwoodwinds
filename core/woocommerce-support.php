@@ -1393,3 +1393,9 @@ function pmwoodwind_force_compare_products_nonce() {
 	$_POST['ajaxAddProductNonce'] = wp_create_nonce( '_wc_products_compare_add_product_nonce' );
 
 }
+
+add_filter( 'yikes_simple_taxonomy_ordering_excluded_taxonomies', function( $excluded_taxonomies, $all_taxonomies ) {
+
+	return array_diff( $excluded_taxonomies, array( 'product_cat' ) );
+
+}, 10, 2 );
