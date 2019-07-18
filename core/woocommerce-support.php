@@ -893,8 +893,11 @@ function pmwoodwind_ensure_product_gallery_images_are_in_right_order( $gallery_i
 
 	foreach ( $gallery_image_ids as $attachment_id ) {
 
+		$file_name = basename( get_attached_file( $attachment_id ) );
+
 		// File name with no extension
-		$file_name = preg_replace( '/\..*/', '', basename( get_attached_file( $attachment_id ) ) );
+		$file_info = pathinfo( $file_name );
+		$file_name = str_replace( $file_info['extension'], '', $file_name );
 
 		$file_data = explode( '-', $file_name );
 
