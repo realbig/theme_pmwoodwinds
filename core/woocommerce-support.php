@@ -876,6 +876,43 @@ function pmwoodwind_remove_slider_class_from_second_slider( $classes ) {
 	
 }
 
+add_filter( 'woocommerce_product_get_gallery_image_ids', 'pmwoodwind_ensure_product_gallery_images_are_in_right_order', 10, 2 );
+
+/**
+ * Product Gallery Images were being attached to the Product in the incorrect order. This fixes that problem. It is reliant on the naming convention never changing, so be warned, future me
+ *
+ * @param   [array]  $gallery_image_ids  Array of Attachment IDs
+ * @param   [object]  $product           WC_Product
+ *
+ * @since	{{VERSION}}
+ * @return  [array]                      Array of Attachment IDs
+ */
+function pmwoodwind_ensure_product_gallery_images_are_in_right_order( $gallery_image_ids, $product ) {
+
+	$sorted_ids = array();
+
+	foreach ( $gallery_image_ids as $attachment_id ) {
+
+		// File name with no extension
+		$file_name = preg_replace( '/\..*/', '', basename( get_attached_file( $attachment_id ) ) );
+
+		$file_data = explode( '-', $file_name );
+
+		// No index set, ignore
+		if ( ! isset( $file_data[1] ) ) continue;
+
+		$sorted_ids[ $file_data[1] ] = $attachment_id;
+
+	}
+
+	if ( empty( $sorted_ids ) ) return $gallery_image_ids;
+
+	ksort( $sorted_ids );
+
+	return $sorted_ids;
+
+}
+
 // Add the ability to hover zoom on the Primary Image
 add_action( 'woocommerce_before_single_product_summary', function() {
 	
