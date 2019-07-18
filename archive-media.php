@@ -149,6 +149,8 @@ get_header();
 
 					<?php endif;
 
+					echo do_shortcode( '[facetwp pager="true"]' );
+
 				endif; ?>
 			
 		</div>

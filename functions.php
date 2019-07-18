@@ -2239,6 +2239,26 @@ function pmwoodwind_sort_media_items( $query ) {
 	$query->set( 'orderby', 'menu_order' );
 	$query->set( 'order', 'ASC' );
 
+	$query->set( 'posts_per_page', 12 );
+
+}
+
+add_action( 'pre_get_posts', 'pmwoodwind_adjust_video_query' );
+
+/**
+ * Adjust the Video Archive Query
+ *
+ * @param   [object]  $query  WP_Query Object
+ *
+ * @since	{{VERSION}}
+ * @return  [void]
+ */
+function pmwoodwind_adjust_video_query( $query ) {
+
+	if ( ! is_post_type_archive( 'video' ) ) return;
+
+	$query->set( 'posts_per_page', 12 );
+
 }
 
 /*

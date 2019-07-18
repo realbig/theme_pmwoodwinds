@@ -117,7 +117,10 @@ get_header();
             
                         <?php
 
-                    endwhile;
+					endwhile;
+					
+					echo do_shortcode( '[facetwp pager="true"]' ); 
+
                 endif; ?>
 
             </div>
