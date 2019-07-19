@@ -2875,6 +2875,10 @@ line-height: 23px;
 .trd-testimonial .trd-testimonial-slides.slick-center .trd-testimonial-text:after {
   border-top-color: #000000;
 }
+.trd-testimonial .trd-testimonial-slides img {
+  width: 100%;
+  height: auto;
+}
 /*
 Slick Slider
  */
