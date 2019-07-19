@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -393,15 +393,15 @@ exports.transitionend = transitionend;
 "use strict";
 
 
+__webpack_require__(39);
+
 __webpack_require__(38);
 
 __webpack_require__(37);
 
-__webpack_require__(36);
+__webpack_require__(41);
 
 __webpack_require__(40);
-
-__webpack_require__(39);
 
 __webpack_require__(9);
 
@@ -427,13 +427,13 @@ __webpack_require__(25);
 
 __webpack_require__(30);
 
-__webpack_require__(34);
+__webpack_require__(35);
 
 var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _whatInput = __webpack_require__(41);
+var _whatInput = __webpack_require__(42);
 
 var _whatInput2 = _interopRequireDefault(_whatInput);
 
@@ -449,7 +449,7 @@ __webpack_require__(31);
 
 __webpack_require__(26);
 
-__webpack_require__(35);
+__webpack_require__(36);
 
 __webpack_require__(16);
 
@@ -470,6 +470,8 @@ __webpack_require__(27);
 __webpack_require__(28);
 
 __webpack_require__(12);
+
+__webpack_require__(34);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6592,6 +6594,71 @@ var facets = jQuery('.shop-sidebar .widget').html();
 
 (function ($) {
 
+	$(document).on('ready', function () {
+
+		if ($('#trd-testimonial').length > 0) {
+
+			var $element, $children, $container, totalHeight;
+
+			$('#trd-testimonial .read-more-container a').click(function () {
+
+				totalHeight = 0;
+
+				$element = $(this);
+				$container = $element.closest('.trd-testimonial-text');
+
+				$children = $container.find('> *');
+
+				if (!$container.hasClass('opened')) {
+
+					$container.removeClass('closed');
+
+					// measure how tall inside should be by adding together heights of all inside paragraphs
+					$children.each(function () {
+						totalHeight += $(this).outerHeight(true);
+					});
+
+					totalHeight += $container.innerHeight() - $container.height(); // Top and Bottom Padding
+
+					$container.addClass('closed');
+
+					$container.data('max-height', $container.css('max-height'));
+
+					$container.css({
+						// Set height to prevent instant jumpdown when max height is removed
+						'height': $container.innerHeight(),
+						'max-height': 9999
+					}).removeClass('closed').addClass('opened').animate({
+						'height': totalHeight
+					});
+
+					$element.text(pmwoodwind.testimonialsSlider.collapse);
+				} else {
+
+					$container.removeClass('opened').addClass('closed').animate({
+						'height': $container.data('max-height'),
+						'max-height': $container.data('max-height')
+					});
+
+					$element.text(pmwoodwind.testimonialsSlider.readMore);
+				}
+
+				// prevent jump-down
+				return false;
+			});
+		}
+	});
+})(jQuery);
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+(function ($) {
+
   /**
    * ### HOW TO CREATE A VALID ID TO USE: ###
    * Go to www.twitter.com and sign in as normal, go to your settings page.
@@ -6775,7 +6842,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6888,7 +6955,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 })(jQuery);
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /*
@@ -7390,7 +7457,7 @@ var facets = jQuery('.shop-sidebar .widget').html();
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10905,7 +10972,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*! lightgallery - v1.2.0 - 2015-08-26
@@ -12147,7 +12214,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports) {
 
 /**!
@@ -14224,7 +14291,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 })(jQuery);
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*********************************************************************
@@ -14699,7 +14766,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -15084,8 +15151,8 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 42 */,
-/* 43 */
+/* 43 */,
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);

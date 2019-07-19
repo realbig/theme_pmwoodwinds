@@ -248,8 +248,15 @@
 	));
 	foreach($posts as $post):?>
 	<div class="trd-testimonial-slides col-sm-12 col-md-3">
-		<div class="trd-testimonial-text">
+		<div class="trd-testimonial-text closed">
 			<p><?php echo get_post_meta($post->ID, 'wpcf-testimonial', true);?></p>
+			
+			<div class="read-more-container text-center">
+				<a class="secondary btn" href="#">
+					Read More
+				</a>
+			</div>
+
 		</div>
 		<div class="trd-satisfied-user-info">
 			
@@ -284,6 +291,7 @@
 			</h3>
 			
 		</div>
+
 	</div>
      <?php endforeach;?>      
  
