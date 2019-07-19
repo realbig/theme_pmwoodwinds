@@ -1835,7 +1835,7 @@ if (typeof jQuery === 'undefined') {
 
 		flexSliderOptions.flexslider = $.extend({
 			asNavFor: '.woocommerce-product-gallery',
-			itemWidth: 125,
+			itemWidth: 127,
 			itemMargin: 0
 		}, flexSliderOptions.flexslider);
 
