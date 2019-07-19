@@ -45,5 +45,48 @@ body.home {
 			background-attachment: scroll !important;
 		}
 	}
+
+	#trd-testimonial {
+
+		.trd-testimonial-slides {
+
+			.trd-testimonial-text {
+
+				max-height: 18em;
+				position: relative;
+				overflow: hidden;
+
+				&.closed {
+				
+					& > {
+					
+						h1, h2, h3, h4, h5, h6 {
+							display: inline-block;
+							font-size: 18px;
+						}
+						
+					}
+		
+					.read-more-container {
+		
+						position: absolute; 
+						bottom: 0; 
+						left: 0;
+						width: 100%; 
+						text-align: center; 
+						margin: 0;
+						padding: 7.5px 0; 
+		
+						background-image: linear-gradient( to bottom, transparent, #848484 );
+						
+					}
+					
+				}
+
+			}
+
+		}
+
+	}
 	
 }

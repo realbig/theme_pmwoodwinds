@@ -750,6 +750,17 @@ function pmwoodwind_register_scripts() {
 		defined( 'WP_DEBUG' ) && WP_DEBUG ? time() : THEME_VER,
 		true
 	);
+
+	wp_localize_script(
+		'pmwoodwind',
+		'pmwoodwind',
+		array(
+			'testimonialsSlider' => array(
+				'readMore' => 'Read More',
+				'collapse' => 'Collapse',
+			),
+		)
+	);
 	
 	wp_register_script(
 		'pmwoodwind-admin',

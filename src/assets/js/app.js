@@ -51,3 +51,4 @@ import './lib/facetwp-checkboxes';
 import './lib/media-fresco';
 import './lib/offcanvas';
 import './lib/events-list';
+import './lib/testimonials-height-restriction';
