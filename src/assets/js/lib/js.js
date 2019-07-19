@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
 
          $('.lg-actions .lg-icon').hide();
          
-         if ( viewport.is( '>md' ) && $( '#trd-testimonial' ).length > 0 ) {
+         if ( viewport.is( '>xs' ) && $( '#trd-testimonial' ).length > 0 ) {
 
             $('#trd-testimonial').not('.slick-initialized').slick({
                 infinite: true,

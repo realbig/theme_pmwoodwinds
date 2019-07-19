@@ -2616,7 +2616,7 @@ jQuery(document).on("click", ".lg-actions .lg-icon", function () {
 
         $('.lg-actions .lg-icon').hide();
 
-        if (viewport.is('>md') && $('#trd-testimonial').length > 0) {
+        if (viewport.is('>xs') && $('#trd-testimonial').length > 0) {
             var _$$not$slick;
 
             $('#trd-testimonial').not('.slick-initialized').slick((_$$not$slick = {
