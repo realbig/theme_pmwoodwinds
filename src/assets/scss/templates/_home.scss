@@ -39,5 +39,11 @@ body.home {
 		height: auto !important;
 
 	}
+
+	@supports (-webkit-overflow-scrolling: touch) {
+		.twitter-feed {
+			background-attachment: scroll !important;
+		}
+	}
 	
 }
