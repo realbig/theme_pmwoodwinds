@@ -525,31 +525,6 @@ function pmwoodwind_filter_tracked_plugins() {
 }
 //add_action( 'restrict_manage_posts', 'pmwoodwind_filter_tracked_plugins' );
 
-function pmwoodwind_sort_plugins_by_slug( $query ) {
-  global $pagenow;
-  // Get the post type
-  $post_type = isset( $_GET['post_type'] ) ? esc_attr( $_GET['post_type'] ) : '';
-  if ( is_admin() && $pagenow=='edit.php' && $post_type == 'product' && isset( $_GET['_product_new'] ) && esc_attr( $_GET['_product_new'] ) !='all' && esc_attr( $_GET['_product_new'] ) !='' ) {
-	if( esc_attr( $_GET['_product_new'] ) =='x'){
-		$query->query_vars['meta_key'] = '_product_new';
-		$query->query_vars['meta_compare'] = 'NOT EXISTS';
-	 } else {
-	 
-		$query->query_vars['meta_key'] = '_product_new';
-		$query->query_vars['meta_value'] = esc_attr( $_GET['_product_new'] );
-		$query->query_vars['meta_compare'] = '=';	 
-	 }
-
-
-  }  
-  if ( is_admin() && $pagenow=='edit.php' && $post_type == 'product' && !isset( $_GET['_product_new'] ) && !isset( $_GET['product_cat'] )) {
-    $query->query_vars['meta_key'] = '_ordermeta';
-    $query->query_vars['orderby'] = 'meta_value';
-    $query->query_vars['order'] = 'ASC';
-  }
-}
-add_filter( 'parse_query', 'pmwoodwind_sort_plugins_by_slug' );
-
 function pmwoodwind_cronproducts() {
 	$args = array( 'posts_per_page' => -1, 'post_type' => 'product' );
 	
