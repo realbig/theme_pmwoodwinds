@@ -1835,9 +1835,15 @@ if (typeof jQuery === 'undefined') {
 
 		var flexSliderOptions = Object.assign({}, args);
 
+		var containerWidth = $('.image-column')[0].getBoundingClientRect().width;
+		// 2px border on either side
+		containerWidth = containerWidth - 2 - 2;
+
+		var itemWidth = containerWidth / 5.2;
+
 		flexSliderOptions.flexslider = $.extend({
 			asNavFor: '.woocommerce-product-gallery',
-			itemWidth: 127,
+			itemWidth: itemWidth,
 			itemMargin: 0
 		}, flexSliderOptions.flexslider);
 
