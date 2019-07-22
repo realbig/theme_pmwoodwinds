@@ -1439,3 +1439,46 @@ add_filter( 'yikes_simple_taxonomy_ordering_excluded_taxonomies', function( $exc
 	return array_diff( $excluded_taxonomies, array( 'product_cat' ) );
 
 }, 10, 2 );
+
+add_filter( 'woocommerce_is_purchasable', 'pmwoodwind_allow_purchases', 10, 2 );
+
+/**
+ * Prevent any purchases from Non-Admins. Temporary code.
+ *
+ * @param   [type]  $allow    [$allow description]
+ * @param   [type]  $product  [$product description]
+ *
+ * @return  [type]            [return description]
+ */
+function pmwoodwind_allow_purchases( $allow, $product ) {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	return $allow;
+
+}
+
+add_action( 'woocommerce_single_product_summary', 'pmwoodwind_show_no_purchase_allowed_message', 20 );
+
+/**
+ * Show a message for Non-Admins about why things aren't purchasable on Product Single
+ *
+ * @return  [type]  [return description]
+ */
+function pmwoodwind_show_no_purchase_allowed_message() {
+
+	global $product;
+
+	if ( $product->is_purchasable() ) return;
+
+	?>
+
+	<h5 class="contactproduct">
+		Under Construction. Call the store for purchase details <a href="tel:18478697049">(847) 869-7049</a>
+	</h5>
+
+	<?php
+
+}

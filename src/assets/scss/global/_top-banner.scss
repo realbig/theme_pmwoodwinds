@@ -1,0 +1,17 @@
+#top-banner {
+
+    text-align: center;
+
+    h1, h2, h3, h4, h5, h6, p {
+        margin-bottom: 1rem;
+    }
+
+    margin-top: 5rem !important;
+	
+	@media (min-width: 992px) {
+        
+		margin-top: 6rem !important;
+		
+	}
+
+}

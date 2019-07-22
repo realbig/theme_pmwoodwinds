@@ -21,6 +21,7 @@ $motion-ui-speeds: (
 @import 'global/footer';
 @import 'global/visibility'; // This is normally a part of Bootstrap v3.x it seems, but this custom build did not include it
 @import 'global/offcanvas';
+@import 'global/top-banner';
 
 @import 'templates/taxonomy-product_cat';
 @import 'templates/single-product';

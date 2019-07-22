@@ -5,6 +5,10 @@ body.home {
 		margin-top: 3rem !important;
 
 	}
+
+	#top-banner ~ .forcefullwidth_wrapper_tp_banner {
+		margin-top: 0 !important;
+	}
 	
 	@media (min-width: 992px) {
 	

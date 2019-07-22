@@ -59,3 +59,13 @@
 		<?php echo do_shortcode("[wcas-search-form]");?>
 		<span onclick="pmwoodwindsCloseSearch();" class="close">x</span>
 	</div>
+
+	<div id="top-banner" class="row">
+
+		<div class="col-xs-12">
+
+			<h1>Under Construction. Call the store for purchase details <a href="tel:18478697049">(847) 869-7049</a></h1>
+
+		</div>
+
+	</div>
