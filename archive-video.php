@@ -64,7 +64,16 @@ get_header();
 						'orderby' => 'tax_position'
 					) );
 
-					foreach ( $terms as $term ) : ?>
+					$index = 0;
+					$max_per_row = 3; // 0 indexed
+
+					foreach ( $terms as $term ) : 
+					
+						if ( $index == 0 ) : ?>
+
+							<div class="row">
+		
+						<?php endif; ?>
 
 						<div class="col-sm-6 col-md-3 video-category" style="<?php echo ( isset( $_GET['_video_categories'] ) && $_GET['_video_categories'] ) ? 'display: none;' : 'display: block;' ?>">
 
@@ -81,7 +90,29 @@ get_header();
 
 						</div>
 
+						<?php if ( $index == $max_per_row ) : ?>
+
+							</div>
+
+							<?php
+
+							$index = 0;
+
+						else : 
+
+							$index++;
+
+						endif; ?>
+
 					<?php endforeach;
+
+					// Ensure that the row closes out
+					if ( $index < $max_per_row && 
+						$index > 0 ) : ?>
+
+						</div>
+
+					<?php endif;
 
 				?>
                 
@@ -89,12 +120,22 @@ get_header();
 
             <div id="video-archive">
 
-                <?php if ( have_posts() ) : ?>
+				<?php if ( have_posts() ) : 
+					
+					$index = 0;
+					$max_per_row = 3; // 0 indexed
+
+					?>
                     <?php
                     /* Start the Loop */
-                    while ( have_posts() ) : the_post();
+					while ( have_posts() ) : the_post();
+					
+					if ( $index == 0 ) : ?>
 
-                        ?>
+						<div class="row">
+		
+					<?php endif; ?>
+					
                         <div <?php post_class( array( 'col-sm-12', 'col-md-3' ) ); ?> style="display: none;">
 
                             <div class="background">
@@ -117,7 +158,29 @@ get_header();
             
                         <?php
 
+						if ( $index == $max_per_row ) : ?>
+
+							</div>
+
+							<?php
+
+							$index = 0;
+
+						else : 
+
+							$index++;
+
+						endif; 
+
 					endwhile;
+
+					// Ensure that the row closes out
+					if ( $index < $max_per_row && 
+						$index > 0 ) : ?>
+
+						</div>
+
+					<?php endif;
 					
 					echo do_shortcode( '[facetwp pager="true"]' ); 
 
@@ -128,5 +191,7 @@ get_header();
 		</div>
 
 	</div>
+
+</div>
 	
 <?php get_footer();
