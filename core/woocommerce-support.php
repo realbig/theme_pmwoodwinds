@@ -858,19 +858,29 @@ function pmwoodwind_second_image_slider() {
 	
 }
 
-add_filter( 'woocommerce_gallery_full_size', 'pmwoodwind_change_product_single_lightbox_size' );
+add_filter( 'woocommerce_gallery_image_html_attachment_image_params', 'pmwoodwind_change_product_single_lightbox_size', 10, 4 );
 
-/**
- * Change full-image size for Product Single Lightbox
- *
- * @param   [string]  $size  Image Size
- *
- * @since	{{VERSION}}
- * @return  [string]         Image Size
- */
-function pmwoodwind_change_product_single_lightbox_size( $size ) {
+ /**
+  * Change full-image size for Product Single Lightbox
+  *
+  * @param   [array]    $args          Args used in wp_get_attachment_image() for additional HTML Attributes
+  * @param   [integer]  $attachment_id Attachment ID
+  * @param   [string]   $image_size    Image Size used for the resulting <img> (Not the image that is shown in the lightbox)
+  * @param   [boolean]  $main_image    Main Image (true) or Thumbnail (false)
+  *
+  * @since   {{VERSION}}
+  * @return  [array]                   Args used in wp_get_attachment_image() for additional HTML Attributes
+  */
+function pmwoodwind_change_product_single_lightbox_size( $args, $attachment_id, $image_size, $main_image = false ) {
 
-	return 'product_lightbox';
+	$full_src = wp_get_attachment_image_src( $attachment_id, 'product_lightbox' );
+
+	$args['data-src'] = esc_url( $full_src[0] );
+	$args['data-large_image'] = esc_url( $full_src[0] );
+	$args['data-large_image_width'] = esc_attr( $full_src[1] );
+	$args['data-large_image_height'] = esc_attr( $full_src[2] );
+
+	return $args;
 
 }
 
