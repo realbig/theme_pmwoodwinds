@@ -819,6 +819,7 @@ function pmwoodwind_image_sizes() {
 	add_image_size( 'product_thumbnail', 125, 94 );
 	add_image_size( 'product_grid', 525, 400 );
 	add_image_size( 'home_grid', 360, 480, true );
+	add_image_size( 'product_lightbox', 600, 449 );
 	
 }
 

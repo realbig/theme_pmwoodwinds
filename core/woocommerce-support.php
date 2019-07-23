@@ -858,6 +858,22 @@ function pmwoodwind_second_image_slider() {
 	
 }
 
+add_filter( 'woocommerce_gallery_full_size', 'pmwoodwind_change_product_single_lightbox_size' );
+
+/**
+ * Change full-image size for Product Single Lightbox
+ *
+ * @param   [string]  $size  Image Size
+ *
+ * @since	{{VERSION}}
+ * @return  [string]         Image Size
+ */
+function pmwoodwind_change_product_single_lightbox_size( $size ) {
+
+	return 'product_lightbox';
+
+}
+
 /**
  * Ensure the default Product Slider JS doesn't apply to ours
  * 
