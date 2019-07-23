@@ -873,6 +873,10 @@ add_filter( 'woocommerce_gallery_image_html_attachment_image_params', 'pmwoodwin
   */
 function pmwoodwind_change_product_single_lightbox_size( $args, $attachment_id, $image_size, $main_image = false ) {
 
+	global $product;
+
+	if ( pmwoodwind_is_instrument( $product->get_id() ) ) return $args;
+
 	$full_src = wp_get_attachment_image_src( $attachment_id, 'product_lightbox' );
 
 	$args['data-src'] = esc_url( $full_src[0] );
