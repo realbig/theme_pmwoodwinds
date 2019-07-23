@@ -158,9 +158,38 @@
 						<div class="case-wrapper">
 							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
 						</div>
-						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/rico.jpg" alt="Cover" class="img-responsive cover">
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/reeds.png" alt="Cover" class="img-responsive cover">
 					</a>
-					<h5>Rico Reserve Classic (<a href="/products/accessories?_accessory_categories=reeds&_show=new">reeds</a>)</h5>
+					<h5>D’Addario Select Jazz Unfiled Alto Saxophone (<a href="/products/accessories?_accessory_categories=reeds&_show=new">Reeds</a>)</h5>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="album">
+					<a class="case" href="/products/accessories/?_accessory_categories=ligatures&_show=new">
+						<div class="disk-wrapper">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
+						</div>
+						<div class="case-wrapper">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
+						</div>
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/ligatures.png" alt="Cover" class="img-responsive cover">
+					</a>
+					<h5>Rovner Platinum (<a href="/products/accessories/?_accessory_categories=ligatures&_show=new">Ligatures</a>)</h5>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="album">
+					<a class="case" href="/products/accessories?_accessory_categories=stands&_show=new">
+						<div class="disk-wrapper">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
+						</div>
+						<div class="case-wrapper">
+							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
+						</div>
+						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/stands.png" alt="Cover" class="img-responsive cover">
+						
+					</a>
+					<h5>Hercules Alto/Tenor Saxophone (<a href="/products/accessories?_accessory_categories=stands&_show=new">Stands</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -175,35 +204,6 @@
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/hiscox.jpg" alt="Cover" class="img-responsive cover">
 					</a>
 					<h5>Hiscox Case (<a href="/products/accessories?_accessory_categories=cases&_show=new">Cases</a>)</h5>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="album">
-					<a class="case" href="/products/accessories?_accessory_categories=stands&_show=new">
-						<div class="disk-wrapper">
-							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
-						</div>
-						<div class="case-wrapper">
-							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
-						</div>
-						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/stand.jpg" alt="Cover" class="img-responsive cover">
-						
-					</a>
-					<h5>Belmonte Stand (<a href="/products/accessories?_accessory_categories=stands&_show=new">Stands</a>)</h5>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="album">
-					<a class="case" href="/products/accessories?_accessory_categories=resonators&_show=new">
-						<div class="disk-wrapper">
-							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/disk.png" alt="Disk">
-						</div>
-						<div class="case-wrapper">
-							<img src="<?php echo THEME_URL; ?>/dist/assets/img/albums/case.png" alt="Case">
-						</div>
-						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/brass.jpg" alt="Cover" class="img-responsive cover">
-					</a>
-					<h5>Screw-In Brass Domed (<a href="/products/accessories?_accessory_categories=resonators&_show=new">Resonators</a>)</h5>
 				</div>
 			</div>
 		</div>
