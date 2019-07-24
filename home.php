@@ -160,7 +160,7 @@
 						</div>
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/reeds.png" alt="Cover" class="img-responsive cover">
 					</a>
-					<h5>D’Addario Select Jazz Unfiled Alto Saxophone (<a href="/products/accessories?_accessory_categories=reeds&_show=new">Reeds</a>)</h5>
+					<h5>D’Addario Select Jazz Unfiled Alto Saxophone Reeds (<a href="/products/accessories?_accessory_categories=reeds&_show=new">Reeds</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -174,7 +174,7 @@
 						</div>
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/ligatures.png" alt="Cover" class="img-responsive cover">
 					</a>
-					<h5>Rovner Platinum (<a href="/products/accessories/?_accessory_categories=ligatures&_show=new">Ligatures</a>)</h5>
+					<h5>Rovner Platinum Ligature (<a href="/products/accessories/?_accessory_categories=ligatures&_show=new">Ligatures</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
