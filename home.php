@@ -189,7 +189,7 @@
 						<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/stands.png" alt="Cover" class="img-responsive cover">
 						
 					</a>
-					<h5>Hercules Alto/Tenor Saxophone (<a href="/products/accessories?_accessory_categories=stands&_show=new">Stands</a>)</h5>
+					<h5>Hercules Alto/Tenor Stand (<a href="/products/accessories?_accessory_categories=stands&_show=new">Stands</a>)</h5>
 				</div>
 			</div>
 			<div class="col-sm-3">
