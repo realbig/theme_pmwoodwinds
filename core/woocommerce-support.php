@@ -875,7 +875,8 @@ function pmwoodwind_change_product_single_lightbox_size( $args, $attachment_id, 
 
 	global $product;
 
-	if ( pmwoodwind_is_instrument( $product->get_id() ) ) return $args;
+	// If Used Instrument, use larger image
+	if ( pmwoodwind_is_instrument( $product->get_id() ) && ! pmwoodwind_is_new_product( $product->get_id() ) ) return $args;
 
 	$full_src = wp_get_attachment_image_src( $attachment_id, 'product_lightbox' );
 
