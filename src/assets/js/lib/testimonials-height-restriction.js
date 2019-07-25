@@ -11,13 +11,14 @@
 				totalHeight = 0
 
 				$element = $( this );
-				$container = $element.closest( '.trd-testimonial-text' );
+				$container = $element.closest( '.testimonial-content' );
 				
 				$children = $container.find( '> *' );
 
 				if ( ! $container.hasClass( 'opened' ) ) {
 					
 					$container.removeClass( 'closed' );
+					$container.parent().removeClass( 'closed' ); // Used to change color of "triangle"
 
 					// measure how tall inside should be by adding together heights of all inside paragraphs
 					$children.each( function() {
@@ -27,6 +28,7 @@
 					totalHeight += $container.innerHeight() - $container.height(); // Top and Bottom Padding
 
 					$container.addClass( 'closed' );
+					$container.parent().addClass( 'closed' ); // Used to change color of "triangle"
 
 					$container.data( 'max-height', $container.css( 'max-height' ) );
 
@@ -39,7 +41,8 @@
 					.addClass( 'opened' )
 					.animate( {
 						'height': totalHeight
-					} );
+					} )
+					.parent().removeClass( 'closed' );
 					
 					$element.text( pmwoodwind.testimonialsSlider.collapse );
 
@@ -51,7 +54,8 @@
 					.animate( {
 						'height': $container.data( 'max-height' ),
 						'max-height': $container.data( 'max-height' )
-					} );
+					} )
+					.parent().addClass( 'closed' );
 					
 					$element.text( pmwoodwind.testimonialsSlider.readMore );
 

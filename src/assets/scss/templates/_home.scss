@@ -51,6 +51,12 @@ body.home {
 		.trd-testimonial-slides {
 
 			.trd-testimonial-text {
+				padding: 0;
+			}
+
+			.testimonial-content {
+
+				padding: 100px 35px 50px; // Copied from Text
 
 				max-height: 18em;
 				position: relative;
@@ -81,6 +87,34 @@ body.home {
 						
 					}
 					
+				}
+
+			}
+
+			.trd-testimonial-text {
+
+				&.closed {
+
+					&:after {
+						border-top-color: #848484;
+					}
+
+				}
+
+			}
+
+			&.slick-current {
+
+				.trd-testimonial-text {
+
+					&.closed {
+
+						&:before {
+							border-top-color: #848484;
+						}
+
+					}
+
 				}
 
 			}
