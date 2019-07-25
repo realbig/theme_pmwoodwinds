@@ -2199,9 +2199,33 @@ function pmwoodwind_product_is_sold( $product_id = null ) {
 
 	$product = wc_get_product( $product_id );
 	
-	$is_new = $product->get_attribute( 'In House Inventory' );
+	$in_house_inventory = $product->get_attribute( 'In-House Inventory' );
 	
-	if ( strtolower( $is_new ) == 'sold' ) {
+	if ( strtolower( $in_house_inventory ) == 'sold' ) {
+		return true;
+	}
+
+	return false;
+
+}
+
+/**
+ * Determine if a Product has its In House Inventory Attribute set to Out on Trial
+ *
+ * @param   [integer]  $product_id  Product ID
+ *
+ * @since	{{VERSION}}
+ * @return  [boolean]
+ */
+function pmwoodwind_product_is_out_on_trial( $product_id = null ) {
+
+	if ( ! $product_id ) $product_id = get_the_ID();
+
+	$product = wc_get_product( $product_id );
+	
+	$in_house_inventory = $product->get_attribute( wc_attribute_taxonomy_name( 'In-House Inventory' ) );
+	
+	if ( strtolower( $in_house_inventory ) == 'out on trial' ) {
 		return true;
 	}
 
