@@ -570,3 +570,9 @@
 	}
 	
 }
+
+// https://github.com/woocommerce/woocommerce/issues/23900
+.woocommerce img.pswp__img,
+.woocommerce-page img.pswp__img {
+	max-width: none; /* 2 */
+}
