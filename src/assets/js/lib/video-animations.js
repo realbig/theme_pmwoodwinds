@@ -75,6 +75,16 @@
 
         // Only show results if something is checked
         if ( $categoryCheckboxes.hasClass( 'checked' ) ) {
+
+            if ( $videoCategories.css( 'display' ) == 'block' ) {
+    
+                $videoCategories.each( function( index, element ) {
+
+                    $( element ).css( 'display', 'none' );
+
+                } );
+
+            }
 		
             $video.each( function( index, element ) {
                 Foundation.Motion.animateIn( element, 'scale-in-up' );
