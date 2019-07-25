@@ -10,7 +10,8 @@ body.page-template-clients, body.page-template-testimonials {
 
     #clients, #testimonials {
 
-        @media (min-width: 768px) {
+        // Desktop only
+        @media (min-width: 1200px) {
 
             .trd-testimonial-text{
                 margin-bottom: 0;
