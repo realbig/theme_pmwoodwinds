@@ -2248,6 +2248,10 @@ function pmwoodwind_adjust_video_query( $query ) {
 
 }
 
+add_filter( 'jpeg_quality', function( $percentage ) {
+	return 100;
+} );
+
 /*
 
 add_filter( 'woocommerce_csv_product_export_args', function( $args ) {
