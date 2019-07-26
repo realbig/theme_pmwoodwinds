@@ -2250,7 +2250,7 @@ function pmwoodwind_sort_media_items( $query ) {
 	$query->set( 'orderby', 'menu_order' );
 	$query->set( 'order', 'ASC' );
 
-	$query->set( 'posts_per_page', 12 );
+	$query->set( 'posts_per_page', 32 );
 
 }
 
@@ -2268,7 +2268,7 @@ function pmwoodwind_adjust_video_query( $query ) {
 
 	if ( ! is_post_type_archive( 'video' ) ) return;
 
-	$query->set( 'posts_per_page', 12 );
+	$query->set( 'posts_per_page', 32 );
 
 }
 
