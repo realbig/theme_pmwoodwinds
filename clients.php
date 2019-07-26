@@ -52,7 +52,7 @@
 
 			<?php endif; ?>
 
-			<div class="col-xs-12 col-sm-6 col-lg-3">
+			<div class="col-xs-12 col-sm-3">
 
 				<div class="trd-testimonial-text">
 
