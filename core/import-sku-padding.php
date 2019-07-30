@@ -57,32 +57,12 @@ if ( ! class_exists( 'pmwoodwinds_import_sku_padding' ) ) {
 
             // Ensure this is set and up-to-date
             update_option( 'pmwoodwind_sku_length', (int) pmwoodwind_get_max_sku_length() );
-
-            $taxonomy = wc_attribute_taxonomy_name( 'Is New?' );
-
-            $term = term_exists( 'used', $taxonomy );
-            $term_id = (int) $term['term_id'];
             
-            // Only update Used Instruments. Seems to be all that matters, for now
 			$products = new WP_Query( array(
 				'post_type' => 'product',
 				'fields' => 'ids',
 				'posts_per_page' => -1,
                 'post_status' => 'publish',
-                'tax_query' => array(
-                    'relation' => 'AND',
-					array(
-						'taxonomy' => 'product_cat',
-						'field' => 'slug',
-						'terms' => array( 'instruments' ),
-                    ),
-                    array(
-                        'taxonomy' => $taxonomy,
-                        'field' => 'term_id',
-                        'terms' => array( $term_id ),
-                        'operator' => 'IN',
-                    ),
-                ),
 			) );
 			
 			error_log( count( $products->posts ) . " Products Found. Starting..." );

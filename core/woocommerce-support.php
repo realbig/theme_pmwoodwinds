@@ -1016,8 +1016,6 @@ add_action( 'woocommerce_product_query', function( $query ) {
 	
 	// Only sort in this way for Instruments, Mouthpieces and Accessories
 	if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' ) return;
-	
-	//$query->set( 'meta_key', 'product_sort_order' );
 
 	$meta_query = $query->get( 'meta_query' );
 
@@ -1025,56 +1023,37 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		$meta_query = array( 'relation' => 'AND' );
 	}
 
-	$meta_query['product_sort_order'] = array(
-		'key' => 'product_sort_order',
+	$meta_query['parent_category_sort_order'] = array(
+		'key' => 'parent_category_sort_order',
 		'type' => 'NUMERIC',
 	);
 
-	$orderby = array(
-		'product_sort_order' => 'ASC',
-		'title' => 'ASC',
+	$meta_query['sub_category_sort_order'] = array(
+		'key' => 'sub_category_sort_order',
+		'type' => 'NUMERIC',
 	);
 
-	// If Used Instruments, use different Sort Order
-	if ( $term->slug == 'instruments' && 
-		isset( $_GET['_show'] ) 
-		&& $_GET['_show'] == 'used' ) {
+	$meta_query['parent_category_brand_sort_order'] = array(
+		'key' => 'parent_category_brand_sort_order',
+		'type' => 'NUMERIC',
+	);
 
-		unset( $meta_query['product_sort_order'] ); // Not using this, so may as well not restrict results to where it exists (Even though it always should)
+	$meta_query['sub_category_model_sort_order'] = array(
+		'key' => 'sub_category_model_sort_order',
+		'type' => 'NUMERIC',
+	);
 
-		$meta_query['parent_category_sort_order'] = array(
-			'key' => 'parent_category_sort_order',
-			'type' => 'NUMERIC',
-		);
+	$meta_query['_sku'] = array(
+		'key' => '_sorting_sku',
+	);
 
-		$meta_query['sub_category_sort_order'] = array(
-			'key' => 'sub_category_sort_order',
-			'type' => 'NUMERIC',
-		);
-
-		$meta_query['parent_category_brand_sort_order'] = array(
-			'key' => 'parent_category_brand_sort_order',
-			'type' => 'NUMERIC',
-		);
-
-		$meta_query['sub_category_model_sort_order'] = array(
-			'key' => 'sub_category_model_sort_order',
-			'type' => 'NUMERIC',
-		);
-
-		$meta_query['_sku'] = array(
-			'key' => '_sorting_sku',
-		);
-
-		$orderby = array(
-			'parent_category_sort_order' => 'ASC',
-			'sub_category_sort_order' => 'ASC',
-			'parent_category_brand_sort_order' => 'ASC',
-			'sub_category_model_sort_order' => 'ASC',
-			'_sku' => 'ASC',
-		);
-
-	}
+	$orderby = array(
+		'parent_category_sort_order' => 'ASC',
+		'sub_category_sort_order' => 'ASC',
+		'parent_category_brand_sort_order' => 'ASC',
+		'sub_category_model_sort_order' => 'ASC',
+		'_sku' => 'ASC',
+	);
 
 	$categories = ( isset( $_GET['_instrument_categories'] ) && $_GET['_instrument_categories'] ) ? $_GET['_instrument_categories'] : '';
 	$categories = explode( ',', $categories );
