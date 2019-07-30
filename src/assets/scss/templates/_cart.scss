@@ -38,5 +38,17 @@
 		}
 		
 	}
+
+	.shipping-calculator-button {
+
+		@extend .btn;
+
+		margin-top: 0 !important;
+
+	}
+
+	button[name="apply_coupon"] {
+		color: #000 !important;
+	}
 	
 }
