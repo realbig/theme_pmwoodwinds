@@ -1453,7 +1453,7 @@ add_filter( 'yikes_simple_taxonomy_ordering_excluded_taxonomies', function( $exc
 add_filter( 'woocommerce_is_purchasable', 'pmwoodwind_do_not_allow_purchasing_on_trial_or_sale_pending_products', 10, 2 );
 
 /**
- * Prevent purchasing On Trial or Sale Pending products
+ * Prevent purchasing On Trial, Sold, or Sale Pending products
  *
  * @param   [boolean]  $allow    To allow purchase or not
  * @param   [object]   $product  WC_Product
@@ -1467,11 +1467,13 @@ function pmwoodwind_do_not_allow_purchasing_on_trial_or_sale_pending_products( $
 
 	$on_trial_term = term_exists( 'OutOnTrial', $taxonomy );
 	$sale_pending_term = term_exists( 'SalePending', $taxonomy );
+	$sold_term = term_exists( 'Sold', $taxonomy );
 
 	$post_term_ids = wp_get_post_terms( $product->get_id(), $taxonomy, array( 'fields' => 'ids' ) );
 
 	if ( in_array( $on_trial_term['term_id'], $post_term_ids ) || 
-	in_array( $sale_pending_term['term_id'], $post_term_ids ) ) {
+	in_array( $sale_pending_term['term_id'], $post_term_ids ) || 
+	in_array( $sold_term['term_id'], $post_term_ids ) ) {
 		return false;
 	}
 
