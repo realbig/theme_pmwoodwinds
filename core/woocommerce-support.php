@@ -359,7 +359,7 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 	if ( $msrp ) {
 		
 		?>
-		MSRP: <span><?php echo money_format( "$ <span class='msrp'>%i</span>", (float) $msrp );?></span><br />
+		MSRP: <span><?php echo get_woocommerce_currency_symbol(); ?> <span class='msrp'><?php echo wc_price( (float) $msrp, array( 'currency' => 'none' ) );?></span></span><br />
 		<?php
 		
 	}
@@ -374,7 +374,7 @@ function pmwoodwind_modify_product_single_price_html( $html, $product ) {
 
 		<?php endif; ?>
 
-			Price: <span><?php echo money_format( "$ <span class='regular-price'>%i</span>", (float) $price );?></span><br />
+			Price: <span><?php echo get_woocommerce_currency_symbol(); ?> <span class='regular-price'><?php echo wc_price( (float) $price, array( 'currency' => 'none' ) );?></span></span><br />
 
 	<?php endif;
 	
