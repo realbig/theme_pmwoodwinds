@@ -138,7 +138,7 @@ function pmwoodwind_is_instrument( $post_id = null ) {
 	
 }
 
-function pmwoodwind_is_mouthpiece( $post_id ) {
+function pmwoodwind_is_mouthpiece( $post_id = null ) {
 
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();

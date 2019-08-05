@@ -1,25 +1,37 @@
 ( function( $ ) {
 	
 	if ( typeof wc_single_product_params == 'undefined' ) return;
+
+	if ( ! $( 'body' ).hasClass( 'pmwoodwind-product-cannot-zoom' ) ) {
 	
-	// Force Photoswipe to zoom further
-	// https://stackoverflow.com/a/40459340
-	wc_single_product_params.photoswipe_options.getDoubleTapZoom = function( isMouseClick, item ) {
+		// Force Photoswipe to zoom further
+		// https://stackoverflow.com/a/40459340
+		wc_single_product_params.photoswipe_options.getDoubleTapZoom = function( isMouseClick, item ) {
 
-		if ( $( 'body.single-product' ).length <= 0 ) {
-			return item.initialZoomLevel;
-		}
-		else {
-
-			if ( isMouseClick ) {
-				return 2;
+			if ( $( 'body.single-product' ).length <= 0 ) {
+				return item.initialZoomLevel;
 			}
 			else {
-				return item.initialZoomLevel < 0.7 ? 2 : 1.33;
-			}
 
+				if ( isMouseClick ) {
+					return 2;
+				}
+				else {
+					return item.initialZoomLevel < 0.7 ? 2 : 1.33;
+				}
+
+			}
+		};
+
+	}
+	else {
+
+		// Do not zoom
+		wc_single_product_params.photoswipe_options.getDoubleTapZoom = function( isMouseClick, item ) {
+			return item.initialZoomLevel;
 		}
-	};
+
+	}
 	
 	$( document ).on( 'click touch', '.woocommerce-product-gallery__image a', function( event ) {
 

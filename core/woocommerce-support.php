@@ -267,10 +267,10 @@ add_filter( 'woocommerce_single_product_carousel_options', 'pmwoodwind_flexslide
 /**
  * Modify Options for Flexslider (The Slider that is used for the the Product Gallery)
  * 
- * @param		array $options Photoswipe Options
+ * @param		array $options Flexslider Options
  *                                   
  * @sincee		{{VERSION}}
- * @return		array Photoswipe Options
+ * @return		array Flexslider Options
  */
 function pmwoodwind_flexslider_options( $options ) {
 
@@ -299,10 +299,30 @@ function pmwoodwind_photoswipe_options( $options ) {
 	$options['maxSpreadZoom'] = 2;
 	$options['fullscreenEl'] = false;
 	$options['zoomEl'] = true;
+
+	// If New or simply not a mouthpiece or instrument, then do not allow zooming
+	if ( pmwoodwind_is_new_product() || 
+		( ! pmwoodwind_is_instrument() && ! pmwoodwind_is_mouthpiece() ) ) {
+		$options['zoomEl'] = false;
+		$options['maxSpreadZoom'] = 1;
+	}
 	
 	return $options;
 	
 }
+
+add_filter( 'body_class', function( $body_class ) {
+
+	if ( pmwoodwind_is_new_product() || 
+		( ! pmwoodwind_is_instrument() && ! pmwoodwind_is_mouthpiece() ) ) {
+
+		$body_class[] = 'pmwoodwind-product-cannot-zoom';
+
+	}
+
+	return $body_class;
+
+} );
 
 add_filter( 'woocommerce_get_price_html', 'pmwoodwind_modify_product_single_price_html', 10, 2 );
 

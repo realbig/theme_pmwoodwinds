@@ -378,8 +378,20 @@
 		
 	}
 	
-	.pswp__button.pswp__button--zoom {
-		display: block !important; // Ensure Zoom is always visible on larger screens
+	&:not(.pmwoodwind-product-cannot-zoom) {
+
+		.pswp__button.pswp__button--zoom {
+			display: block !important; // Ensure Zoom is always visible on larger screens
+		}
+
+	}
+
+	&.pmwoodwind-product-cannot-zoom {
+
+		.pswp--zoom-allowed .pswp__img {
+			cursor: default;
+		}
+
 	}
 	
 	.button {
