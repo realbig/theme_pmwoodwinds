@@ -312,7 +312,9 @@ function pmwoodwind_photoswipe_options( $options ) {
 
 add_filter( 'body_class', function( $body_class ) {
 
-	if ( pmwoodwind_is_new_product() ) {
+	if ( get_post_type() == 'product' && 
+		is_single() && 
+		pmwoodwind_is_new_product() ) {
 
 		$body_class[] = 'pmwoodwind-product-cannot-zoom';
 
