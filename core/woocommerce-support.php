@@ -300,9 +300,8 @@ function pmwoodwind_photoswipe_options( $options ) {
 	$options['fullscreenEl'] = false;
 	$options['zoomEl'] = true;
 
-	// If New or simply not a mouthpiece or instrument, then do not allow zooming
-	if ( pmwoodwind_is_new_product() || 
-		( ! pmwoodwind_is_instrument() && ! pmwoodwind_is_mouthpiece() ) ) {
+	// If it is a new product, disable Zooming
+	if ( pmwoodwind_is_new_product() ) {
 		$options['zoomEl'] = false;
 		$options['maxSpreadZoom'] = 1;
 	}
@@ -313,8 +312,7 @@ function pmwoodwind_photoswipe_options( $options ) {
 
 add_filter( 'body_class', function( $body_class ) {
 
-	if ( pmwoodwind_is_new_product() || 
-		( ! pmwoodwind_is_instrument() && ! pmwoodwind_is_mouthpiece() ) ) {
+	if ( pmwoodwind_is_new_product() ) {
 
 		$body_class[] = 'pmwoodwind-product-cannot-zoom';
 
