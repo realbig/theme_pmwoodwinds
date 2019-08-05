@@ -63,6 +63,8 @@ function pmwoodwind_is_new_product( $product_id = null ) {
 	if ( ! $product_id ) return false;
 	
 	$product = wc_get_product( $product_id );
+
+	if ( ! $product ) return false;
 	
 	$is_new = $product->get_attribute( 'Is New?' );
 	
