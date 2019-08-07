@@ -720,6 +720,20 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 	
 }, 1 );
 
+// Whether or not the Quantity Field shows is dependent on the Attributes. Since Attributes are basically stripped from the Product to prevent them from showing, we need to temporarily bring them back
+
+add_action( 'woocommerce_before_add_to_cart_quantity', function() {
+
+	remove_filter( 'woocommerce_product_get_attributes', 'pmwoodwind_remove_attributes_listing' );
+
+}, 1 );
+
+add_action( 'woocommerce_after_add_to_cart_quantity', function() {
+
+	add_filter( 'woocommerce_product_get_attributes', 'pmwoodwind_remove_attributes_listing' );
+
+}, 1 );
+
 add_action( 'woocommerce_single_product_summary', 'pmwoodwind_add_to_compare_button', 40 );
 
 function pmwoodwind_add_to_compare_button() {
@@ -1115,7 +1129,14 @@ add_filter( 'woocommerce_is_sold_individually', 'pmwoodwind_remove_all_quantity_
  * @return		boolean If is sold individually
  */
 function pmwoodwind_remove_all_quantity_fields( $return, $product ) {
-    return true;
+
+	// New Products allow multiple to be purchased
+	if ( pmwoodwind_is_new_product( $product->get_id() ) ) {
+		return false;
+	}
+
+	return true;
+
 }
 
 add_filter( 'woocommerce_short_description', 'pmwoodwind_hide_short_description' );
