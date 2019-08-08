@@ -87,6 +87,9 @@
 				width: auto;
 
 				color: #fff;
+
+				// Fix for when Jetpack is active
+				clip-path: none;
 			}
 
 		}
