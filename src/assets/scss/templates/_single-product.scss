@@ -78,6 +78,17 @@
 
 			margin-top: 7px;
 
+			// Show this
+			.screen-reader-text {
+				clip: auto;
+				height: auto;
+				overflow: auto;
+				position: relative !important;
+				width: auto;
+
+				color: #fff;
+			}
+
 		}
 		
 		.woocommerce-tabs {

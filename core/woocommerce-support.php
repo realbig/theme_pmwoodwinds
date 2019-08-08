@@ -1510,3 +1510,29 @@ function pmwoodwind_do_not_allow_purchasing_on_trial_or_sale_pending_products( $
 	return $allow;
 
 }
+
+add_filter( 'gettext', 'pmwoodwinds_change_quantity_text', 10, 4 );
+
+/**
+ * Alter the text for the Compare Products button in the Compare Products widget
+ * 
+ * @param		string  $translation			The resulting Translation
+ * @param		string  $untranslated_text      The original string
+ * @param		string  $domain					The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_change_quantity_text( $translation, $untranslated_text, $domain ) {
+	
+	if ( $domain !== 'woocommerce' ) return $translation;
+	
+	if ( $untranslated_text == '%s quantity' ) {
+		
+		$translation = 'Quantity:';
+		
+	}
+	
+	return $translation;
+	
+}
