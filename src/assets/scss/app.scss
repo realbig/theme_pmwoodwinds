@@ -16,6 +16,8 @@ $motion-ui-speeds: (
 @include motion-ui-transitions;
 @include motion-ui-animations;
 
+@import 'mixins';
+
 @import 'global/admin-bar';
 @import 'global/navigation';
 @import 'global/footer';

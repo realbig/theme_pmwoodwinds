@@ -1,4 +1,23 @@
 .woocommerce-cart {
+
+	@include x-small-only() {
+
+		.woocommerce-notices-wrapper {
+
+			.woocommerce-message {
+
+				.button {
+
+					float: none;
+					display: block;
+
+				}
+
+			}
+
+		}
+
+	}
 	
 	// Remove space for old position of Checkout Button
 	.wc-proceed-to-checkout {
