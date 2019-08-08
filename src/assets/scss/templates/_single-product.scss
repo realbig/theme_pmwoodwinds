@@ -1,4 +1,25 @@
 .woocommerce.single-product {
+
+	.woocommerce-notices-wrapper {
+
+		margin-top: 7rem;
+
+		> *:last-child {
+
+			margin-bottom: -60px !important;
+
+		}
+
+		@include x-small-only() {
+
+			.button {
+				float: none;
+				display: block;
+			}
+
+		}
+
+	}
 	
 	.product {
 		
