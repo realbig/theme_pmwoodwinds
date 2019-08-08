@@ -3909,7 +3909,9 @@ padding: 0;
   }
  .category-head {
     text-align: center;
-   padding-top: 160px;
+    /*padding-top: 160px; */
+    padding-top: 0;
+   margin-top: 130px !important;
 padding-bottom: 15px;
 } 
 ul.cd-filters.child {
