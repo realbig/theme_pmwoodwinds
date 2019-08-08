@@ -145,9 +145,11 @@ get_header();
                                 </div>
                                 <div class="text">
 
-									<?php the_content();?>
+									<?php echo wp_oembed_get( get_post_meta( get_the_ID(), 'wpcf-video-url', true ) ); ?>
 									
 									<h5><?php the_title();?></h5>
+
+									<?php the_excerpt();?>
 
                                     <a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
                                 </div>

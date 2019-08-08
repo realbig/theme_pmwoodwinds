@@ -18,7 +18,11 @@
                 <?php
                 /* Start the Loop */
                 while ( have_posts() ) : the_post();
+
+                    echo wp_oembed_get( get_post_meta( get_the_ID(), 'wpcf-video-url', true ) );
+
                     the_content();
+
                 endwhile;
                 ?>
             
