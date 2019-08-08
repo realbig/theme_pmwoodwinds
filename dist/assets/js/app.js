@@ -1893,6 +1893,9 @@ function resizeIframe(iFrame) {
 	}
 
 	$el.width(newWidth).height(newWidth * $el.data('aspectRatio'));
+
+	// Force reload. Fixes some weird browser cache issues when hitting the back button
+	$el.attr('src', $el.attr('src'));
 }
 
 (function ($) {
@@ -1920,7 +1923,7 @@ function resizeIframe(iFrame) {
 			// Kick off one resize to fix all videos on page load
 		}).resize();
 
-		$(document).on('open.zf.reveal media-animations-done', function () {
+		$(document).on('open.zf.reveal media-animations-done video-animations-done', function () {
 
 			resizeAll();
 		});
