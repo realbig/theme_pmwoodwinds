@@ -45,7 +45,10 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 			} );
 
 		}
+
+		$category_sorting_key = pmwoodwind_get_product_category_list_recursive( 0 );
 		
+		// These are only used to see what type of Product it is
 		$instrument_key = pmwoodwind_get_instrument_sorting_key();
 		$mouthpiece_key = pmwoodwind_get_mouthpiece_sorting_key();
 		$accessory_key = pmwoodwind_get_accessory_sorting_key();
@@ -62,23 +65,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		
 		foreach ( $term_ids as $term_id ) {
 			
-			if ( $is_instrument ) {
-			
-				$index = array_search( $term_id, $instrument_key );
-				
-			}
-			else if ( $is_mouthpiece ) {
-			
-				// Check against mouthpieces
-				$index = array_search( $term_id, $mouthpiece_key );
-
-			}
-			else if ( $is_accessory ) {
-			
-				// Check against Accessories
-				$index = array_search( $term_id, $accessory_key );
-
-			}
+			$index = array_search( $term_id, $category_sorting_key );
 
 			if ( $index !== false ) {
 
@@ -102,7 +89,6 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 			// The following is only currently used for the Used Instruments page
 
 			$top_category_id = 0;
-			$sorting_key = array();
 
 			// Find the Term IDs of Instrument/Mouthpiece/Accessory and set a Sorting Key to used for later
 			if ( $is_instrument ) {
@@ -110,23 +96,17 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 				$top_category = term_exists( 'instruments', 'product_cat' );
 				$top_category_id = (int) $top_category['term_id'];
 
-				$sorting_key = $instrument_key;
-
 			}
 			else if ( $is_mouthpiece ) {
 
 				$top_category = term_exists( 'mouthpieces', 'product_cat' );
 				$top_category_id = (int) $top_category['term_id'];
 
-				$sorting_key = $mouthpiece_key;
-
 			}
 			else if ( $is_accessory ) {
 
 				$top_category = term_exists( 'accessories', 'product_cat' );
 				$top_category_id = (int) $top_category['term_id'];
-
-				$sorting_key = $accessory_key;
 
 			}
 
@@ -150,14 +130,14 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 				$parent_category_id = pmwoodwind_get_second_to_top_category_id( $bottom_most_term_id );
 
 				// Find Index
-				$index = array_search( $parent_category_id, $sorting_key );
+				$index = array_search( $parent_category_id, $category_sorting_key );
 
 				// Increment
 				$parent_category_index = $index + 1;
 
 			}
 
-			// Now we have "Parent" and Sub-Category saved in a way we can sort by for just the Used Instruments page
+			// Now we have "Parent" and Sub-Category saved in a way we can sort by
 			update_post_meta( $product_id, 'parent_category_sort_order', (int) $parent_category_index );
 			update_post_meta( $product_id, 'sub_category_sort_order', (int) $sub_category_index );
 			

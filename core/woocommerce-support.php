@@ -1019,20 +1019,23 @@ add_action( 'woocommerce_product_query', function( $query ) {
 	
 	if ( isset( $_GET['orderby'] ) ) return;
 	
-	// Not looking at a Category/Tag
-	if ( ! is_a( $query->queried_object, 'WP_Term' ) ) return;
-	
-	// Not a Product Category
-	if ( $query->queried_object->taxonomy !== 'product_cat' ) return;
-	
-	$term = $query->queried_object;
-	
-	while ( $term->parent !== 0 ) {
-		$term = get_term( $term->parent, 'product_cat' );
+	if ( ! is_shop() && ! is_a( $query->queried_object, 'WP_Term' ) ) return;
+
+	if ( ! is_shop() ) {
+
+		// Not a Product Category
+		if ( $query->queried_object->taxonomy !== 'product_cat' ) return;
+		
+		$term = $query->queried_object;
+		
+		while ( $term->parent !== 0 ) {
+			$term = get_term( $term->parent, 'product_cat' );
+		}
+		
+		// Only sort in this way for Instruments, Mouthpieces and Accessories
+		if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' ) return;
+
 	}
-	
-	// Only sort in this way for Instruments, Mouthpieces and Accessories
-	if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' ) return;
 
 	$meta_query = $query->get( 'meta_query' );
 
