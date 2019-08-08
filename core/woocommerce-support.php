@@ -734,6 +734,20 @@ add_action( 'woocommerce_after_add_to_cart_quantity', function() {
 
 }, 1 );
 
+// Ensure Variations show the Quantity Field when chosen.
+
+add_action( 'woocommerce_variable_add_to_cart', function() {
+
+	remove_filter( 'woocommerce_product_get_attributes', 'pmwoodwind_remove_attributes_listing' );
+
+}, 29 );
+
+add_action( 'woocommerce_before_add_to_cart_form', function() {
+
+	add_filter( 'woocommerce_product_get_attributes', 'pmwoodwind_remove_attributes_listing' );
+
+}, 1 );
+
 add_action( 'woocommerce_single_product_summary', 'pmwoodwind_add_to_compare_button', 40 );
 
 function pmwoodwind_add_to_compare_button() {
@@ -1130,8 +1144,14 @@ add_filter( 'woocommerce_is_sold_individually', 'pmwoodwind_remove_all_quantity_
  */
 function pmwoodwind_remove_all_quantity_fields( $return, $product ) {
 
+	$product_id = $product->get_id();
+
+	if ( $product->get_type() == 'variation' ) {
+		$product_id = $product->get_parent_id();
+	}
+
 	// New Products allow multiple to be purchased
-	if ( pmwoodwind_is_new_product( $product->get_id() ) ) {
+	if ( pmwoodwind_is_new_product( $product_id ) ) {
 		return false;
 	}
 

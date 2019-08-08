@@ -4554,9 +4554,11 @@ top: -2px;
 	content:"Variation Price:";
 	margin-right: 20px;
 }	
+/*
 .woocommerce-variation-add-to-cart .quantity{
 	display: none!important;
 }
+*/
 .pwb-single-product-brands{
 	display: none;
 }
