@@ -1536,3 +1536,23 @@ function pmwoodwinds_change_quantity_text( $translation, $untranslated_text, $do
 	return $translation;
 	
 }
+
+add_filter( 'woocommerce_cart_item_thumbnail', 'pmwoodwind_change_cart_item_thumbnail', 10, 3 );
+
+/**
+ * Change Cart Image Thumbnail to be one that is not cropped
+ *
+ * @param   [string]  $image          Image HTML
+ * @param   [array]   $cart_item      Cart Item Data Array
+ * @param   [integer] $cart_item_key  Cart Item Index
+ *
+ * @since	{{VERSION}}
+ * @return  [string]                  Image HTML
+ */
+function pmwoodwind_change_cart_item_thumbnail( $image, $cart_item, $cart_item_key ) {
+
+	$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+	return $product->get_image( 'medium' );
+
+}
