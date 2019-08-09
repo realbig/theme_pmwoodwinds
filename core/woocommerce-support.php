@@ -1435,6 +1435,12 @@ function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
 		$link = add_query_arg( '_show', 'new', $link );
 		
 	}
+
+	if ( $type == 'instrument' || $type == 'mouthpiece' ) {
+
+		$link = add_query_arg( '_show', 'used', $link );
+
+	}
 	
 	return $link;
 	
