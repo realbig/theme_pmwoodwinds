@@ -149,8 +149,6 @@ get_header();
 									
 									<h5><?php the_title();?></h5>
 
-									<?php the_excerpt();?>
-
                                     <a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
                                 </div>
 
