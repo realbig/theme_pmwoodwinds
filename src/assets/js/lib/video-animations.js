@@ -104,6 +104,17 @@
 		// This feels so wrong but it is basically what FacetWP expects
 		$checkbox.click();
 		
-	} );
+    } );
+    
+    $( document ).on( 'video-animations-done', function() {
+
+        $( 'iframe' ).each( function( index, element ) {
+
+            // Force reload. Fixes some weird browser cache issues when hitting the back button
+	        $( element ).attr( 'src', $( element ).attr( 'src' ) );
+
+        } );
+
+    } );
 	
 } )( jQuery );
