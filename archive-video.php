@@ -10,6 +10,8 @@
  * @version 1.0
  */
 
+global $post;
+
 get_header(); 
 ?>
 <div id="blog" class="blog-home hover-section category-layout">
@@ -149,7 +151,11 @@ get_header();
 									
 									<h5><?php the_title();?></h5>
 
-									<?php the_excerpt();?>
+									<?php if ( has_excerpt() ) : ?>
+
+										<?php the_excerpt();?>
+
+									<?php endif; ?>
 
                                     <a href="<?php echo get_permalink();?>" class="button"><i class="flaticon-plus79"></i> Read more</a>
                                 </div>
