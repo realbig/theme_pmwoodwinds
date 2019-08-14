@@ -228,6 +228,10 @@
 					color: #000;
 					opacity: 0.8;
 					font-size: 12px;
+
+					@include x-small-only() {
+						top: 5.222rem; // hardcoding for really narrow phones
+					}
 					
 					&, * {
 						font-weight: bold;
