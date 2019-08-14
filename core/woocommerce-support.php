@@ -1523,7 +1523,7 @@ function pmwoodwind_do_not_allow_purchasing_on_trial_or_sale_pending_products( $
 add_filter( 'gettext', 'pmwoodwinds_change_quantity_text', 10, 4 );
 
 /**
- * Alter the text for the Compare Products button in the Compare Products widget
+ * Alter the text for the Quantity field on Product Single
  * 
  * @param		string  $translation			The resulting Translation
  * @param		string  $untranslated_text      The original string
@@ -1564,4 +1564,55 @@ function pmwoodwind_change_cart_item_thumbnail( $image, $cart_item, $cart_item_k
 
 	return $product->get_image( 'medium' );
 
+}
+
+add_filter( 'woocommerce_shipping_ups_insured_value_per_item_shipping', 'pmwoodwind_ups_shipping_insured_value', 10, 2 );
+
+/**
+ * Adjust the Insured Value for UPS Shipping to use the Declared Value field from the USPS plugin
+ *
+ * @param   [string]  $value    Product Price
+ * @param   [object]  $product  WC_Product
+ *
+ * @since	{{VERSION}}
+ * @return  [string]            Insured Value
+ */
+function pmwoodwind_ups_shipping_insured_value( $value, $product ) {
+
+	if ( ! class_exists( 'WC_Shipping_USPS_Admin' ) ) return $value;
+
+	if ( $insured_value = get_post_meta( $product->get_id(), WC_Shipping_USPS_Admin::META_KEY_DECLARED_VALUE, true ) ) {
+
+		return $insured_value;
+
+	}
+
+	return $value;
+
+}
+
+add_filter( 'gettext', 'pmwoodwinds_change_declared_value_helper_text', 10, 4 );
+
+/**
+ * Alter the text for the Declared Value field for International USPS Shipping to denote that it is now also being used for Domestic UPS.
+ * 
+ * @param		string  $translation			The resulting Translation
+ * @param		string  $untranslated_text      The original string
+ * @param		string  $domain					The Text Domain
+ *                                       
+ * @since		{{VERSION}}
+ * @return		string  The resulting Translation
+ */
+function pmwoodwinds_change_declared_value_helper_text( $translation, $untranslated_text, $domain ) {
+	
+	if ( $domain !== 'woocommerce-shipping-usps' ) return $translation;
+	
+	if ( $untranslated_text == 'Items value sent with rate request for international shipping.' ) {
+		
+		$translation = 'Items value sent with rate request for international shipping when shipping via USPS. When shipping via UPS, this is used for domestic shipping.';
+		
+	}
+	
+	return $translation;
+	
 }
