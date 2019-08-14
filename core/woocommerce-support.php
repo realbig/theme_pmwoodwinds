@@ -1581,7 +1581,13 @@ function pmwoodwind_ups_shipping_insured_value( $value, $product ) {
 
 	if ( ! class_exists( 'WC_Shipping_USPS_Admin' ) ) return $value;
 
-	if ( $insured_value = get_post_meta( $product->get_id(), WC_Shipping_USPS_Admin::META_KEY_DECLARED_VALUE, true ) ) {
+	$product_id = $product->get_id();
+
+	if ( $product->get_type() == 'variation' ) {
+		$product_id = $product->get_parent_id();
+	}
+
+	if ( $insured_value = get_post_meta( $product_id, WC_Shipping_USPS_Admin::META_KEY_DECLARED_VALUE, true ) ) {
 
 		return $insured_value;
 
