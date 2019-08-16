@@ -1619,7 +1619,7 @@ function pmwoodwind_ups_shipping_insured_value_box( $value, $contents ) {
 			$price = $values['data']->get_price();
 
 			if ( $insured_value < $price ) {
-				$value = $value - ( $values['data']->get_price() - $insured_value );
+				$value = $value - ( $price - $insured_value );
 			}
 
 		}
