@@ -1566,10 +1566,11 @@ function pmwoodwind_change_cart_item_thumbnail( $image, $cart_item, $cart_item_k
 
 }
 
-add_filter( 'woocommerce_shipping_ups_insured_value_per_item_shipping', 'pmwoodwind_ups_shipping_insured_value_per_item', 10, 2 );
+add_filter( 'woocommerce_shipping_ups_insured_value_per_item_shipping', 'pmwoodwind_ups_shipping_insured_value', 10, 2 );
+add_filter( 'woocommerce_shipping_ups_insured_value_box_shipping', 'pmwoodwind_ups_shipping_insured_value', 10, 2 );
 
 /**
- * Adjust the Insured Value for UPS Shipping to use the Declared Value field from the USPS plugin when packing per-item
+ * Adjust the Insured Value for UPS Shipping to use the Declared Value field from the USPS plugin
  *
  * @param   [string]  $value    Product Price
  * @param   [object]  $product  WC_Product
@@ -1577,7 +1578,7 @@ add_filter( 'woocommerce_shipping_ups_insured_value_per_item_shipping', 'pmwoodw
  * @since	{{VERSION}}
  * @return  [string]            Insured Value
  */
-function pmwoodwind_ups_shipping_insured_value_per_item( $value, $product ) {
+function pmwoodwind_ups_shipping_insured_value( $value, $product ) {
 
 	if ( ! class_exists( 'WC_Shipping_USPS_Admin' ) ) return $value;
 
@@ -1590,39 +1591,6 @@ function pmwoodwind_ups_shipping_insured_value_per_item( $value, $product ) {
 	if ( $insured_value = get_post_meta( $product_id, WC_Shipping_USPS_Admin::META_KEY_DECLARED_VALUE, true ) ) {
 
 		return $insured_value;
-
-	}
-
-	return $value;
-
-}
-
-add_filter( 'woocommerce_shipping_ups_insured_value_box_shipping', 'pmwoodwind_ups_shipping_insured_value_box', 10, 2 );
-
-/**
- * Adjust the Insured Value for UPS Shipping to use the Declared Value field from the USPS plugin when packing by box
- *
- * @param   string  $value     Insured Value for the whole box
- * @param   array   $contents  The contents of the box
- *
- * @since	{{VERSION}}
- * @return  string             Insured Value for the whole box
- */
-function pmwoodwind_ups_shipping_insured_value_box( $value, $contents ) {
-
-	if ( ! class_exists( 'WC_Shipping_USPS_Admin' ) ) return $value;
-
-	foreach ( $contents as $item_id => $values ) {
-
-		if ( $insured_value = get_post_meta( $values['data']->get_id(), WC_Shipping_USPS_Admin::META_KEY_DECLARED_VALUE, true ) ) {
-
-			$price = $values['data']->get_price();
-
-			if ( $insured_value < $price ) {
-				$value = $value - ( $price - $insured_value );
-			}
-
-		}
 
 	}
 
