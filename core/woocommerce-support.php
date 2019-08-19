@@ -1594,6 +1594,18 @@ function pmwoodwind_ups_shipping_insured_value( $value, $product ) {
 
 	}
 
+	// If we're a New or Old Instrument, default to $1,500
+	if ( pmwoodwind_is_instrument( $product_id ) && 
+		( pmwoodwind_is_new_product( $product_id ) || pmwoodwind_is_used_product( $product_id ) ) ) {
+
+		$price = $product->get_price();
+
+		if ( $price > 1500 ) {
+			return 1500;
+		}
+
+	}
+
 	return $value;
 
 }

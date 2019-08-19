@@ -75,6 +75,25 @@ function pmwoodwind_is_new_product( $product_id = null ) {
 	return false;
 	
 }
+function pmwoodwind_is_used_product( $product_id = null ) {
+
+	if ( ! $product_id ) $product_id = get_the_ID();
+
+	if ( ! $product_id ) return false;
+	
+	$product = wc_get_product( $product_id );
+
+	if ( ! $product ) return false;
+	
+	$is_used = $product->get_attribute( 'Is New?' );
+	
+	if ( strtolower( $is_used ) == 'used' ) {
+		return true;
+	}
+	
+	return false;
+	
+}
 function pmwoodwind_product_get_serial($postid){
 	$serial = get_post_meta($postid,'_sku',true);
 	if($serial){
