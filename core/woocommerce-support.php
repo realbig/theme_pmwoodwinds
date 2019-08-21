@@ -1015,6 +1015,8 @@ if ( class_exists( 'FacetWP' ) ) {
 // Use our stored Instrument Order for a default Sort
 add_action( 'woocommerce_product_query', function( $query ) {
 
+	if ( is_admin() ) return;
+
 	$query->set( 'posts_per_page', 32 );
 	
 	if ( isset( $_GET['orderby'] ) ) return;
