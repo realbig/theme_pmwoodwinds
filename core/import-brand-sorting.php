@@ -21,7 +21,7 @@ if ( ! class_exists( 'pmwoodwinds_import_brand_sorting' ) ) {
 			add_action( 'delete_pwb-brand', array( $this, 'categories_updated' ) );
 
 			// Update Brand Sorting Key rearranging Categories
-			add_action( 'yikes_sto_taxonomy_order_updated', array( $this, 'categories_updated' ) );
+			add_action( 'yikes_sto_taxonomy_order_updated', array( $this, 'categories_reordered' ) );
 			
 		}
 		
@@ -39,7 +39,13 @@ if ( ! class_exists( 'pmwoodwinds_import_brand_sorting' ) ) {
 			
 		}
 
-		public function categories_updated( $taxonomy_ordering_data ) {
+		public function categories_updated() {
+
+			$this->handle_all();
+
+		}
+
+		public function categories_reordered( $taxonomy_ordering_data ) {
 
 			$term_id = pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax( $taxonomy_ordering_data );
 
