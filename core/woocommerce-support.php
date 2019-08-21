@@ -1637,3 +1637,35 @@ function pmwoodwinds_change_declared_value_helper_text( $translation, $untransla
 	return $translation;
 	
 }
+
+add_filter( 'the_content', 'pmwoodwind_add_warranty_information' );
+
+/**
+ * Append warranty information to Content for New/Used Instruments
+ *
+ * @param   string  $content  Content
+ *
+ * @since	{{VERSION}}
+ * @return  string            Content
+ */
+function pmwoodwind_add_warranty_information( $content ) {
+
+	if ( is_singular() && 
+		is_main_query() ) {
+
+		if ( pmwoodwind_is_instrument() ) {
+
+			if ( pmwoodwind_is_new_product() ) {
+				$content .= '<p><em>All new instruments purchased from PM Woodwind come with a one year warranty</em></p>';
+			}
+			elseif ( pmwoodwind_is_used_product() ) {
+				$content .= '<p><em>All used instruments purchased from PM Woodwind come with a six month warranty</em></p>';
+			}
+
+		}
+
+	}
+
+	return $content;
+
+}
