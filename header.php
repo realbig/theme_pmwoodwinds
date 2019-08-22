@@ -15,7 +15,9 @@
 	<?php wp_head();?>
 </head>
 <body data-spy="scroll" data-target=".nav-container" data-offset="80" <?php body_class( array( get_the_id() ) );?>>
-	
+
+	<?php do_action( 'pmwoodwind_after_body_start' ); ?>
+
 	<!-- Header Bar -->
 	<div id="home" class="navigation-bar scroll-BG">
 		<div class="container">
