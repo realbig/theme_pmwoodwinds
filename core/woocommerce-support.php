@@ -1,7 +1,7 @@
 <?php
 /**
  * Modify some WooCommerce things in a flexible manner
- * @since {{VERSION}}
+ * @since 1.0.0
  */
 
 add_filter( 'woocommerce_product_get_image', 'pmwoodwind_add_classes_to_woocommerce_product_image', 99, 5 );
@@ -16,7 +16,7 @@ add_filter( 'woocommerce_product_get_image', 'pmwoodwind_add_classes_to_woocomme
  * @param		boolean $placeholder Whether to show a Placeholder if no image exists
  * @param		integer $image    Attachment ID
  *                                         
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  Image HTML
  */
 function pmwoodwind_add_classes_to_woocommerce_product_image( $html, $product, $size, $attr, $placeholder ) {
@@ -38,7 +38,7 @@ add_action( 'after_setup_theme', 'pmwoodwind_add_woocommerce_support' );
 /**
  * Add Theme Support for WooCommerce, allowing half of their templating functions to actually work
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_add_woocommerce_support() {
@@ -101,7 +101,7 @@ add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_sin
 /**
  * Wraps the Image Column on Product Single in a proper Column without needing to edit the Template
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_product_single_image_column_start() { 
@@ -121,7 +121,7 @@ add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_sin
 /**
  * Wraps the Image Column on Product Single in a proper Column without needing to edit the Template
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_product_single_image_column_end() { ?>
@@ -137,7 +137,7 @@ add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_product_sin
 /**
  * Wraps the Summary Column on Product Single in a proper Column without needing to edit the Template
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_product_single_summary_column_start() { ?>
@@ -155,7 +155,7 @@ add_action( 'woocommerce_after_single_product_summary', 'pmwoodwind_product_sing
 /**
  * Wraps the Summary Column on Product Single in a proper Column without needing to edit the Template
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_product_single_summary_column_end() { ?>
@@ -190,7 +190,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
  * @param		boolean $placeholder Whether to show a Placeholder if no image exists
  * @param		integer $image    Attachment ID
  *                                         
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  Image HTML
  */
 function pmwoodwind_force_compare_widget_to_use_main_image( $image_html, $product, $size, $attr, $placeholder, $image ) {
@@ -269,7 +269,7 @@ add_filter( 'woocommerce_single_product_carousel_options', 'pmwoodwind_flexslide
  * 
  * @param		array $options Flexslider Options
  *                                   
- * @sincee		{{VERSION}}
+ * @sincee		1.0.0
  * @return		array Flexslider Options
  */
 function pmwoodwind_flexslider_options( $options ) {
@@ -290,7 +290,7 @@ add_filter( 'woocommerce_single_product_photoswipe_options', 'pmwoodwind_photosw
  * 
  * @param		array $options Photoswipe Options
  *                                   
- * @sincee		{{VERSION}}
+ * @sincee		1.0.0
  * @return		array Photoswipe Options
  */
 function pmwoodwind_photoswipe_options( $options ) {
@@ -332,7 +332,7 @@ add_filter( 'woocommerce_get_price_html', 'pmwoodwind_modify_product_single_pric
  * @param		string $html    HTML
  * @param		object $product WC_Product
  *                         
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string HTML
  */
 function pmwoodwind_modify_product_single_price_html( $html, $product ) {
@@ -424,7 +424,7 @@ add_filter( 'get_the_terms', 'pmwoodwind_show_only_child_categories', 10, 3 );
  * @param		integer $post_id  Post ID
  * @param		string  $taxonomy Taxonomy
  *                           
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array   Terms
  */
 function pmwoodwind_show_only_child_categories( $terms, $post_id, $taxonomy ) {
@@ -450,7 +450,7 @@ add_filter( 'ngettext', 'pmwoodwinds_remove_categories_text', 10, 5 );
  * @param		integer $number      The number of items
  * @param		string  $domain      The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_remove_categories_text( $translation, $single, $plural, $number, $domain ) {
@@ -473,7 +473,7 @@ add_filter( 'gettext', 'pmwoodwinds_change_sku_text', 10, 4 );
  * @param		string  $untranslated_text      The original string
  * @param		string  $domain					The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_change_sku_text( $translation, $untranslated_text, $domain ) {
@@ -532,7 +532,7 @@ add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_bran
 /**
  * Show the Brand on Single Products
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_show_product_single_brand() {
@@ -553,7 +553,7 @@ add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_year
 /**
  * Show the custom Year String on Single Products
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_show_product_single_year() {
@@ -571,7 +571,7 @@ add_action( 'woocommerce_product_meta_end', 'pmwoodwind_show_product_single_inve
 /**
  * Show the custom Inventory String on Single Products
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_show_product_single_inventory() {
@@ -592,7 +592,7 @@ add_filter( 'woocommerce_get_stock_html', 'pmwoodwind_hide_product_single_stock_
  * @param		string $html    HTML
  * @param		object $product WC_Product
  *                         
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string HTML
  */
 function pmwoodwind_hide_product_single_stock_html( $html, $product ) {
@@ -606,7 +606,7 @@ add_action( 'widgets_init', 'pmwoodwind_add_woocommerce_sidebar' );
 /**
  * I could have sworn this was the default, but I suppose it is not?
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_add_woocommerce_sidebar() {
@@ -683,7 +683,7 @@ add_filter( 'woocommerce_payment_complete_order_status', 'pmwoodwind_handle_paym
  * @param		string  $order_status Order Status
  * @param		integer $order_id     Order ID
  *
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  Order Status
  */
 function pmwoodwind_handle_payment_complete_order_status( $order_status, $order_id ) {
@@ -884,7 +884,7 @@ add_action( 'woocommerce_before_single_product_summary', 'pmwoodwind_second_imag
  * In order to have a slider below control the main image, we technically need TWO sliders
  * http://flexslider.woothemes.com/thumbnail-slider.html
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_second_image_slider() {
@@ -911,7 +911,7 @@ function pmwoodwind_second_image_slider() {
  * 
  * @param		array $classes Classes applied to the Slider container
  *                                                      
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array Classes applied to the Slider container
  */
 function pmwoodwind_remove_slider_class_from_second_slider( $classes ) {
@@ -932,7 +932,7 @@ add_filter( 'woocommerce_product_get_gallery_image_ids', 'pmwoodwind_ensure_prod
  * @param   [array]  $gallery_image_ids  Array of Attachment IDs
  * @param   [object]  $product           WC_Product
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [array]                      Array of Attachment IDs
  */
 function pmwoodwind_ensure_product_gallery_images_are_in_right_order( $gallery_image_ids, $product ) {
@@ -985,7 +985,7 @@ add_action( 'woocommerce_before_single_product_summary', function() {
  * @param		object       $attachment Image attachment WP_Post Object
  * @param 		string|array $size       Requested size. Image size or array of width and height values (in that order). Default 'thumbnail'.
  *                                                                                                                           
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array        Attributes for the image markup
  */
 function pmwoodwind_product_single_primary_image_hover_zoom( $attributes, $attachment, $size ) {
@@ -1106,7 +1106,7 @@ add_filter( 'facetwp_facet_render_args', 'pmwoodwind_force_rare_and_collectable_
  *
  * @param   [array]  $args  Facet Rendering Args
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [array]         Facet Rendering Args
  */
 function pmwoodwind_force_rare_and_collectable_checkbox( $args ) {
@@ -1144,7 +1144,7 @@ add_filter( 'woocommerce_is_sold_individually', 'pmwoodwind_remove_all_quantity_
  * @param		boolean $return  If is sold individually
  * @param		object  $product WC_Product Object
  *                                     
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		boolean If is sold individually
  */
 function pmwoodwind_remove_all_quantity_fields( $return, $product ) {
@@ -1171,7 +1171,7 @@ add_filter( 'woocommerce_short_description', 'pmwoodwind_hide_short_description'
  * 
  * @param		string $description Post Excerpt
  *                                  
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string Post Excerpt
  */
 function pmwoodwind_hide_short_description( $description ) {
@@ -1238,7 +1238,7 @@ add_filter( 'gettext', 'pmwoodwinds_change_compare_products_text', 10, 4 );
  * @param		string  $untranslated_text      The original string
  * @param		string  $domain					The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_change_compare_products_text( $translation, $untranslated_text, $domain ) {
@@ -1316,7 +1316,7 @@ add_filter( 'dynamic_sidebar_params', function( $params ) {
  * 
  * This only filters on the PHP end. This can cause inconsistencies with the JavaScript. For example, if they have 2 Instruments and 1 Mouthpiece in the Compare Cookie and try to Compare while viewing a Mouthpiece, it will think they have 3 things being compared even though it is technically only 1, thereby allowing them to proceed (It normally requires 2 items)
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 add_action( 'wp_head', function() {
@@ -1377,7 +1377,7 @@ add_action( 'woocommerce_before_shop_loop_item_title', function() {
  * 
  * @param		string $image_size Image Size
  *                                  
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string Image Size
  */
 function pmwoodwind_change_related_products_image_size( $image_size ) {
@@ -1395,7 +1395,7 @@ add_filter( 'term_link', 'pmwoodwind_alter_product_category_link', 10, 3 );
  * @param		object $term     WP_Term
  * @param		string $taxonomy Taxonomy Name
  *                                   
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string Category Link
  */
 function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
@@ -1474,7 +1474,7 @@ add_action( 'wp_ajax_nopriv_wc_products_compare_add_product_ajax', 'pmwoodwind_f
  * Force a valid nonce for Adding to Compare
  * For some reason this is caching expired/invalid nonces. It only returns HTML for a Product, so I'm going to just defeat the nonce check
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [void]
  */
 function pmwoodwind_force_compare_products_nonce() {
@@ -1499,7 +1499,7 @@ add_filter( 'woocommerce_is_purchasable', 'pmwoodwind_do_not_allow_purchasing_on
  * @param   [boolean]  $allow    To allow purchase or not
  * @param   [object]   $product  WC_Product
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [boolean]            To allow purchase or not
  */
 function pmwoodwind_do_not_allow_purchasing_on_trial_or_sale_pending_products( $allow, $product ) {
@@ -1531,7 +1531,7 @@ add_filter( 'gettext', 'pmwoodwinds_change_quantity_text', 10, 4 );
  * @param		string  $untranslated_text      The original string
  * @param		string  $domain					The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_change_quantity_text( $translation, $untranslated_text, $domain ) {
@@ -1557,7 +1557,7 @@ add_filter( 'woocommerce_cart_item_thumbnail', 'pmwoodwind_change_cart_item_thum
  * @param   [array]   $cart_item      Cart Item Data Array
  * @param   [integer] $cart_item_key  Cart Item Index
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [string]                  Image HTML
  */
 function pmwoodwind_change_cart_item_thumbnail( $image, $cart_item, $cart_item_key ) {
@@ -1577,7 +1577,7 @@ add_filter( 'woocommerce_shipping_ups_insured_value_box_shipping', 'pmwoodwind_u
  * @param   [string]  $value    Product Price
  * @param   [object]  $product  WC_Product
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [string]            Insured Value
  */
 function pmwoodwind_ups_shipping_insured_value( $value, $product ) {
@@ -1621,7 +1621,7 @@ add_filter( 'gettext', 'pmwoodwinds_change_declared_value_helper_text', 10, 4 );
  * @param		string  $untranslated_text      The original string
  * @param		string  $domain					The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_change_declared_value_helper_text( $translation, $untranslated_text, $domain ) {
@@ -1645,7 +1645,7 @@ add_filter( 'the_content', 'pmwoodwind_add_warranty_information' );
  *
  * @param   string  $content  Content
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  string            Content
  */
 function pmwoodwind_add_warranty_information( $content ) {
