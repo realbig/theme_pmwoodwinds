@@ -1457,7 +1457,7 @@ add_filter( 'the_title', function( $title, $post_id ) {
 
 	if ( pmwoodwind_is_new_product( $post_id ) ) {
 
-		return __( 'New - ', 'pmWoodwind' ) . $title;
+		return __( 'New - ', 'pmwoodwind' ) . $title;
 
 	}
 
