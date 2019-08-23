@@ -63,7 +63,7 @@ if ($term->parent > 0){
 					if(count($vids)){
 						$img = 'https://img.youtube.com/vi/'.$vids[1].'/hqdefault.jpg';
 					} else {
-						$img = '/wp-content/themes/pmwoodwind/dist/assets/img/elements/logo.png';
+						$img = THEME_URL . '/dist/assets/img/elements/logo.png';
 					}
 				}		
 				if($parent->term_id == 529){
@@ -76,7 +76,7 @@ if ($term->parent > 0){
 						$xpath = new DOMXPath($doc);
 						$img = $xpath->evaluate("string(//img/@src)");
 					} else {
-						$img = '/wp-content/themes/pmwoodwind/dist/assets/img/elements/logo.png';
+						$img = THEME_URL . '/dist/assets/img/elements/logo.png';
 					}
 			
 				}

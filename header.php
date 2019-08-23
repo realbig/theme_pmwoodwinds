@@ -57,7 +57,7 @@
 		</div>
 	</div>
 	<div id="search">
-		<img src="/wp-content/themes/pmwoodwind/dist/assets/img/elements/logo-2.png"/>
+		<img src="<?php echo THEME_URL; ?>/dist/assets/img/elements/logo-2.png"/>
 		<?php echo do_shortcode("[wcas-search-form]");?>
 		<span onclick="pmwoodwindsCloseSearch();" class="close">x</span>
 	</div>
