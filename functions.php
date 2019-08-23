@@ -2,8 +2,7 @@
 
 $theme_header = wp_get_theme();
 
-//define( 'THEME_VER', $theme_header->get( 'Version' ) );
-define( 'THEME_VER', time() );
+define( 'THEME_VER', $theme_header->get( 'Version' ) );
 define( 'THEME_URL', get_template_directory_uri() );
 define( 'THEME_DIR', get_template_directory() );
 
