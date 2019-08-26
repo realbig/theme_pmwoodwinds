@@ -26,7 +26,7 @@
 
 	if ( $event ) : ?>
 
-	<div id="featured-event" class="hide-for-lg">
+	<div id="featured-event">
 
 		<?php echo get_the_post_thumbnail( $event->ID, 'thumbnail' ); ?>
 

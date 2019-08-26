@@ -18,6 +18,11 @@ body.home {
 	
 	#featured-event {
 
+		// Use a media query that matches up with how the Slider works
+		@media only screen and (min-width: 1024px) {
+			display: none;
+		}
+
 		padding: 2rem;
 		
 		text-align: center;
