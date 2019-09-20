@@ -20,6 +20,8 @@
 		@media (max-width: 991px) {
 			top: 25px;
 		}
+
+		padding-bottom: 1rem;
 		
 		&.disabled {
 			
@@ -308,6 +310,7 @@
 
 	.facetwp-search {
 		max-width: 100%;
+		width: 100%;
 	}
 	
 }
