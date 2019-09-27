@@ -31,7 +31,7 @@ function pmwoodwind_product_featured_add_meta_box() {
 		'pmwoodwind_product_featured_meta_box',
 		$post->post_type,
         'side',
-        'high'
+        'normal'
     );
     
 }
