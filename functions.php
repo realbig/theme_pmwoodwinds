@@ -1532,8 +1532,14 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			else {
 				
 				if ( has_post_thumbnail( $event->ID ) ) {
+
+					$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'full' );
+
+					if ( $event->post_type !== 'product' ) {
 					
-					$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'thumbnail' );
+						$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'thumbnail' );
+
+					}
 					
 				}
 				
