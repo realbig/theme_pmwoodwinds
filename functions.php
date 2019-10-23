@@ -1601,7 +1601,7 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 					
 				}
 				
-				if ( function_exists( 'tribe_get_organizer_phone' ) ) {
+				if ( function_exists( 'tribe_get_organizer_phone' ) && $organizer ) {
 				
 					$current_meta = 'for reservations call ' . tribe_get_organizer_phone( $organizer );
 					
