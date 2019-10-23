@@ -1540,10 +1540,8 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 					if ( $event->post_type !== 'product' ) {
 					
 						$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'thumbnail' );
-
-
-
-					$current_meta = '<img src="' . $current_meta . '" class="slider-event-thumbnail" style="max-width: 100% !important; height: auto !important; margin-left: .2rem !important;" />';
+						
+						$current_meta = '<img src="' . $current_meta . '" class="slider-event-thumbnail" style="max-width: 100% !important; height: auto !important; margin-left: .2rem !important;" />';
 
 					}
 					
