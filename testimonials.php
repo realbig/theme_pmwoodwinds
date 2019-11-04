@@ -63,9 +63,13 @@
 						
 							<?php if ( ! get_post_meta( get_the_ID(), 'wpcf-image', true ) ) : ?>
 								<?php echo wc_placeholder_img( 'thumbnail' ); ?>
-							<?php elseif ( function_exists( 'types_render_field' ) ) : ?>
-								<?php echo types_render_field( 'image', array( 'size' => 'thumbnail' ) ); ?>
-							<?php endif; ?>
+							<?php else : 
+								
+								$dir = wp_upload_dir();
+								$attachment_id = pmwoodwind_media_file_exists( str_replace( trailingslashit( $dir['baseurl'] ), '', get_post_meta( get_the_ID(), 'wpcf-image', true ) ) );
+								echo wp_get_attachment_image( $attachment_id, 'thumbnail' ); 
+								
+							endif; ?>
 
 						</div>
 						

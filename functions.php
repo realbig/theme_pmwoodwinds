@@ -433,7 +433,7 @@ add_action( 'admin_init', function() {
 
 function pmwoodwind_media_file_exists( $filename ){
     global $wpdb;
-    $query = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_value LIKE '%$filename'";
+    $query = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value LIKE '%$filename'";
     return ( $wpdb->get_var( $query ) ) ? $wpdb->get_var( $query ) : false;
 }
 
