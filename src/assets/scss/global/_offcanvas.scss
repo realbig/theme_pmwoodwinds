@@ -95,4 +95,16 @@ body {
 
     }
 
+    .facetwp-checkbox {
+
+        &[data-value="rare-and-collectible"] {
+
+            .facetwp-counter {
+                display: none;
+            }
+
+        }
+        
+    }
+
 }
