@@ -46,6 +46,8 @@ var facets = jQuery( '.shop-sidebar .widget' ).html();
 
 		if ( loaded ) {
 
+			$( '.facetwp-type-search .facetwp-search' ).prop( 'readonly', false );
+
 			$products.each( function( index, element ) {
 				Foundation.Motion.animateOut( element, 'scale-out-down' );
 			} );

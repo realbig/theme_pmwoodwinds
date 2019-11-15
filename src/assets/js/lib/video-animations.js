@@ -10,6 +10,8 @@
 
 		if ( loaded ) {
 
+            $( '.facetwp-type-search .facetwp-search' ).prop( 'readonly', false );
+
             $video.each( function( index, element ) {
                 Foundation.Motion.animateOut( element, 'scale-out-down' );
             } );
