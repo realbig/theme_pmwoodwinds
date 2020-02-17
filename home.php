@@ -28,48 +28,66 @@
 
 	<div id="featured-event">
 
-		<?php echo get_the_post_thumbnail( $event->ID, 'thumbnail' ); ?>
+		<?php if ( $event->post_type !== 'product' ) : ?>
+
+			<?php echo get_the_post_thumbnail( $event->ID, 'thumbnail' ); ?>
+
+		<?php else : ?>
+
+			<?php echo get_the_post_thumbnail( $event->ID, 'full' ); ?>
+
+		<?php endif; ?>
 
 		<h3><?php echo get_the_title( $event->ID ); ?></h3>
 
-		<?php 
+		<?php if ( $event->post_type !== 'product' ) : 
 
-		$date_format = get_option( 'date_format', 'F j, Y' );
-		$time_format = get_option( 'time_format', 'g:i a' );
-		$start_datetime = strtotime( get_post_meta( $event->ID, '_EventStartDate', true ) );
+			$date_format = get_option( 'date_format', 'F j, Y' );
+			$time_format = get_option( 'time_format', 'g:i a' );
+			$start_datetime = strtotime( get_post_meta( $event->ID, '_EventStartDate', true ) );
+					
+			if ( function_exists( 'tribe_get_option' ) ) : ?>
+			
+				<p class="event-start-date"><?php echo date( $date_format, $start_datetime ) . tribe_get_option( 'dateTimeSeparator', ' @ ' ) . date( $time_format, $start_datetime ); ?></p>
 				
-		if ( function_exists( 'tribe_get_option' ) ) : ?>
+			<?php endif; 
+
+			$organizers = array();
+				
+			if ( function_exists( 'tribe_get_organizer_ids' ) ) {
+
+				$organizers = tribe_get_organizer_ids( $event->ID );
+
+			}
+
+			$organizer = false;
+
+			if ( is_array( $organizers ) && 
+				isset( $organizers[0] ) && 
+				$organizers[0] ) {
+				
+				$organizer = $organizers[0];
+				
+			}
+
+			if ( function_exists( 'tribe_get_organizer_phone' ) ) : ?>
+
+				<p class="event-organizer-phone"><?php echo 'for reservations call ' . tribe_get_organizer_phone( $organizer ); ?></p>
 		
-			<p class="event-start-date"><?php echo date( $date_format, $start_datetime ) . tribe_get_option( 'dateTimeSeparator', ' @ ' ) . date( $time_format, $start_datetime ); ?></p>
-			
-		<?php endif; 
+			<?php endif;
 
-		$organizers = array();
-			
-		if ( function_exists( 'tribe_get_organizer_ids' ) ) {
+			else : 
 
-			$organizers = tribe_get_organizer_ids( $event->ID );
+				echo apply_filters( 'the_content', get_post_meta( $event->ID, '_rbm_featured_text', true ) );
 
-		}
-
-		$organizer = false;
-
-		if ( is_array( $organizers ) && 
-			isset( $organizers[0] ) && 
-			$organizers[0] ) {
-			
-			$organizer = $organizers[0];
-			
-		}
-
-		if ( function_exists( 'tribe_get_organizer_phone' ) ) : ?>
-
-			<p class="event-organizer-phone"><?php echo 'for reservations call ' . tribe_get_organizer_phone( $organizer ); ?></p>
-	
-		<?php endif; ?>
+		endif; ?>
 
 		<a href="<?php echo get_permalink( $event->ID ); ?>" class="btn">
-			Event Details
+			<?php if ( $event->post_type !== 'product' ) : ?> 
+				Event Details
+			<?php else : ?>
+				Details
+			<?php endif; ?>
 		</a>
 
 	</div>

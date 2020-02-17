@@ -906,6 +906,8 @@ require_once __DIR__ . '/core/import-product-visibility-exclusions.php';
 
 require_once __DIR__ . '/core/woocommerce-support.php';
 
+require_once __DIR__ . '/core/admin/extra-meta/product.php';
+
 /**
  * Remove auto-added Featured Image from Single Events
  * 
@@ -931,7 +933,7 @@ add_action( 'widgets_init', 'pmwoodwind_add_sidebars' );
 /**
  * Add some additional sidebars
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		void
  */
 function pmwoodwind_add_sidebars() {
@@ -954,7 +956,7 @@ function pmwoodwind_add_sidebars() {
  * Returns a numeric index to use for sorting on the initial page load
  * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array Sorting Key
  */
 function pmwoodwind_get_instrument_sorting_key() {
@@ -972,7 +974,7 @@ function pmwoodwind_get_instrument_sorting_key() {
  * Returns a numeric index to use for sorting on the initial page load
  * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array Sorting Key
  */
 function pmwoodwind_get_mouthpiece_sorting_key() {
@@ -990,7 +992,7 @@ function pmwoodwind_get_mouthpiece_sorting_key() {
  * Returns a numeric index to use for sorting on the initial page load
  * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array Sorting Key
  */
 function pmwoodwind_get_accessory_sorting_key() {
@@ -1008,7 +1010,7 @@ function pmwoodwind_get_accessory_sorting_key() {
  * Returns a numeric index to use for sorting on the initial page load
  * To be stored as Post Meta based on the attached Brand (Loop through them all, find whichever matching category has the highest index, and save that one)
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		array Sorting Key
  */
 function pmwoodwind_get_brand_sorting_key() {
@@ -1076,7 +1078,7 @@ function pmwoodwind_sort_by_term_name( $a, $b ) {
 /**
  * Copied this more or less from their Plugin's save routine. We need to grab one of the Term IDs so we can determine the Taxonomy
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [integer|boolean]  First returned Term ID, or False on failure
  */
 function pmwoodwind_extract_term_id_from_taxonomy_reorder_ajax( $taxonomy_ordering_data ) {
@@ -1099,7 +1101,7 @@ add_action( 'save_post', 'pmwoodwind_save_product_sorting_key' );
  * 
  * @param		integer $post_id Post ID
  *                               
- * @since		{{VERSION}}
+ * @since		1.0.0
  */
 function pmwoodwind_save_product_sorting_key( $post_id ) {
 	
@@ -1252,7 +1254,7 @@ add_action( 'save_post', 'pmwoodwind_save_brand_sorting_key' );
  * 
  * @param		integer $post_id Post ID
  *                               
- * @since		{{VERSION}}
+ * @since		1.0.0
  */
 function pmwoodwind_save_brand_sorting_key( $post_id ) {
 	
@@ -1478,14 +1480,14 @@ if ( ! is_admin() ) {
  * @param		string  $meta_key  Meta Key
  * @param		array   $single    Meta value, or an array of values.
  *                                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		mixed   Modified Value
  */
 function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_key, $single ) {
 
     if ( isset( $meta_key ) && 
 		get_post_type( $object_id ) == 'slider' && 
-		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price', '_event_image', '_event_title', '_event_datetime', '_event_reservations', '_event_link', '_formatted_content' ) ) ) {
+		in_array( $meta_key, array( '_slide_product', '_slider_image', '_price', '_event_image', '_event_title', '_event_datetime', '_event_reservations', '_event_link', '_event_link_text', '_formatted_content' ) ) ) {
 		
         remove_filter( 'get_post_metadata', 'pmwoodwind_convert_meta_for_revslider', 100 );
 		
@@ -1530,8 +1532,18 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			else {
 				
 				if ( has_post_thumbnail( $event->ID ) ) {
+
+					$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'full' );
+
+					$current_meta = '<img src="' . $current_meta . '" class="slider-event-thumbnail" style="max-width: 150% !important; height: auto !important; margin-left: -.75rem !important;" />';
+
+					if ( $event->post_type !== 'product' ) {
 					
-					$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'thumbnail' );
+						$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'thumbnail' );
+						
+						$current_meta = '<img src="' . $current_meta . '" class="slider-event-thumbnail" style="max-width: 100% !important; height: auto !important; margin-left: .2rem !important;" />';
+
+					}
 					
 				}
 				
@@ -1559,6 +1571,11 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			if ( ! $event ) {
 				$current_meta = '';
 			}
+			else if ( $event->post_type == 'product' ) {
+
+				$current_meta = apply_filters( 'the_content', get_post_meta( $event->ID, '_rbm_featured_text', true ) );
+
+			}
 			else {
 				
 				$date_format = get_option( 'date_format', 'F j, Y' );
@@ -1567,7 +1584,8 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 				
 				if ( function_exists( 'tribe_get_option' ) ) {
 				
-					$current_meta = date( $date_format, $start_datetime ) . tribe_get_option( 'dateTimeSeparator', ' @ ' ) . date( $time_format, $start_datetime );
+					$current_meta = '<i class="fa fa-calendar" aria-hidden="true"></i> ';
+					$current_meta .= date( $date_format, $start_datetime ) . tribe_get_option( 'dateTimeSeparator', ' @ ' ) . date( $time_format, $start_datetime );
 					
 				}
 				
@@ -1578,7 +1596,7 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			
 			$event = pmwoodwind_get_featured_event();
 			
-			if ( ! $event ) {
+			if ( ! $event || $event->post_type == 'product' ) {
 				$current_meta = '';
 			}
 			else {
@@ -1609,6 +1627,25 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 				
 			}
 			
+		}
+		elseif ( $meta_key == '_event_link_text' ) {
+
+			$event = pmwoodwind_get_featured_event();
+
+			if ( ! $event ) {
+				$current_meta = '';
+			}
+			elseif ( $event->post_type == 'product' ) {
+
+				$current_meta = __( 'Details', 'pmwoodwind' );
+
+			}
+			else {
+				
+				$current_meta = __( 'Event Details', 'pmwoodwind' );
+				
+			}
+
 		}
 		elseif ( $meta_key == '_event_link' ) {
 			
@@ -1820,7 +1857,7 @@ function pmwoodwind_get_default_attributes( $product ) {
 /**
  * Gets the Featured Event for use on the Home Slider
  * 
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		object|boolean		WP_Post on success, false on failure
  */
 function pmwoodwind_get_featured_event() {
@@ -1845,11 +1882,70 @@ function pmwoodwind_get_featured_event() {
 	if ( is_array( $events ) && 
 		isset( $events[0] ) && 
 		$events[0] ) {
+
+		$event_id = $events[0]->ID;
+
+		// If Event has passed, fall back to featured product
+		if ( current_time( 'timestamp' ) > strtotime( get_post_meta( $event_id, '_EventEndDate', true ) ) ) {
+
+			$product = pmwoodwind_get_featured_product();
+
+			if ( $product ) {
+				return $product;
+			}
+
+		}
+
 		return $events[0];
+
 	}
 	
 	return false;
 	
+}
+
+/**
+ * Gets the Featured Product for use on the Home Slider
+ * 
+ * @since		1.0.0
+ * @return		object|boolean		WP_Post on success, false on failure
+ */
+function pmwoodwind_get_featured_product() {
+
+	$products = get_posts( array(
+		'numberposts' => 1,
+		'post_type' => 'product',
+		'orderby' => 'date',
+		'order' => 'DESC',
+		'post_status' => 'publish',
+		'meta_query' => array(
+			'relation' => 'AND',
+			array(
+				'relation' => 'OR',
+				array(
+					'key' => '_rbm_featured', // Old RBM FH Format
+					'value' => '1',
+					'compare' => '=',
+				),
+				array(
+					'key' => '_rbm_featured', // New RBM FH format
+					'value' => '"1"',
+					'compare' => 'LIKE',
+				),
+			),
+		),
+	) );
+	
+	if ( is_array( $products ) && 
+		isset( $products[0] ) && 
+		$products[0] ) {
+
+		return $products[0];
+
+	}
+
+	return false;
+
 }
 
 add_action( 'init', 'pmwoodwind_register_video_post_type' );
@@ -2043,7 +2139,7 @@ add_filter( 'gettext', 'pmwoodwinds_change_upcoming_past_events_text', 10, 4 );
  * @param		string  $untranslated_text      The original string
  * @param		string  $domain					The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_change_upcoming_past_events_text( $translation, $untranslated_text, $domain ) {
@@ -2066,7 +2162,7 @@ add_filter( 'gettext', 'pmwoodwinds_change_next_previous_events_links_text', 10,
  * @param		string  $untranslated_text      The original string
  * @param		string  $domain					The Text Domain
  *                                       
- * @since		{{VERSION}}
+ * @since		1.0.0
  * @return		string  The resulting Translation
  */
 function pmwoodwinds_change_next_previous_events_links_text( $translation, $untranslated_text, $domain ) {
@@ -2146,7 +2242,7 @@ function pmwoodwind_pad_sku_for_sorting( $sku ) {
  * @param   [integer]  $term_id  Term ID
  * @param   [object]   $old_term Term from the last loop
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [integer]  Term ID of the second-to-the-top Category
  */
 function pmwoodwind_get_second_to_top_category_id( $term_id, $old_term = false ) {
@@ -2169,7 +2265,7 @@ function pmwoodwind_get_second_to_top_category_id( $term_id, $old_term = false )
  *
  * @param   [integer]  $term_id  Term ID
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [integer]  Term ID of the second-to-the-top Category
  */
 function pmwoodwind_get_top_category_id( $term_id ) {
@@ -2189,7 +2285,7 @@ function pmwoodwind_get_top_category_id( $term_id ) {
  *
  * @param   [integer]  $product_id  Product ID
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [boolean]
  */
 function pmwoodwind_product_is_sold( $product_id = null ) {
@@ -2213,7 +2309,7 @@ function pmwoodwind_product_is_sold( $product_id = null ) {
  *
  * @param   [integer]  $product_id  Product ID
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [boolean]
  */
 function pmwoodwind_product_is_out_on_trial( $product_id = null ) {
@@ -2239,7 +2335,7 @@ add_action( 'pre_get_posts', 'pmwoodwind_sort_media_items' );
  *
  * @param   [object]  $query  WP_Query Object
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [void]
  */
 function pmwoodwind_sort_media_items( $query ) {
@@ -2260,7 +2356,7 @@ add_action( 'pre_get_posts', 'pmwoodwind_adjust_video_query' );
  *
  * @param   [object]  $query  WP_Query Object
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  [void]
  */
 function pmwoodwind_adjust_video_query( $query ) {
@@ -2280,7 +2376,7 @@ add_action( 'wp_head', 'pmwoodwind_gtm_head' );
 /**
  * Google Tag Manager Head Script
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  void
  */
 function pmwoodwind_gtm_head() {
@@ -2304,7 +2400,7 @@ add_action( 'pmwoodwind_after_body_start', 'pmwoodwind_gtm_body' );
 /**
  * Google Tag Manager Body Script
  *
- * @since	{{VERSION}}
+ * @since	1.0.0
  * @return  void
  */
 function pmwoodwind_gtm_body() {
