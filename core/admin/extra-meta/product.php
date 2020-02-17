@@ -2,7 +2,7 @@
 /**
  * Product extra meta.
  *
- * @since   {{VERSION}}
+ * @since   1.0.9
  * @package pmwoodwind
  */
 
