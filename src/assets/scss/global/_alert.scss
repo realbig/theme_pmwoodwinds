@@ -25,6 +25,20 @@ $total-columns: 12;
 
 }
 
+body:not(.home) {
+
+    .pm-alerts-container {
+
+        &[data-has_alerts="true"] {
+
+            border-bottom: rem-calc( 3 ) solid $primary-color;
+    
+        }
+
+    }
+
+}
+
 @include breakpoint(medium) {
     
     .pm-alert.inset-banner .pm-alert-content {
