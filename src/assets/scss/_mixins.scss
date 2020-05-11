@@ -59,3 +59,131 @@
     }
 
 }
+
+@mixin light-or-dark-text( $color ) {
+
+    @if lightness( $color ) < 45% {
+
+        color: $light-color;
+
+    }
+    @else {
+
+        color: $dark-color;
+
+    }
+
+}
+
+// Foundation's Light/Dark check makes the buttons hard to read sometimes
+@mixin foundation-button-fix( $button-color ) {
+
+    @include light-or-dark-text( $button-color );
+  
+    &:hover, &:focus {
+  
+      $hover-background: scale-color( $button-color, $lightness: $button-background-hover-lightness );
+      @include light-or-dark-text( $hover-background );
+  
+    }
+  
+}
+
+/**
+ * Get the next Key/Value in a Map. Loops back to the first Key/Value if you are accessing the end
+ * Based on https://gist.github.com/agorilla/9df052eb1e15d8aea446
+ *
+ * @param   {map}     $map       Map
+ * @param   {string}  $key       String Key
+ * @param   {mixed}   $fallback  Fallback value
+ * @param   {string}  $return    To return the key or value
+ *
+ * @return  {mixed}              Return value
+ */
+ @function map-get-next( $map, $key, $fallback: false, $return: value ) {
+
+    // Check if map is valid
+    @if type-of( $map ) == map {
+  
+        // Check if key exists in map
+        @if map-has-key( $map, $key ) {
+  
+            // Init index counter variable
+            $i: 0;
+  
+            // Init key index
+            $key-index: false;
+  
+            // Traverse map for key
+            @each $map-key, $map-value in $map {
+  
+                // Update index
+                $i: $i + 1;
+  
+                // If map key found, set key index
+                @if $map-key == $key {
+                    $key-index: $i;
+                }
+  
+                // If next index return next value or key based on $return
+                @if $i == $key-index + 1 {
+                    @if $return == key {
+                        @return $map-key;
+                    } @else {
+                        @return $map-value;
+                    }
+                }
+  
+                // If last entry, loop around to the first
+                @if $i == length( $map ) {
+  
+                  $keys: map-keys( $map );
+                  $key: nth( $keys, 1 );
+  
+                  @if ( $return == key ) {
+  
+                    // Get the first key
+                    @return $key;
+  
+                  }
+                  @else {
+  
+                    @return map-get( $map, $key );
+  
+                  }
+  
+                }
+  
+            }
+  
+            @warn 'No next map item for key #{$key}';
+            @return $fallback;
+  
+        }
+  
+        @warn 'No valid key #{$key} in map';
+        @return $fallback;
+  
+    }
+  
+    @warn 'No valid map';
+    @return $fallback;
+  
+  }
+
+@mixin hollow-button( $color ) {
+	
+	color: $color;
+	background: transparent;
+	border-width: 1px;
+	border-color: $color;
+	font-weight: 600;
+
+	&:hover, &:focus {
+
+		background-color: $color;
+		@include light-or-dark-text( $color );
+
+	}
+	
+}

@@ -1,0 +1,451 @@
+/*
+Alert styling.
+
+@since {{VERSION}}
+*/
+
+$column-gutter: rem-calc(30);
+$total-columns: 12;
+
+.pm-alerts-container {
+
+	margin-top: 1.5rem !important;
+	
+	@media (min-width: 992px) {
+	
+		margin-top: 4.5rem !important;
+		
+    }
+    
+    .pm-alert-text {
+        p {
+            margin-top: 0;
+        }
+    }
+
+}
+
+@include breakpoint(medium) {
+    
+    .pm-alert.inset-banner .pm-alert-content {
+        
+        margin-left: 0;
+        
+    }
+    
+    .pm-alerts-container {
+        
+        position: relative;
+        
+        .pm-alert.inset-banner {
+            
+            z-index: 9;
+            width: 100%;
+
+            .pm-alert-container {
+
+                @include grid-row( 12, null, 'expand' );
+                
+                .pm-alert-content {
+                    overflow: auto;
+                }
+
+                .pm-alert-text-container {
+
+                    @include grid-column( 12 );
+
+                    @include breakpoint( large ) {
+                        @include grid-column( 10.5 );
+                    }
+
+                }
+
+                .pm-alert-button-container {
+
+                    text-align: center;
+
+                    @include breakpoint( medium down ) {
+                        position: relative;
+                    }
+
+                    @include grid-column( 12 );
+
+                    @include breakpoint( large ) {
+                        @include grid-column( 1.5 );
+                    }
+
+                    .pm-alert-button {
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                        transform: translateY( -50% );
+                        
+                        @if type-of( $grid-column-gutter ) == 'map' {
+
+                            @each $breakpoint, $value in $grid-column-gutter {
+                
+                                @include breakpoint( $breakpoint ) {
+                                    
+                                    margin-right: #{ rem-calc( $value ) };
+                
+                                }
+                
+                            }
+                
+                        }
+                        @else {
+
+                            margin-right: #{ rem-calc( $grid-column-gutter ) };
+                
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+        
+    }
+    
+}
+
+.pm-alert {
+	position: relative;
+	max-width: 100%;
+	margin: 0 auto;
+	font-size: 1.2em;
+
+	&.inset-banner, &.pop-up {
+
+        $brand-colors: (
+            bright-blue: #02abd7,
+            bright-green: #c3d500,
+            habitat-blue: #385888,
+            habitat-green: #3eae2a,
+            orange: #ff7d3f,
+            brick: #a83338,
+        );
+
+        @each $name, $color in $foundation-palette {
+
+            &.#{$name}-background {
+        
+                .pm-alert-button {
+
+                    $button-color: map-get-next( $foundation-palette, $name );
+
+                    @include button( fpme, $button-color );
+                    @include foundation-button-fix( $button-color );
+
+                    border: 0.25em solid $button-color;
+                    border-radius: 0.25rem;
+
+                    &:hover, &:focus {
+
+                        background: #fff;
+                        color: $button-color;
+                        border-width: 0.25em;
+
+                    }
+
+                }
+        
+            }
+        
+        }
+
+		.pm-alert-content {
+			padding-left: $column-gutter / 2;
+			line-height: rem-calc( 35 );
+
+			@include breakpoint(medium) {
+				margin-left: grid-calc(4, $total-columns);
+			}
+		}
+
+		.pm-alert-icon {
+			font-size: 1.3em;
+			margin-right: 0.3em;
+            vertical-align: middle;
+            float: left;
+		}
+
+		.pm-alert-button {
+			text-transform: uppercase;
+			margin-left: 0.3em;
+			text-decoration: none !important;
+
+			@include breakpoint(small only) {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+			}
+		}
+
+	}
+
+	&.inset-banner {
+
+        padding-top: 1rem;
+        padding-bottom: 0;
+		
+		.pm-alert-button {
+			
+			font-size: inherit;
+            position: relative;
+			
+        }
+        
+        &:after {
+            clear: both;
+        }
+
+	}
+
+	&.pop-up {
+
+		margin: 0;
+		width: 100%;
+		overflow: auto;
+		
+		@include breakpoint(small only) {
+			
+			h1, h2, h3, h4, h5, h6 {
+				color: #fff;
+			}
+			
+		}
+
+		.pm-alert-content {
+
+			margin: 0 auto;
+			
+			padding: 0;
+			
+			.row {
+
+				padding: rem-calc( 15 );
+				
+			}
+
+			.pm-alert-icon {
+				margin-top: 0.35em;
+				vertical-align: top;
+
+				@include breakpoint(medium) {
+
+					&.show-for-medium {
+						display: inline-block !important;
+					}
+
+				}
+
+			}
+
+			.pm-alert-image, .text-content, .text-content > * {
+				display: inline-block;
+			}
+
+			.pm-alert-text > p:first-of-type {
+				display: inline-block;
+			}
+
+			@media only screen and (max-width: 389px) {
+
+				.small-icon-container {
+					padding: 0;
+				}
+
+			}
+			
+			.text-content {
+			
+				@include breakpoint(small only) {
+					padding-left: 1rem;
+				}
+
+			}
+
+		}
+
+		.pm-alert-button {
+
+			&.close-button {
+
+				@include breakpoint(small only) {
+					top: 0;
+					bottom: auto;
+				}
+
+			}
+
+			&.call-to-action {
+				position: relative;
+				margin-bottom: 0;
+
+				margin-left: 0;
+
+			}
+
+		}
+
+		@include breakpoint(small only) {
+			padding: 0;
+		}
+
+		.pm-alert-button:not(.call-to-action) {
+			display: inline-block;
+			opacity: 0.6;
+			color: $light-color;
+			background: $primary-color;
+
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+
+		.pm-alert-button {
+			padding: 0.3em 0.5em;
+		}
+			
+        .call-to-action {
+            
+                @include breakpoint(small only) {
+                
+                @include button( fpme, #fff );
+                @include hollow-button( #fff );
+                margin-bottom: 0;
+                
+            }
+            
+        }
+		
+		.call-to-action {
+			
+			@include breakpoint(medium) {
+				
+				@include button( fpme, #344cb5 );
+				bottom: -0.202rem;
+				
+				&.show-for-medium-up {
+				
+					display: inline-block !important;
+					
+				}
+				
+			}
+			
+		}
+		
+		.pm-alert-close {
+			
+			@include breakpoint(medium) {
+			
+				right: -4.3rem !important;
+				
+			}
+			
+		}
+
+	}
+	
+	// These are the old styles
+	@include breakpoint(medium) {
+		
+		&.pop-up {
+			position: fixed;
+			display: table;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			max-width: none;
+			background: rgba(#000, 0.5) !important;
+			z-index: 500;
+
+			.pm-alert-container {
+			  margin: 0;
+			  padding: 0;
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+			  top: 50%;
+				transform: translateY(-50%);
+			  text-align: center;
+				
+			}
+
+			.pm-alert-content {
+			  position: relative;
+			  max-width: 100%;
+			  margin: auto;
+			  background: $light-color;
+			  color: $secondary-color;
+			  text-align: left;
+				width: rem-calc( 500 );
+
+			  .pm-alert-text {
+				display: block;
+			  }
+
+			  .pm-alert-icon {
+				display: none;
+			  }
+			}
+
+			.pm-alert-close {
+			  position: absolute;
+			  top: 0;
+			  right: 0;
+
+			  &:hover {
+				opacity: 1;
+			  }
+			}
+		  }
+		
+	}
+
+}
+
+.accordion-navigation {
+	.pm-alert {
+		top: auto;
+	}
+}
+
+// Various page layouts affect the alert left margin
+body {
+	&.single-animal {
+		.pm-alert.inset-banner {
+			.pm-alert-content {
+
+				@include breakpoint(medium) {
+					margin-left: grid-calc(3, $total-columns);
+				}
+			}
+		}
+	}
+}
+
+.site-page-content {
+	.pm-alert.inset-banner {
+		.pm-alert-content {
+			margin-left: 0;
+		}
+	}
+}
+
+body:not(.home) {
+
+	.pm-alert.pop-up {
+		top: 0;
+	}
+
+}

@@ -12,13 +12,14 @@
   "keywords": [],
   "dependencies": {
     "bootstrap": "^3.3.5",
-    "foundation-sites": "^6.4.1",
+    "foundation-sites": "^6.6.3",
     "jplayer": "^2.9.2",
     "lightgallery": "^1.2.0",
     "mixitup": "git+https://github.com/patrickkunka/mixitup.git#v2.1.7",
     "motion-ui": "^2.0.3",
     "responsive-toolkit": "^2.6.3",
-    "twitter-fetcher": "^18.0.2"
+    "twitter-fetcher": "^18.0.2",
+    "what-input": "^5.2.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

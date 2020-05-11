@@ -5,6 +5,32 @@
 @import "./flaticon";
 @import './style';
 
+@import 'foundation';
+
+$dark-color: #000;
+$light-color: #fff;
+
+$primary-color: #6195e0;
+$secondary-color: #335483;
+
+$foundation-palette: (
+    primary: $primary-color,
+    secondary: $secondary-color,
+    success: $success-color,
+    warning: $warning-color,
+    alert: $alert-color,
+);
+
+$button-palette: $foundation-palette;
+
+$button-background: $primary-color;
+$button-background-hover: scale-color($button-background, $lightness: -15%);
+
+$button-radius: rem-calc(20);
+
+@include foundation-button;
+@include foundation-visibility-classes;
+
 @import 'motion-ui';
 
 $motion-ui-speeds: (
@@ -24,6 +50,9 @@ $motion-ui-speeds: (
 @import 'global/visibility'; // This is normally a part of Bootstrap v3.x it seems, but this custom build did not include it
 @import 'global/offcanvas';
 @import 'global/images';
+@import 'global/alert';
+@import 'global/button';
+@import 'global/background-color';
 
 @import 'templates/taxonomy-product_cat';
 @import 'templates/single-product';
@@ -37,3 +66,10 @@ $motion-ui-speeds: (
 @import 'templates/archive-video';
 @import 'templates/clients';
 @import 'templates/checkout';
+
+// These styles are applied to a <meta> tag, which is read by the Foundation JavaScript
+// This is the only part of the foundation-global-styles mixin we need
+// If we include all of the Global Styles, it adjusts sizing elsewhere too and we don't want that
+.foundation-mq {
+	font-family: '#{-zf-bp-serialize($breakpoints)}';
+}

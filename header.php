@@ -61,3 +61,7 @@
 		<?php echo do_shortcode("[wcas-search-form]");?>
 		<span onclick="pmwoodwindsCloseSearch();" class="close">x</span>
 	</div>
+
+	<?php if ( function_exists( 'pm_show_inset_alerts' ) ) {
+		pm_show_inset_alerts();
+	} ?>

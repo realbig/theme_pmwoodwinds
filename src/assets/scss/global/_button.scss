@@ -1,0 +1,13 @@
+.button {
+
+    @each $name, $color in $foundation-palette {
+
+        &.#{$name} {
+            
+            @include foundation-button-fix( $color );
+            
+        }
+
+    }
+
+}

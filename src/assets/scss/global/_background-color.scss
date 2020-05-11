@@ -1,0 +1,10 @@
+@each $name, $color in $foundation-palette {
+
+    .#{$name}-background {
+
+        background-color: $color;
+        @include light-or-dark-text( $color );
+
+    }
+
+} 
