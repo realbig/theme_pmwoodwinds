@@ -28,15 +28,7 @@
 
 	<div id="featured-event">
 
-		<?php if ( $event->post_type !== 'product' ) : ?>
-
-			<?php echo get_the_post_thumbnail( $event->ID, 'thumbnail' ); ?>
-
-		<?php else : ?>
-
-			<?php echo get_the_post_thumbnail( $event->ID, 'full' ); ?>
-
-		<?php endif; ?>
+		<?php echo get_the_post_thumbnail( $event->ID, 'full' ); ?>
 
 		<h3><?php echo get_the_title( $event->ID ); ?></h3>
 
