@@ -44,12 +44,9 @@
 
 				<div class="col-xs-5 col-lg-1 cloud-container">
 				<ul class="rightnav">
-						<li><a class="" href="javascript:pmwoodwindsOpenSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-						<li class="hassubs"><a class="" href="/shopping-cart"><?php if($items > 0):?><span class="cartcount"><?php echo $items;?></span><?php endif;?><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-							
-						</li>
-
-					</ul>
+					<li><a class="" href="javascript:pmwoodwindsOpenSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+					<li class="hassubs"><a class="" href="/shopping-cart"><?php if($items > 0):?><span class="cartcount"><?php echo $items;?></span><?php endif;?><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+				</ul>
 					
 					<i id="menu-button" class="flaticon-menu51 menu-btn"></i>
 				</div>
