@@ -2423,11 +2423,16 @@ function pmwoodwind_gtm_body() {
 
 add_filter( 'script_loader_tag', 'pmw_defer_js', 10, 3 );
 function pmw_defer_js( $tag, $handle, $src ) {
-	if ( is_admin() ) return $tag;
-	if ( strpos( $handle, 'jquery' ) === false ) {
-		$tag = str_replace( 'src', 'defer="defer" src', $tag );
-	}
 
+	if ( is_admin() ) return $tag;
+
+	if ( $handle == 'jquery' ) return $tag;
+
+	// Ensures stuff like `wp` is available
+	// Also contains a fix for WooCommerce Square
+	if ( strpos( $src, 'wp-includes' ) !== false || strpos( $src, 'woocommerce-square' ) !== false ) return $tag;
+
+	$tag = str_replace( 'src', 'defer="defer" src', $tag );
     return $tag;
 }
 
