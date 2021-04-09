@@ -2418,7 +2418,7 @@ function pmwoodwind_gtm_body() {
 
 /**
  * Defers parsing of JS
- * @since {{VERSION}}
+ * @since 1.0.14
  */
 
 add_filter( 'script_loader_tag', 'pmw_defer_js', 10, 3 );
