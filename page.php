@@ -17,17 +17,17 @@
 
 		<div class="row">
 			<div class="col-sm-12">
-<?php
-		// Start the loop.
-		while ( have_posts() ) : the_post();
+			<?php
+			// Start the loop.
+			while ( have_posts() ) : the_post();
 
-			// Include the page content template.
-			the_content();
+				// Include the page content template.
+				the_content();
 
 
-			// End of the loop.
-		endwhile;
-		?>
+				// End of the loop.
+			endwhile;
+			?>
 			</div>
 		
 

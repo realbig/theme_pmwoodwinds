@@ -90,26 +90,31 @@
 	<div class="fullbg">
 	<!-- New Releases -->
 	<div id="new-releases" class="new-releases article container">
+
 		<div class="row">
 
 			<div class="col-md-12 info" style="text-align:center;">
+
 				<?php
-				global $wp_query;
-				$front = get_post(2);
-				echo $front->post_content;
+				// Start the loop.
+				while ( have_posts() ) : the_post();
+
+					// Include the page content template.
+					the_content();
+					
+				endwhile;
 				?>
 				
 			</div>
 
-
 		</div>
+
 	</div>
 	</div>
 	<?php foreach($homesections as $homesection):
 			$sectionproducts = get_post_meta($homesection->ID,'_section_product',true);
 			$sectionorder = get_post_meta($homesection->ID,'_section_order',true);
 			$order = explode(',',$sectionorder);
-		
 	?>
 		<div class="homesection">
 			<div class="category-head">
