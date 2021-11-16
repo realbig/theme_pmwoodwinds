@@ -907,6 +907,7 @@ require_once __DIR__ . '/core/import-product-visibility-exclusions.php';
 require_once __DIR__ . '/core/woocommerce-support.php';
 
 require_once __DIR__ . '/core/admin/extra-meta/product.php';
+require_once __DIR__ . '/core/admin/extra-meta/tribe_events.php';
 
 /**
  * Remove auto-added Featured Image from Single Events
