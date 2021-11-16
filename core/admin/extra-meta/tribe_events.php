@@ -2,7 +2,7 @@
 /**
  * Event extra meta.
  *
- * @since   {{VERSION}}
+ * @since   1.0.18
  * @package pmwoodwind
  */
 
@@ -18,7 +18,7 @@ add_filter( 'post_type_labels_tribe_events', 'pmwoodwind_post_type_labels_tribe_
  *
  * @param   object  $labels  Post Type Labels
  *
- * @since   {{VERSION}}
+ * @since   1.0.18
  * @return  object           Post Type Labels
  */
 function pmwoodwind_post_type_labels_tribe_events( $labels ) {
