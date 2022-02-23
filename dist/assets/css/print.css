@@ -1,1 +1,3 @@
-img{width:200px}#search,.category-head,.cloud-container,.footer,.nav-container{display:none}.logo-container{text-align:center}body.compare-list-print table img.size-main_image,body.compare-list-print table img.wp-post-image,body.page-template-compare table img.size-main_image,body.page-template-compare table img.wp-post-image{height:auto!important}body.compare-list-print #site-url-for-print,body.page-template-compare #site-url-for-print{text-align:center}
+img{width:200px}.nav-container,.cloud-container,#search,.category-head,.footer{display:none}.logo-container{text-align:center}body.compare-list-print table img.wp-post-image,body.compare-list-print table img.size-main_image,body.page-template-compare table img.wp-post-image,body.page-template-compare table img.size-main_image{height:auto !important}body.compare-list-print #site-url-for-print,body.page-template-compare #site-url-for-print{text-align:center}
+
+/*# sourceMappingURL=print.css.map */
