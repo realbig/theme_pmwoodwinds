@@ -1,7 +1,7 @@
 {
   "name": "pmwoodwind",
   "title": "pmwoodwind",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "license": "MIT",
   "main": "gulpfile.js",
   "scripts": {
