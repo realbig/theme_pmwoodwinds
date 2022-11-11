@@ -36,8 +36,10 @@
 					 'menu_class'     => 'main-nav nav',
 					 'menu_id'     => 'main-nav',
 					) );
-					   global $woocommerce;
-						$items = count($woocommerce->cart->get_cart());
+						$items = 0;
+						if ( function_exists( 'WC' ) ) {
+							$items = count(WC()->cart->get_cart());
+						}
 
 					?>
 				</div>
