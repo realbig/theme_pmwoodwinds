@@ -1900,6 +1900,15 @@ function pmwoodwind_get_featured_event() {
 		return $events[0];
 
 	}
+	else {
+
+		$product = pmwoodwind_get_featured_product();
+
+		if ( $product ) {
+			return $product;
+		}
+
+	}
 	
 	return false;
 	
