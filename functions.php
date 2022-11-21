@@ -2471,3 +2471,39 @@ add_filter( 'woocommerce_csv_product_export_args', function( $args ) {
 } );
 
 */
+
+add_action( 'init', function() {
+
+	if ( ! isset( $_GET['upload_big_file'] ) ) return;
+
+	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+	require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		
+	$dir = wp_upload_dir();
+
+	// Replace with the full URI to where you've placed this on the server in the Uploads directory
+	$file_path = str_replace( $dir['baseurl'], $dir['basedir'], 'https://pmwoodwind.com/wp-content/uploads/2022/11/Dave_Liebman_final_9.27.21.mp4' );
+
+	if ( ! is_file( $file_path ) ) return;
+
+	$attachment_id = pmwoodwind_media_file_exists( str_replace( trailingslashit( $dir['basedir'] ), '', $file_path ) );
+
+	if ( $attachment_id ) return;
+		
+	error_log( "Adding $file_path to library" );
+
+	$filetype = wp_check_filetype( basename( $file_path ), null );
+
+	$attachment = array(
+		'post_mime_type' => $filetype['type'],
+		'post_title' => sanitize_file_name( basename( $file_path ) ),
+		'post_content' => '',
+		'post_status' => 'inherit'
+	);
+
+	$attachment_id = wp_insert_attachment( $attachment, $file_path );
+
+	$attachment_data = wp_generate_attachment_metadata( $attachment_id, $file_path );
+	wp_update_attachment_metadata( $attachment_id, $attachment_data );
+
+} );
