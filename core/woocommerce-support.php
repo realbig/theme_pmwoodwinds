@@ -834,8 +834,10 @@ add_action( 'woocommerce_single_product_summary', function() {
 	$categories = array_filter( $categories, function( $category ) {
 		return $category->parent !== 0;
 	} );
+
+	$categories = array_values( $categories );
 	
-	$firstcat = array_values( $categories )[0];
+	$firstcat = $categories[0];
 	
 	$lastcat = end( $categories );
 	
@@ -847,14 +849,24 @@ add_action( 'woocommerce_single_product_summary', function() {
 
 				if ( $status == 'outofstock' ) : ?>
 
-					Currently, our <?php the_title();?> is sold.<br/>View our latest <a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>"><?php echo $lastcat->name;?></a> or browse all <a href="<?php echo get_term_link( $firstcat->term_id, 'product_cat' ); ?>"><?php echo $firstcat->name;?> listings.</a><br /><br />
+					Currently, our <?php the_title();?> is sold.<br/>
+					<?php if ( $firstcat && $lastcat ) : ?>
+						View our latest <a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>"><?php echo $lastcat->name;?></a> or browse all <a href="<?php echo get_term_link( $firstcat->term_id, 'product_cat' ); ?>"><?php echo $firstcat->name;?> listings.</a><br /><br />
+					<?php else: ?>
+						<br />
+					<?php endif; ?>
 
 				<?php endif;
 
 			elseif ( ! $price || 
 				   $status == 'onbackorder' ) : ?>
 
-				Currently, our <?php the_title();?> is unavailable.<br/>View our latest <a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>"><?php echo $lastcat->name;?></a> or browse all <a href="<?php echo get_term_link( $firstcat->term_id, 'product_cat' ); ?>"><?php echo $firstcat->name;?> listings.</a><br /><br />
+				Currently, our <?php the_title();?> is unavailable.<br/>
+				<?php if ( $firstcat && $lastcat ) : ?>
+					View our latest <a href="<?php echo get_term_link( $lastcat->term_id, 'product_cat' ); ?>"><?php echo $lastcat->name;?></a> or browse all <a href="<?php echo get_term_link( $firstcat->term_id, 'product_cat' ); ?>"><?php echo $firstcat->name;?> listings.</a><br /><br />
+				<?php else: ?>
+					<br />
+				<?php endif; ?>
 
 			<?php endif; ?>
 	
@@ -862,11 +874,11 @@ add_action( 'woocommerce_single_product_summary', function() {
 		
 		<h5 class="contactproduct">
 			
-			<?php if ( pmwoodwind_is_instrument( get_the_ID() ) ) : ?>
+			<?php if ( pmwoodwind_is_instrument( get_the_ID() ) && $lastcat ) : ?>
 			
 				Please <a href="/contact" target="_blank">contact PM Woodwind</a> if you are interested in buying or selling <?php echo ( pmwoodwind_is_new_product( get_the_ID() ) ) ? 'new' : 'used'; ?> <?php echo $lastcat->name;?>.
 			
-			<?php else : ?>
+			<?php elseif ( $lastcat ) : ?>
 			
 				Please <a href="/contact" target="_blank">contact PM Woodwind</a> if you are interested in buying or selling <?php echo $lastcat->name;?>.
 			
