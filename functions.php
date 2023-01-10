@@ -194,6 +194,24 @@ function pmwoodwind_is_accessory( $post_id ) {
 
 }
 
+function pmwoodwind_is_neck( $post_id ) {
+
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$neck_term_ids = pmwoodwind_get_neck_sorting_key();
+
+	$post_term_ids = wp_get_post_terms( $post_id, 'product_cat', array( 'fields' => 'ids' ) );
+
+	if ( array_intersect( $post_term_ids, $neck_term_ids ) ) {
+		return true;
+	}
+
+	return false;
+
+}
+
 // Legacy. Only used by the import script as a way to determine which Images belong to which Product
 function pmwoodwind_product_images($postid=false,$nr=false, $all=false){
 	$dir = wp_upload_dir();
@@ -993,6 +1011,24 @@ function pmwoodwind_get_mouthpiece_sorting_key() {
  * Returns a numeric index to use for sorting on the initial page load
  * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
  * 
+ * @since		{{VERSION}}
+ * @return		array Sorting Key
+ */
+function pmwoodwind_get_neck_sorting_key() {
+
+	$neck_term = get_term_by( 'slug', 'necks', 'product_cat' );
+	$neck_term_id = (int) $accessory_term->term_id;
+
+	$terms = pmwoodwind_get_product_category_list_recursive( $neck_term_id );
+	
+	return apply_filters( 'pmwoodwind_get_neck_sorting_key', $terms );
+	
+}
+
+/**
+ * Returns a numeric index to use for sorting on the initial page load
+ * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
+ * 
  * @since		1.0.0
  * @return		array Sorting Key
  */
@@ -1149,6 +1185,7 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	$instrument_key = pmwoodwind_get_instrument_sorting_key();
 	$mouthpiece_key = pmwoodwind_get_mouthpiece_sorting_key();
 	$accessory_key = pmwoodwind_get_accessory_sorting_key();
+	$neck_key = pmwoodwind_get_neck_sorting_key();
 	
 	$is_instrument = false;
 	$is_mouthpiece = false;
@@ -1164,6 +1201,10 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 
 	if ( array_intersect( $categories, $accessory_key ) ) {
 		$is_accessory = true;
+	}
+
+	if ( array_intersect( $categories, $neck_key ) ) {
+		$is_neck = true;
 	}
 	
 	foreach ( $categories as $term_id ) {
@@ -1209,6 +1250,12 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 		else if ( $is_accessory ) {
 
 			$top_category = term_exists( 'accessories', 'product_cat' );
+			$top_category_id = (int) $top_category['term_id'];
+
+		}
+		else if ( $is_neck ) {
+
+			$top_category = term_exists( 'necks', 'product_cat' );
 			$top_category_id = (int) $top_category['term_id'];
 
 		}

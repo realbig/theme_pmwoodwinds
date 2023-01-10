@@ -52,6 +52,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		$instrument_key = pmwoodwind_get_instrument_sorting_key();
 		$mouthpiece_key = pmwoodwind_get_mouthpiece_sorting_key();
 		$accessory_key = pmwoodwind_get_accessory_sorting_key();
+		$neck_key = pmwoodwind_get_neck_sorting_key();
 		
 		$sort_value = 0;
 		
@@ -59,6 +60,7 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 		$is_instrument = array_intersect( $term_ids, $instrument_key );
 		$is_mouthpiece = array_intersect( $term_ids, $mouthpiece_key );
 		$is_accessory = array_intersect( $term_ids, $accessory_key );
+		$is_neck = array_intersect( $term_ids, $neck_key );
 
 		$index = false;
 		$bottom_most_term_id = 0; // Used only for Used Instruments currently
@@ -106,6 +108,12 @@ class pmwoodwinds_import_sorting_process extends WP_Background_Process {
 			else if ( $is_accessory ) {
 
 				$top_category = term_exists( 'accessories', 'product_cat' );
+				$top_category_id = (int) $top_category['term_id'];
+
+			}
+			else if ( $is_neck ) {
+
+				$top_category = term_exists( 'necks', 'product_cat' );
 				$top_category_id = (int) $top_category['term_id'];
 
 			}

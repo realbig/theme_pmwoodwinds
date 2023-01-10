@@ -62,6 +62,7 @@ global $post;
 		$instruments = array();
 		$mouthpieces = array();
 		$accessories = array();
+		$necks = array();
 		
 		foreach ( $list as $product_id ) {
 			
@@ -75,6 +76,10 @@ global $post;
 
 			if ( pmwoodwind_is_accessory( $product_id ) ) {
 				$accessories[] = $product_id;
+			}
+
+			if ( pmwoodwind_is_neck( $product_id ) ) {
+				$necks[] = $product_id;
 			}
 			
 		}
@@ -197,6 +202,95 @@ global $post;
 				</thead>
 				<tbody>
 					<?php foreach($mouthpieces as $item): setup_postdata( $item );
+						$price = pmwoodwind_product_main_price($item);
+						$status = $price;
+						if(is_numeric($price)){
+							$status = 'sale';
+						}
+							$isnew = 'used';
+						if(pmwoodwind_is_new_product($item)){
+							$isnew = 'new';
+						}
+						$types = wp_get_post_terms($item, 'product_type');
+						$lastcat = $types[count($types)-1];
+					?>
+						<tr>
+							<td><a href="<?php echo get_permalink($item);?>" title="<?php echo get_the_title($item);?>">
+								<?php echo woocommerce_get_product_thumbnail( 'main_image' ); ?></a></td>
+							<td><a style="color: #0e0b0b;" href="<?php echo get_permalink($item);?>"><?php echo get_the_title($item);?></a></td>
+							<td style="text-transform:uppercase;"><?php
+						if(is_numeric($price)){
+							echo money_format("$ %i",$price);
+						} else {
+							echo $price;
+						}
+						?></td>
+							<td><?php echo pmwoodwind_get_inventory($item);?></td>
+							<td><?php
+								$brand = pmwoodwind_product_get_brand($item);
+								echo $brand[0]->name;
+							?></td>
+							<td><?php echo pmwoodwind_product_get_serial($item);?></td>
+							<td><?php echo pmwoodwind_product_get_year($item);?></td>
+							
+							<td class="remove woocommerce-products-compare-compare-button">
+								
+								<label>
+							
+									<input type="checkbox" class="woocommerce-products-compare-checkbox" data-product-id="<?php echo esc_attr( $item ); ?>" checked id="woocommerce-products-compare-checkbox-<?php echo esc_attr( $item );?>" />
+
+									<span class="checkmark remove" style="color: #ed492e">
+										<i class="fa fa-times"></i> remove 
+									</span>
+
+								</label>
+								
+							</td>
+				
+						</tr>
+					<?php 
+					
+					wp_reset_postdata();
+					
+					endforeach;?>
+					<tfoot>
+						<tr style="background: #1e1e1e;color: #fff;">
+						<th>Image</th>
+						<th>Product</th>
+						<th>Price</th>
+						<th>Inventory</th>
+						<th>Brand</th>
+						<th>Serial</th>
+						<th>Year</th>
+						<th class="remove"></th>
+						</tr>
+					
+				</tfoot>
+				</tbody>
+			</table>
+		
+		<?php endif; ?>
+
+		<?php if ( ! empty( $necks ) && 
+				 $type == 'necks' ) : ?>
+		
+			<h3 class="section-title">Necks list:</h2>
+		
+			<table style="font-size: 15px;width:100%;">
+				<thead>
+					<tr style="background: #1e1e1e;color: #fff;">
+						<th>Image</th>
+						<th>Product</th>
+						<th>Price</th>
+						<th>Inventory</th>
+						<th>Brand</th>
+						<th>Serial</th>
+						<th>Year</th>
+						<th class="remove"></th>
+					</tr>	
+				</thead>
+				<tbody>
+					<?php foreach($necks as $item): setup_postdata( $item );
 						$price = pmwoodwind_product_main_price($item);
 						$status = $price;
 						if(is_numeric($price)){

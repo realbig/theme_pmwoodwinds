@@ -628,6 +628,12 @@ function pmwoodwind_add_woocommerce_sidebar() {
 		'name' => 'Mouthpieces Sidebar',
 		'description' => 'Shown on Product Archive Pages.',
 	) );
+
+	register_sidebar( array(
+		'id' => 'necks',
+		'name' => 'Necks Sidebar',
+		'description' => 'Shown on Product Archive Pages.',
+	) );
 	
 	register_sidebar( array(
 		'id' => 'accessories',
@@ -1226,6 +1232,10 @@ add_filter( 'woocommerce_products_compare_end_point', function( $endpoint ) {
 	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
 		return 'compare?list=accessories';
 	}
+
+	if ( pmwoodwind_is_neck( get_the_ID() ) ) {
+		return 'compare?list=necks';
+	}
 	
 	// Send them to the old Compare template, as it has been updated to use the Compare data from the plugin
 	return 'compare';
@@ -1272,6 +1282,10 @@ function pmwoodwinds_change_compare_products_text( $translation, $untranslated_t
 		if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
 			$translation .= ' Accessories';
 		}
+
+		if ( pmwoodwind_is_neck( get_the_ID() ) ) {
+			$translation .= ' Necks';
+		}
 		
 	}
 	
@@ -1299,6 +1313,10 @@ add_filter( 'widget_title', function( $title, $widget_instance, $widget_id ) {
 	
 	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
 		$type = ' Accessory ';
+	}
+
+	if ( pmwoodwind_is_neck( get_the_ID() ) ) {
+		$type = ' Neck ';
 	}
 	
 	$title = "Your{$type}Compare List";
@@ -1350,6 +1368,10 @@ add_action( 'wp_head', function() {
 	
 	if ( pmwoodwind_is_accessory( get_the_ID() ) ) {
 		$type = 'accessory';
+	}
+
+	if ( pmwoodwind_is_neck( get_the_ID() ) ) {
+		$type = 'neck';
 	}
 	
 	$_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] = array_filter( explode( ',', $_COOKIE[ WC_Products_Compare_Frontend::$cookie_name ] ), function( $product_id ) use ( $type ) {
@@ -1435,6 +1457,9 @@ function pmwoodwind_alter_product_category_link( $link, $term, $taxonomy ) {
 	}
 	else if ( $term->slug == 'accessories' ) {
 		$type = 'accessory';
+	}
+	else if ( $term->slug == 'necks' ) {
+		$type = 'neck';
 	}
 	else {
 		$type = 'product';
