@@ -15,6 +15,8 @@ import log           from 'fancy-log';
 import colors        from 'ansi-colors';
 import compareVersions from 'compare-versions';
 
+const gulpSass = require('gulp-sass')(require('sass'));
+
 var pkg = JSON.parse( fs.readFileSync( './package.json' ) );
 var textDomain	= pkg.name.toLowerCase().replace( /_/g, '-' ).replace( /\s/g, '-' ).trim();
 
@@ -86,11 +88,11 @@ function sass() {
 		.pipe( named() )
 		.pipe( $.sourcemaps.init() )
 		.pipe(
-			$.sass( {
+			gulpSass( {
 				includePaths: PATHS.sass,
 				outputStyle: 'compressed'
 			} )
-			.on( 'error', $.sass.logError )
+			.on( 'error', gulpSass.logError )
 		)
 		.pipe(
 			$.autoprefixer( {
