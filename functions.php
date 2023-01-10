@@ -1011,7 +1011,7 @@ function pmwoodwind_get_mouthpiece_sorting_key() {
  * Returns a numeric index to use for sorting on the initial page load
  * To be stored as Post Meta based on the attached Category (Loop through them all, find whichever matching category has the highest index, and save that one)
  * 
- * @since		{{VERSION}}
+ * @since		1.1.0
  * @return		array Sorting Key
  */
 function pmwoodwind_get_neck_sorting_key() {
