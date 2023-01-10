@@ -32,3 +32,20 @@
 	}
 
 }
+
+/**
+ * Copied from Custom CSS on Staging
+ * 
+ * 2023/01/10
+ */
+.main-nav > .nav-item {
+
+	padding: 0 rem-calc( 2 );
+
+	& > .nav-link {
+
+		font-weight: bold;
+	
+	}
+
+}
