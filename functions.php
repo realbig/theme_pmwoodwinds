@@ -1190,6 +1190,7 @@ function pmwoodwind_save_product_sorting_key( $post_id ) {
 	$is_instrument = false;
 	$is_mouthpiece = false;
 	$is_accessory = false;
+	$is_neck = false;
 
 	if ( array_intersect( $categories, $instrument_key ) ) {
 		$is_instrument = true;
