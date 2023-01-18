@@ -1053,7 +1053,7 @@ add_action( 'woocommerce_product_query', function( $query ) {
 		}
 		
 		// Only sort in this way for Instruments, Mouthpieces and Accessories
-		if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' ) return;
+		if ( $term->slug !== 'instruments' && $term->slug !== 'mouthpieces' && $term->slug !== 'accessories' && $term->slug !== 'necks' ) return;
 
 	}
 
