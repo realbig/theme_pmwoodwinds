@@ -965,20 +965,15 @@ function pmwoodwind_ensure_product_gallery_images_are_in_right_order( $gallery_i
 		$file_info = pathinfo( $file_name );
 		$file_name = str_replace( $file_info['extension'], '', $file_name );
 
-		$file_data = explode( '-', $file_name );
-
-		// No index set, ignore
-		if ( ! isset( $file_data[1] ) ) continue;
-
-		$sorted_ids[ $file_data[1] ] = $attachment_id;
+		$sorted_ids[ $attachment_id ] = $file_name;
 
 	}
 
 	if ( empty( $sorted_ids ) ) return $gallery_image_ids;
 
-	ksort( $sorted_ids );
+	asort( $sorted_ids, SORT_NATURAL );
 
-	return $sorted_ids;
+	return array_keys( $sorted_ids );
 
 }
 
@@ -1114,6 +1109,8 @@ add_action( 'woocommerce_product_query', function( $query ) {
 
 	$query->set( 'meta_query', $meta_query );
 	$query->set( 'orderby', $orderby );
+
+	$test = true;
 	
 } );
 
