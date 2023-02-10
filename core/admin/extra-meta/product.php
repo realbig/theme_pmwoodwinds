@@ -17,7 +17,10 @@ function pmwoodwind_product_featured_add_meta_box() {
 
 	global $post;
 
-	if ( $post->post_type !== 'product' ) {
+	if ( ! in_array( $post->post_type, array(
+        'product',
+        'page'
+    ) ) ) {
 		return;
     }
     
@@ -38,12 +41,16 @@ function pmwoodwind_product_featured_add_meta_box() {
 
 function pmwoodwind_product_featured_meta_box() {
 
+    global $post;
+
+    $post_type_object = get_post_type_object( $post->post_type );
+
     rbm_do_field_checkbox(
         'featured',
         false,
         false,
         array(
-            'check_label' => __( 'Is this a featured Product?', 'pmwoodwind' ),
+            'check_label' => sprintf( __( 'Is this a featured %s?', 'pmwoodwind' ), $post_type_object->labels->singular_name ),
             'options' => array(),
         )
     );

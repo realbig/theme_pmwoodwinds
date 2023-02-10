@@ -1586,7 +1586,10 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 
 					$current_meta = '<img src="' . $current_meta . '" class="slider-event-thumbnail" style="max-width: 50% !important; height: auto !important; margin-left: 2.75rem !important; margin-top: 1rem; !important;" />';
 
-					if ( $event->post_type !== 'product' ) {
+					if ( ! in_array( $event->post_type, array(
+						'product',
+						'page'
+					) ) ) {
 					
 						$current_meta = wp_get_attachment_image_url( get_post_thumbnail_id( $event->ID ), 'full' );
 						
@@ -1620,7 +1623,10 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			if ( ! $event ) {
 				$current_meta = '';
 			}
-			else if ( $event->post_type == 'product' ) {
+			else if ( in_array( $event->post_type, array(
+				'product',
+				'page'
+			) ) ) {
 
 				$current_meta = apply_filters( 'the_content', get_post_meta( $event->ID, '_rbm_featured_text', true ) );
 
@@ -1645,7 +1651,10 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			
 			$event = pmwoodwind_get_featured_event();
 			
-			if ( ! $event || $event->post_type == 'product' ) {
+			if ( ! $event || in_array( $event->post_type, array(
+				'product',
+				'page'
+			) ) ) {
 				$current_meta = '';
 			}
 			else {
@@ -1684,7 +1693,10 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			if ( ! $event ) {
 				$current_meta = '';
 			}
-			elseif ( $event->post_type == 'product' ) {
+			elseif ( in_array( $event->post_type, array(
+				'product',
+				'page'
+			) ) ) {
 
 				$current_meta = __( 'Details', 'pmwoodwind' );
 
@@ -1937,6 +1949,14 @@ function pmwoodwind_get_featured_event() {
 		// If Event has passed, fall back to featured product
 		if ( current_time( 'timestamp' ) > strtotime( get_post_meta( $event_id, '_EventEndDate', true ) ) ) {
 
+			$page = pmwoodwind_get_featured_page();
+
+			if ( $page ) {
+
+				return $page;
+				
+			}
+
 			$product = pmwoodwind_get_featured_product();
 
 			if ( $product ) {
@@ -1950,6 +1970,14 @@ function pmwoodwind_get_featured_event() {
 	}
 	else {
 
+		$page = pmwoodwind_get_featured_page();
+
+		if ( $page ) {
+
+			return $page;
+			
+		}
+
 		$product = pmwoodwind_get_featured_product();
 
 		if ( $product ) {
@@ -1960,6 +1988,50 @@ function pmwoodwind_get_featured_event() {
 	
 	return false;
 	
+}
+
+/**
+ * Gets the Featured Page for use on the Home Slider
+ * 
+ * @since		{{VERSION}}
+ * @return		object|boolean		WP_Post on success, false on failure
+ */
+function pmwoodwind_get_featured_page() {
+
+	$pages = get_posts( array(
+		'numberposts' => 1,
+		'post_type' => 'page',
+		'orderby' => 'date',
+		'order' => 'DESC',
+		'post_status' => 'publish',
+		'meta_query' => array(
+			'relation' => 'AND',
+			array(
+				'relation' => 'OR',
+				array(
+					'key' => '_rbm_featured', // Old RBM FH Format
+					'value' => '1',
+					'compare' => '=',
+				),
+				array(
+					'key' => '_rbm_featured', // New RBM FH format
+					'value' => '"1"',
+					'compare' => 'LIKE',
+				),
+			),
+		),
+	) );
+	
+	if ( is_array( $pages ) && 
+		isset( $pages[0] ) && 
+		$pages[0] ) {
+
+		return $pages[0];
+
+	}
+
+	return false;
+
 }
 
 /**
