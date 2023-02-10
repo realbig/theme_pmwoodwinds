@@ -1993,7 +1993,7 @@ function pmwoodwind_get_featured_event() {
 /**
  * Gets the Featured Page for use on the Home Slider
  * 
- * @since		{{VERSION}}
+ * @since		1.3.0
  * @return		object|boolean		WP_Post on success, false on failure
  */
 function pmwoodwind_get_featured_page() {
