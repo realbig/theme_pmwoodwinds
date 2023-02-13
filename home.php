@@ -32,7 +32,10 @@
 
 		<h3><?php echo get_the_title( $event->ID ); ?></h3>
 
-		<?php if ( $event->post_type !== 'product' ) : 
+		<?php if ( ! in_array( $event->post_type, array(
+			'product',
+			'page'
+		) ) ) : 
 
 			$date_format = get_option( 'date_format', 'F j, Y' );
 			$time_format = get_option( 'time_format', 'g:i a' );
@@ -75,7 +78,10 @@
 		endif; ?>
 
 		<a href="<?php echo get_permalink( $event->ID ); ?>" class="btn">
-			<?php if ( $event->post_type !== 'product' ) : ?> 
+			<?php if ( ! in_array( $event->post_type, array(
+				'product',
+				'page'
+			) ) ) : ?>
 				Event Details
 			<?php else : ?>
 				Details
