@@ -1549,9 +1549,13 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			$current_meta = apply_filters( 'the_content', $post->post_content );
 		}
 		if ( $meta_key == '_slide_product' && 
-		   is_array( $current_meta ) && 
 		   ! empty( $current_meta ) ) {
-			$current_meta = get_permalink( $current_meta[0] );
+			   if ( ! is_array( $current_meta ) ) {
+					$current_meta = get_permalink( $current_meta );
+			   }
+			   else {
+					$current_meta = get_permalink( $current_meta[0] );
+			   }
 		}
 		elseif ( $meta_key == '_slider_image' && 
 			   is_numeric( $current_meta ) ) {
