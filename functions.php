@@ -1565,10 +1565,14 @@ function pmwoodwind_convert_meta_for_revslider( $meta_data, $object_id, $meta_ke
 			
 			$product = get_post_meta( $object_id, '_slide_product', true );
 			
-			if ( is_array( $product ) && 
-			   ! empty( $product ) ) {
+			if ( ! empty( $product ) ) {
 				
-				$product_id = $product[0];
+				if ( ! is_array( $product ) ) {
+					$product_id = $product;
+				}
+				else {
+					$product_id = $product[0];
+				}
 				
 				$current_meta = get_post_meta( $product_id, $meta_key, true );
 				
