@@ -3262,6 +3262,11 @@ padding: 0px;
 }	
 ul.rightnav li{
 margin: 0 7px;
+
+@include breakpoint( large ) {
+  margin: 0 15px;
+}
+
 }	
 ul.rightnav{
 margin: 0;
