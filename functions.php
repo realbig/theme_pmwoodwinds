@@ -1502,6 +1502,10 @@ function pmwoodwind_toggle_hide_product_in_archive( $post_id ) {
 
 	$attribute_value = $_POST['attribute_values'][ $attribute_position ];
 
+	if ( ! is_array( $attribute_value ) ) {
+		$attribute_value = array( $attribute_value );
+	}
+
 	$is_sold = in_array( $term_id, $attribute_value );
 
 	if ( $is_rare_and_collectible && $is_sold ) {
